@@ -11,7 +11,7 @@ services:
   # Sets common properties for other services. Should not be instantiated directly.
   base:
     # STUDIO_DOCKER_TAG: Studio version to pull from Docker Hub, e.g. "v1.10". Defaults to "main".
-    image: picknikciuser/moveit-studio:${STUDIO_DOCKER_TAG:-main}
+    image: ghcr.io/picknikrobotics/moveit-studio:${STUDIO_DOCKER_TAG:-main}
     container_name: "moveit_studio_base"
     network_mode: host
     environment:
@@ -150,7 +150,7 @@ services:
 
   web_ui:
     container_name: "moveit_studio_web_ui"
-    image: picknikciuser/moveit-studio-frontend:${STUDIO_DOCKER_TAG:-main}
+    image: ghcr.io/picknikrobotics/moveit-studio-frontend:${STUDIO_DOCKER_TAG:-main}
     ports:
       - "80:80"
     volumes:
