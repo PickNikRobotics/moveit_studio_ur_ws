@@ -4,6 +4,6 @@
 [submodule "src/ur5e_sim_base_config"]
 	path = src/ur5e_sim_base_config
 	url = git@github.com:PickNikRobotics/ur5e_sim_base_config.git
-[submodule "src/perception_services"]
-	path = src/perception_services
-	url = git@github.com:MikeWrock/perception_services.git
+[submodule "src/ur10_base_config"]
+	path = src/ur10_base_config
+	url = git@github.com:MikeWrock/ur10_base_config.git
