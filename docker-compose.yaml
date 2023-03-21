@@ -12,11 +12,8 @@ services:
   base:
     # STUDIO_DOCKER_TAG: Studio version to pull from Docker Hub, e.g. "v1.10". Defaults to "main".
     image: ghcr.io/picknikrobotics/moveit-studio:${STUDIO_DOCKER_TAG:-main}
-    container_name: "moveit_studio_base"
     network_mode: host
-    environment:      
-    # The default for MoveIt Studio will use mock hardware to simulate the robot.
-      - SIMULATED=${SIMULATED:-true}
+    environment:
       # The ROS domain ID to use in deployment. See https://docs.ros.org/en/humble/Concepts/About-Domain-ID.html
       - ROS_DOMAIN_ID
       # Provides a license key for the MoveIt Studio application to validate in the container.
@@ -32,7 +29,7 @@ services:
       # The path to the colcon workspace on the host machine containing user-defined packages,
       # containing, e.g., site configurations and custom behaviors
       # Defaults to "/dev/null", which means no user workspace will be mounted.
-      - STUDIO_HOST_USER_WORKSPACE=${STUDIO_HOST_USER_WORKSPACE:?}
+      - STUDIO_HOST_USER_WORKSPACE=${STUDIO_HOST_USER_WORKSPACE:-/dev/null}
       # Network interface to use in the generated DDS configuration (in the container). Defaults to "lo".
       - CYCLONEDDS_NETWORK_INTERFACE=${CYCLONEDDS_NETWORK_INTERFACE:-lo}
       # Comma-separated list of the IP addresses of machines that will participate in the ROS network,
@@ -59,7 +56,7 @@ services:
     volumes:
       - /var/log/studio/:/root/.ros/log
       - ${STUDIO_HOST_CONFIG_DIR:-$HOME/.config/moveit_studio}:/root/.config/moveit_studio/:rw
-      - ${STUDIO_HOST_USER_WORKSPACE}:/opt/moveit_studio/user_ws/:rw
+      - ${STUDIO_HOST_USER_WORKSPACE:-/dev/null}:/opt/moveit_studio/user_ws/:rw
       # Share the same /var/lib/formant between all services
       - /var/lib/formant:/var/lib/formant
       # Allow the user to run graphical programs from within the docker container.
@@ -78,6 +75,16 @@ services:
       base:
         condition: service_completed_successfully
     command: bash -c "source /build_user_ws.sh"
+
+  workspace_test:
+    container_name: "moveit_studio_workspace_test"
+    extends: base
+    depends_on:
+      workspace_builder:
+        condition: service_completed_successfully
+    profiles:
+      - test
+    command: bash -c "source /test_user_ws.sh"
 
   # Starts the MoveIt Studio Agent
   agent:
@@ -135,7 +142,7 @@ services:
       workspace_builder:
         condition: service_completed_successfully
     # TODO: replace this tee here and in common_aliases with some integrated logger
-    command: bash -c "export STUDIO_GENERATE_PACKAGE_OUTPUT_PATH=/opt/moveit_studio/user_ws/src/ && ros2 launch moveit_studio_rest_api rest_api.launch.py 2>&1 | tee ~/.ros/log/rest_api_0_0.log"
+    command: bash -c "ros2 launch moveit_studio_rest_api rest_api.launch.py 2>&1 | tee ~/.ros/log/rest_api_0_0.log"
 
   # Starts the robot drivers
   drivers:
@@ -155,11 +162,13 @@ services:
     image: ghcr.io/picknikrobotics/moveit-studio-frontend:${STUDIO_DOCKER_TAG:-main}
     ports:
       - "80:80"
+    network_mode: host
     volumes:
       # mount necessary UI resources as a subdirectory of the webserver's static HTML directory
       - ${STUDIO_HOST_DATA_DIR:-$HOME/.local/share/moveit_studio}/ui_resources:/usr/share/nginx/html/resources
+      - ${STUDIO_HOST_USER_WORKSPACE}/src/${STUDIO_CONFIG_PACKAGE}/meshes:/usr/share/nginx/html/ur_description/meshes
     depends_on:
-      workspace_builder:
+      base:
         condition: service_completed_successfully
 
 volumes:
