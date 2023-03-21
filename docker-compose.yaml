@@ -14,7 +14,9 @@ services:
     image: ghcr.io/picknikrobotics/moveit-studio:${STUDIO_DOCKER_TAG:-main}
     container_name: "moveit_studio_base"
     network_mode: host
-    environment:
+    environment:      
+    # The default for MoveIt Studio will use mock hardware to simulate the robot.
+      - SIMULATED=${SIMULATED:-true}
       # The ROS domain ID to use in deployment. See https://docs.ros.org/en/humble/Concepts/About-Domain-ID.html
       - ROS_DOMAIN_ID
       # Provides a license key for the MoveIt Studio application to validate in the container.
@@ -59,7 +61,7 @@ services:
       - ${STUDIO_HOST_CONFIG_DIR:-$HOME/.config/moveit_studio}:/root/.config/moveit_studio/:rw
       - ${STUDIO_HOST_USER_WORKSPACE}:/opt/moveit_studio/user_ws/:rw
       # Share the same /var/lib/formant between all services
-      - ${STUDIO_HOST_DATA_DIR:-$HOME/.local/share/moveit_studio}/frontend:/var/lib/formant
+      - /var/lib/formant:/var/lib/formant
       # Allow the user to run graphical programs from within the docker container.
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
       - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
@@ -133,7 +135,7 @@ services:
       workspace_builder:
         condition: service_completed_successfully
     # TODO: replace this tee here and in common_aliases with some integrated logger
-    command: bash -c "ros2 launch moveit_studio_rest_api rest_api.launch.py 2>&1 | tee ~/.ros/log/rest_api_0_0.log"
+    command: bash -c "export STUDIO_GENERATE_PACKAGE_OUTPUT_PATH=/opt/moveit_studio/user_ws/src/ && ros2 launch moveit_studio_rest_api rest_api.launch.py 2>&1 | tee ~/.ros/log/rest_api_0_0.log"
 
   # Starts the robot drivers
   drivers:

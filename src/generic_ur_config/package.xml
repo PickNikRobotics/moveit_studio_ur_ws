@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>generic_ur_config</name>
+  <version>1.11.0</version>
+
+  <description>Base config package for the UR family of robots.</description>
+
+  <maintainer email="studio.maintainer@picknik.ai">Studio Maintainer</maintainer>
+
+  <license>Proprietary</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>moveit_ros_perception</exec_depend>
+  <exec_depend>moveit_studio_behavior</exec_depend>
+  <exec_depend>moveit_visual_servo_for_capture</exec_depend>
+  <exec_depend>moveit_studio_ur_pstop_manager</exec_depend>
+  <exec_depend>pick_ik</exec_depend>
+  <exec_depend>picknik_accessories</exec_depend>
+  <exec_depend>realsense2_description</exec_depend>
+  <exec_depend>robotiq_description</exec_depend>
+  <exec_depend>ur_description</exec_depend>
+  <exec_depend>ur_robot_driver</exec_depend>
+
+  <!-- TODO: Adding this dependency here for now to enable admittance control
+  but it should maybe go in the admittance_controller package. -->
+  <exec_depend>kinematics_interface_kdl</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+
+  <test_depend>ament_clang_format</test_depend>
+  <test_depend>ament_clang_tidy</test_depend>
+  <test_depend>ament_cmake_copyright</test_depend>
+  <test_depend>ament_cmake_lint_cmake</test_depend>
+  <test_depend>picknik_ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

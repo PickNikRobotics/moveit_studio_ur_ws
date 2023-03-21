@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+  <root main_tree_to_execute="Take Snapshot">
+    <!-- ////////// -->
+    <BehaviorTree ID="Take Snapshot" _description="Take a point cloud snapshot and add to collision scene">
+        <Sequence ID="">
+            <Action ID="GetPointCloud" target_point_cloud_topic="/wrist_mounted_camera/depth/color/points" uuid="{take_snapshot.uuid}" point_cloud="{point_cloud}" point_cloud_uuid="{request_uuid}" />
+            <Action ID="UpdatePlanningScene" point_cloud="{point_cloud}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures" point_cloud_uuid="{request_uuid}"/>
+        </Sequence>
+    </BehaviorTree>
+</root>

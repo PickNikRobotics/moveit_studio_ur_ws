@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="Open Lever Handle Door">
+    <BehaviorTree ID="Open Lever Handle Door" _description="Open a lever handle door by turning the handle and pushing the door">
+        <Sequence name="Setup">
+            <Action ID="LoadObjectiveParameters" config_file_name="open_lever_handle_door_config.yaml" parameters="{parameters}"/>
+            <Action ID="GetPointCloud" point_cloud="{point_cloud}" target_point_cloud_topic="/wrist_mounted_camera/depth/color/points"/>
+            <Action ID="PublishPointCloud" point_cloud="{point_cloud}" point_cloud_topic="studio_vision_debug_snapshot"/>
+            <Action ID="GetDoorHandle" handle_pivot_pose="{get_door_handle_pose.handle_pivot_pose}" handle_tip_pose="{get_door_handle_pose.handle_tip_pose}" parameters="{parameters}" point_cloud="{point_cloud}" target_handle_length="{handle_length}" target_handle_pose="{handle_pose}" target_handle_z_offset="{handle_z_offset}"/>
+            <SubTreePlus ID="CloseGripper"/>
+            <Sequence name="OpenLeverHandleDoor">
+                <Action ID="InitializeMTCTask" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{open_lever_handle_door_task}"/>
+                <Action ID="SetupMTCCurrentState" task="{open_lever_handle_door_task}"/>
+                <Action ID="SetupMTCOpenLeverHandleDoor" handle_length="{handle_length}" handle_pose="{handle_pose}" handle_z_offset="{handle_z_offset}" parameters="{parameters}" task="{open_lever_handle_door_task}"/>
+                <Action ID="PlanMTCTask" solution="{open_lever_handle_door_solution}" task="{open_lever_handle_door_task}"/>
+                <Fallback>
+                    <Inverter>
+                        <Action ID="IsUserAvailable"/>
+                    </Inverter>
+                    <Action ID="WaitForUserTrajectoryApproval" solution="{open_lever_handle_door_solution}"/>
+                </Fallback>
+                <Action ID="ExecuteMTCTask" solution="{open_lever_handle_door_solution}"/>
+            </Sequence>
+        </Sequence>
+    </BehaviorTree>
+    <BehaviorTree ID="CloseGripper">
+        <Sequence name="CloseGripper">
+            <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.7929"/>
+        </Sequence>
+    </BehaviorTree>
+</root>

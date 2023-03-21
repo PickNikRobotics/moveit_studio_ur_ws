@@ -1,0 +1,23 @@
+GetApriltagPose:
+  apriltag_family_name: 16h5
+  apriltag_ids:
+    - 0
+  apriltag_names:
+    - frame_id0
+  apriltag_sizes:
+    - 0.028
+  max_hamming: 0
+  nthreads: 1
+  quad_decimate: 1
+  quad_sigma: 0
+  refine_edges: true
+  z_up: true
+VisualServo:
+  ff_velocity_gain_angular: 0
+  ff_velocity_gain_linear: 0
+  include_ff: false
+  max_angular_output: 1
+  max_linear_output: 1
+  proportional_gain_angular: '10'
+  proportional_gain_linear: '150'
+  servo_spin_rate: '0.02'
