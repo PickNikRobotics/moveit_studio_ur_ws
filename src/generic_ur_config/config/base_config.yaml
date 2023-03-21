@@ -10,7 +10,7 @@
 
 hardware:
   # Used by the ur_description package to set kinematics and geometry for a specific robot type.
-  type: "ur16e"
+  type: "ur10"
   simulated: True
 
   # The robot's IP address
