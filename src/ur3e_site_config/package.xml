@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>ur3e_site_config</name>
+  <version>1.11.0</version>
+
+  <description>Base config package for the UR family of robots.</description>
+
+  <maintainer email="studio.maintainer@picknik.ai">Studio Maintainer</maintainer>
+
+  <license>Proprietary</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>generic_ur_config</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
