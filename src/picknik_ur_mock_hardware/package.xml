@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>picknik_ur_mock_hardware</name>
+  <version>1.11.0</version>
+
+  <description>Base config package for the UR family of robots.</description>
+
+  <maintainer email="studio.maintainer@picknik.ai">Studio Maintainer</maintainer>
+  
+  <license>Proprietary</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  
+  <depend>picknik_ur5e_base_config</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+
+  <test_depend>ament_clang_format</test_depend>
+  <test_depend>ament_clang_tidy</test_depend>
+  <test_depend>ament_cmake_copyright</test_depend>
+  <test_depend>ament_cmake_lint_cmake</test_depend>
+  <test_depend>picknik_ament_copyright</test_depend>
+  <test_depend>moveit_studio_utils_py</test_depend>
+  <test_depend>ament_flake8</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
