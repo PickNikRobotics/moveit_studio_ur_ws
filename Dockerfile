@@ -18,13 +18,13 @@ ARG MOVEIT_STUDIO_BASE_IMAGE
 FROM ${MOVEIT_STUDIO_BASE_IMAGE} as base
 
 # The location of the user's custom workspace inside the container
-ARG CUSTOM_WS=/opt/custom_ws
-ENV CUSTOM_WS $CUSTOM_WS
+ARG MOVEIT_STUDIO_CUSTOM_WS=/opt/custom_ws
+ENV MOVEIT_STUDIO_CUSTOM_WS $MOVEIT_STUDIO_CUSTOM_WS
 
 # Copy site configuration packages and and dependencies
-RUN mkdir -p ${CUSTOM_WS}/src
-COPY ./src $CUSTOM_WS/src
-WORKDIR $CUSTOM_WS
+RUN mkdir -p ${MOVEIT_STUDIO_CUSTOM_WS}/src
+COPY ./src $MOVEIT_STUDIO_CUSTOM_WS/src
+WORKDIR $MOVEIT_STUDIO_CUSTOM_WS
 
 # Install additional ROS dependencies
 # NOTE: The "OVERLAY_WS" contains MoveIt Studio binary packages and the source file.
@@ -40,9 +40,9 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 #################################################
 # Target for compiled, deployable release image #
 #################################################
-FROM base as release
+FROM base as moveit-studio-custom-release
 
-WORKDIR $CUSTOM_WS
+WORKDIR $MOVEIT_STUDIO_CUSTOM_WS
 
 # Compile the workspace
 # hadolint ignore=SC1091
@@ -60,12 +60,12 @@ CMD ["/usr/bin/bash"]
 ###################################################################
 # Expected to mount workspace and compile/test it
 # inside of the resulting container.
-FROM base as dev
+FROM base as moveit-studio-custom-dev
 
 # The location of the user's workspace inside the container
-ARG CUSTOM_WS=/opt/custom_ws
-ENV CUSTOM_WS $CUSTOM_WS
-WORKDIR $CUSTOM_WS
+ARG MOVEIT_STUDIO_CUSTOM_WS=/opt/custom_ws
+ENV MOVEIT_STUDIO_CUSTOM_WS $MOVEIT_STUDIO_CUSTOM_WS
+WORKDIR $MOVEIT_STUDIO_CUSTOM_WS
 
 # Install any additional packages for development work
 # hadolint ignore=DL3008

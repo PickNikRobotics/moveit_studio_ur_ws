@@ -7,7 +7,7 @@ services:
     # Optionally allow building this service from source with `docker compose build`
     build:
       context: .
-      target: release
+      target: moveit-studio-custom-release
       args:
         MOVEIT_STUDIO_BASE_IMAGE: ghcr.io/picknikrobotics/moveit-studio:${STUDIO_DOCKER_TAG:-main}
     command: sleep infinity
@@ -45,7 +45,7 @@ services:
   dev:
     extends: base
     build:
-      target: dev
+      target: moveit-studio-custom-dev
     # This image deliberately has no user prefix because it should not be pushed!
     stdin_open: true
     tty: true
