@@ -1,5 +1,0 @@
-based_on_package: "generic_ur_config"
-
-hardware:
-  # Used by the ur_description package to set kinematics and geometry for a specific robot type.
-  type: "ur10e"

@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<root main_tree_to_execute="Update Admittance Controller Test">
-    <BehaviorTree ID="Update Admittance Controller Test" _description="Test obejctive to update the parameters of an existing admittance controller.">
-        <Sequence name="Setup">
-            <Action ID="LoadObjectiveParameters" config_file_name="update_admittance_controller_config.yaml" parameters="{parameters}"/>
-            <Action ID="UpdateAdmittanceController" parameters="{parameters}"/>
-        </Sequence>
-    </BehaviorTree>
-</root>
