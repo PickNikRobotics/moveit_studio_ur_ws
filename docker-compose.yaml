@@ -12,7 +12,6 @@ services:
   base:
     # STUDIO_DOCKER_TAG: Studio version to pull from Docker Hub, e.g. "v1.10". Defaults to "main".
     image: ghcr.io/picknikrobotics/moveit-studio:${STUDIO_DOCKER_TAG:-main}
-    container_name: "moveit_studio_base"
     network_mode: host
     environment:
       # The ROS domain ID to use in deployment. See https://docs.ros.org/en/humble/Concepts/About-Domain-ID.html
@@ -30,7 +29,7 @@ services:
       # The path to the colcon workspace on the host machine containing user-defined packages,
       # containing, e.g., site configurations and custom behaviors
       # Defaults to "/dev/null", which means no user workspace will be mounted.
-      - STUDIO_HOST_USER_WORKSPACE=${STUDIO_HOST_USER_WORKSPACE:?}
+      - STUDIO_HOST_USER_WORKSPACE=${STUDIO_HOST_USER_WORKSPACE:-/dev/null}
       # Network interface to use in the generated DDS configuration (in the container). Defaults to "lo".
       - CYCLONEDDS_NETWORK_INTERFACE=${CYCLONEDDS_NETWORK_INTERFACE:-lo}
       # Comma-separated list of the IP addresses of machines that will participate in the ROS network,
@@ -57,29 +56,34 @@ services:
     volumes:
       - /var/log/studio/:/root/.ros/log
       - ${STUDIO_HOST_CONFIG_DIR:-$HOME/.config/moveit_studio}:/root/.config/moveit_studio/:rw
-      - ${STUDIO_HOST_USER_WORKSPACE}:/opt/moveit_studio/user_ws/:rw
+      - ${STUDIO_HOST_USER_WORKSPACE:-/dev/null}:/opt/moveit_studio/user_ws/:rw
       # Share the same /var/lib/formant between all services
-      - ${STUDIO_HOST_DATA_DIR:-$HOME/.local/share/moveit_studio}/frontend:/var/lib/formant
+      - /var/lib/formant:/var/lib/formant
       # Allow the user to run graphical programs from within the docker container.
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
       - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
-      # Persist Ignition model download cache
-      - ignition_resources:/root/.ignition/
       # Mount the host's DDS config(s) so we can talk to user's ROS tooling
       - ${CYCLONEDDS_URI:-/dev/null}:/root/.ros/cyclonedds_host.xml
       - ${FASTRTPS_DEFAULT_PROFILES_FILE:-/dev/null}:/root/.ros/fastdds_host.xml
 
   workspace_builder:
-    container_name: "moveit_studio_workspace_builder"
     extends: base
     depends_on:
       base:
         condition: service_completed_successfully
     command: bash -c "source /build_user_ws.sh"
 
+  workspace_test:
+    extends: base
+    depends_on:
+      workspace_builder:
+        condition: service_completed_successfully
+    profiles:
+      - test
+    command: bash -c "source /test_user_ws.sh"
+
   # Starts the MoveIt Studio Agent
   agent:
-    container_name: "moveit_studio"
     extends: base
     privileged: true
     device_cgroup_rules:
@@ -100,7 +104,6 @@ services:
 
   # Starts the Bridge between the Agent and the Web UI
   bridge:
-    container_name: "moveit_studio_bridge"
     extends: base
     depends_on:
       workspace_builder:
@@ -112,7 +115,6 @@ services:
 
   # Starts the frontend-agent
   frontend_agent:
-    container_name: "moveit_studio_frontend"
     extends: base
     depends_on:
       workspace_builder:
@@ -121,7 +123,6 @@ services:
 
   # Starts the REST API for the Web UI
   rest_api:
-    container_name: "moveit_studio_rest_api"
     extends: base
     environment:
       - LOG_LEVEL=DEBUG
@@ -137,7 +138,6 @@ services:
 
   # Starts the robot drivers
   drivers:
-    container_name: "moveit_studio_drivers"
     extends: base
     privileged: true
     devices:
@@ -149,16 +149,14 @@ services:
     command: bash -c "ros2 launch moveit_studio_agent robot_drivers_wrapper.launch.py 2>&1 | tee ~/.ros/log/robot_0_0.log"
 
   web_ui:
-    container_name: "moveit_studio_web_ui"
     image: ghcr.io/picknikrobotics/moveit-studio-frontend:${STUDIO_DOCKER_TAG:-main}
     ports:
       - "80:80"
+    network_mode: host
     volumes:
       # mount necessary UI resources as a subdirectory of the webserver's static HTML directory
       - ${STUDIO_HOST_DATA_DIR:-$HOME/.local/share/moveit_studio}/ui_resources:/usr/share/nginx/html/resources
+      - ${STUDIO_HOST_USER_WORKSPACE}/src/${STUDIO_CONFIG_PACKAGE}/meshes:/usr/share/nginx/html/ur_description/meshes
     depends_on:
-      workspace_builder:
+      base:
         condition: service_completed_successfully
-
-volumes:
-  ignition_resources:
