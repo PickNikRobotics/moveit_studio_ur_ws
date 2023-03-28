@@ -1,0 +1,6 @@
+[submodule "src/ur5e_sim_site_config"]
+	path = src/ur5e_sim_site_config
+	url = git@github.com:PickNikRobotics/ur5e_sim_site_config.git
+[submodule "src/ur5e_sim_base_config"]
+	path = src/ur5e_sim_base_config
+	url = git@github.com:PickNikRobotics/ur5e_sim_base_config.git
