@@ -1,0 +1,9 @@
+based_on_package: "picknik_ur_base_config"
+
+objectives:
+  objective_library_paths:
+    # You must use a unique key for each package.
+    # The picknik_ur_base_config uses "core"
+    custom_objectives:
+      package_name: "picknik_ur_site_config"
+      relative_path: "objectives"

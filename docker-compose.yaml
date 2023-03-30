@@ -11,15 +11,20 @@ services:
   # Sets common properties for other services. Should not be instantiated directly.
   base:
     # STUDIO_DOCKER_TAG: Studio version to pull from Docker Hub, e.g. "v1.10". Defaults to "main".
-    image: ghcr.io/picknikrobotics/moveit-studio:${STUDIO_DOCKER_TAG:-main}
+    image: picknikciuser/moveit-studio:${STUDIO_DOCKER_TAG:-main}
     network_mode: host
+    # Run an init process within the container to allow using default signal handling to cleanly shut down the container.
+    # See this doc for more info: https://docs.docker.com/compose/compose-file/compose-file-v3/#init
+    init: true
     environment:
+      # The default for MoveIt Studio will use mock hardware, if available, to simulate the robot.
+      - MOCK_HARDWARE=${MOCK_HARDWARE:-true}
       # The ROS domain ID to use in deployment. See https://docs.ros.org/en/humble/Concepts/About-Domain-ID.html
       - ROS_DOMAIN_ID
       # Provides a license key for the MoveIt Studio application to validate in the container.
       - STUDIO_LICENSE_KEY
-      # Robot configuration package for deployment. Defaults to a simulated UR5e.
-      - STUDIO_CONFIG_PACKAGE=${STUDIO_CONFIG_PACKAGE:-picknik_006_ur5e_config}
+      # Robot configuration package for deployment. Defaults to a mock hardware UR5e.
+      - STUDIO_CONFIG_PACKAGE=${STUDIO_CONFIG_PACKAGE:-picknik_001_ur5e_config}
       # The directory on the host machine where MoveIt Studio configurations should be saved, such as new objectives.
       # Typically, this is "$HOME/.config/moveit_studio", which is the default.
       - STUDIO_HOST_CONFIG_DIR=${STUDIO_HOST_CONFIG_DIR:-$HOME/.config/moveit_studio}
@@ -42,9 +47,6 @@ services:
       - RMW_IMPLEMENTATION=${RMW_IMPLEMENTATION:-rmw_cyclonedds_cpp}
       # If using FastRTPS, setting this variable to 1 allows modifying Quality-of-Service (QoS) settings from a specified XML file.
       - RMW_FASTRTPS_USE_QOS_FROM_XML
-      # True if you want to run the web UI locally, false otherwise.
-      # The default true allows both local and cloud deployments and is recommended for all users.
-      - FRONTEND_LOCAL=true
       # Renderer used for Gazebo (can be ogre or ogre2)
       - GAZEBO_RENDERER=${GAZEBO_RENDERER:-ogre}
       # Allow the user to run graphical programs from within the container. You probably don't want to change these!
@@ -58,10 +60,12 @@ services:
       - ${STUDIO_HOST_CONFIG_DIR:-$HOME/.config/moveit_studio}:/root/.config/moveit_studio/:rw
       - ${STUDIO_HOST_USER_WORKSPACE:-/dev/null}:/opt/moveit_studio/user_ws/:rw
       # Share the same /var/lib/formant between all services
-      - /var/lib/formant:/var/lib/formant
+      - ${STUDIO_HOST_DATA_DIR:-$HOME/.local/share/moveit_studio}/frontend:/var/lib/formant
       # Allow the user to run graphical programs from within the docker container.
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
       - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
+      # Persist Ignition model download cache
+      - ignition_resources:/root/.ignition/
       # Mount the host's DDS config(s) so we can talk to user's ROS tooling
       - ${CYCLONEDDS_URI:-/dev/null}:/root/.ros/cyclonedds_host.xml
       - ${FASTRTPS_DEFAULT_PROFILES_FILE:-/dev/null}:/root/.ros/fastdds_host.xml
@@ -72,15 +76,6 @@ services:
       base:
         condition: service_completed_successfully
     command: bash -c "source /build_user_ws.sh"
-
-  workspace_test:
-    extends: base
-    depends_on:
-      workspace_builder:
-        condition: service_completed_successfully
-    profiles:
-      - test
-    command: bash -c "source /test_user_ws.sh"
 
   # Starts the MoveIt Studio Agent
   agent:
@@ -149,14 +144,13 @@ services:
     command: bash -c "ros2 launch moveit_studio_agent robot_drivers_wrapper.launch.py 2>&1 | tee ~/.ros/log/robot_0_0.log"
 
   web_ui:
-    image: ghcr.io/picknikrobotics/moveit-studio-frontend:${STUDIO_DOCKER_TAG:-main}
+    image: picknikciuser/moveit-studio-frontend:${STUDIO_DOCKER_TAG:-main}
     ports:
       - "80:80"
     network_mode: host
     volumes:
       # mount necessary UI resources as a subdirectory of the webserver's static HTML directory
       - ${STUDIO_HOST_DATA_DIR:-$HOME/.local/share/moveit_studio}/ui_resources:/usr/share/nginx/html/resources
-      - ${STUDIO_HOST_USER_WORKSPACE}/src/${STUDIO_CONFIG_PACKAGE}/meshes:/usr/share/nginx/html/ur_description/meshes
-    depends_on:
-      base:
-        condition: service_completed_successfully
+
+volumes:
+  ignition_resources:

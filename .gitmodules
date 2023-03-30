@@ -1,12 +1,12 @@
-[submodule "src/ur5e_sim_site_config"]
-	path = src/ur5e_sim_site_config
-	url = git@github.com:PickNikRobotics/ur5e_sim_site_config.git
-	branch = main
-[submodule "src/ur5e_sim_base_config"]
-	path = src/ur5e_sim_base_config
-	url = git@github.com:PickNikRobotics/ur5e_sim_base_config.git
-	branch = main
 [submodule "src/moveit_studio_example_behaviors"]
 	path = src/moveit_studio_example_behaviors
 	url = git@github.com:PickNikRobotics/moveit_studio_example_behaviors.git
+	branch = main
+[submodule "src/picknik_ur_base_config"]
+	path = src/picknik_ur_base_config
+	url = git@github.com:PickNikRobotics/picknik_ur_base_config.git
+	branch = main
+[submodule "src/picknik_ur_site_config"]
+	path = src/picknik_ur_site_config
+	url = git@github.com:PickNikRobotics/picknik_ur_site_config.git
 	branch = main
