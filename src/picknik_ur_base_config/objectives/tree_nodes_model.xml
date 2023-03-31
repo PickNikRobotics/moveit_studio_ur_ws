@@ -1,0 +1,318 @@
+<root>
+    <TreeNodesModel>
+        <Action ID="InitializeMTCTask">
+            <metadata subcategory="MTC"/>
+            <description>
+                <p>
+                    Creates a shared pointer to a new MTC Task object, populates it with global settings (for example, the names of controllers to enable by default when executing trajectories planned by this task), and sets it as an output data port.
+                </p>
+            </description>
+            <input_port name="controller_names" default="/joint_trajectory_controller /robotiq_gripper_controller">List of controller names to use for executing an MTC trajectory.</input_port>
+            <output_port name="task" default="{mtc_task}">MoveIt Task Constructor task.</output_port>
+        </Action>
+        <Action ID="ClearSnapshot">
+            <metadata subcategory="Perception"/>
+            <description>
+                <p>
+                    Clears the existing Octomap and Pointcloud snapshots.
+                </p>
+            </description>
+        </Action>
+        <Action ID="ExecuteMTCTask">
+            <metadata subcategory="MTC"/>
+            <description>
+                <p>
+                Takes a shared pointer to an MTC Solution object via an input data port, and executes the lowest-cost trajectory in that Solution using the MTC ExecuteTaskSolution MoveGroup capability's "/execute_task_solution" action server.
+                </p>
+            </description>
+            <input_port name="solution" default="{mtc_solution}">MoveIt Task Constructor plan solution.</input_port>
+        </Action>
+        <Action ID="GetDrawerAxisFromSelection">
+            <metadata advanced="true" subcategory="User Input"/>
+            <description>
+                <p>
+                    Given an input PoseStamped representing a grasp pose selected on a drawer handle, output three PoseStampeds that define a screw motion to open the drawer.
+                </p>
+                <p>
+                    Assumes that the z-axis of the grasp pose matches the normal vector of the front face of the drawer.
+                </p>
+            </description>
+            <input_port name="grasp_rotation_z_radians" default="1.5708">Rotation to apply to the target grasp pose around its z-axis.</input_port>
+            <input_port name="target_grasp_pose" default="{process_selection.grasp_pose}">Drawer handle grasp pose.</input_port>
+            <output_port name="grasp_pose" default="{grasp_pose}">Drawer handle grasp pose.</output_port>
+            <output_port name="screw_axis_pose" default="{screw_axis_pose}">Pose of the axis of the screw motion to open the drawer.</output_port>
+            <output_port name="screw_origin_pose" default="{screw_origin_pose}">Pose of the origin of the screw motion to open the drawer.</output_port>
+        </Action>
+        <Action ID="GetHingeAxisFromSurfaceSelection">
+            <metadata advanced="true" subcategory="User Input"/>
+            <description>
+                <p>
+                    Arrange input poses into the order expected by the affordance template behavior.
+                </p>
+                <p>
+                    Given three input poses generated from surface-normal calculation of a point cloud, where the first represents the location of the door handle and the second and third are points on the axis of the hinge, determine which hinge axis pose should be the origin of the hinge vector so that a positive rotation about the hinge axis opens the door towards the user's viewpoint.
+                </p>
+                <p>
+                    Assumes that the z-axis of the two poses on the hinge axis are oriented facing into the surface of the door.
+                </p>
+                <p>
+                    The direction of the door relative to the surface normal is determined by calculating the vector cross product of the vector from the hinge origin pose to the grasp pose and the vector from the hinge origin pose to the hinge axis pose, and then calculating the dot product of the resulting vector and the z-axis of the hinge origin pose. If the dot product is positive, the hinge origin and hinge axis poses are correctly ordered. If the dot product is negative, the hinge origin and hinge axis poses need to be reversed for positive door rotation to open the door towards the viewpoint.
+                </p>
+            </description>
+            <input_port name="target_grasp_pose" default="{target_grasp_pose}">Pose representing the grasp point.</input_port>
+            <input_port name="hinge_axis_pose_start" default="{hinge_axis_pose_start}">Pose marking the start of the hinge axis.</input_port>
+            <input_port name="hinge_axis_pose_end" default="{hinge_axis_pose_end}">Pose marking the end of the hinge axis.</input_port>
+            <output_port name="grasp_pose" default="{grasp_pose}">Pose representing the grasp point.</output_port>
+            <output_port name="screw_axis_pose" default="{screw_axis_pose}">Pose of the axis of the screw motion to open a door.</output_port>
+            <output_port name="screw_origin_pose" default="{screw_origin_pose}">Pose of the origin of the screw motion to open a door.</output_port>
+        </Action>
+        <Action ID="IsForceWithinThreshold">
+            <metadata subcategory="Motion Planning"/>
+            <description>
+                <p>
+                    A condition node that monitors a wrench topic and returns "BT::NodeStatus::FAILURE" when ticked if the magnitude of the force components has exceeded a specified threshold for some number of consecutive observations.
+                </p>
+            </description>
+            <input_port name="parameters" default="{parameters}">Behavior parameters stored in a common configuration file for the objective.</input_port>
+        </Action>
+        <Action ID="LoadObjectiveParameters">
+            <description>
+                <p>
+                    Loads the configuration parameters for a given objective. The configuration file name is given as an input port parameters to this behavior. The parameters are loaded once per objective execution. To reload the parameter from the file, just execute the objective again.
+                </p>
+            </description>
+            <input_port name="config_file_name" default="">Name of the objective configuration file.</input_port>
+            <output_port name="parameters" default="{parameters}">Behavior parameters stored in a common configuration file for the objective.</output_port>
+        </Action>
+        <Action ID="LoadPointCloudFromFile">
+            <metadata subcategory="Perception"/>
+            <description>
+                <p>
+                    Loads a point cloud from a .PCD file, converts it to a ROS sensor_msgs/PointCloud2 message, and writes it to an output data port.
+                </p>
+            </description>
+            <input_port name="file_path" default="">Path to the .PCD file to load.</input_port>
+            <input_port name="frame_id" default="world">Frame ID to set for the loaded point cloud.</input_port>
+            <output_port name="point_cloud" default="{point_cloud}">Output point cloud message.</output_port>
+        </Action>
+        <Action ID="MoveGripperAction">
+            <metadata subcategory="Grasping"/>
+            <description>
+                <p>
+                    Actuate a gripper through its driver node's GripperCommand action server. Given the name of the action topic and a target gripper position, move the gripper to the specified position.
+                </p>
+            </description>
+            <input_port name="gripper_command_action_name" default="/robotiq_gripper_controller/gripper_cmd">Gripper command action topic name.</input_port>
+            <input_port name="position" default="0.7929">Gripper joint target position.</input_port>
+        </Action>
+        <Action ID="MoveToJointState">
+            <metadata subcategory="Motion Planning"/>
+            <description>
+                <p>
+                    Moved to a named Waypoint.
+                </p>
+            </description>
+            <input_port name="waypoint_name" default="Forward Down">Name of the waypoint to move to.</input_port>
+            <input_port name="planning_group_name" default="manipulator">Name of the MoveIt planning group.</input_port>
+            <input_port name="controller_names" default="/joint_trajectory_controller /robotiq_gripper_controller">List of controllers to use for executing the trajectory.</input_port>
+        </Action>
+        <Action ID="PlanMTCTask">
+            <metadata subcategory="MTC"/>
+            <description>
+                <p>
+                    Takes a shared pointer to an existing MTC Task object via an input data port, plans the task, and sets the resulting MTC Solution object as an output data port.
+                </p>
+            </description>
+            <input_port name="task" default="{mtc_task}">MoveIt Task Constructor task.</input_port>
+            <output_port name="solution" default="{mtc_solution}">MoveIt Task Constructor plan solution.</output_port>
+        </Action>
+        <Action ID="RetrieveWaypoint">
+            <metadata subcategory="Motion Planning"/>
+            <description>
+                <p>
+                    Given a named waypoint, sends a service request to the Agent WaypointManager to retrieve the joint state associated with that waypoint.
+                </p>
+            </description>
+            <input_port name="waypoint_name" default="{waypoint_name}"/>
+            <output_port name="waypoint_joint_state" default="{target_joint_state}"/>
+        </Action>
+        <Action ID="SetupMTCAffordanceTemplate">
+            <metadata subcategory="MTC"/>
+            <description>
+                <p>
+                    Configures MTC stages to perform a motion that can be parameterized as a screw trajectory. Examples in practice include opening doors and drawers.
+                </p>
+                <p>
+                    The input data ports are generally calculated by separate perception processing Behaviors in a previous step of the Objective.
+                </p>
+                <p>
+                    Given an existing MTC Task object and input parameters that configure a screw motion affordance template, perform the following steps:
+                </p>
+                <ul>
+                    <li>
+                        Move to a pre-grasp pose offset from the specified grasp pose.
+                    </li>
+                    <li>
+                        Approach the grasp pose.
+                    </li>
+                    <li>
+                        Close the gripper.
+                    </li>
+                    <li>
+                        Move along a screw-parameterised trajectory.
+                    </li>
+                    <li>
+                        Open the gripper.
+                    </li>
+                    <li>
+                        Retreat from the grasp pose.
+                    </li>
+                </ul>
+            </description>
+            <input_port name="grasp_pose" default="{grasp_pose}">End-effector grasping pose.</input_port>
+            <input_port name="parameters" default="{parameters}">Behavior parameters stored in a common configuration file for the objective.</input_port>
+            <input_port name="screw_axis_pose" default="{screw_axis_pose}">Pose of the axis of the screw motion.</input_port>
+            <input_port name="screw_origin_pose" default="{screw_origin_pose}">Pose of the origin of the screw motion to open the drawer.</input_port>
+            <inout_port name="task" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+        </Action>
+        <Action ID="SetupMTCCurrentState">
+            <metadata subcategory="MTC"/>
+            <description>
+                <p>
+                    Given an existing MTC Task object, appends an MTC CurrentState Stage to the Task.
+                </p>
+            </description>
+            <inout_port name="task" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+        </Action>
+        <Action ID="SetupMTCInterpolateToJointState">
+            <metadata subcategory="MTC"/>
+            <description>
+                <p>
+                    Given an existing MTC Task object and a joint state, appends MTC stages to describe a joint-interpolated motion plan to that joint state.
+                </p>
+            </description>
+            <input_port name="joint_state" default="{joint_state}">Target joint state.</input_port>
+            <input_port name="planning_group_name" default="manipulator">Name of the MoveIt planning group.</input_port>
+            <inout_port name="task" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+        </Action>
+        <Action ID="SetupMTCMoveAlongFrameAxis">
+            <metadata subcategory="MTC"/>
+            <description>
+                <p>
+                    Given an existing MTC Task object, frame name, axis, and move distance, appends MTC stages to describe a cartesian motion plan in the frame's axis with the specified distance.
+                </p>
+            </description>
+            <input_port name="axis" default="z">Name of the axis to move along. Can be either 'x', 'y' or 'z'.</input_port>
+            <input_port name="max_distance" default="0.2">Maximum distance, in meters, to move along the axis.</input_port>
+            <input_port name="min_distance" default="0.1">Minimum distance, in meters, to move along the axis.</input_port>
+            <input_port name="parameters" default="{parameters}">Behavior parameters stored in a common configuration file for the objective.</input_port>
+            <inout_port name="task" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+        </Action>
+        <Action ID="SetupMTCMoveToJointState">
+            <metadata subcategory="MTC"/>
+            <description>
+                <p>
+                    Given an existing MTC Task object and a joint state, appends MTC stages to describe a freespace motion plan to that joint state.
+                </p>
+            </description>
+            <input_port name="planning_group_name" default="manipulator">Name of the MoveIt planning group.</input_port>
+            <input_port name="joint_state" default="{joint_state}">Target joint state.</input_port>
+            <inout_port name="task" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+        </Action>
+        <Action ID="SetupMTCMoveToNamedState">
+            <metadata subcategory="MTC"/>
+            <description>
+                <p>
+                    Given an existing MTC Task object and the name of a known state, appends MTC stages to describe a freespace motion plan to that state.
+                </p>
+            </description>
+            <input_port name="planning_group_name" default="manipulator">Name of the MoveIt planning group.</input_port>
+            <input_port name="goal_state_name" default="Forward Down">Named joint state used as a motion planning goal state.</input_port>
+            <inout_port name="task" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+        </Action>
+        <Action ID="SetupMTCMoveToPose">
+            <metadata subcategory="MTC"/>
+            <description>
+                <p>
+                    Given an existing MTC Task object and a target pose, appends MTC stages to describe a freespace motion plan to that target pose.
+                </p>
+            </description>
+            <input_port name="ik_frame" default="manual_grasp_link">Name of the frame that is moved to align with the goal pose.</input_port>
+            <input_port name="planning_group_name" default="manipulator">Name of the MoveIt planning group.</input_port>
+            <input_port name="target_pose" default="{target_pose}">Goal pose.</input_port>
+            <inout_port name="task" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+        </Action>
+        <Action ID="SetupMTCOpenLeverHandleDoor">
+            <metadata subcategory="MTC"/>
+            <description>
+                <p>
+                    Configures MTC stages to open a lever-handled door by turning the handle and pushing the door away from the robot.
+                </p>
+                <p>
+                    The input data ports are generally calculated by separate perception processing Behaviors in a previous step of the Objective.
+                </p>
+            </description>
+            <input_port name="handle_length" default="{handle_length}">Length of the door handle in meters.</input_port>
+            <input_port name="handle_pose" default="{handle_pose}">Pose of the door handle.</input_port>
+            <input_port name="handle_z_offset" default="{handle_z_offset}">The door handle height.</input_port>
+            <input_port name="parameters" default="{parameters}">Behavior parameters stored in a common configuration file for the objective.</input_port>
+            <inout_port name="task" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+        </Action>
+        <Action ID="SetupMTCPickObject">
+            <metadata subcategory="MTC"/>
+            <description>
+                <p>
+                    Given an existing MTC Task object and a target grasp pose, appends MTC stages to describe a motion plan to approach, grasp and lift an object at that pose.
+                </p>
+            </description>
+            <input_port name="parameters" default="{parameters}">Behavior parameters stored in a common configuration file for the objective.</input_port>
+            <input_port name="grasp_pose" default="{grasp_pose}">End-effector grasping pose.</input_port>
+            <inout_port name="task" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+        </Action>
+        <Action ID="SplitMTCSolution">
+            <metadata subcategory="MTC"/>
+            <description>
+                <p>
+                    Split an MTC Solution message in two by dividing its vector of subtrajectories at the specified index.
+                </p>
+            </description>
+            <input_port name="solution_in" default="{solution_in}"/>
+            <input_port name="index" default="0"/>
+            <output_port name="solution_out_1" default="{solution_out_1}"/>
+            <output_port name="solution_out_2" default="{solution_out_2}"/>
+        </Action>
+        <Action ID="Teleoperate">
+            <metadata advanced="true" subcategory="User Input"/>
+            <description>
+                <p>
+                    This is a special Behavior to run human-in-the-loop teleoperation using MoveIt Servo through the Objective Server.
+                </p>
+                <p>
+                    When started, this Behavior will run INDEFINITELY until it is halted. This will happen either when the root node of the behavior tree is halted as the Objective is canceled, or when this Behavior's parent control node halts it. When this Behavior first transitions from IDLE to RUNNING, it starts and unpauses Servo control using the services advertised by the Servo server node. While this Behavior is RUNNING, it subscribes to JointJog and TwistStamped command messages that originate in the user interface, and republishes these messages to the command topics advertised by the Servo server node. When this Behavior is halted, it pauses Servo control using the server's services.
+                </p>
+            </description>
+            <input_port name="controller_name" default="streaming_controller">Name of the controller to use for servoing.</input_port>
+        </Action>
+        <Action ID="WaitForDuration">
+            <description>
+                <p>
+                    Wait for a specified duration before succeeding.
+                </p>
+            </description>
+            <input_port name="delay_duration" default="5">Sleep duration in seconds.</input_port>
+        </Action>
+        <Action ID="WaitForUserTrajectoryApproval">
+            <metadata advanced="true" subcategory="User Input"/>
+            <description>
+                <p>
+                    Takes a shared pointer to an MTC Solution object via an input data port, and publishes the lowest-cost trajectory in that Solution on MTC's "/solution" introspection topic. Creates a SetBool service server on the "/execute_behavior_solution" topic and waits to receive a request containing data: true before succeeding.
+                </p>
+            </description>
+            <input_port name="solution" default="{mtc_solution}">MoveIt Task Constructor plan solution.</input_port>
+        </Action>
+        <SubTreePlus ID="MoveToWaypoint">
+            <description/>
+            <input_port name="waypoint_name" default="Forward Down">Name of the waypoint to move to.</input_port>
+        </SubTreePlus>
+    </TreeNodesModel>
+</root>
