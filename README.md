@@ -4,7 +4,7 @@ A sample workspace a MoveIt Studio User may have
 
 ## Changing the UR type in base_config.yaml
 
-Replace ``ur10`` with the model of your choice ``[ur3,ur3e,ur5,ur5e,ur10,ur10e,ur16e]``
+Replace ``ur5e`` with the model of your choice ``[ur3,ur3e,ur5,ur5e,ur10,ur10e,ur16e]``
 
 ## Build your workspace
 
