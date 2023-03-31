@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-  <root main_tree_to_execute="Say Hello">
-    <BehaviorTree ID="Say Hello">
-        <Sequence>
-            <Action ID="HelloWorld"/>
-        </Sequence>
-    </BehaviorTree>
-</root>
