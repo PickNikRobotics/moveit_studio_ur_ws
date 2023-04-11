@@ -1,4 +1,0 @@
-[submodule "src/moveit_studio_example_behaviors"]
-	path = src/moveit_studio_example_behaviors
-	url = git@github.com:PickNikRobotics/moveit_studio_example_behaviors.git
-	branch = main
