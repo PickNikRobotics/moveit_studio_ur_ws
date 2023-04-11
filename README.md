@@ -1,43 +1,51 @@
 # MoveIt Studio Workspace
 
-A sample workspace a MoveIt Studio User may have
+This is a sample user workspace for running MoveIt Studio with a generic Universal Robot arm.
+For more information, refer to the [MoveIt Studio Documentation](https://docs.picknik.ai/).
 
-## Changing the UR type in base_config.yaml
+Instructions for building your own MoveIt Studio configuration can be found [here.](https://docs.picknik.ai/en/stable/concepts/config_package/config_package.html)
 
-Replace ``ur5e`` with the model of your choice ``[ur3,ur3e,ur5,ur5e,ur10,ur10e,ur16e]``
+---
+## MoveIt Studio Configuration
 
-## Build your workspace
+This package follows the recommended layout of a MoveIt Studio configuration package.
+Any configuration package or custom behavior implementation can be included in the `src/` directory.
+Packages in `src/` will be compiled and sourced by MoveIt Studio at first launch.
 
-``STUDIO_DOCKER_TAG=main docker compose up workspace_builder``
+### Site Config vs Base Config
 
-## Start MoveIt Studio
+MoveIt Studio supports two types of site configuration packages, a base config and site config.
 
-``docker compose up``
+[Base configs](src/picknik_ur_base_config/README.md) are used to configure all of the system components that remain unchanged when deploying the robot to a new location.
 
-## Using a custom Docker overlay image
+[Site configs](src/picknik_ur_site_config/README.md) are used to specify additional features or constraints to be added to the robot such as additional cameras, sensors, and actuators as well as obstacles (like walls), joint speed and torque limits, network settings, waypoint locations, cameral calibration, and more.
 
-### Release image
+### Writing Your Own Configuration
 
-To build:
+At PickNik we use a UR5e base config package on which all of our UR5e robot site configurations are based on. For each different set-up of a UR5e robot or simulation environment, we have a site configuration package. This allows us to have one UR5e in a highly cluttered environment, another UR5e with increased velocity and torque allowances, and an entirely simulated UR5e in the world of our choosing. All of which are able to make use of MoveIt Studio's full suite of motion planning and manipulation capabilities.
 
-``docker compose -f docker-compose-overlay.yaml build``
+For ease of use, this package is provided as a base config. We have taken our UR5e base configuration, incorporated the additions we use in our UR5e simulation site configuration and released it as a standalone base configuration package. This package provides a configuration that can be used with MoveIt Studio and Gazebo to simulate and explore the capabilities of MoveIt Studio controlling a UR5e.
 
-To start:
+Though you can modify this package to build a different configuration of your choosing, it is recommended to follow our [Configuring Studio for a Specific Robot](https://docs.picknik.ai/en/stable/concepts/config_package/config_package.html) tutorial and create your own site configuration, using this package as the base config.
 
-``docker compose -f docker-compose-overlay.yaml up``
+---
+## Beyond site configuration
 
-### Developer container
+If you're having fun [building awesome new objectives](https://docs.picknik.ai/en/stable/tutorials/use_objectives_in_ui/use_objectives_in_ui.html) in MoveIt Studio, and would like to take your experience a step further, check out our tutorials on [Creating custom behaviors](https://docs.picknik.ai/en/stable/tutorials/create_behavior/create_behavior.html). Reach out to your studio license provider if you want to try out and experience your custom objectives on one of PickNik's robots.
 
-We use Docker profiles to have separate configuration for developers.
+---
+# Launching a Mock Hardware Robot
 
-To build:
+**This repository assumes you have followed the [installation instructions online](https://docs.picknik.ai/en/stable/getting_started/software_installation/software_installation.html).**
 
-``docker compose -f docker-compose-overlay.yaml build dev``
+To start MoveIt Studio with the default configuration with a UR5e, you must specify this repository as the target `USER_WS` in the provided [.env file](.env).
+By default, `STUDIO_HOST_USER_WORKSPACE` points to `$HOME/moveit_studio_ws`.
+If you have cloned this repository to a different location, then update the line to point to this workspace.
 
-To start:
+Once that is done, from the root of the workspace simply run:
 
-``docker compose -f docker-compose-overlay.yaml up dev``
+`docker compose up`
 
-And in a new Terminal, you can access a dev shell:
+Wait a moment for the application to start, then open the Chrome browser and navigate to [http://localhost](http://localhost).
 
-``docker compose exec -it dev bash``
+You should be up and running with the default UR5e configuration!
