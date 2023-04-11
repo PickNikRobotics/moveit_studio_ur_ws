@@ -53,10 +53,10 @@ services:
       - DISPLAY
       - QT_X11_NO_MITSHM=1
       # Configuration and credentials for Frontend Agent, do not change.
-      - FORMANT_PROVISIONING_TOKEN=${FRONTEND_KEY}
+      - FORMANT_PROVISIONING_TOKEN=${FRONTEND_KEY:-}
       - FORMANT_PORT_FORWARDING=true
     volumes:
-      - /var/log/studio/:/root/.ros/log
+      - /var/log/moveit_studio/:/root/.ros/log
       - ${STUDIO_HOST_CONFIG_DIR:-$HOME/.config/moveit_studio}:/root/.config/moveit_studio/:rw
       - ${STUDIO_HOST_USER_WORKSPACE:-/dev/null}:/opt/moveit_studio/user_ws/:rw
       # Share the same /var/lib/formant between all services
@@ -76,6 +76,16 @@ services:
       base:
         condition: service_completed_successfully
     command: bash -c "source /build_user_ws.sh"
+
+  workspace_test:
+    container_name: "moveit_studio_workspace_test"
+    extends: base
+    depends_on:
+      workspace_builder:
+        condition: service_completed_successfully
+    profiles:
+      - test
+    command: bash -c "source /test_user_ws.sh"
 
   # Starts the MoveIt Studio Agent
   agent:
