@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
   <root main_tree_to_execute="Say Hello">
-    <BehaviorTree ID="Say Hello" _description="Will immediately fail and log an error message">
+    <BehaviorTree ID="Say Hello" _description="Will always succeed and log the error message Hello Woold!">
         <Sequence>
             <Action ID="HelloWorld"/>
         </Sequence>
