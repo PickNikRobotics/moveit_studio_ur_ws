@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <root main_tree_to_execute="3 Waypoints Pick and Place">
     <!-- ////////// -->
-    <BehaviorTree ID="3 Waypoints Pick and Place" _description="Repeatedly grab up a small object, place it at desired destination, and then navigate to specified waypoint until failure">
+    <BehaviorTree ID="3 Waypoints Pick and Place" _description="Repeatedly grab a small object, place it at desired destination, and then navigate to specified waypoint until failure">
         <Control ID="Sequence">
             <!-- Clear snapshot, move to center pose, and open gripper -->
             <Action ID="ClearSnapshot" />

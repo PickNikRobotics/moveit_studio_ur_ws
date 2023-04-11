@@ -12,11 +12,11 @@ scale:
   # Max joint angular/linear velocity. Rads or Meters per publish period. Only used for joint commands on joint_command_in_topic.
   joint: 0.5
 
-# Optionally disable Servo velocity scaling calculation and drive the arm at max speed.
+# Drive the arm at a fraction of the maximum speed between 0 and 1, where 1 is max.
 override_velocity_scaling_factor: 1.0
 
 ## Properties of outgoing commands
-publish_period: 0.002  # 1/Nominal publish rate [seconds]
+publish_period: 0.01  # 1/Nominal publish rate [seconds]
 low_latency_mode: false  # Set this to true to publish as soon as an incoming Twist command is received (publish_period is ignored)
 
 # What type of topic does your robot driver expect?
