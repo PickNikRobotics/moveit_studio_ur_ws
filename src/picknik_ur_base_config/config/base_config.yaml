@@ -101,10 +101,10 @@ ros_global_params:
   use_sim_time: False
 
 # Configure additional, optional features in MoveIt Studio.
-# [Required]
+# [Optional]
 optional_feature_params:
   # Whether or not to use the Formant bridge for over-the-internet comms.
-  # [Required]
+  # [Optional, default=False]
   use_formant_bridge: False
 
 # Configuration files for MoveIt.
