@@ -94,13 +94,13 @@ hardware:
           path: "config"
 
 # Sets ROS global params for launch.
-# [Required]
+# [Optional]
 ros_global_params:
   # Whether or not to use simulated time.
-  # [Required]
+  # [Optional, default=False]
   use_sim_time: False
 
-# Configure optional features in MoveIt Studio.
+# Configure additional, optional features in MoveIt Studio.
 # [Required]
 optional_feature_params:
   # Whether or not to use the Formant bridge for over-the-internet comms.
