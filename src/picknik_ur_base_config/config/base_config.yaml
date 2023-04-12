@@ -14,7 +14,7 @@ hardware:
   type: ${UR_HARDWARE_TYPE:-ur5e}
 
   # Set simulated to false if you are using this as a configuration for real hardware.
-  # [Optional, default=False]
+  # [Required]
   simulated: True
 
   # If MoveIt Studio should launch the ros2 controller node.
@@ -26,7 +26,7 @@ hardware:
   launch_robot_state_publisher: True
 
   # The robot's IP address.
-  # [Optional for simulation]
+  # [Required]
   ip: "0.0.0.0"
 
   # Specify additional launch file for running the robot with real hardware.
@@ -49,7 +49,7 @@ hardware:
     path: "launch/sim/hardware_sim.launch.py"
 
   # Configuration details for cameras and scene planning.
-  # [Optional]
+  # [Required]
   camera_config_file:
     package: "picknik_ur_base_config"
     path: "config/cameras.yaml"
@@ -94,17 +94,17 @@ hardware:
           path: "config"
 
 # Sets ROS global params for launch.
-# [Optional]
+# [Required]
 ros_global_params:
   # Whether or not to use simulated time.
-  # [Optional, default=False]
+  # [Required]
   use_sim_time: False
 
 # Enable/disable optional features in MoveIt Studio.
-# [Optional]
+# [Required]
 optional_feature_params:
   # Optionally use the Formant bridge for over-the-internet comms.
-  # [Optional, default=False]
+  # [Required]
   use_formant_bridge: False
 
 # Configuration files for MoveIt.
@@ -162,6 +162,8 @@ ros2_control:
     package: "picknik_ur_base_config"
     path: "config/control/picknik_ur5e.ros2_control.yaml"
   # MoveIt Studio will load and activate these controllers at start up to ensure they are available.
+  # If not specified, it is up to the user to ensure the appropriate controllers are active and available
+  # for running the application.
   # [Optional, default=[]]
   controllers_active_at_startup:
     - "force_torque_sensor_broadcaster"
