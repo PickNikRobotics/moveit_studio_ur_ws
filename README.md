@@ -22,7 +22,7 @@ MoveIt Studio supports two types of site configuration packages, a base config a
 
 ### Writing Your Own Configuration
 
-At PickNik we use a UR5e base config package on which all of our UR5e robot site configurations are based on. For each different set-up of a UR5e robot or simulation environment, we have a site configuration package. This allows us to have one UR5e in a highly cluttered environment, another UR5e with increased velocity and torque allowances, and an entirely simulated UR5e in the world of our choosing. All of which are able to make use of MoveIt Studio's full suite of motion planning and manipulation capabilities.
+At PickNik we use a UR5e base config package which all of our UR5e robot site configurations are based on. For each different set-up of a UR5e robot or simulation environment, we have a site configuration package. This allows us to have one UR5e in a highly cluttered environment, another UR5e with increased velocity and torque allowances, and an entirely simulated UR5e in the world of our choosing. All of which are able to make use of MoveIt Studio's full suite of motion planning and manipulation capabilities.
 
 For ease of use, this package is provided as a base config. We have taken our UR5e base configuration, incorporated the additions we use in our UR5e simulation site configuration and released it as a standalone base configuration package. This package provides a configuration that can be used with MoveIt Studio and Gazebo to simulate and explore the capabilities of MoveIt Studio controlling a UR5e.
 
