@@ -9,7 +9,7 @@ Instructions for building your own MoveIt Studio configuration can be found [her
 ## MoveIt Studio Configuration
 
 This package follows the recommended layout of a MoveIt Studio configuration package.
-Any configuration package or custom behavior implementation can be included in the `src/` directory.
+Any configuration package or custom Behavior implementation can be included in the `src/` directory.
 Packages in `src/` will be compiled and sourced by MoveIt Studio at first launch.
 
 ### Site Config vs Base Config
@@ -18,7 +18,7 @@ MoveIt Studio supports two types of site configuration packages, a base config a
 
 [Base configs](src/picknik_ur_base_config/README.md) are used to configure all of the system components that remain unchanged when deploying the robot to a new location.
 
-[Site configs](src/picknik_ur_site_config/README.md) are used to specify additional features or constraints to be added to the robot such as additional cameras, sensors, and actuators as well as obstacles (like walls), joint speed and torque limits, network settings, waypoint locations, cameral calibration, and more.
+[Site configs](src/picknik_ur_site_config/README.md) are used to specify additional features or constraints to be added to the robot such as additional cameras, sensors, and actuators as well as obstacles (like walls), joint speed and torque limits, network settings, waypoint locations, camera calibration, and more.
 
 ### Writing Your Own Configuration
 
@@ -31,7 +31,8 @@ Though you can modify this package to build a different configuration of your ch
 ---
 ## Beyond site configuration
 
-If you're having fun [building awesome new objectives](https://docs.picknik.ai/en/stable/tutorials/use_objectives_in_ui/use_objectives_in_ui.html) in MoveIt Studio, and would like to take your experience a step further, check out our tutorials on [Creating custom behaviors](https://docs.picknik.ai/en/stable/tutorials/create_behavior/create_behavior.html). Reach out to your studio license provider if you want to try out and experience your custom objectives on one of PickNik's robots.
+If you're having fun [building awesome new Objectives](https://docs.picknik.ai/en/stable/tutorials/use_objectives_in_ui/use_objectives_in_ui.html) in MoveIt Studio, and would like to take your experience a step further, check out our tutorials on [creating custom Behaviors](https://docs.picknik.ai/en/stable/tutorials/create_behavior/create_behavior.html).
+Reach out to your MoveIt Studio license provider if you want to try out and experience your custom Objectives on one of PickNik's robots.
 
 ---
 # Launching a Mock Hardware Robot
