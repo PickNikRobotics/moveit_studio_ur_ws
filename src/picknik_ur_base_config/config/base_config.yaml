@@ -29,7 +29,7 @@ hardware:
   # [Required]
   ip: "0.0.0.0"
 
-  # Specify additional launch file for running the robot with real hardware.
+  # Specify additional launch files for running the robot with real hardware.
   # [Required]
   robot_driver_persist_launch_file:
     package: "picknik_ur_base_config"
@@ -38,7 +38,7 @@ hardware:
     package: "picknik_ur_base_config"
     path: "launch/hardware.launch.py"
 
-  # Specify any additional launch file for running the robot in simulation mode.
+  # Specify any additional launch files for running the robot in simulation mode.
   # Used when simulated is True.
   # [Required]
   simulated_robot_driver_persist_launch_file:
@@ -100,10 +100,10 @@ ros_global_params:
   # [Required]
   use_sim_time: False
 
-# Enable/disable optional features in MoveIt Studio.
+# Configure optional features in MoveIt Studio.
 # [Required]
 optional_feature_params:
-  # Optionally use the Formant bridge for over-the-internet comms.
+  # Whether or not to use the Formant bridge for over-the-internet comms.
   # [Required]
   use_formant_bridge: False
 

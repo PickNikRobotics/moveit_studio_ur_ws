@@ -1,6 +1,6 @@
 # MoveIt Studio Workspace
 
-This is a sample user workspace for running MoveIt Studio with a generic Universal Robot arm.
+This is a sample user workspace for running MoveIt Studio with a generic Universal Robots arm.
 For more information, refer to the [MoveIt Studio Documentation](https://docs.picknik.ai/).
 
 Instructions for building your own MoveIt Studio configuration can be found [here.](https://docs.picknik.ai/en/stable/concepts/config_package/config_package.html)
@@ -43,7 +43,7 @@ To start MoveIt Studio with the default configuration with a UR5e, you must spec
 By default, `STUDIO_HOST_USER_WORKSPACE` points to `$HOME/moveit_studio_ws`.
 If you have cloned this repository to a different location, then update the line to point to this workspace.
 
-Once that is done, from the root of the workspace simply run:
+Once that is done, from the root of the workspace run:
 
 `docker compose up`
 
