@@ -39,7 +39,7 @@ If that is the case, follow [these instructions](https://docs.picknik.ai/en/stab
 
 Otherwise, it is left to the user to ensure that the prerequites from the installation process have been met.
 
-To manually launch MoveIt Studio with the default configuration provided by this workspace, specify this repository as the target `USER_WS` in the provided [.env file](.env).
+To manually launch MoveIt Studio with the default configuration provided by this workspace, specify this repository as the target `STUDIO_HOST_USER_WORKSPACE` in the provided [.env file](.env).
 By default, `STUDIO_HOST_USER_WORKSPACE` points to `$HOME/moveit_studio_ws`.
 If you have cloned this repository to a different location, then update the line to point to this workspace.
 
