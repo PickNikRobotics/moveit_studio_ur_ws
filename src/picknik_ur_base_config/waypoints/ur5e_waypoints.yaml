@@ -1,4 +1,4 @@
-- name: Pick
+- name: Grab
   description: ""
   favorite: true
   joint_state:

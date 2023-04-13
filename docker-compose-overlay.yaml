@@ -9,7 +9,7 @@ services:
       context: .
       target: moveit-studio-custom-release
       args:
-        MOVEIT_STUDIO_BASE_IMAGE: ghcr.io/picknikrobotics/moveit-studio:${STUDIO_DOCKER_TAG:-main}
+        MOVEIT_STUDIO_BASE_IMAGE: picknikciuser/moveit-studio/moveit-studio:${STUDIO_DOCKER_TAG:-main}
     command: sleep infinity
 
   # Extend all the services from the base image

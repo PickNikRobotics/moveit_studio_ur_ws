@@ -1,43 +1,52 @@
 # MoveIt Studio Workspace
 
-A sample workspace a MoveIt Studio User may have
+This is a sample user workspace for running MoveIt Studio with a generic Universal Robots arm.
+For more information, refer to the [MoveIt Studio Documentation](https://docs.picknik.ai/).
 
-## Changing the UR type in base_config.yaml
+Instructions for building your own MoveIt Studio configuration can be found [here.](https://docs.picknik.ai/en/stable/concepts/config_package/config_package.html)
 
-Replace ``ur5e`` with the model of your choice ``[ur3,ur3e,ur5,ur5e,ur10,ur10e,ur16e]``
+MoveIt Studio can be used with real robots and full simulators such as Gazebo and NVIDIA Isaac Sim.
+For testing purposes, you can also use the [ROS 2 Control Mock Components](https://control.ros.org/master/doc/ros2_control/hardware_interface/doc/mock_components_userdoc.html), which is what this repo is configured to use.
 
-## Build your workspace
+---
+## MoveIt Studio Configuration
 
-``STUDIO_DOCKER_TAG=main docker compose up workspace_builder``
+This package follows the recommended layout of a MoveIt Studio configuration package.
+Any configuration package or custom Behavior implementation can be included in the `src/` directory.
+Packages in `src/` will be compiled and sourced by MoveIt Studio at first launch.
 
-## Start MoveIt Studio
+### Concepts
 
-``docker compose up``
+MoveIt Studio supports two types of site configuration packages, a base config and site config.
 
-## Using a custom Docker overlay image
+[Base configs](src/picknik_ur_base_config/README.md) are used to configure all of the system components that remain unchanged when deploying the robot to a new location.
 
-### Release image
+[Site configs](src/picknik_ur_site_config/README.md) are used to override any parameters of the base configuration, or add additional features or constraints for a particular installation.
 
-To build:
+This workspace offers a reasonable starting point for those users looking to develop with MoveIt Studio using custom base and site configurations.
+For more information refer to the [online documentation](https://docs.picknik.ai/en/stable/concepts/config_package/config_package.html).
 
-``docker compose -f docker-compose-overlay.yaml build``
+## Beyond site configurations
 
-To start:
+A custom site configuration is a great jumping off point for starting development with MoveIt Studio.
 
-``docker compose -f docker-compose-overlay.yaml up``
+We recommend reviewing the [online documentation](https://docs.picknik.ai/en/stable/) for more information on building Objectives, implementing custom Behaviors, and integrating peripherals into the MoveIt Studio application.
 
-### Developer container
+# Launching a Mock Hardware Robot
 
-We use Docker profiles to have separate configuration for developers.
+**This repository assumes you have followed the [installation instructions online](https://docs.picknik.ai/en/stable/getting_started/software_installation/software_installation.html).**
+If that is the case, follow [these instructions](https://docs.picknik.ai/en/stable/getting_started/configuring_moveit_studio/configuring_moveit_studio.html) for updating and running the configuration provided in this repository.
 
-To build:
+Otherwise, it is left to the user to ensure that the prerequites from the installation process have been met.
 
-``docker compose -f docker-compose-overlay.yaml build dev``
+To manually launch MoveIt Studio with the default configuration provided by this workspace, specify this repository as the target `USER_WS` in the provided [.env file](.env).
+By default, `STUDIO_HOST_USER_WORKSPACE` points to `$HOME/moveit_studio_ws`.
+If you have cloned this repository to a different location, then update the line to point to this workspace.
 
-To start:
+Once that is done, from the root of the workspace run:
 
-``docker compose -f docker-compose-overlay.yaml up dev``
+`docker compose up`
 
-And in a new Terminal, you can access a dev shell:
+Wait a moment for the application to start, then open the Chrome browser and navigate to [http://localhost](http://localhost).
 
-``docker compose exec -it dev bash``
+You should be up and running with the default UR5e configuration!
