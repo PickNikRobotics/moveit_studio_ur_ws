@@ -1,0 +1,166 @@
+# Launch the MoveIt Studio agent and Formant agent within separate Docker containers.
+# Notes on usage:
+# Several environment variables can be set on the host to configure the containers.
+# The variables are documented in the `environment:` section of the `base` service.
+# The recommended method for overriding these variables is by setting them in your .env file,
+# or setting them in your shell configuration if you are sharing configurations your custom applications and MoveIt Studio.
+
+version: "3.9"
+
+services:
+  # Sets common properties for other services. Should not be instantiated directly.
+  base:
+    # STUDIO_DOCKER_TAG: Studio version to pull from Docker Hub, e.g. "v1.10". Defaults to "main".
+    image: picknikciuser/moveit-studio:${STUDIO_DOCKER_TAG:-main}
+    network_mode: host
+    # Run an init process within the container to allow using default signal handling to cleanly shut down the container.
+    # See this doc for more info: https://docs.docker.com/compose/compose-file/compose-file-v3/#init
+    init: true
+    environment:
+      # The default for MoveIt Studio will use mock hardware, if available, to simulate the robot.
+      - MOCK_HARDWARE=${MOCK_HARDWARE:-true}
+      # The ROS domain ID to use in deployment. See https://docs.ros.org/en/humble/Concepts/About-Domain-ID.html
+      - ROS_DOMAIN_ID
+      # Provides a license key for the MoveIt Studio application to validate in the container.
+      - STUDIO_LICENSE_KEY
+      # Robot configuration package for deployment. Defaults to a mock hardware UR5e.
+      - STUDIO_CONFIG_PACKAGE=${STUDIO_CONFIG_PACKAGE:-picknik_001_ur5e_config}
+      # The directory on the host machine where MoveIt Studio configurations should be saved, such as new objectives.
+      # Typically, this is "$HOME/.config/moveit_studio", which is the default.
+      - STUDIO_HOST_CONFIG_DIR=${STUDIO_HOST_CONFIG_DIR:-$HOME/.config/moveit_studio}
+      # The directory on the host machine where persistent MoveIt Studio data is stored, e.g. the frontend authentication data.
+      # Typically, this is "$HOME/.local/share/moveit_studio", which is the default.
+      - STUDIO_HOST_DATA_DIR=${STUDIO_HOST_DATA_DIR:-$HOME/.local/share/moveit_studio}
+      # The path to the colcon workspace on the host machine containing user-defined packages,
+      # containing, e.g., site configurations and custom behaviors
+      # Defaults to "/dev/null", which means no user workspace will be mounted.
+      - STUDIO_HOST_USER_WORKSPACE=${STUDIO_HOST_USER_WORKSPACE:-/dev/null}
+      # Network interface to use in the generated DDS configuration (in the container). Defaults to "lo".
+      - CYCLONEDDS_NETWORK_INTERFACE=${CYCLONEDDS_NETWORK_INTERFACE:-lo}
+      # Comma-separated list of the IP addresses of machines that will participate in the ROS network,
+      # including the host machine's own IP address. For example: CYCLONEDDS_PEER_ADDRESSES=192.168.0.35,192.168.0.37)
+      # Defaults to "127.0.0.1"
+      - CYCLONEDDS_PEER_ADDRESSES=${CYCLONEDDS_PEER_ADDRESSES:-127.0.0.1}
+      - CYCLONEDDS_USE_MULTICAST=${CYCLONEDDS_USE_MULTICAST:-false}
+      # The ROS middleware to use. Defaults to rmw_cyclonedds_cpp, the CycloneDDS middleware.
+      # MoveIt Studio supports CycloneDDS and FastRTPS, and will respect your CYCLONEDDS_URI and FASTRTPS_DEFAULT_PROFILES_FILE for custom configurations.
+      - RMW_IMPLEMENTATION=${RMW_IMPLEMENTATION:-rmw_cyclonedds_cpp}
+      # If using FastRTPS, setting this variable to 1 allows modifying Quality-of-Service (QoS) settings from a specified XML file.
+      - RMW_FASTRTPS_USE_QOS_FROM_XML
+      # Renderer used for Gazebo (can be ogre or ogre2)
+      - GAZEBO_RENDERER=${GAZEBO_RENDERER:-ogre}
+      # Allow the user to run graphical programs from within the container. You probably don't want to change these!
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+      # Configuration and credentials for Frontend Agent, do not change.
+      - FORMANT_PROVISIONING_TOKEN=${FRONTEND_KEY:-}
+      - FORMANT_PORT_FORWARDING=true
+    volumes:
+      - /var/log/moveit_studio/:/root/.ros/log
+      - ${STUDIO_HOST_CONFIG_DIR:-$HOME/.config/moveit_studio}:/root/.config/moveit_studio/:rw
+      - ${STUDIO_HOST_USER_WORKSPACE:-/dev/null}:/opt/moveit_studio/user_ws/:rw
+      # Share the same /var/lib/formant between all services
+      - ${STUDIO_HOST_DATA_DIR:-$HOME/.local/share/moveit_studio}/frontend:/var/lib/formant
+      # Allow the user to run graphical programs from within the docker container.
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
+      # Persist Ignition model download cache
+      - ignition_resources:/root/.ignition/
+      # Mount the host's DDS config(s) so we can talk to user's ROS tooling
+      - ${CYCLONEDDS_URI:-/dev/null}:/root/.ros/cyclonedds_host.xml
+      - ${FASTRTPS_DEFAULT_PROFILES_FILE:-/dev/null}:/root/.ros/fastdds_host.xml
+
+  workspace_builder:
+    extends: base
+    depends_on:
+      base:
+        condition: service_completed_successfully
+    command: bash -c "source /build_user_ws.sh"
+
+  workspace_test:
+    container_name: "moveit_studio_workspace_test"
+    extends: base
+    depends_on:
+      workspace_builder:
+        condition: service_completed_successfully
+    profiles:
+      - test
+    command: bash -c "source /test_user_ws.sh"
+
+  # Starts the MoveIt Studio Agent
+  agent:
+    extends: base
+    privileged: true
+    device_cgroup_rules:
+      - "c 81:* rmw"
+      - "c 189:* rmw"
+    depends_on:
+      workspace_builder:
+        condition: service_completed_successfully
+      rest_api:
+        condition: service_healthy
+    volumes:
+      # Allow the user to run graphical programs from within the docker container.
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      # Allow access to host hardware e.g. RealSense cameras
+      - /dev:/dev
+    # TODO: replace this tee here and in common_aliases with some integrated logger
+    command: bash -c "ros2 launch moveit_studio_agent studio_agent.launch.py 2>&1 | tee ~/.ros/log/agent_0_0.log"
+
+  # Starts the Bridge between the Agent and the Web UI
+  bridge:
+    extends: base
+    depends_on:
+      workspace_builder:
+        condition: service_completed_successfully
+      agent:
+        condition: service_started
+    # TODO: replace this tee here and in common_aliases with some integrated logger
+    command: bash -c "ros2 launch moveit_studio_bridge studio_bridge.launch.py 2>&1 | tee ~/.ros/log/bridge_0_0.log"
+
+  # Starts the frontend-agent
+  frontend_agent:
+    extends: base
+    depends_on:
+      workspace_builder:
+        condition: service_completed_successfully
+    command: /usr/lib/formant/agent/formant-agent
+
+  # Starts the REST API for the Web UI
+  rest_api:
+    extends: base
+    environment:
+      - LOG_LEVEL=DEBUG
+    healthcheck:
+      test: "curl -f http://localhost:5001/objectives"
+      interval: 5s
+      timeout: 1m
+    depends_on:
+      workspace_builder:
+        condition: service_completed_successfully
+    # TODO: replace this tee here and in common_aliases with some integrated logger
+    command: bash -c "ros2 launch moveit_studio_rest_api rest_api.launch.py 2>&1 | tee ~/.ros/log/rest_api_0_0.log"
+
+  # Starts the robot drivers
+  drivers:
+    extends: base
+    privileged: true
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"  # Allow access to the gripper.
+    depends_on:
+      workspace_builder:
+        condition: service_completed_successfully
+    # TODO: replace this tee here and in common_aliases with some integrated logger
+    command: bash -c "ros2 launch moveit_studio_agent robot_drivers_wrapper.launch.py 2>&1 | tee ~/.ros/log/robot_0_0.log"
+
+  web_ui:
+    image: picknikciuser/moveit-studio-frontend:${STUDIO_DOCKER_TAG:-main}
+    ports:
+      - "80:80"
+    network_mode: host
+    volumes:
+      # mount necessary UI resources as a subdirectory of the webserver's static HTML directory
+      - ${STUDIO_HOST_DATA_DIR:-$HOME/.local/share/moveit_studio}/ui_resources:/usr/share/nginx/html/resources
+
+volumes:
+  ignition_resources:

@@ -1,0 +1,162 @@
+<root>
+    <TreeNodesModel>
+        <Control ID="Fallback">
+            <description>
+                <p>The FallbackNode is used to try different strategies, until one succeeds. If any child returns RUNNING, previous children will NOT be ticked again.</p>
+                <ul>
+                    <li>If all the children return FAILURE, this node returns FAILURE.</li>
+                    <li>If a child returns RUNNING, this node returns RUNNING.</li>
+                    <li>If a child returns SUCCESS, stop the loop and return SUCCESS.</li>
+                </ul>
+            </description>
+        </Control>
+        <Control ID="Sequence">
+            <description>
+                <p>The SequenceNode is used to tick children in an ordered sequence. If any child returns RUNNING, previous children will NOT be ticked again.</p>
+                <ul>
+                    <li>If all the children return SUCCESS, this node returns SUCCESS.</li>
+                    <li>If a child returns RUNNING, this node returns RUNNING. Loop is NOT restarted, the same running child will be ticked again.</li>
+                    <li>If a child returns FAILURE, stop the loop and return FAILURE. Restart the loop only if (reset_on_failure == true)</li>
+                </ul>
+            </description>
+        </Control>
+        <Control ID="SequenceStar">
+            <description>
+                <p>The SequenceStarNode is used to tick children in an ordered sequence. If any child returns RUNNING, previous children are not ticked again.</p>
+                <ul>
+                    <li>If all the children return SUCCESS, this node returns SUCCESS.</li>
+                    <li>If a child returns RUNNING, this node returns RUNNING. Loop is NOT restarted, the same running child will be ticked again.</li>
+                    <li>If a child returns FAILURE, stop the loop and return FAILURE. Loop is NOT restarted, the same running child will be ticked again.</li>
+                </ul>
+            </description>
+        </Control>
+        <Control ID="Parallel">
+            <description>
+                <p>The ParallelNode executes all its children concurrently, but not in separate threads!</p>
+                <p>Even if this may look similar to ReactiveSequence, this Control Node is the only one that can have multiple children RUNNING at the same time.</p>
+                <p>The Node is completed either when the THRESHOLD_SUCCESS or THRESHOLD_FAILURE number is reached (both configured using ports).</p>
+                <p> If any of the threaholds are reached, and other children are still running, they will be halted.</p>
+            </description>
+            <input_port name="success_threshold" default="">Number of children which need to succeed to trigger a SUCCESS.</input_port>
+            <input_port name="failure_threshold" default="">Number of children which need to fail to trigger a FAILURE.</input_port>
+        </Control>
+        <Control ID="ReactiveSequence">
+            <description>
+                <p>The ReactiveSequence is similar to a ParallelNode. All the children are ticked from first to last:</p>
+                <ul>
+                    <li>If a child returns RUNNING, halt the remaining siblings in the sequence and return RUNNING.</li>
+                    <li>If a child returns SUCCESS, tick the next sibling.</li>
+                    <li>If a child returns FAILURE, stop and return FAILURE.</li>
+                </ul>
+                <p>If all the children return SUCCESS, this node returns SUCCESS.</p>
+            </description>
+        </Control>
+        <Control ID="ReactiveFallback">
+            <description>
+                <p>The ReactiveFallback is similar to a ParallelNode. All the children are ticked from first to last:</p>
+                <ul>
+                    <li>If a child returns RUNNING, continue to the next sibling.</li>
+                    <li>If a child returns FAILURE, continue to the next sibling.</li>
+                    <li>If a child returns SUCCESS, stop and return SUCCESS.</li>
+                </ul>
+                <p>If all the children fail, then this node returns FAILURE.</p>
+                <p>IMPORTANT: to work properly, this node should not have more than a single asynchronous child.</p>
+            </description>
+        </Control>
+        <Control ID="IfThenElse">
+            <description>
+                <p>The first child is the "statement" of the if.</p>
+                <p>If that return SUCCESS, then the second child is executed.</p>
+                <p>Instead, if it returned FAILURE, the third child is executed.</p>
+                <p>If you have only 2 children, this node will return FAILURE whenever the statement returns FAILURE.</p>
+                <p>This is equivalent to add AlwaysFailure as 3rd child.</p>
+            </description>
+        </Control>
+        <Control ID="WhileDoElse">
+            <description>
+                <p>WhileDoElse must have exactly 2 or 3 children. It is a REACTIVE node of IfThenElseNode.</p>
+                <p>The first child is the "statement" that is executed at each tick</p>
+                <p>If result is SUCCESS, the second child is executed.</p>
+                <p>If result is FAILURE, the third child is executed.</p>
+                <p>If the 2nd or 3d child is RUNNING and the statement changes, the RUNNING child will be stopped before starting the sibling.</p>
+            </description>
+        </Control>
+        <Decorator ID="BlackboardCheckString">
+            <description>            
+                <p>Executes its child node only if the string value of a given input port is equal to the expected value.</p>
+                <p>If this precondition is met, the child node will be run and this node will return the status returned from the child.</p>
+                <p>If the precondition is not met, this node will return the BT::NodeStatus value specified in "return_on_mismatch".</p>
+            </description>
+            <input_port name="value_A" default="some_value">First string value to compare.</input_port>
+            <input_port name="value_B" default="some_other_value">Second string value to compare.</input_port>
+            <input_port name="return_on_mismatch" default="SUCCESS">Status to return if value_A and value_B have different values. Can be RUNNING, SUCCESS, or FAILURE.</input_port>
+        </Decorator>     
+        <Decorator ID="Inverter">
+            <description>
+                <p>Tick the child once and return SUCCESS if the child failed or FAILURE if the child succeeded.</p>
+                <p>If the child returns RUNNING, this node returns RUNNING too.</p>
+            </description>
+        </Decorator>
+        <Decorator ID="RetryUntilSuccessful">
+            <description>
+                <p>Tick the child until it returns SUCCESS.</p>
+            </description>
+            <input_port name="num_attempts" default="1">Execute again a failing child up to N times. Use -1 to create an infinite loop.</input_port>
+        </Decorator>
+        <Decorator ID="KeepRunningUntilFailure">
+            <description>
+                <p>Tick the child until it returns FAILURE.</p>
+            </description>
+        </Decorator>
+        <Decorator ID="Repeat">
+            <description>
+                <p>Tick the child up to N times, where N is passed as a Input Port, as long as the child returns SUCCESS.</p>
+                <p>Interrupt the loop if the child returns FAILURE and, in that case, return FAILURE too.</p>
+                <p>If the child returns RUNNING, this node returns RUNNING too.</p>
+            </description>
+            <input_port name="num_cycles" default="">Repeat a successful child up to N times. Use -1 to create an infinite loop.</input_port>
+        </Decorator>
+        <Decorator ID="Timeout">
+            <description>
+                <p>Halt the child node after a given timeout.</p>
+            </description>
+            <input_port name="msec" default="">After a certain amount of time, halt() the child if it is still running.</input_port>
+        </Decorator>
+        <Decorator ID="Delay">
+            <description>
+                <p>Sleep for a given duration of time and then tick the child node.</p>
+            </description>
+            <input_port name="delay_msec" default="">Sleep for the duration of the delay period and tick the child node.</input_port>
+        </Decorator>
+        <Decorator ID="ForceSuccess">
+            <description>
+                <p>If the child returns RUNNING, this node returns RUNNING too.</p>
+                <p>Otherwise, it returns always SUCCESS.</p>
+            </description>
+        </Decorator>
+        <Decorator ID="ForceFailure">
+            <description>
+                <p>If the child returns RUNNING, this node returns RUNNING too.</p>
+                <p>Otherwise, it returns always FAILURE.</p>
+            </description>
+        </Decorator>
+        <Action ID="AlwaysSuccess">
+            <description>
+                <p>Return SUCCESS.</p>
+            </description>
+        </Action>
+        <Action ID="AlwaysFailure">
+            <description>
+                <p>Return FAILURE.</p>
+            </description>
+        </Action>
+        <Action ID="SetBlackboard">
+            <description>
+                <p>Write a value into the behavior tree blackboard.</p>
+            </description>
+            <input_port name="value" default="">Value represented as a string. convertFromString must be implemented.</input_port>
+            <inout_port name="output_key" default="">Name of the blackboard entry where the value should be written.</inout_port>
+        </Action>
+        <SubTree />
+    </TreeNodesModel>
+</root>

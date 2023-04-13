@@ -1,0 +1,45 @@
+# Placeholders for camera configuration.
+# Cameras are not a requirement for running MoveIt Studio, but this is provided as an
+# example for plugging in Realsense D415 camera topics to the application.
+
+- scene_camera:
+    camera_name: "scene_camera"
+    type: "sim"
+    use: True
+    serial_no: "0"
+    device_type: "D415"
+    framerate: 6
+    image_width: 640
+    image_height: 480
+    enable_pointcloud: False
+
+    # information about the topics the camera publishes the raw image and info
+    rgb_info: "/scene_camera/color/camera_info"
+    rgb_image: "/scene_camera/color/image_raw"
+
+    registered_rgb_depth_pair:
+      depth_info: "/scene_camera/color/camera_info"
+      depth_image: "/scene_camera/depth/image_rect_raw"
+      registered_info: "/scene_camera/color/camera_info"
+      registered_image: "/scene_camera/depth/image_rect_raw"
+- wrist_mounted_camera:
+    camera_name: "wrist_mounted_camera"
+    type: "sim"
+    use: True
+    serial_no: "0"
+    device_type: "D415"
+    framerate: 6
+    image_width: 640
+    image_height: 480
+    enable_pointcloud: True
+
+    # information about the topics the camera publishes the raw image and info
+    rgb_info: "/wrist_mounted_camera/color/camera_info"
+    rgb_image: "/wrist_mounted_camera/color/image_raw"
+
+    # By adding registered_rgb_depth_pair, This camera can be used for "Set Transform From Click"
+    registered_rgb_depth_pair:
+      depth_info: "/wrist_mounted_camera/depth/camera_info"
+      depth_image: "/wrist_mounted_camera/depth/image_rect_raw"
+      registered_info: "/wrist_mounted_camera/depth_registered/camera_info"
+      registered_image: "/wrist_mounted_camera/depth_registered/image_rect"

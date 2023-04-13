@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
+  <!-- parameters -->
+  <xacro:arg name="use_fake_hardware" default="true" />
+  <xacro:arg name="external_camera" default="false" />
+  <xacro:arg name="has_tool_changer" default="true" />
+  <xacro:arg name="name" default="" />
+  <xacro:arg name="joint_limits_parameters_file" default="" />
+  <xacro:arg name="kinematics_parameters_file" default="" />
+  <xacro:arg name="physical_parameters_file" default="" />
+  <xacro:arg name="visual_parameters_file" default="" />
+
+  <xacro:arg name="headless_mode" default="false" />
+  <xacro:arg name="robot_ip" default="0.0.0.0" />
+
+  <xacro:if value="$(arg has_tool_changer)">
+    <xacro:property name="camera_adapter_parent" value="tool_changer_tool0" />
+  </xacro:if>
+  <xacro:unless value="$(arg has_tool_changer)">
+    <xacro:property name="camera_adapter_parent" value="tool0" />
+  </xacro:unless>
+
+  <!-- Import macros for main hardware components -->
+  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro" />
+  <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro" />
+  <xacro:include filename="$(find robotiq_description)/urdf/robotiq_gripper_macro.urdf.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/mtc_ur_tool_changer/mtc_ur_tool_changer.urdf.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur_camera_adapter.urdf.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro" />
+
+  <!-- Import environment macros -->
+  <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
+
+  <link name="world" />
+  <!-- arm -->
+  <xacro:ur_robot
+    name="$(arg name)"
+    prefix=""
+    parent="world"
+    joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
+    kinematics_parameters_file="$(arg kinematics_parameters_file)/$(arg name)/default_kinematics.yaml"
+    physical_parameters_file="$(arg physical_parameters_file)/$(arg name)/physical_parameters.yaml"
+    visual_parameters_file="$(arg visual_parameters_file)/$(arg name)/visual_parameters.yaml"
+    use_fake_hardware="$(arg use_fake_hardware)"
+    headless_mode="$(arg headless_mode)"
+    robot_ip="$(arg robot_ip)"
+    script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
+    output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
+    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:ur_robot>
+
+  <xacro:if value="$(arg has_tool_changer)">
+    <!-- tool changer-->
+    <xacro:mtc_ur_tool_changer prefix="" connected_to="tool0" rotation="0" />
+  </xacro:if>
+
+  <!-- wrist camera adapter and camera-->
+  <xacro:ur_realsense_camera_adapter prefix="" connected_to="${camera_adapter_parent}" rotation="0" />
+
+  <xacro:realsense_d415 parent="d415_mount_link" name="wrist_mounted_camera">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:realsense_d415>
+
+  <!-- Gripper and UR adapter-->
+  <xacro:ur_to_robotiq prefix="" connected_to="realsense_camera_adapter_tool0" rotation="0" />
+
+  <xacro:robotiq_gripper name="RobotiqGripperHardwareInterface" prefix="" 
+    parent="gripper_mount_link" use_fake_hardware="$(arg use_fake_hardware)" com_port="/dev/ttyUSB0">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:robotiq_gripper>
+
+  <link name="grasp_link" />
+  <joint name="grasp_link_joint" type="fixed">
+    <parent link="gripper_mount_link" />
+    <child link="grasp_link" />
+    <origin xyz="0.0 0.0 0.134" rpy="0.0 0.0 ${pi}" />
+  </joint>
+
+  <!-- Moveit Studio requires a link name called manual_grasp_link to perform quick tasks such as inspect surface -->
+  <link name="manual_grasp_link" />
+  <joint name="manual_grasp_joint" type="fixed">
+    <parent link="grasp_link" />
+    <child link="manual_grasp_link" />
+    <origin xyz="0 0 0" rpy="${pi / 180.0 * 5} 0 0" />
+  </joint>
+
+  <!-- Environment -->
+  <link name="environment">
+    <!-- Table -->
+    <xacro:cube_collision_and_visual length="2.0" width="2.0" height="0.25" alpha="0.3">
+      <origin xyz="0 0 ${-0.25/2}" rpy="0 0 0" />
+    </xacro:cube_collision_and_visual>
+  </link>
+
+  <joint name="base_to_environment" type="fixed">
+    <parent link="base" />
+    <child link="environment" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+
+  <!-- External Camera -->
+  <link name="external_camera_link" />
+  <joint name="external_camera_joint" type="fixed">
+    <parent link="world" />
+    <child link="external_camera_link" />
+    <origin xyz="-0.3 0.3 1.0" rpy="0.0 0.4 0" />
+  </joint>
+
+  <xacro:realsense_d435 parent="external_camera_link" name="scene_camera" visible="false">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:realsense_d435>
+</robot>

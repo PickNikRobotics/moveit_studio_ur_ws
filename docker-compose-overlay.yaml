@@ -1,0 +1,68 @@
+version: "3.9"
+services:
+  base:
+    extends:
+      file: docker-compose.yaml
+      service: base
+    # Optionally allow building this service from source with `docker compose build`
+    build:
+      context: .
+      target: moveit-studio-custom-release
+      args:
+        MOVEIT_STUDIO_BASE_IMAGE: picknikciuser/moveit-studio/moveit-studio:${STUDIO_DOCKER_TAG:-main}
+    command: sleep infinity
+
+  # Extend all the services from the base image
+  workspace_builder:
+    extends:
+      file: docker-compose.yaml
+      service: workspace_builder
+  workspace_test:
+    extends:
+      file: docker-compose.yaml
+      service: workspace_test
+  agent:
+    extends:
+      file: docker-compose.yaml
+      service: agent
+  bridge:
+    extends:
+      file: docker-compose.yaml
+      service: bridge
+  rest_api:
+    extends:
+      file: docker-compose.yaml
+      service: rest_api
+  drivers:
+    extends:
+      file: docker-compose.yaml
+      service: drivers
+
+  #####################################
+  # Developer specific configuration
+  # Uses the "dev" profile
+  #####################################
+  dev:
+    extends: base
+    build:
+      target: moveit-studio-custom-dev
+    # This image deliberately has no user prefix because it should not be pushed!
+    stdin_open: true
+    tty: true
+    privileged: true
+    # Allows use of gdbserver
+    security_opt:
+      - seccomp:unconfined
+    volumes:
+      - ${HOME}/.ros/log_moveit_studio:/root/.ros/log:/root/.ros/log
+      # Mount source code
+      - ./src/:/opt/custom_ws/src/:rw
+      # Mount anonymous volumes to build cache and artifacts
+      - /opt/custom_ws/build
+      - /opt/custom_ws/install
+      - /opt/custom_ws/log
+      - /root/.ccache
+      # Allow access to host hardware e.g. RealSense cameras
+      - /dev:/dev
+    command: sleep infinity
+    profiles: ["dev"]
