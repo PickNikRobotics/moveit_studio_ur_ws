@@ -310,9 +310,9 @@
             </description>
             <input_port name="solution" default="{mtc_solution}">MoveIt Task Constructor plan solution.</input_port>
         </Action>
-        <SubTreePlus ID="MoveToWaypoint">
+        <SubTree ID="MoveToWaypoint">
             <description/>
             <input_port name="waypoint_name" default="Forward Down">Name of the waypoint to move to.</input_port>
-        </SubTreePlus>
+        </SubTree>
     </TreeNodesModel>
 </root>
