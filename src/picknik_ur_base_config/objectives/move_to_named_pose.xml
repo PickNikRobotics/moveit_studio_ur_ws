@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<root main_tree_to_execute="Move to Named Pose">
+<root BTCPP_format="4" main_tree_to_execute="Move to Named Pose">
     <BehaviorTree ID="Move to Named Pose" _description="This Objective is used when moving to one of the saved waypoints in your site configuration">
         <Sequence name="root">
             <Action ID="RetrieveWaypoint" waypoint_joint_state="{target_joint_state}" waypoint_name="Home"/>

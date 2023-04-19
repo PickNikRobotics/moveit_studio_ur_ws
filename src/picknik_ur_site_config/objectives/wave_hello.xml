@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-  <root main_tree_to_execute="Wave Hello">
+  <root BTCPP_format="4" main_tree_to_execute="Wave Hello">
     <BehaviorTree ID="Wave Hello" _description="Waves the end-effector side to side from the Home waypoint">
         <Sequence>
             <Action ID="RetrieveWaypoint" waypoint_name="Home" waypoint_joint_state="{target_joint_state}"/>

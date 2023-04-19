@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<root main_tree_to_execute="Teleoperate">
+<root BTCPP_format="4" main_tree_to_execute="Teleoperate">
     <BehaviorTree ID="Teleoperate" _description="Teleoperate the robot from the Web UI">
         <Sequence name="root">
             <Action ID="Teleoperate" controller_name="streaming_controller"/>
