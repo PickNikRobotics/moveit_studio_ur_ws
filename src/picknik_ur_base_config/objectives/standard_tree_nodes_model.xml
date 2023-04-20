@@ -35,7 +35,7 @@
                 <p>The ParallelNode executes all its children concurrently, but not in separate threads!</p>
                 <p>Even if this may look similar to ReactiveSequence, this Control Node is the only one that can have multiple children RUNNING at the same time.</p>
                 <p>The Node is completed either when the THRESHOLD_SUCCESS or THRESHOLD_FAILURE number is reached (both configured using ports).</p>
-                <p> If any of the threaholds are reached, and other children are still running, they will be halted.</p>
+                <p> If any of the thresholds are reached, and other children are still running, they will be halted.</p>
             </description>
             <input_port name="success_count" default="">Number of children which need to succeed to trigger a SUCCESS.</input_port>
             <input_port name="failure_count" default="">Number of children which need to fail to trigger a FAILURE.</input_port>
