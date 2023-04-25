@@ -1,0 +1,89 @@
+#
+#  This contains information for a unique instance of a robot.
+#
+
+# Name of the package to specialize
+based_on_package: "picknik_ur_base_config"
+
+optional_feature_params:
+  gazebo_world_name: "space_station.sdf"
+  gazebo_gui: False
+  gazebo_verbose: True
+
+hardware:
+  # Used by the ur_description package to set kinematics and geometry for a specific robot type.
+  # You can change this to another UR model but you must update any configuration affected by the different arm size
+  type: "ur5e" # [ur3, ur3e, ur5, ur5e, ur10, ur10e, ur16e]
+  simulated: True # this is the only option for this site_config
+  # If MoveIt Studio should launch the ros2 controller node
+  launch_control_node: False
+  # If MoveIt Studio should launch the robot state publisher
+  launch_robot_state_publisher: True
+  ip: "0.0.0.0"
+
+  simulated_robot_driver_persist_launch_file:
+    package: "picknik_ur_gazebo_config"
+    path: "launch/sim/robot_drivers_to_persist_sim.launch.py"
+  simulated_robot_driver_restart_launch_file:
+    package: "picknik_ur_gazebo_config"
+    path: "launch/sim/robot_drivers_to_restart_sim.launch.py"
+  simulated_hardware_launch_file:
+    package: "picknik_ur_gazebo_config"
+    path: "launch/sim/hardware_sim.launch.py"
+
+  camera_config_file:
+    package: "picknik_ur_gazebo_config"
+    path: "config/cameras.yaml"
+  robot_description:
+    srdf:
+      package: "picknik_ur_gazebo_config"
+      path: "config/moveit/picknik_ur_gazebo.srdf"
+    urdf:
+      package: "picknik_ur_gazebo_config"
+      path: "description/picknik_ur_gazebo.xacro"
+    urdf_params:
+      - name: "%>> hardware.type"
+      - gazebo_renderer: ${GAZEBO_RENDERER:-ogre}
+      - kinematics_parameters_file:
+          package: "ur_description"
+          path: "config"
+      - physical_parameters_file:
+          package: "ur_description"
+          path: "config"
+      - visual_parameters_file:
+          package: "ur_description"
+          path: "config"
+
+ros_global_params:
+  use_sim_time: True
+
+moveit_params:
+  sensors_3d:
+    package: "picknik_ur_gazebo_config"
+    path: "config/moveit/sensors_3d.yaml"
+  servo:
+    package: "picknik_ur_gazebo_config"
+    path: "config/moveit/ur5e_servo.yaml"
+
+# This configures what controllers gets run at startup
+ros2_control:
+  controllers_active_at_startup:
+    - "joint_state_broadcaster"
+    - "streaming_controller"
+    - "robotiq_gripper_controller"
+  controllers_inactive_at_startup:
+    - "joint_trajectory_controller"
+
+octomap_manager:
+  # Input point cloud topic name. The *output* point cloud topic published by
+  # the Octomap manager node is defined in sensors_3d.yaml.
+  input_point_cloud_topic: "/scene_camera/depth/color/points"
+
+objectives:
+  waypoints_file:
+    package_name: "picknik_ur_gazebo_config"
+    relative_path: "waypoints/waypoints.yaml"
+  objective_library_paths:
+    sim:
+      package_name: "picknik_ur_gazebo_config"
+      relative_path: "objectives"
