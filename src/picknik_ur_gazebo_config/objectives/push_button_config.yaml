@@ -1,7 +1,3 @@
-GetLatestTransform:
-  source_frame_id: "selected_frame"
-  target_frame_id: "world"
-
 IsForceWithinThreshold:
   wrench_topic_name: "/force_torque_sensor_broadcaster/wrench"
   hand_frame_name: "manual_grasp_link"

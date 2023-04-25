@@ -1,3 +1,0 @@
-GetLatestTransform:
-  source_frame_id: "selected_frame"
-  target_frame_id: "world"
