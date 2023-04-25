@@ -36,7 +36,7 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, OpaqueFunction
 from launch_ros.actions import Node
 
-from moveit_studio_utils_py.launch_common import get_launch_file, get_ros_path
+from moveit_studio_utils_py.launch_common import get_launch_file, get_ros_path, xacro_to_urdf
 from moveit_studio_utils_py.system_config import get_config_folder, SystemConfigParser
 from moveit_studio_utils_py.generate_camera_frames import generate_camera_frames
 
@@ -273,6 +273,30 @@ def generate_launch_description():
         arguments=["--ros-args"],
     )
 
+    #####################
+    # Environment Scene #
+    #####################
+    scene_xacro_path = get_ros_path(
+        "picknik_ur_gazebo_config", "description/simulation_scene.urdf.xacro"
+    )
+    scene_urdf = xacro_to_urdf(scene_xacro_path, None)
+    scene_urdf_ignition = path_pattern_change_for_ignition(scene_urdf)
+
+    spawn_scene = Node(
+        package="ros_gz_sim",
+        executable="create",
+        output="screen",
+        arguments=[
+            "-string",
+            scene_urdf_ignition,
+            "-name",
+            "cabinet",
+            "-allow_renaming",
+            "true",
+        ]
+        + init_pose_args,
+    )
+
     return LaunchDescription(
         [
             scene_image_rgb_ignition_bridge,
@@ -286,6 +310,7 @@ def generate_launch_description():
             fts_bridge,
             gazebo,
             spawn_robot,
+            spawn_scene,
             camera_transforms_node,
         ]
     )

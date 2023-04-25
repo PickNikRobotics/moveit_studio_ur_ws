@@ -20,7 +20,6 @@
 
   <!-- Import environment macros -->
   <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
-  <xacro:include filename="$(find picknik_accessories)/descriptions/furniture/switch_panel/switch_panel.urdf.xacro"/>
 
   <!-- initial position for simulations (Fake Hardware, Gazebo, Ignition) -->
   <xacro:arg name="initial_positions_file" default="$(find picknik_ur_gazebo_config)/config/initial_positions.yaml"/>
@@ -92,10 +91,6 @@
     <child link="environment" />
     <origin rpy="0 0 0" xyz="0 0 0" />
   </joint>
-  
-  <xacro:picknik_switch_panel parent="world" >
-    <origin xyz="-0.8 0.0 0" rpy="0 0 -0.44"/>
-  </xacro:picknik_switch_panel>
 
   <!-- External camera -->
   <link name="external_camera_link" />
