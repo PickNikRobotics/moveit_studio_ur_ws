@@ -5,22 +5,35 @@
 # Name of the package to specialize
 based_on_package: "picknik_ur_base_config"
 
+# Optional parameters that can be read in your launch files for specific functionality
 optional_feature_params:
   gazebo_world_name: "space_station.sdf"
   gazebo_gui: False
   gazebo_verbose: True
 
+# Enable simulation time so nodes are synced with the Gazebo block.
+ros_global_params:
+  use_sim_time: True
+
 hardware:
   # Used by the ur_description package to set kinematics and geometry for a specific robot type.
   # You can change this to another UR model but you must update any configuration affected by the different arm size
-  type: "ur5e" # [ur3, ur3e, ur5, ur5e, ur10, ur10e, ur16e]
-  simulated: True # this is the only option for this site_config
-  # If MoveIt Studio should launch the ros2 controller node
+  # UR models in the ur_description package are ur3, ur3e, ur5, ur5e, ur10, ur10e, and ur16e.
+  type: "ur5e"
+  
+  # This is the only option for this site_config
+  simulated: True
+
+  # Gazebo starts its own controller manager through the ros2_control plugin, so set this to False
   launch_control_node: False
+
   # If MoveIt Studio should launch the robot state publisher
   launch_robot_state_publisher: True
+
+  # The robot's IP address
   ip: "0.0.0.0"
 
+  # The following launch files are started when hardware.simulated is True
   simulated_robot_driver_persist_launch_file:
     package: "picknik_ur_gazebo_config"
     path: "launch/sim/robot_drivers_to_persist_sim.launch.py"
@@ -31,6 +44,8 @@ hardware:
     package: "picknik_ur_gazebo_config"
     path: "launch/sim/hardware_sim.launch.py"
 
+  # Override other parameters from the base config package, including
+  # the camera configuration and the robot description model.
   camera_config_file:
     package: "picknik_ur_gazebo_config"
     path: "config/cameras.yaml"
@@ -54,9 +69,7 @@ hardware:
           package: "ur_description"
           path: "config"
 
-ros_global_params:
-  use_sim_time: True
-
+# Override MoveIt parameters
 moveit_params:
   sensors_3d:
     package: "picknik_ur_gazebo_config"
@@ -64,6 +77,11 @@ moveit_params:
   servo:
     package: "picknik_ur_gazebo_config"
     path: "config/moveit/ur5e_servo.yaml"
+
+octomap_manager:
+  # Input point cloud topic name. The *output* point cloud topic published by
+  # the Octomap manager node is defined in sensors_3d.yaml.
+  input_point_cloud_topic: "/scene_camera/depth/color/points"
 
 # This configures what controllers gets run at startup
 ros2_control:
@@ -74,15 +92,12 @@ ros2_control:
   controllers_inactive_at_startup:
     - "joint_trajectory_controller"
 
-octomap_manager:
-  # Input point cloud topic name. The *output* point cloud topic published by
-  # the Octomap manager node is defined in sensors_3d.yaml.
-  input_point_cloud_topic: "/scene_camera/depth/color/points"
-
 objectives:
+  # Override with a new set of waypoints based on the Gazebo world.
   waypoints_file:
     package_name: "picknik_ur_gazebo_config"
     relative_path: "waypoints/waypoints.yaml"
+  # Add new simulation Objectives in addition to the one in the base config package.
   objective_library_paths:
     sim:
       package_name: "picknik_ur_gazebo_config"
