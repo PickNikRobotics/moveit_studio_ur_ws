@@ -31,6 +31,8 @@
     rgb_info: "/scene_camera/color/camera_info"
     rgb_image: "/scene_camera/color/image_raw"
 
+    # By adding registered_rgb_depth_pair, this camera can be used for "Set Transform From Click"
+    # Since this is simulation, assume registered image is simply the raw image.
     registered_rgb_depth_pair:
       depth_info: "/scene_camera/color/camera_info"
       depth_image: "/scene_camera/depth/image_rect_raw"

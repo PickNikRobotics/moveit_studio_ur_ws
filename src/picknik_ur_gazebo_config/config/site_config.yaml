@@ -33,13 +33,7 @@ hardware:
   # The robot's IP address
   ip: "0.0.0.0"
 
-  # The following launch files are started when hardware.simulated is True
-  simulated_robot_driver_persist_launch_file:
-    package: "picknik_ur_gazebo_config"
-    path: "launch/sim/robot_drivers_to_persist_sim.launch.py"
-  simulated_robot_driver_restart_launch_file:
-    package: "picknik_ur_gazebo_config"
-    path: "launch/sim/robot_drivers_to_restart_sim.launch.py"
+  # The following launch file is started when hardware.simulated is True
   simulated_hardware_launch_file:
     package: "picknik_ur_gazebo_config"
     path: "launch/sim/hardware_sim.launch.py"
@@ -58,6 +52,8 @@ hardware:
       path: "description/picknik_ur_gazebo.xacro"
     urdf_params:
       - name: "%>> hardware.type"
+      # Using the ogre renderer as it is compatible with most host hardware.
+      # ogre2 (which is the Gazebo default) is also an option if your system supports it.
       - gazebo_renderer: ${GAZEBO_RENDERER:-ogre}
       - kinematics_parameters_file:
           package: "ur_description"
@@ -81,7 +77,7 @@ moveit_params:
 octomap_manager:
   # Input point cloud topic name. The *output* point cloud topic published by
   # the Octomap manager node is defined in sensors_3d.yaml.
-  input_point_cloud_topic: "/scene_camera/depth/color/points"
+  input_point_cloud_topic: "/wrist_mounted_camera/depth/color/points"
 
 # This configures what controllers gets run at startup
 ros2_control:
