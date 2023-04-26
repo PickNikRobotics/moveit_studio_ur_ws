@@ -21,8 +21,8 @@
   <!-- Import environment macros -->
   <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
 
-  <!-- initial position for simulations (Fake Hardware, Gazebo, Ignition) -->
-  <xacro:arg name="initial_positions_file" default="$(find picknik_ur_gazebo_config)/config/initial_positions.yaml"/>
+  <!-- initial position for simulations (Fake Hardware and Gazebo) -->
+  <xacro:arg name="initial_positions_file" default="$(find picknik_ur_base_config)/config/initial_positions.yaml"/>
 
   <!-- convert to properties to use substitution in function -->
   <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
