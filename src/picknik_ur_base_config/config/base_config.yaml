@@ -17,16 +17,16 @@ hardware:
   # [Required]
   simulated: True
 
-  # If MoveIt Studio should launch the ros2 controller node.
+  # If the MoveIt Studio Agent should launch the ros2 controller node.
   # [Optional, default=True]
   launch_control_node: True
 
-  # If MoveIt Studio should launch the robot state publisher.
+  # If the MoveIt Studio Agent should launch the robot state publisher.
   # This should be false if you are launching the robot state publisher as part of drivers.
   # [Optional, default=True]
   launch_robot_state_publisher: True
 
-  # If MoveIt Studio should launch cameras when simulated.
+  # If the MoveIt Studio Agent should launch cameras when simulated.
   # This must be False when using mock hardware, since there are no cameras simulated.
   # [Optional, default=True]
   launch_cameras_when_simulated: False
