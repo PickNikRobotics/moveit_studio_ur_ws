@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package format="3">
-  <name>picknik_ur_base_config</name>
+  <name>picknik_ur_gazebo_config</name>
   <version>2.0.0</version>
 
-  <description>Base config package for a UR5e that can be simulated with mock hardware</description>
+  <description>Site config package for the simulated UR5e in PickNik's space station world simulated by Gazebo.</description>
 
   <maintainer email="studio.maintainers@picknik.ai">MoveIt Studio Maintainer</maintainer>
 
@@ -11,16 +11,12 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <depend>picknik_ur_base_config</depend>
+
   <exec_depend>moveit_ros_perception</exec_depend>
-  <exec_depend>moveit_studio_behavior</exec_depend>
-  <exec_depend>moveit_studio_ur_pstop_manager</exec_depend>
-  <exec_depend>pick_ik</exec_depend>
+  <exec_depend>ros_gz</exec_depend>
+  <exec_depend>ign_ros2_control</exec_depend>
   <exec_depend>picknik_accessories</exec_depend>
-  <exec_depend>realsense2_description</exec_depend>
-  <exec_depend>robotiq_description</exec_depend>
-  <exec_depend>ur_description</exec_depend>
-  <exec_depend>ur_robot_driver</exec_depend>
-  <exec_depend>kinematics_interface_kdl</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
 

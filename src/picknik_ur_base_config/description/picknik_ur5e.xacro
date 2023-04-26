@@ -32,6 +32,9 @@
   <!-- Import environment macros -->
   <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
 
+  <!-- initial positions for simulations (Mock Hardware and Gazebo) -->
+  <xacro:arg name="initial_positions_file" default="$(find picknik_ur5e_base_config)/config/initial_positions.yaml"/>
+
   <link name="world" />
   <!-- arm -->
   <xacro:ur_robot
@@ -43,6 +46,7 @@
     physical_parameters_file="$(arg physical_parameters_file)/$(arg name)/physical_parameters.yaml"
     visual_parameters_file="$(arg visual_parameters_file)/$(arg name)/visual_parameters.yaml"
     use_fake_hardware="$(arg use_fake_hardware)"
+    initial_positions="${xacro.load_yaml(initial_positions_file)}"
     headless_mode="$(arg headless_mode)"
     robot_ip="$(arg robot_ip)"
     script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
