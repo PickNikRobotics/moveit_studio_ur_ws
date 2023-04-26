@@ -30,6 +30,9 @@ hardware:
   # If MoveIt Studio should launch the robot state publisher
   launch_robot_state_publisher: True
 
+  # If MoveIt Studio should launch cameras when simulated.
+  launch_cameras_when_simulated: True
+
   # The robot's IP address
   ip: "0.0.0.0"
 
