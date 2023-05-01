@@ -133,7 +133,7 @@ moveit_params:
     path: "config/moveit/sensors_3d.yaml"
   servo_kinematics:
     package: "picknik_ur_base_config"
-    path: "config/moveit/pick_ik_kinematics_servo.yaml"
+    path: "config/moveit/kinematics.yaml"
   joint_limits:
     package: "picknik_ur_base_config"
     path: "config/moveit/joint_limits.yaml"
