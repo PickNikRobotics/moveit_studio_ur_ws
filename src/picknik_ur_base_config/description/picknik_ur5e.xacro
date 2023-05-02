@@ -33,7 +33,7 @@
   <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
 
   <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
-  <xacro:arg name="initial_positions_file" default="$(find picknik_ur5e_base_config)/config/initial_positions.yaml"/>
+  <xacro:arg name="initial_positions_file" default="$(find picknik_ur_base_config)/config/initial_positions.yaml"/>
 
   <!-- Convert args to properties for substitution in macros -->
   <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
