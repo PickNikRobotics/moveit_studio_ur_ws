@@ -13,7 +13,7 @@ scale:
   joint: 0.5
 
 # Drive the arm at a fraction of the maximum speed between 0 and 1, where 1 is max.
-override_velocity_scaling_factor: 1.0
+override_velocity_scaling_factor: 0.4
 
 ## Properties of outgoing commands
 publish_period: 0.01  # 1/Nominal publish rate [seconds]
@@ -60,6 +60,6 @@ command_out_topic: /streaming_controller/commands # Publish outgoing commands he
 
 ## Collision checking for the entire robot body
 check_collisions: true # Check collisions?
-collision_check_rate: 10.0 # [Hz] Collision-checking can easily bog down a CPU if done too often.
+collision_check_rate: 50.0 # [Hz] Collision-checking can easily bog down a CPU if done too often.
 self_collision_proximity_threshold: 0.01 # Start decelerating when a self-collision is this far [m]
-scene_collision_proximity_threshold: 0.02 # Start decelerating when a scene collision is this far [m]
+scene_collision_proximity_threshold: 0.05 # Start decelerating when a scene collision is this far [m]
