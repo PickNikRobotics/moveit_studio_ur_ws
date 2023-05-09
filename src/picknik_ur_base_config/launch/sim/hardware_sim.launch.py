@@ -43,23 +43,27 @@ cameras_config = system_config_parser.get_cameras_config()
 
 
 def generate_launch_description():
-    frame_pair_params = [
-        {
-            "world_frame": "world",
-            "camera_frames": generate_camera_frames(cameras_config),
-        }
-    ]
+    nodes_to_launch = []
 
-    camera_transforms_node = Node(
-        package="moveit_studio_agent",
-        executable="camera_transforms_node",
-        name="camera_transforms_node",
-        output="screen",
-        parameters=frame_pair_params,
-    )
-
-    return LaunchDescription(
-        [
-            camera_transforms_node,
+    # Do not launch any nodes if there are no configured cameras.
+    if not cameras_config:
+        print(
+            "No camera configuration found. Not launching any camera transform nodes."
+        )
+    else:
+        frame_pair_params = [
+            {
+                "world_frame": "world",
+                "camera_frames": generate_camera_frames(cameras_config),
+            }
         ]
-    )
+        camera_transforms_node = Node(
+            package="moveit_studio_agent",
+            executable="camera_transforms_node",
+            name="camera_transforms_node",
+            output="screen",
+            parameters=frame_pair_params,
+        )
+        nodes_to_launch.append(camera_transforms_node)
+
+    return LaunchDescription(nodes_to_launch)
