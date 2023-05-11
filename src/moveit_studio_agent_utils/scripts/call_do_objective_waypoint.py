@@ -12,16 +12,19 @@ from rclpy.node import Node
 import sys
 
 from moveit_studio_agent_msgs.action import DoObjectiveSequence
-from moveit_studio_behavior_msgs.msg import BehaviorParameter, BehaviorParameterDescription
+from moveit_studio_behavior_msgs.msg import (
+    BehaviorParameter, 
+    BehaviorParameterDescription,
+)
 
 class DoObjectiveSequenceClient(Node):
     def __init__(self):
         super().__init__("DoObjectiveSequence")
         self._action_client = ActionClient(self, DoObjectiveSequence, "do_objective")
 
-    def send_goal(self, objective_name, waypoint_name="Behind"):
+    def send_goal(self, waypoint_name="Behind"):
         goal_msg = DoObjectiveSequence.Goal()
-        goal_msg.objective_name = objective_name
+        goal_msg.objective_name = "Move to Joint State"
 
         behavior_parameter = BehaviorParameter()
         behavior_parameter.behavior_namespaces.append("move_to_joint_state")
@@ -38,14 +41,14 @@ class DoObjectiveSequenceClient(Node):
 def main(args=None):
     if len(sys.argv) < 2:
         print(
-            "usage: ros2 run moveit_studio_behavior call_do_objective.py 'Objective Name'"
+            "usage: ros2 run moveit_studio_behavior call_do_objective.py 'Waypoint Name'"
         )
     else:
         rclpy.init(args=args)
 
         client = DoObjectiveSequenceClient()
 
-        future = client.send_goal(sys.argv[1], sys.argv[2])
+        future = client.send_goal(sys.argv[1])
 
         rclpy.spin_until_future_complete(client, future)
 
