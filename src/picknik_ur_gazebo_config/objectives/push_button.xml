@@ -6,7 +6,7 @@
             <SubTree ID="CloseGripper" />
             <Action ID="SaveCurrentState" saved_robot_state="{initial_robot_state}" />
             <Sequence>
-                <Action ID="InitializeMTCTask" controller_names="/joint_trajectory_controller" task="{push_button_task}"/>
+                <Action ID="InitializeMTCTask" task_id="push_button" controller_names="/joint_trajectory_controller" task="{push_button_task}"/>
                 <Action ID="SetupMTCCurrentState" task="{push_button_task}"/>
                 <Action ID="SetupMTCMoveToPose" ik_frame="manual_grasp_link" planning_group_name="manipulator" target_pose="{push_button.target_pose}" task="{push_button_task}"/>
                 <Action ID="SetupMTCUpdateGroupCollisionRule" name="AllowGripperCollisionWithOctomap" parameters="{parameters}" task="{push_button_task}" />
@@ -35,7 +35,7 @@
     </BehaviorTree>
     <BehaviorTree ID="RetreatToInitialPose">
         <Sequence>
-            <Action ID="InitializeMTCTask" controller_names="/joint_trajectory_controller" task="{retreat_task}" />
+            <Action ID="InitializeMTCTask" task_id="push_button_retreat" controller_names="/joint_trajectory_controller" task="{retreat_task}" />
             <Action ID="SetupMTCCurrentState" task="{retreat_task}" />
             <Action ID="SetupMTCUpdateGroupCollisionRule" name="AllowGripperCollisionWithOctomap" parameters="{parameters}" task="{retreat_task}" />
             <Action ID="SetupMTCCartesianMoveToJointState" joint_state="{pre_approach_robot_state}" planning_group_name="manipulator" task="{retreat_task}" />
