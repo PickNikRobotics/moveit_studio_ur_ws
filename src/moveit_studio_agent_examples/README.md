@@ -1,4 +1,4 @@
-# moveit_studio_agent_utils
+# moveit_studio_agent_examples
 
 Provides Scripts to interact with MoveIt Studio Agent API programmatically. 
 

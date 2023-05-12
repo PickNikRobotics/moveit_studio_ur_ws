@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16.3)
-project(moveit_studio_agent_utils)
+project(moveit_studio_agent_examples)
 
 find_package(ament_cmake REQUIRED)
 find_package(moveit_studio_agent_msgs REQUIRED)
