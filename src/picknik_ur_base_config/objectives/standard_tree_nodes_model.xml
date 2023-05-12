@@ -81,16 +81,15 @@
                 <p>If the 2nd or 3d child is RUNNING and the statement changes, the RUNNING child will be stopped before starting the sibling.</p>
             </description>
         </Control>
-        <Decorator ID="BlackboardCheckString">
+        <Decorator ID="Precondition">
             <description>            
-                <p>Executes its child node only if the string value of a given input port is equal to the expected value.</p>
-                <p>If this precondition is met, the child node will be run and this node will return the status returned from the child.</p>
+                <p>Executes its child node only if a condition is met.</p>
+                <p>If the precondition is met, the child node will be run and this node will return the status returned from the child.</p>
                 <p>If the precondition is not met, this node will return the BT::NodeStatus value specified in "return_on_mismatch".</p>
             </description>
-            <input_port name="value_A" default="some_value">First string value to compare.</input_port>
-            <input_port name="value_B" default="some_other_value">Second string value to compare.</input_port>
-            <input_port name="return_on_mismatch" default="SUCCESS">Status to return if value_A and value_B have different values. Can be RUNNING, SUCCESS, or FAILURE.</input_port>
-        </Decorator>     
+            <input_port name="if" default="">If condition</input_port>
+            <input_port name="else" default="SUCCESS">Status to return if condition not met. Can be RUNNING, SUCCESS, or FAILURE.</input_port>
+        </Decorator>
         <Decorator ID="Inverter">
             <description>
                 <p>Tick the child once and return SUCCESS if the child failed or FAILURE if the child succeeded.</p>
@@ -156,6 +155,14 @@
             </description>
             <input_port name="value" default="">Value represented as a string. convertFromString must be implemented.</input_port>
             <inout_port name="output_key" default="">Name of the blackboard entry where the value should be written.</inout_port>
+        </Action>
+        <Action ID="Script">
+            <description>
+                <p>Introduced in BT.CPP 4 to integrate scripting language within XML</p>
+                <p>Allows users to read from and write to variables in the blackboard</p>
+                <p>Can perform operation like assignment, comparison, etc.</p>
+            </description>
+            <input_port name="code" default="">Code that can be parsed.</input_port>
         </Action>
         <SubTree />
     </TreeNodesModel>
