@@ -41,11 +41,23 @@ from moveit_studio_behavior_msgs.msg import (
 )
 
 class DoObjectiveSequenceClient(Node):
+    """
+    ROS 2 node that acts as an Action Client for the MoveIt Studio Agent's Objective Server
+    """
     def __init__(self):
         super().__init__("DoObjectiveSequence")
         self._action_client = ActionClient(self, DoObjectiveSequence, "do_objective")
 
     def send_goal(self, waypoint_name="Behind"):
+        """ 
+        Sends a DoObjectiveSequence Goal for "Move to Joint State" to the Objective Server via the node's Action Client. 
+
+        Args:
+            waypoint_name: the (string) name of a waypoint to move to.
+
+        Returns:
+            result: a BT::NodeStatus result. Can be Success or Failure.
+        """
         goal_msg = DoObjectiveSequence.Goal()
         goal_msg.objective_name = "Move to Joint State"
 
@@ -64,7 +76,7 @@ class DoObjectiveSequenceClient(Node):
 def main(args=None):
     if len(sys.argv) < 2:
         print(
-            "usage: ros2 run moveit_studio_behavior call_do_objective.py 'Waypoint Name'"
+            "usage: ros2 run moveit_studio_agent_utils call_do_objective_waypoint.py 'Waypoint Name'"
         )
     else:
         rclpy.init(args=args)
