@@ -14,9 +14,7 @@
   <build_depend>moveit_common</build_depend>
 
   <depend>moveit_studio_agent_msgs</depend>
-  <depend>moveit_studio_behavior_interface</depend>
   <depend>moveit_studio_behavior_msgs</depend>
-  <depend>std_msgs</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_cmake_gtest</test_depend>
