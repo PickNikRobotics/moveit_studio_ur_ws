@@ -1,17 +1,15 @@
 <?xml version="1.0"?>
 <package format="3">
   <name>moveit_studio_agent_examples</name>
-  <version>2.1.0</version>
+  <version>2.2.0</version>
   <description>Package containing scripts for interacting with MoveIt Studio Agent</description>
 
   <maintainer email="chance.cardona@picknik.ai">Chance Cardona</maintainer>
   <author email="chance.cardona@picknik.ai">Chance Cardona</author>
 
-  <license>BSD-3</license>
+  <license>BSD-3-Clause</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
-
-  <build_depend>moveit_common</build_depend>
 
   <depend>moveit_studio_agent_msgs</depend>
   <depend>moveit_studio_behavior_msgs</depend>
