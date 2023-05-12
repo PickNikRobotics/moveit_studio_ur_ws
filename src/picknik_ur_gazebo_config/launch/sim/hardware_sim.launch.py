@@ -36,7 +36,11 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, OpaqueFunction
 from launch_ros.actions import Node
 
-from moveit_studio_utils_py.launch_common import get_launch_file, get_ros_path, xacro_to_urdf
+from moveit_studio_utils_py.launch_common import (
+    get_launch_file,
+    get_ros_path,
+    xacro_to_urdf,
+)
 from moveit_studio_utils_py.system_config import get_config_folder, SystemConfigParser
 from moveit_studio_utils_py.generate_camera_frames import generate_camera_frames
 

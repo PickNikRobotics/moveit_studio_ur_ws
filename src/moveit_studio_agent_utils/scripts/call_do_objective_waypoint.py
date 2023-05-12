@@ -36,21 +36,23 @@ import sys
 
 from moveit_studio_agent_msgs.action import DoObjectiveSequence
 from moveit_studio_behavior_msgs.msg import (
-    BehaviorParameter, 
+    BehaviorParameter,
     BehaviorParameterDescription,
 )
+
 
 class DoObjectiveSequenceClient(Node):
     """
     ROS 2 node that acts as an Action Client for the MoveIt Studio Agent's Objective Server
     """
+
     def __init__(self):
         super().__init__("DoObjectiveSequence")
         self._action_client = ActionClient(self, DoObjectiveSequence, "do_objective")
 
     def send_goal(self, waypoint_name="Behind"):
-        """ 
-        Sends a DoObjectiveSequence Goal for "Move to Joint State" to the Objective Server via the node's Action Client. 
+        """
+        Sends a DoObjectiveSequence Goal for "Move to Joint State" to the Objective Server via the node's Action Client.
 
         Args:
             waypoint_name: the (string) name of a waypoint to move to.

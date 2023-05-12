@@ -41,13 +41,14 @@ class DoObjectiveSequenceClient(Node):
     """
     ROS 2 node that acts as an Action Client for the MoveIt Studio Agent's Objective Server
     """
+
     def __init__(self):
         super().__init__("DoObjectiveSequence")
         self._action_client = ActionClient(self, DoObjectiveSequence, "do_objective")
 
     def send_goal(self, objective_name):
-        """ 
-        Sends a DoObjectiveSequence Goal to the Objective Server via the node's Action Client. 
+        """
+        Sends a DoObjectiveSequence Goal to the Objective Server via the node's Action Client.
 
         Args:
             objective_name: the (string) name of an objective to run.
