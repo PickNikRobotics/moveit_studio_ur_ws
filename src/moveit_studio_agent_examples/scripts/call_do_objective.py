@@ -36,7 +36,6 @@ import sys
 
 from moveit_studio_agent_msgs.action import DoObjectiveSequence
 
-
 class DoObjectiveSequenceClient(Node):
     """
     ROS 2 node that acts as an Action Client for the MoveIt Studio Agent's Objective Server
@@ -54,14 +53,36 @@ class DoObjectiveSequenceClient(Node):
             objective_name: the (string) name of an objective to run.
 
         Returns:
-            result: a BT::NodeStatus result. Can be Success or Failure.
+            goal_future: a rclpy.task.Future to a rclpy.action.client.ClientGoalHandle.
         """
         goal_msg = DoObjectiveSequence.Goal()
         goal_msg.objective_name = objective_name
         self._action_client.wait_for_server()
-        result = self._action_client.send_goal_async(goal_msg)
-        return result
+        self._send_goal_future = self._action_client.send_goal_async(goal_msg)
+        self._send_goal_future.add_done_callback(self.goal_response_callback)
+        return self._send_goal_future
 
+    def goal_response_callback(self, future):
+        goal_handle = future.result()
+        if not goal_handle.accepted:
+            self.get_logger().info("Goal rejected.")
+            return
+        
+        self._goal_handle = goal_handle
+        self.get_logger().info("Goal accepted...")
+
+        get_result_future = goal_handle.get_result_async()
+        get_result_future.add_done_callback(self.get_result_callback)
+
+    def get_result_callback(self, future):
+        result = future.result().result
+        if result.error_code.val == 1:
+            self.get_logger().info(f"Objective succeeded!")
+        elif hasattr(result.error_code, 'error_message'):
+            self.get_logger().info(f"Objective failed: {result.error_code.error_message}")
+        else:
+            self.get_logger().info(f"Objective failed. MoveItErrorCode Value: {result.error_code.val}")
+        rclpy.shutdown()
 
 def main(args=None):
     if len(sys.argv) < 2:
@@ -72,10 +93,11 @@ def main(args=None):
         rclpy.init(args=args)
 
         client = DoObjectiveSequenceClient()
+        
+        objective_name = sys.argv[1]
+        client.send_goal(objective_name)
 
-        future = client.send_goal(sys.argv[1])
-
-        rclpy.spin_until_future_complete(client, future)
+        rclpy.spin(client)
 
 
 if __name__ == "__main__":
