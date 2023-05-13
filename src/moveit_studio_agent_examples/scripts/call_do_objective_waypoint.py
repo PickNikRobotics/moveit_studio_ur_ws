@@ -90,12 +90,16 @@ class DoObjectiveSequenceClient(Node):
         result = future.result().result
         if result.error_code.val == 1:
             self.get_logger().info(f"Objective succeeded!")
-        elif hasattr(result.error_code, 'error_message'):
-            self.get_logger().info(f"Objective failed: {result.error_code.error_message}")
+        elif hasattr(result.error_code, "error_message"):
+            self.get_logger().info(
+                f"Objective failed: {result.error_code.error_message}"
+            )
         else:
-            self.get_logger().info(f"Objective failed. MoveItErrorCode Value: {result.error_code.val}")
-        rclpy.shutdown()
+            self.get_logger().info(
+                f"Objective failed. MoveItErrorCode Value: {result.error_code.val}"
+            )
 
+        rclpy.shutdown()
 
 
 def main(args=None):

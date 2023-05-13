@@ -36,6 +36,7 @@ import sys
 
 from moveit_studio_agent_msgs.action import DoObjectiveSequence
 
+
 class DoObjectiveSequenceClient(Node):
     """
     ROS 2 node that acts as an Action Client for the MoveIt Studio Agent's Objective Server
@@ -67,7 +68,7 @@ class DoObjectiveSequenceClient(Node):
         if not goal_handle.accepted:
             self.get_logger().info("Goal rejected.")
             return
-        
+
         self._goal_handle = goal_handle
         self.get_logger().info("Goal accepted...")
 
@@ -80,22 +81,26 @@ class DoObjectiveSequenceClient(Node):
         result = future.result().result
         if result.error_code.val == 1:
             self.get_logger().info(f"Objective succeeded!")
-        elif hasattr(result.error_code, 'error_message'):
-            self.get_logger().info(f"Objective failed: {result.error_code.error_message}")
+        elif hasattr(result.error_code, "error_message"):
+            self.get_logger().info(
+                f"Objective failed: {result.error_code.error_message}"
+            )
         else:
-            self.get_logger().info(f"Objective failed. MoveItErrorCode Value: {result.error_code.val}")
+            self.get_logger().info(
+                f"Objective failed. MoveItErrorCode Value: {result.error_code.val}"
+            )
 
         rclpy.shutdown()
 
-    def cancel_goal(self):    
-        """    
-        Cancels an Objective Server's DoObjectiveSequence Goal via the node's Action Client.    
+    def cancel_goal(self):
+        """
+        Cancels an Objective Server's DoObjectiveSequence Goal via the node's Action Client.
 
         Returns:
             future: a rclpy.task.Future that completes when the goal is canceled.
-        """ 
-        self.get_logger().info(f"Attempting to cancel goal.")    
-        future = self._goal_handle.cancel_goal_async() 
+        """
+        self.get_logger().info(f"Attempting to cancel goal.")
+        future = self._goal_handle.cancel_goal_async()
         future.add_done_callback(self.cancel_goal_callback)
         # Cancel the timer that this was a part of.
         self._timer.cancel()
@@ -103,9 +108,9 @@ class DoObjectiveSequenceClient(Node):
 
     def cancel_goal_callback(self, future):
         cancel_response = future.result()
-        if cancel_response.goals_canceling:    
-            self.get_logger().info("Goal successfully canceled.")    
-        else:    
+        if cancel_response.goals_canceling:
+            self.get_logger().info("Goal successfully canceled.")
+        else:
             self.get_logger().info("Goal failed to cancel.")
 
         rclpy.shutdown()
@@ -120,7 +125,7 @@ def main(args=None):
         rclpy.init(args=args)
 
         client = DoObjectiveSequenceClient()
-        
+
         objective_name = sys.argv[1]
         client.send_goal(objective_name)
 

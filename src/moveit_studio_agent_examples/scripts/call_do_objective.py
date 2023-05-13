@@ -36,6 +36,7 @@ import sys
 
 from moveit_studio_agent_msgs.action import DoObjectiveSequence
 
+
 class DoObjectiveSequenceClient(Node):
     """
     ROS 2 node that acts as an Action Client for the MoveIt Studio Agent's Objective Server
@@ -67,7 +68,7 @@ class DoObjectiveSequenceClient(Node):
         if not goal_handle.accepted:
             self.get_logger().info("Goal rejected.")
             return
-        
+
         self._goal_handle = goal_handle
         self.get_logger().info("Goal accepted...")
 
@@ -78,11 +79,17 @@ class DoObjectiveSequenceClient(Node):
         result = future.result().result
         if result.error_code.val == 1:
             self.get_logger().info(f"Objective succeeded!")
-        elif hasattr(result.error_code, 'error_message'):
-            self.get_logger().info(f"Objective failed: {result.error_code.error_message}")
+        elif hasattr(result.error_code, "error_message"):
+            self.get_logger().info(
+                f"Objective failed: {result.error_code.error_message}"
+            )
         else:
-            self.get_logger().info(f"Objective failed. MoveItErrorCode Value: {result.error_code.val}")
+            self.get_logger().info(
+                f"Objective failed. MoveItErrorCode Value: {result.error_code.val}"
+            )
+
         rclpy.shutdown()
+
 
 def main(args=None):
     if len(sys.argv) < 2:
@@ -93,7 +100,7 @@ def main(args=None):
         rclpy.init(args=args)
 
         client = DoObjectiveSequenceClient()
-        
+
         objective_name = sys.argv[1]
         client.send_goal(objective_name)
 
