@@ -34,6 +34,7 @@ from rclpy.action import ActionClient
 from rclpy.node import Node
 import sys
 
+from moveit_msgs.msg import MoveItErrorCodes
 from moveit_studio_agent_msgs.action import DoObjectiveSequence
 from moveit_studio_behavior_msgs.msg import (
     BehaviorParameter,
@@ -88,7 +89,7 @@ class DoObjectiveSequenceClient(Node):
 
     def get_result_callback(self, future):
         result = future.result().result
-        if result.error_code.val == 1:
+        if result.error_code.val == MoveItErrorCodes.SUCCESS:
             self.get_logger().info(f"Objective succeeded!")
         elif hasattr(result.error_code, "error_message"):
             self.get_logger().info(
