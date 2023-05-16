@@ -32,7 +32,6 @@ import argparse
 import rclpy
 from rclpy.action import ActionClient
 from rclpy.node import Node
-import sys
 
 from moveit_msgs.msg import MoveItErrorCodes
 from moveit_studio_agent_msgs.action import DoObjectiveSequence
@@ -91,14 +90,14 @@ class DoObjectiveSequenceClient(Node):
 
         get_result_future = goal_handle.get_result_async()
         get_result_future.add_done_callback(self.get_result_callback)
-        # Cancel after 2 seconds
+        # Cancel the goal after a set amount of time (in seconds)
         if self.cancel:
             self._timer = self.create_timer(2.0, self.cancel_goal)
 
     def get_result_callback(self, future):
         result = future.result().result
         if result.error_code.val == MoveItErrorCodes.SUCCESS:
-            self.get_logger().info(f"Objective succeeded!")
+            self.get_logger().info("Objective succeeded!")
         elif hasattr(result.error_code, "error_message"):
             self.get_logger().info(
                 f"Objective failed: {result.error_code.error_message}"
@@ -117,7 +116,7 @@ class DoObjectiveSequenceClient(Node):
         Returns:
             future: a rclpy.task.Future that completes when the goal is canceled.
         """
-        self.get_logger().info(f"Attempting to cancel goal.")
+        self.get_logger().info("Attempting to cancel goal.")
         future = self._goal_handle.cancel_goal_async()
         future.add_done_callback(self.cancel_goal_callback)
         # Cancel the timer that this was a part of.
