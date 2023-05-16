@@ -44,7 +44,7 @@ from moveit_studio_behavior_msgs.msg import (
 
 class DoObjectiveSequenceClient(Node):
     """
-    ROS 2 node that acts as an Action Client for the MoveIt Studio Agent's Objective Server.
+    ROS 2 node that acts as an Action Client for MoveIt Studio's Objective Server.
     Configured for the "Move to Joint State" waypoint, and adds a parameter override for waypoint names.
     """
 

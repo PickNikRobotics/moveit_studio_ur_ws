@@ -40,7 +40,7 @@ from moveit_studio_agent_msgs.action import DoObjectiveSequence
 
 class DoObjectiveSequenceClient(Node):
     """
-    ROS 2 node that acts as an Action Client for the MoveIt Studio Agent's Objective Server
+    ROS 2 node that acts as an Action Client for MoveIt Studio's Objective Server.
     """
 
     def __init__(self):
