@@ -121,7 +121,7 @@ class DoObjectiveSequenceClient(Node):
         rclpy.shutdown()
 
 
-def main(args=None):
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("objective_name", type=str, help="Name of Objective to run.")
     parser.add_argument(

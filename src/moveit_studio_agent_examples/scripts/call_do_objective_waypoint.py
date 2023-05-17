@@ -134,7 +134,7 @@ class DoObjectiveSequenceClient(Node):
         rclpy.shutdown()
 
 
-def main(args=None):
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("waypoint_name", type=str, help="Name of waypoint to move to.")
     parser.add_argument(
