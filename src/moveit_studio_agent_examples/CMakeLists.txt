@@ -19,6 +19,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
 install(PROGRAMS 
     scripts/call_do_objective.py 
     scripts/call_do_objective_waypoint.py
+    scripts/cancel_do_objective.py
     DESTINATION lib/${PROJECT_NAME}
 )
 
