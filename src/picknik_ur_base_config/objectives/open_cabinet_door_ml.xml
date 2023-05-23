@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<root BTCPP_format="4" main_tree_to_execute="Open Cabinet Door ML (Camera Required)">
+    <!-- ////////// -->
+    <BehaviorTree ID="Open Cabinet Door ML (Camera Required)"
+        _description="Move to Home waypoint, and then open a cabinet door detected by a network">
+        <Sequence name="Setup">
+            <Action ID="UpdateAdmittanceController"
+                config_file_name="open_door_admittance_controller_config.yaml" />
+            <Action ID="LoadObjectiveParameters" config_file_name="open_door_affordance_config.yaml"
+                parameters="{parameters}" />
+            <Action ID="GetPointCloud"
+                target_point_cloud_topic="/wrist_mounted_camera/depth/color/points"
+                uuid="" point_cloud="{point_cloud}"
+                point_cloud_uuid="{request_uuid}" />
+            <Action ID="UpdatePlanningSceneService" point_cloud="{point_cloud}"
+                point_cloud_service="/point_cloud_service" />
+            <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}"
+                sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"
+                point_cloud_uuid="{request_uuid}" />
+            <Action ID="MoveToJointState"
+                waypoint_name="Home"
+                planning_group_name="manipulator"
+                controller_names="/joint_trajectory_controller /robotiq_gripper_controller" />
+            <Action ID="DetectObjects"
+                rgb_image_topic="/wrist_mounted_camera/color/image_raw"
+                depth_image_topic="/wrist_mounted_camera/depth/image_rect_raw"
+                camera_info_topic="/wrist_mounted_camera/color/camera_info"
+                detect_objects_action_name="/detect_objects"
+                object_detections_goal="{object_detections_goal}"
+                object_detections_result="{object_detections_result}"
+                min_probability="0.1" />
+            <Action ID="GetCabinetDoorFromDetections"
+                object_detections_goal="{object_detections_goal}"
+                object_detections_result="{object_detections_result}"
+                fit_object_3d_service_name="fit_object_3d"
+                grasp_pose="{detected_grasp_pose}"
+                hinge_axis_pose_start="{hinge_axis_pose_start}"
+                hinge_axis_pose_end="{hinge_axis_pose_end}" />
+            <Action ID="GetHingeAxisFromSurfaceSelection"
+                target_grasp_pose="{detected_grasp_pose}"
+                hinge_axis_pose_end="{hinge_axis_pose_end}"
+                hinge_axis_pose_start="{hinge_axis_pose_start}"
+                screw_axis_pose="{screw_axis_pose}"
+                screw_origin_pose="{screw_origin_pose}"
+                grasp_pose="{affordance_grasp_pose}" />
+            <Action ID="MoveGripperAction"
+                gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.0" />
+            <Sequence name="OpenDoorAffordanceMain">
+                <Action ID="InitializeMTCTask"
+                    task_id="open_cabinet_door_ml"
+                    controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+                    task="{open_door_affordance_task}" />
+                <Action ID="SetupMTCCurrentState" task="{open_door_affordance_task}" />
+                <Action ID="SetupMTCAffordanceTemplate"
+                    name="SetupMTCOpenDoorAffordance"
+                    grasp_pose="{affordance_grasp_pose}"
+                    parameters="{parameters}"
+                    screw_axis_pose="{screw_axis_pose}"
+                    screw_origin_pose="{screw_origin_pose}"
+                    task="{open_door_affordance_task}" />
+                <Action ID="PlanMTCTask" solution="{open_door_affordance_solution}"
+                    task="{open_door_affordance_task}" />
+                <Fallback name="wait_for_approval_if_user_available">
+                    <Inverter>
+                        <Action ID="IsUserAvailable" />
+                    </Inverter>
+                    <Action ID="WaitForUserTrajectoryApproval"
+                        solution="{open_door_affordance_solution}" />
+                </Fallback>
+                <Action ID="ExecuteMTCTask" solution="{open_door_affordance_solution}" />
+            </Sequence>
+        </Sequence>
+    </BehaviorTree>
+</root>

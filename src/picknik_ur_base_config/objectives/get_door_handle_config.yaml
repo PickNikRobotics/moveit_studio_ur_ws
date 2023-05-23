@@ -1,0 +1,5 @@
+GetDoorHandle:
+  minimum_door_handle_height: 0.02 # meters
+  # The frame where the door handle pose is given. Model root frame,
+  # e.g. "world", is typically the right choice.
+  door_handle_pose_frame_name: world

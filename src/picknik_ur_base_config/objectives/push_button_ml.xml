@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<root BTCPP_format="4" main_tree_to_execute="Push Button ML (Camera Required)">
+    <BehaviorTree ID="Push Button ML (Camera Required)"
+        _description="Move to Home waypoint, and then push a button detected by a network with the end effector">
+        <Sequence>
+            <Action ID="LoadObjectiveParameters" config_file_name="push_along_axis_config.yaml"
+                parameters="{parameters}" />
+            <Action ID="GetPointCloud"
+                target_point_cloud_topic="/wrist_mounted_camera/depth/color/points"
+                uuid="" point_cloud="{point_cloud}"
+                point_cloud_uuid="{request_uuid}" />
+            <Action ID="UpdatePlanningSceneService" point_cloud="{point_cloud}"
+                point_cloud_service="/point_cloud_service" />
+            <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}"
+                sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"
+                point_cloud_uuid="{request_uuid}" />
+            <Action ID="MoveToJointState"
+                waypoint_name="Home"
+                planning_group_name="manipulator"
+                controller_names="/joint_trajectory_controller /robotiq_gripper_controller" />
+            <Action ID="DetectObjects"
+                rgb_image_topic="/wrist_mounted_camera/color/image_raw"
+                depth_image_topic="/wrist_mounted_camera/depth/image_rect_raw"
+                camera_info_topic="/wrist_mounted_camera/color/camera_info"
+                detect_objects_action_name="/detect_objects"
+                object_detections_goal="{object_detections_goal}"
+                object_detections_result="{object_detections_result}"
+                min_probability="0.1" />
+            <Action ID="GetButtonFromDetections"
+                object_detections_goal="{object_detections_goal}"
+                object_detections_result="{object_detections_result}"
+                fit_object_3d_service_name="fit_object_3d"
+                button_pose="{button_pose}" />
+            <SubTree ID="CloseGripper" />
+            <Action ID="SaveCurrentState" saved_robot_state="{initial_robot_state}" />
+            <Sequence>
+                <Action ID="InitializeMTCTask" task_id="push_button_ml" controller_names="/joint_trajectory_controller"
+                    task="{push_along_axis_task}" />
+                <Action ID="SetupMTCCurrentState" task="{push_along_axis_task}" />
+                <Action ID="SetupMTCMoveToPose" ik_frame="manual_grasp_link"
+                    planning_group_name="manipulator" target_pose="{button_pose}"
+                    task="{push_along_axis_task}" />
+                <Action ID="SetupMTCUpdateGroupCollisionRule"
+                    name="AllowGripperCollisionWithOctomap" parameters="{parameters}"
+                    task="{push_along_axis_task}" />
+                <Action ID="SetupMTCMoveAlongFrameAxis" axis="z" max_distance="0.2"
+                    min_distance="0.05" parameters="{parameters}" task="{push_along_axis_task}" />
+                <Action ID="SetupMTCUpdateGroupCollisionRule"
+                    name="ForbidGripperCollisionWithOctomap" parameters="{parameters}"
+                    task="{push_along_axis_task}" />
+                <Action ID="PlanMTCTask" solution="{full_push_along_axis_solution}"
+                    task="{push_along_axis_task}" />
+                <Action ID="SplitMTCSolution" solution_in="{full_push_along_axis_solution}"
+                    index="3" solution_out_1="{move_to_approach_solution}"
+                    solution_out_2="{push_solution}" />
+                <Action ID="WaitForUserTrajectoryApproval"
+                    solution="{full_push_along_axis_solution}" />
+                <Action ID="ExecuteMTCTask" solution="{move_to_approach_solution}" />
+
+                <Action ID="SaveCurrentState" saved_robot_state="{pre_approach_robot_state}" />
+                <ForceSuccess>
+                    <ReactiveSequence>
+                        <Action ID="IsForceWithinThreshold" parameters="{parameters}" />
+                        <Action ID="ExecuteMTCTask" solution="{push_solution}" />
+                    </ReactiveSequence>
+                </ForceSuccess>
+            </Sequence>
+            <SubTree ID="RetreatToInitialPose"
+                pre_approach_robot_state="{pre_approach_robot_state}"
+                initial_robot_state="{initial_robot_state}" parameters="{parameters}" />
+        </Sequence>
+    </BehaviorTree>
+    <BehaviorTree ID="CloseGripper">
+        <Sequence name="close_gripper_main">
+            <Action ID="MoveGripperAction"
+                gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd"
+                position="0.7929" />
+        </Sequence>
+    </BehaviorTree>
+    <BehaviorTree ID="RetreatToInitialPose">
+        <Sequence>
+            <Action ID="InitializeMTCTask" task_id="push_button_ml_retreat" controller_names="/joint_trajectory_controller"
+                task="{retreat_task}" />
+            <Action ID="SetupMTCCurrentState" task="{retreat_task}" />
+            <Action ID="SetupMTCUpdateGroupCollisionRule" name="AllowGripperCollisionWithOctomap"
+                parameters="{parameters}" task="{retreat_task}" />
+            <Action ID="SetupMTCCartesianMoveToJointState" joint_state="{pre_approach_robot_state}"
+                planning_group_name="manipulator" task="{retreat_task}" />
+            <Action ID="SetupMTCUpdateGroupCollisionRule" name="ForbidGripperCollisionWithOctomap"
+                parameters="{parameters}" task="{retreat_task}" />
+            <Action ID="SetupMTCMoveToJointState" joint_state="{initial_robot_state}"
+                planning_group_name="manipulator" task="{retreat_task}" />
+            <Action ID="PlanMTCTask" solution="{return_to_initial_waypoint_solution}"
+                task="{retreat_task}" />
+            <Action ID="ExecuteMTCTask" solution="{return_to_initial_waypoint_solution}" />
+        </Sequence>
+    </BehaviorTree>
+</root>
