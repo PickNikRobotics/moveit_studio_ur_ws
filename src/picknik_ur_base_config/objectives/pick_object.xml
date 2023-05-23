@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<root BTCPP_format="4" main_tree_to_execute="Pick Object (Hardware Required)">
-    <BehaviorTree ID="Pick Object (Hardware Required)" _description="Pick up and lift a small object">
+<root BTCPP_format="4" main_tree_to_execute="Pick Object">
+    <BehaviorTree ID="Pick Object" _description="Pick up and lift a small object">
         <Sequence name="root">
             <SubTree ID="OpenGripper"/>
             <SubTree ID="PickObject" grasp_pose="{pick_object.grasp_pose}"/>

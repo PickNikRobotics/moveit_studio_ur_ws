@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-  <root BTCPP_format="4" main_tree_to_execute="Pick and Place Object (Camera Required)">
-    <BehaviorTree ID="Pick and Place Object (Camera Required)" _description="Pick up a small object and place it at a known location">
+  <root BTCPP_format="4" main_tree_to_execute="Pick and Place Object">
+    <BehaviorTree ID="Pick and Place Object" _description="Pick up a small object and place it at a known location">
         <Control ID="Sequence">
             <Action ID="LoadObjectiveParameters" config_file_name="pick_place_object_config.yaml" parameters="{parameters}"/>
             <Script code="first_attempt:=true" />

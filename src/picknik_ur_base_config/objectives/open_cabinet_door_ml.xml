@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<root BTCPP_format="4" main_tree_to_execute="Open Cabinet Door ML (Camera Required)">
+<root BTCPP_format="4" main_tree_to_execute="Open Cabinet Door ML">
     <!-- ////////// -->
-    <BehaviorTree ID="Open Cabinet Door ML (Camera Required)"
+    <BehaviorTree ID="Open Cabinet Door ML"
         _description="Move to Home waypoint, and then open a cabinet door detected by a network">
         <Sequence name="Setup">
             <Action ID="UpdateAdmittanceController"

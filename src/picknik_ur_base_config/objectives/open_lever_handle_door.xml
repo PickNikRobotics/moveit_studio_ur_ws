@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<root BTCPP_format="4" main_tree_to_execute="Open Lever Handle Door (Camera Required)">
-    <BehaviorTree ID="Open Lever Handle Door (Camera Required)"
+<root BTCPP_format="4" main_tree_to_execute="Open Lever Handle Door">
+    <BehaviorTree ID="Open Lever Handle Door"
         _description="Open a lever handle door by turning the handle and pushing the door">
         <Sequence name="Setup">
             <Action ID="LoadObjectiveParameters"
