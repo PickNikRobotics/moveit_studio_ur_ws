@@ -61,7 +61,7 @@ def generate_launch_description():
             package="moveit_studio_agent",
             executable="camera_transforms_node",
             name="camera_transforms_node",
-            output="screen",
+            output="both",
             parameters=frame_pair_params,
         )
         nodes_to_launch.append(camera_transforms_node)

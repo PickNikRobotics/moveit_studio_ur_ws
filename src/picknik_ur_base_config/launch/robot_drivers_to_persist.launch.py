@@ -45,7 +45,7 @@ def generate_launch_description():
         package="ur_robot_driver",
         executable="dashboard_client",
         name="dashboard_client",
-        output="screen",
+        output="both",
         emulate_tty=True,
         parameters=[{"robot_ip": hardware_config["ip"]}],
     )
@@ -54,7 +54,7 @@ def generate_launch_description():
         package="moveit_studio_ur_pstop_manager",
         executable="protective_stop_manager_node",
         name="protective_stop_manager_node",
-        output="screen",
+        output="both",
         parameters=[
             {
                 "controllers_default_active": controller_config.get(

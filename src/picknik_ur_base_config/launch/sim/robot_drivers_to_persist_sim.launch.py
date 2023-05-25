@@ -37,7 +37,7 @@ def generate_launch_description():
         package="moveit_studio_ur_pstop_manager",
         executable="mock_ur_dashboard_client_node",
         name="dashboard_client",
-        output="screen",
+        output="both",
     )
 
     return LaunchDescription([mock_dashboard_client])
