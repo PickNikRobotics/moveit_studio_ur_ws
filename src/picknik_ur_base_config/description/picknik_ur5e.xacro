@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
   <!-- parameters -->
-  <xacro:arg name="use_fake_hardware" default="true" />
+  <xacro:arg name="use_fake_hardware" default="false" />
   <xacro:arg name="external_camera" default="false" />
   <xacro:arg name="has_tool_changer" default="true" />
+  <xacro:arg name="use_pinch_link" default="true" />
   <xacro:arg name="name" default="" />
   <xacro:arg name="joint_limits_parameters_file" default="" />
   <xacro:arg name="kinematics_parameters_file" default="" />
@@ -28,15 +29,14 @@
   <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur_camera_adapter.urdf.xacro" />
   <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro" />
   <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro" />
-
-  <!-- Import environment macros -->
-  <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
+  <xacro:include filename="$(find picknik_ur_base_config)/description/pinch_link.xacro" />
 
   <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
   <xacro:arg name="initial_positions_file" default="$(find picknik_ur_base_config)/config/initial_positions.yaml"/>
-
-  <!-- Convert args to properties for substitution in macros -->
   <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
+  
+  <!-- Import environment macros -->
+  <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
 
   <link name="world" />
   <!-- arm -->
@@ -45,9 +45,9 @@
     prefix=""
     parent="world"
     joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
-    kinematics_parameters_file="$(arg kinematics_parameters_file)/$(arg name)/default_kinematics.yaml"
-    physical_parameters_file="$(arg physical_parameters_file)/$(arg name)/physical_parameters.yaml"
-    visual_parameters_file="$(arg visual_parameters_file)/$(arg name)/visual_parameters.yaml"
+    kinematics_parameters_file="$(arg kinematics_parameters_file)"
+    physical_parameters_file="$(arg physical_parameters_file)"
+    visual_parameters_file="$(arg visual_parameters_file)"
     use_fake_hardware="$(arg use_fake_hardware)"
     initial_positions="${xacro.load_yaml(initial_positions_file)}"
     headless_mode="$(arg headless_mode)"
@@ -61,6 +61,11 @@
   <xacro:if value="$(arg has_tool_changer)">
     <!-- tool changer-->
     <xacro:mtc_ur_tool_changer prefix="" connected_to="tool0" rotation="0" />
+  </xacro:if>
+
+  <!-- pinch geometry for moveit motion planning. see https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver/issues/611 -->
+  <xacro:if value="$(arg use_pinch_link)">
+    <xacro:pinch_link prefix="" />
   </xacro:if>
 
   <!-- wrist camera adapter and camera-->
@@ -107,7 +112,7 @@
     <origin rpy="0 0 0" xyz="0 0 0" />
   </joint>
 
-  <!-- External Camera -->
+  <!-- Camera External -->
   <link name="external_camera_link" />
   <joint name="external_camera_joint" type="fixed">
     <parent link="world" />
