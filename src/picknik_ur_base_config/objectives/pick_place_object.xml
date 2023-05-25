@@ -18,9 +18,9 @@
                             <!-- Remove any objects which might remain in the planning scene from previous pick attempts -->
                             <Action ID="ResetPlanningSceneObjects" apply_planning_scene_service="apply_planning_scene"/>
                             <!-- Get the latest point cloud from the target topic-->
-                            <Action ID="GetPointCloud" target_point_cloud_topic="/wrist_mounted_camera/depth/color/points" uuid="" point_cloud="{point_cloud}" point_cloud_uuid="{point_cloud_uuid}"/>
+                            <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
                             <!-- Publish point cloud for display by UI -->
-                            <Action ID="UpdatePlanningScene" point_cloud="{point_cloud}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures" point_cloud_uuid="{request_uuid}"/>
+                            <Action ID="UpdatePlanningScene" point_cloud="{point_cloud}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures" point_cloud_uuid=""/>
                             <!-- Detect all cuboids in that point cloud-->
                             <Action ID="FindSingularCuboids" point_cloud="{point_cloud}" parameters="{parameters}" detected_shapes="{cuboids}"/>
                             <!-- Find the closest cuboid to the pose calculated from the user's original click -->
@@ -65,7 +65,7 @@
 
                                         <!-- THEN -->
                                         <Control ID="Sequence">
-                                            <Action ID="GetPointCloud" target_point_cloud_topic="/scene_camera/depth/color/points" point_cloud="{point_cloud}" point_cloud_uuid="{point_cloud_uuid}"/>
+                                            <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
                                             <Action ID="FindSingularCuboids" parameters="{parameters}" point_cloud="{point_cloud}" detected_shapes="{cuboids}"/>
                                             <Action ID="GetClosestObjectToPose" objects="{cuboids}" pose="{pick_place_object.grasp_pose}" distance_threshold="0.3" closest_object="{new_cuboid_object}"/>
                                             <Action ID="CheckCuboidSimilarity" input_cuboid="{new_cuboid_object}" reference_cuboid="{cuboid_object}" base_frame="world" distance_threshold="0.04" orientation_threshold="3.14" />

@@ -5,15 +5,12 @@
         <Sequence>
             <Action ID="LoadObjectiveParameters" config_file_name="push_along_axis_config.yaml"
                 parameters="{parameters}" />
-            <Action ID="GetPointCloud"
-                target_point_cloud_topic="/wrist_mounted_camera/depth/color/points"
-                uuid="" point_cloud="{point_cloud}"
-                point_cloud_uuid="{request_uuid}" />
+            <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
             <Action ID="UpdatePlanningSceneService" point_cloud="{point_cloud}"
                 point_cloud_service="/point_cloud_service" />
             <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}"
                 sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"
-                point_cloud_uuid="{request_uuid}" />
+                point_cloud_uuid="" />
             <Action ID="MoveToJointState"
                 waypoint_name="Home"
                 planning_group_name="manipulator"

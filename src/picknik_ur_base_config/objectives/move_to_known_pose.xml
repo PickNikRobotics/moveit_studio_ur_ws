@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <root BTCPP_format="4" main_tree_to_execute="Move to Known Pose">
-    <BehaviorTree ID="Move to Known Pose" _description="Move to one of the known poses available in the Endpoint tab">
+    <BehaviorTree ID="Move to Known Pose" _description="Move to a known pose">
         <Sequence name="root">
             <SubTree ID="MoveToWaypoint" waypoint_name="{move_to_known_pose.target_state_name}"/>
         </Sequence>

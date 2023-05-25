@@ -4,11 +4,8 @@
         _description="Open a lever handle door by turning the handle and pushing the door">
         <Sequence name="Setup">
             <Action ID="LoadObjectiveParameters"
-                config_file_name="get_door_handle_config.yaml" parameters="{parameters}" />
-            <Action ID="LoadObjectiveParameters"
-                config_file_name="setup_mtc_open_lever_handle_door_config.yaml" parameters="{parameters}" />
-            <Action ID="GetPointCloud" point_cloud="{point_cloud}"
-                target_point_cloud_topic="/wrist_mounted_camera/depth/color/points" />
+                 config_file_name="open_lever_handle_door_config.yaml" parameters="{parameters}" />
+            <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
             <Action ID="PublishPointCloud" point_cloud="{point_cloud}"
                 point_cloud_topic="studio_vision_debug_snapshot" />
             <Action ID="GetDoorHandle" handle_pivot_pose="{get_door_handle_pose.handle_pivot_pose}"
