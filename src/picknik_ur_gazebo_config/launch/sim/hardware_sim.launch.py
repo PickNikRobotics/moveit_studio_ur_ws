@@ -33,7 +33,13 @@ import shlex
 
 from ament_index_python import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, OpaqueFunction
+from launch.actions import (
+    DeclareLaunchArgument,
+    ExecuteProcess,
+    IncludeLaunchDescription,
+    OpaqueFunction,
+)
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 from moveit_studio_utils_py.launch_common import (
@@ -41,8 +47,14 @@ from moveit_studio_utils_py.launch_common import (
     get_ros_path,
     xacro_to_urdf,
 )
-from moveit_studio_utils_py.system_config import get_config_folder, SystemConfigParser
-from moveit_studio_utils_py.generate_camera_frames import generate_camera_frames
+from moveit_studio_utils_py.system_config import (
+    get_config_folder,
+    SystemConfigParser,
+)
+
+from moveit_studio_utils_py.generate_camera_frames import (
+    generate_camera_frames,
+)
 
 
 def path_pattern_change_for_ignition(urdf_string):
@@ -50,6 +62,8 @@ def path_pattern_change_for_ignition(urdf_string):
     Replaces strings in a URDF file such as
         package://package_name/path/to/file
     to the actual full path of the file.
+
+    TODO: This should be cleaned up to not require such a transformation, if possible.
     """
     data = urdf_string
     package_expressions = re.findall("(package://([^//]*))", data)
@@ -59,7 +73,15 @@ def path_pattern_change_for_ignition(urdf_string):
 
 
 def generate_simulation_description(context, *args, **settings):
-    world_name = settings.get("gazebo_world_name", "space_station.sdf")
+    nodes = []
+    is_test = LaunchConfiguration("is_test").perform(context).lower() == "true"
+
+    if is_test:
+        world_name_key = "gazebo_test_world_name"
+    else:
+        world_name_key = "gazebo_world_name"
+    world_name = settings.get(world_name_key, "space_station.sdf")
+
     use_gui = settings.get("gazebo_gui", False)
     is_verbose = settings.get("gazebo_verbose", False)
     gz_renderer = os.environ.get("GAZEBO_RENDERER", "ogre")
@@ -81,7 +103,7 @@ def generate_simulation_description(context, *args, **settings):
 
     # Launch Gazebo.
     print(f"Starting Gazebo with world {world_name}")
-    print(f"GUI: {use_gui}, Verbose: {is_verbose}")
+    print(f"GUI: {use_gui}, Verbose: {is_verbose}, Test mode: {is_test}")
 
     sim_args = f"-r --render-engine {gz_renderer}"
     if is_verbose:
@@ -89,23 +111,49 @@ def generate_simulation_description(context, *args, **settings):
     if not use_gui:
         sim_args += " -s --headless-rendering"
 
+        # If no display is available, set up a Xvfb for headless rendering
+        if not os.environ.get("DISPLAY"):
+            print("Adding Xvfb for simulation...")
+            display_id = ":99"
+            os.environ["DISPLAY"] = display_id
+            xvfb = ExecuteProcess(
+                name="xvfb", cmd=["Xvfb", display_id, "-screen", "0", "1600x1200x16"]
+            )
+            nodes.append(xvfb)
+
     gazebo = IncludeLaunchDescription(
         get_launch_file("ros_gz_sim", "launch/gz_sim.launch.py"),
         launch_arguments=[("gz_args", [f"{sim_args} {modified_world_file}"])],
     )
-    return [gazebo]
+    nodes.append(gazebo)
+    return nodes
 
 
 def generate_launch_description():
     system_config_parser = SystemConfigParser()
-    optional_feature_setting = system_config_parser.get_optional_feature_configs()
     cameras_config = system_config_parser.get_cameras_config()
+    optional_feature_setting = system_config_parser.get_optional_feature_configs()
+
+    # Launch arguments
+    is_test_arg = DeclareLaunchArgument(
+        name="is_test",
+        default_value="false",
+        description="If true, declares that the launch should be configured for testing.",
+    )
 
     # The path to the auto_created urdf files
     robot_urdf = system_config_parser.get_processed_urdf()
+
     robot_urdf_ignition = path_pattern_change_for_ignition(robot_urdf)
 
-    # Launch Gazebo
+    # Include URDF
+    scene_xacro_path = get_ros_path(
+        "picknik_ur_gazebo_config", "description/simulation_scene.urdf.xacro"
+    )
+    scene_urdf = xacro_to_urdf(scene_xacro_path, None)
+    scene_urdf_ignition = path_pattern_change_for_ignition(scene_urdf)
+
+    # Launch Ignition Gazebo
     gazebo = OpaqueFunction(
         function=generate_simulation_description, kwargs=optional_feature_setting
     )
@@ -114,7 +162,7 @@ def generate_launch_description():
     spawn_robot = Node(
         package="ros_gz_sim",
         executable="create",
-        output="screen",
+        output="both",
         arguments=[
             "-string",
             robot_urdf_ignition,
@@ -141,7 +189,7 @@ def generate_launch_description():
             ("/scene_camera/image", "/scene_camera/color/image_raw"),
         ],
         parameters=[{"qos": "sensor_data"}],
-        output="screen",
+        output="both",
     )
     scene_image_depth_ignition_bridge = Node(
         package="ros_gz_image",
@@ -157,7 +205,7 @@ def generate_launch_description():
             ),
         ],
         parameters=[{"qos": "sensor_data"}],
-        output="screen",
+        output="both",
     )
 
     scene_camera_info_ignition_bridge = Node(
@@ -170,7 +218,7 @@ def generate_launch_description():
         remappings=[
             ("/scene_camera/camera_info", "/scene_camera/color/camera_info"),
         ],
-        output="screen",
+        output="both",
     )
 
     # For the wrist mounted camera, enable RGB and depth topics.
@@ -185,7 +233,7 @@ def generate_launch_description():
             ("/wrist_mounted_camera/image", "/wrist_mounted_camera/color/image_raw"),
         ],
         parameters=[{"qos": "sensor_data"}],
-        output="screen",
+        output="both",
     )
     wrist_image_depth_ignition_bridge = Node(
         package="ros_gz_image",
@@ -201,7 +249,7 @@ def generate_launch_description():
             ),
         ],
         parameters=[{"qos": "sensor_data"}],
-        output="screen",
+        output="both",
     )
     wrist_camera_pointcloud_ignition_bridge = Node(
         package="ros_gz_bridge",
@@ -216,7 +264,7 @@ def generate_launch_description():
                 "/wrist_mounted_camera/depth/color/points",
             ),
         ],
-        output="screen",
+        output="both",
     )
     wrist_camera_info_ignition_bridge = Node(
         package="ros_gz_bridge",
@@ -231,7 +279,7 @@ def generate_launch_description():
                 "/wrist_mounted_camera/color/camera_info",
             ),
         ],
-        output="screen",
+        output="both",
     )
 
     #######################
@@ -250,7 +298,7 @@ def generate_launch_description():
                 "/force_torque_sensor_broadcaster/wrench",
             ),
         ],
-        output="screen",
+        output="both",
     )
 
     clock_bridge = Node(
@@ -258,7 +306,22 @@ def generate_launch_description():
         executable="parameter_bridge",
         name="clock_bridge",
         arguments=["/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock"],
-        output="screen",
+        output="both",
+    )
+
+    spawn_cabinet = Node(
+        package="ros_gz_sim",
+        executable="create",
+        output="both",
+        arguments=[
+            "-string",
+            scene_urdf_ignition,
+            "-name",
+            "cabinet",
+            "-allow_renaming",
+            "true",
+        ]
+        + init_pose_args,
     )
 
     frame_pair_params = [
@@ -277,32 +340,9 @@ def generate_launch_description():
         arguments=["--ros-args"],
     )
 
-    #####################
-    # Environment Scene #
-    #####################
-    scene_xacro_path = get_ros_path(
-        "picknik_ur_gazebo_config", "description/simulation_scene.urdf.xacro"
-    )
-    scene_urdf = xacro_to_urdf(scene_xacro_path, None)
-    scene_urdf_ignition = path_pattern_change_for_ignition(scene_urdf)
-
-    spawn_scene = Node(
-        package="ros_gz_sim",
-        executable="create",
-        output="screen",
-        arguments=[
-            "-string",
-            scene_urdf_ignition,
-            "-name",
-            "cabinet",
-            "-allow_renaming",
-            "true",
-        ]
-        + init_pose_args,
-    )
-
     return LaunchDescription(
         [
+            is_test_arg,
             scene_image_rgb_ignition_bridge,
             scene_image_depth_ignition_bridge,
             scene_camera_info_ignition_bridge,
@@ -314,7 +354,7 @@ def generate_launch_description():
             fts_bridge,
             gazebo,
             spawn_robot,
-            spawn_scene,
+            spawn_cabinet,
             camera_transforms_node,
         ]
     )
