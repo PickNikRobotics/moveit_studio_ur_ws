@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<root BTCPP_format="4" main_tree_to_execute="Open Cabinet Door">
+    <BehaviorTree ID="Open Cabinet Door" _description="Open a cabinet door by grasping and pulling its handle">
+        <Sequence name="Setup">
+            <!-- Set admittance control parameters at the start of the Objective -->
+            <Action ID="UpdateAdmittanceController" config_file_name="open_door_admittance_controller_config.yaml"/>
+            <!-- Execute the Objective -->
+            <Action ID="LoadObjectiveParameters" config_file_name="open_door_affordance_config.yaml" parameters="{parameters}" />
+            <Action ID="GetHingeAxisFromSurfaceSelection" grasp_pose="{grasp_pose}" hinge_axis_pose_end="{process_door_selection.hinge_axis_pose_end}" hinge_axis_pose_start="{process_door_selection.hinge_axis_pose_start}" screw_axis_pose="{screw_axis_pose}" screw_origin_pose="{screw_origin_pose}" target_grasp_pose="{process_door_selection.grasp_pose}" />
+            <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.0" />
+            <Sequence name="OpenDoorAffordanceMain">
+                <Action ID="InitializeMTCTask" task_id="open_door_affordance" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{open_door_affordance_task}" />
+                <Action ID="SetupMTCCurrentState" task="{open_door_affordance_task}" />
+                <Action ID="SetupMTCAffordanceTemplate" grasp_pose="{grasp_pose}" name="SetupMTCOpenDoorAffordance" parameters="{parameters}" screw_axis_pose="{screw_axis_pose}" screw_origin_pose="{screw_origin_pose}" task="{open_door_affordance_task}" />
+                <Action ID="PlanMTCTask" solution="{open_door_affordance_solution}" task="{open_door_affordance_task}" />
+                <Fallback name="wait_for_approval_if_user_available">
+                    <Inverter>
+                        <Action ID="IsUserAvailable" />
+                    </Inverter>
+                    <Action ID="WaitForUserTrajectoryApproval" solution="{open_door_affordance_solution}" />
+                </Fallback>
+                <!-- Whether task execution succeeds or fails, reset the controllers to disable admittance control. -->
+                <Control ID="IfThenElse" name="execute_and_reset_controllers">
+                    <!-- IF task execution succeeds -->
+                    <Action ID="ExecuteMTCTask" solution="{open_door_affordance_solution}" />
+                    <!-- THEN reset the controllers -->
+                    <Action ID="ActivateControllers" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" />
+                    <!-- ELSE reset the controllers and return failure -->
+                    <Sequence>
+                        <Action ID="ActivateControllers" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" />
+                        <Action ID="AlwaysFailure" />
+                    </Sequence>
+                </Control>
+            </Sequence>
+        </Sequence>
+    </BehaviorTree>
+</root>
