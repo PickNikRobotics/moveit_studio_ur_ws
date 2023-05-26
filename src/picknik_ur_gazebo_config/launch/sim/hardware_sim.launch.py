@@ -33,13 +33,7 @@ import shlex
 
 from ament_index_python import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import (
-    DeclareLaunchArgument,
-    ExecuteProcess,
-    IncludeLaunchDescription,
-    OpaqueFunction,
-)
-from launch.substitutions import LaunchConfiguration
+from launch.actions import IncludeLaunchDescription, OpaqueFunction
 from launch_ros.actions import Node
 
 from moveit_studio_utils_py.launch_common import (
@@ -47,14 +41,8 @@ from moveit_studio_utils_py.launch_common import (
     get_ros_path,
     xacro_to_urdf,
 )
-from moveit_studio_utils_py.system_config import (
-    get_config_folder,
-    SystemConfigParser,
-)
-
-from moveit_studio_utils_py.generate_camera_frames import (
-    generate_camera_frames,
-)
+from moveit_studio_utils_py.system_config import get_config_folder, SystemConfigParser
+from moveit_studio_utils_py.generate_camera_frames import generate_camera_frames
 
 
 def path_pattern_change_for_ignition(urdf_string):
@@ -62,8 +50,6 @@ def path_pattern_change_for_ignition(urdf_string):
     Replaces strings in a URDF file such as
         package://package_name/path/to/file
     to the actual full path of the file.
-
-    TODO: This should be cleaned up to not require such a transformation, if possible.
     """
     data = urdf_string
     package_expressions = re.findall("(package://([^//]*))", data)
@@ -73,15 +59,7 @@ def path_pattern_change_for_ignition(urdf_string):
 
 
 def generate_simulation_description(context, *args, **settings):
-    nodes = []
-    is_test = LaunchConfiguration("is_test").perform(context).lower() == "true"
-
-    if is_test:
-        world_name_key = "gazebo_test_world_name"
-    else:
-        world_name_key = "gazebo_world_name"
-    world_name = settings.get(world_name_key, "space_station.sdf")
-
+    world_name = settings.get("gazebo_world_name", "space_station.sdf")
     use_gui = settings.get("gazebo_gui", False)
     is_verbose = settings.get("gazebo_verbose", False)
     gz_renderer = os.environ.get("GAZEBO_RENDERER", "ogre")
@@ -103,7 +81,7 @@ def generate_simulation_description(context, *args, **settings):
 
     # Launch Gazebo.
     print(f"Starting Gazebo with world {world_name}")
-    print(f"GUI: {use_gui}, Verbose: {is_verbose}, Test mode: {is_test}")
+    print(f"GUI: {use_gui}, Verbose: {is_verbose}")
 
     sim_args = f"-r --render-engine {gz_renderer}"
     if is_verbose:
@@ -111,49 +89,23 @@ def generate_simulation_description(context, *args, **settings):
     if not use_gui:
         sim_args += " -s --headless-rendering"
 
-        # If no display is available, set up a Xvfb for headless rendering
-        if not os.environ.get("DISPLAY"):
-            print("Adding Xvfb for simulation...")
-            display_id = ":99"
-            os.environ["DISPLAY"] = display_id
-            xvfb = ExecuteProcess(
-                name="xvfb", cmd=["Xvfb", display_id, "-screen", "0", "1600x1200x16"]
-            )
-            nodes.append(xvfb)
-
     gazebo = IncludeLaunchDescription(
         get_launch_file("ros_gz_sim", "launch/gz_sim.launch.py"),
         launch_arguments=[("gz_args", [f"{sim_args} {modified_world_file}"])],
     )
-    nodes.append(gazebo)
-    return nodes
+    return [gazebo]
 
 
 def generate_launch_description():
     system_config_parser = SystemConfigParser()
-    cameras_config = system_config_parser.get_cameras_config()
     optional_feature_setting = system_config_parser.get_optional_feature_configs()
-
-    # Launch arguments
-    is_test_arg = DeclareLaunchArgument(
-        name="is_test",
-        default_value="false",
-        description="If true, declares that the launch should be configured for testing.",
-    )
+    cameras_config = system_config_parser.get_cameras_config()
 
     # The path to the auto_created urdf files
     robot_urdf = system_config_parser.get_processed_urdf()
-
     robot_urdf_ignition = path_pattern_change_for_ignition(robot_urdf)
 
-    # Include URDF
-    scene_xacro_path = get_ros_path(
-        "picknik_ur_gazebo_config", "description/simulation_scene.urdf.xacro"
-    )
-    scene_urdf = xacro_to_urdf(scene_xacro_path, None)
-    scene_urdf_ignition = path_pattern_change_for_ignition(scene_urdf)
-
-    # Launch Ignition Gazebo
+    # Launch Gazebo
     gazebo = OpaqueFunction(
         function=generate_simulation_description, kwargs=optional_feature_setting
     )
@@ -329,6 +281,7 @@ def generate_launch_description():
     )
     scene_urdf = xacro_to_urdf(scene_xacro_path, None)
     scene_urdf_ignition = path_pattern_change_for_ignition(scene_urdf)
+
     spawn_scene = Node(
         package="ros_gz_sim",
         executable="create",
@@ -346,7 +299,6 @@ def generate_launch_description():
 
     return LaunchDescription(
         [
-            is_test_arg,
             scene_image_rgb_ignition_bridge,
             scene_image_depth_ignition_bridge,
             scene_camera_info_ignition_bridge,
