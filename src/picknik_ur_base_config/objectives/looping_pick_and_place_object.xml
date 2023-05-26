@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <root BTCPP_format="4" main_tree_to_execute="Looping Pick and Place Object">
     <!-- ////////// -->
-    <BehaviorTree ID="Looping Pick and Place Object">
+    <BehaviorTree ID="Looping Pick and Place Object" _description="Repeatedly attempt to detect and grasp a cuboid from a target bin, and drop it in the target area.">
         <Control ID="Sequence">
             <Action ID="LoadObjectiveParameters" config_file_name="looping_pick_and_place_object_config.yaml" parameters="{parameters}"/>
             
