@@ -188,7 +188,6 @@ def generate_launch_description():
         remappings=[
             ("/scene_camera/image", "/scene_camera/color/image_raw"),
         ],
-        parameters=[{"qos": "sensor_data"}],
         output="both",
     )
     scene_image_depth_ignition_bridge = Node(
@@ -204,7 +203,6 @@ def generate_launch_description():
                 "/scene_camera/depth/image_rect_raw",
             ),
         ],
-        parameters=[{"qos": "sensor_data"}],
         output="both",
     )
 
