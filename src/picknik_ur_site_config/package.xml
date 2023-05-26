@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="3">
   <name>picknik_ur_site_config</name>
-  <version>2.0.0</version>
+  <version>2.1.1</version>
 
   <description>Site config package for a UR5e that can be simulated with mock hardware</description>
 
