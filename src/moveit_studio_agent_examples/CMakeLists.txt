@@ -16,8 +16,8 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
 #############
 
 # Install scripts directory
-install(PROGRAMS 
-    scripts/call_do_objective.py 
+install(PROGRAMS
+    scripts/call_do_objective.py
     scripts/call_do_objective_waypoint.py
     DESTINATION lib/${PROJECT_NAME}
 )
