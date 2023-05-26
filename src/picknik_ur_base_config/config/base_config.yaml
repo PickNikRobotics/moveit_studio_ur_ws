@@ -96,15 +96,15 @@ hardware:
       - kinematics_parameters_file:
       # Load default_kinematics.yaml from ur_description/config/ur5e
           package: "ur_description"
-          path: "config"
+          path: "config/ur5e/default_kinematics.yaml"
       - physical_parameters_file:
       # Load physical_parameters.yaml from ur_description/config/ur5e
           package: "ur_description"
-          path: "config"
+          path: "config/ur5e/physical_parameters.yaml"
       - visual_parameters_file:
       # Load visual_parameters.yaml from ur_description/config/ur5e
           package: "ur_description"
-          path: "config"
+          path: "config/ur5e/visual_parameters.yaml"
 
 # Sets ROS global params for launch.
 # [Optional]

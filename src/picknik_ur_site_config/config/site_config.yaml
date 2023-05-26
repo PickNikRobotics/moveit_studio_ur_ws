@@ -1,5 +1,10 @@
 based_on_package: "picknik_ur_base_config"
 
+hardware:
+
+  # Be sure to set your robot's IP address.
+  ip: "0.0.0.0"
+
 objectives:
   objective_library_paths:
     # You must use a unique key for each package.
