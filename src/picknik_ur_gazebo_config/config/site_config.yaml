@@ -59,6 +59,15 @@ hardware:
       # Using the ogre renderer as it is compatible with most host hardware.
       # ogre2 (which is the Gazebo default) is also an option if your system supports it.
       - gazebo_renderer: ${GAZEBO_RENDERER:-ogre}
+      - kinematics_parameters_file:
+          package: "ur_description"
+          path: "config"
+      - physical_parameters_file:
+          package: "ur_description"
+          path: "config"
+      - visual_parameters_file:
+          package: "ur_description"
+          path: "config"
 
 # Override MoveIt parameters
 moveit_params:
