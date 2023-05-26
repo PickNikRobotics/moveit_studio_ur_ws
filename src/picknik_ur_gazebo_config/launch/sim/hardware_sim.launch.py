@@ -230,7 +230,6 @@ def generate_launch_description():
         remappings=[
             ("/wrist_mounted_camera/image", "/wrist_mounted_camera/color/image_raw"),
         ],
-        parameters=[{"qos": "sensor_data"}],
         output="both",
     )
     wrist_image_depth_ignition_bridge = Node(
@@ -246,7 +245,6 @@ def generate_launch_description():
                 "/wrist_mounted_camera/depth/image_rect_raw",
             ),
         ],
-        parameters=[{"qos": "sensor_data"}],
         output="both",
     )
     wrist_camera_pointcloud_ignition_bridge = Node(
