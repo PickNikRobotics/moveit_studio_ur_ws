@@ -307,21 +307,6 @@ def generate_launch_description():
         output="both",
     )
 
-    spawn_cabinet = Node(
-        package="ros_gz_sim",
-        executable="create",
-        output="both",
-        arguments=[
-            "-string",
-            scene_urdf_ignition,
-            "-name",
-            "cabinet",
-            "-allow_renaming",
-            "true",
-        ]
-        + init_pose_args,
-    )
-
     frame_pair_params = [
         {
             "world_frame": "world",
@@ -338,6 +323,29 @@ def generate_launch_description():
         arguments=["--ros-args"],
     )
 
+    #####################
+    # Environment Scene #
+    #####################
+    scene_xacro_path = get_ros_path(
+        "picknik_ur_gazebo_config", "description/simulation_scene.urdf.xacro"
+    )
+    scene_urdf = xacro_to_urdf(scene_xacro_path, None)
+    scene_urdf_ignition = path_pattern_change_for_ignition(scene_urdf)
+    spawn_scene = Node(
+        package="ros_gz_sim",
+        executable="create",
+        output="both",
+        arguments=[
+            "-string",
+            scene_urdf_ignition,
+            "-name",
+            "cabinet",
+            "-allow_renaming",
+            "true",
+        ]
+        + init_pose_args,
+    )
+
     return LaunchDescription(
         [
             is_test_arg,
@@ -352,7 +360,7 @@ def generate_launch_description():
             fts_bridge,
             gazebo,
             spawn_robot,
-            spawn_cabinet,
+            spawn_scene,
             camera_transforms_node,
         ]
     )
