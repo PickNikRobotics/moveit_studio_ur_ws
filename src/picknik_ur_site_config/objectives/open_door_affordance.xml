@@ -3,7 +3,7 @@
     <BehaviorTree ID="Open Cabinet Door" _description="Open a cabinet door by grasping and pulling its handle">
         <Control ID="Sequence" name="Setup">
             <!-- Set admittance control parameters at the start of the Objective -->
-            <Action ID="UpdateAdmittanceController" config_file_name="open_door_admittance_controller_config.yaml"/>
+            <Action ID="UpdateAdmittanceController" config_file_name="open_cabinet_door_admittance_controller_config.yaml"/>
             <!-- Execute the Objective -->
             <Action ID="LoadObjectiveParameters" config_file_name="open_door_affordance_config.yaml" parameters="{parameters}" />
             <Action ID="GetHingeAxisFromSurfaceSelection" grasp_pose="{grasp_pose}" hinge_axis_pose_end="{process_door_selection.hinge_axis_pose_end}" hinge_axis_pose_start="{process_door_selection.hinge_axis_pose_start}" screw_axis_pose="{screw_axis_pose}" screw_origin_pose="{screw_origin_pose}" target_grasp_pose="{process_door_selection.grasp_pose}" />

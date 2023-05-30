@@ -3,6 +3,9 @@
     <BehaviorTree ID="Open Lever Handle Door"
         _description="Open a lever handle door by turning the handle and pushing the door">
         <Control ID="Sequence" name="Setup">
+            <!-- Set admittance control parameters at the start of the Objective -->
+            <Action ID="UpdateAdmittanceController"
+                config_file_name="open_lever_handle_door_admittance_controller_config.yaml" />
             <Action ID="LoadObjectiveParameters"
                  config_file_name="open_lever_handle_door_config.yaml" parameters="{parameters}" />
             <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
