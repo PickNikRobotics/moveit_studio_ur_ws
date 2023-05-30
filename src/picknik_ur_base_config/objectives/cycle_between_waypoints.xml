@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+  <root BTCPP_format="4" main_tree_to_execute="Cycle Between Waypoints">
+    <BehaviorTree ID="Cycle Between Waypoints" _description="Cycles between two waypoints until failure">
+        <Decorator ID="KeepRunningUntilFailure">
+            <Control ID="Sequence">
+                <Action ID="MoveToJointState" waypoint_name="Right Corner" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
+                <Action ID="MoveToJointState" waypoint_name="Place" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
+            </Control>
+        </Decorator>
+    </BehaviorTree>
+</root>
