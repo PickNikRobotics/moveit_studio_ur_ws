@@ -2,6 +2,9 @@
 # Modify all parameters related to servoing here
 ###############################################
 
+# Enable dynamic parameter updates
+enable_parameter_update: true
+
 ## Properties of incoming commands
 command_in_type: "unitless" # "unitless"> in the range [-1:1], as if from joystick. "speed_units"> cmds are in m/s and rad/s
 scale:
