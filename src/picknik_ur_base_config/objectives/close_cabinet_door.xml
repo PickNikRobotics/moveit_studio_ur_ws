@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<root BTCPP_format="4" main_tree_to_execute="Close Cabinet Door">
+    <BehaviorTree ID="Close Cabinet Door" _description="Close a cabinet door by pushing along an axis with the end effector">
+        <Control ID="Sequence">
+            <Action ID="LoadObjectiveParameters" config_file_name="push_along_axis_config.yaml" parameters="{parameters}" />
+            <SubTree ID="CloseGripper" />
+            <Action ID="SaveCurrentState" saved_robot_state="{initial_robot_state}" />
+            <Control ID="Sequence">
+                <Action ID="InitializeMTCTask" task_id="close_cabinet_door" controller_names="/joint_trajectory_controller" task="{close_cabinet_door_task}"/>
+                <Action ID="SetupMTCCurrentState" task="{close_cabinet_door_task}"/>
+                <Action ID="SetupMTCMoveToPose" ik_frame="manual_grasp_link" planning_group_name="manipulator" target_pose="{close_cabinet_door.target_pose}" task="{close_cabinet_door_task}"/>
+                <Action ID="SetupMTCUpdateGroupCollisionRule" name="AllowGripperCollisionWithOctomap" parameters="{parameters}" task="{close_cabinet_door_task}" />
+                <Action ID="SetupMTCMoveAlongFrameAxis" axis="z" max_distance="1.5" min_distance="0.05" parameters="{parameters}" task="{close_cabinet_door_task}" />
+                <Action ID="SetupMTCUpdateGroupCollisionRule" name="ForbidGripperCollisionWithOctomap" parameters="{parameters}" task="{close_cabinet_door_task}" />
+                <Action ID="PlanMTCTask" solution="{full_close_cabinet_door_solution}" task="{close_cabinet_door_task}"/>
+                <Action ID="SplitMTCSolution" solution_in="{full_close_cabinet_door_solution}" index="3" solution_out_1="{move_to_approach_solution}" solution_out_2="{push_solution}" />
+                <Action ID="WaitForUserTrajectoryApproval" solution="{full_close_cabinet_door_solution}"/>
+                <Action ID="ExecuteMTCTask" solution="{move_to_approach_solution}"/>
+
+                <Action ID="SaveCurrentState" saved_robot_state="{pre_approach_robot_state}" />
+                <ForceSuccess>
+                    <ReactiveSequence>
+                        <Action ID="IsForceWithinThreshold" parameters="{parameters}" />
+                        <Action ID="ExecuteMTCTask" solution="{push_solution}" />
+                    </ReactiveSequence>
+                </ForceSuccess>
+            </Control>
+            <SubTree ID="RetreatToInitialPose" pre_approach_robot_state="{pre_approach_robot_state}" initial_robot_state="{initial_robot_state}" parameters="{parameters}" />
+        </Control>
+    </BehaviorTree>
+    <BehaviorTree ID="CloseGripper">
+        <Control ID="Sequence" name="close_gripper_main">
+            <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.7929" />
+        </Control>
+    </BehaviorTree>
+    <BehaviorTree ID="RetreatToInitialPose">
+        <Control ID="Sequence">
+            <Action ID="InitializeMTCTask" task_id="close_cabinet_door_retreat" controller_names="/joint_trajectory_controller" task="{retreat_task}" />
+            <Action ID="SetupMTCCurrentState" task="{retreat_task}" />
+            <Action ID="SetupMTCUpdateGroupCollisionRule" name="AllowGripperCollisionWithOctomap" parameters="{parameters}" task="{retreat_task}" />
+            <Action ID="SetupMTCCartesianMoveToJointState" joint_state="{pre_approach_robot_state}" planning_group_name="manipulator" task="{retreat_task}" />
+            <Action ID="SetupMTCUpdateGroupCollisionRule" name="ForbidGripperCollisionWithOctomap" parameters="{parameters}" task="{retreat_task}" />
+            <Action ID="SetupMTCMoveToJointState" joint_state="{initial_robot_state}" planning_group_name="manipulator" task="{retreat_task}" />
+            <Action ID="PlanMTCTask" solution="{return_to_initial_waypoint_solution}" task="{retreat_task}" />
+            <Action ID="ExecuteMTCTask" solution="{return_to_initial_waypoint_solution}" />
+        </Control>
+    </BehaviorTree>
+</root>

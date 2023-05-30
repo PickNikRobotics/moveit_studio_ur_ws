@@ -1,19 +1,19 @@
 # Copyright 2023 PickNik Inc.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 #    * Redistributions of source code must retain the above copyright
 #      notice, this list of conditions and the following disclaimer.
-# 
+#
 #    * Redistributions in binary form must reproduce the above copyright
 #      notice, this list of conditions and the following disclaimer in the
 #      documentation and/or other materials provided with the distribution.
-# 
+#
 #    * Neither the name of the PickNik Inc. nor the names of its
 #      contributors may be used to endorse or promote products derived from
 #      this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -114,7 +114,7 @@ def generate_launch_description():
     spawn_robot = Node(
         package="ros_gz_sim",
         executable="create",
-        output="screen",
+        output="both",
         arguments=[
             "-string",
             robot_urdf_ignition,
@@ -140,8 +140,7 @@ def generate_launch_description():
         remappings=[
             ("/scene_camera/image", "/scene_camera/color/image_raw"),
         ],
-        parameters=[{"qos": "sensor_data"}],
-        output="screen",
+        output="both",
     )
     scene_image_depth_ignition_bridge = Node(
         package="ros_gz_image",
@@ -156,8 +155,7 @@ def generate_launch_description():
                 "/scene_camera/depth/image_rect_raw",
             ),
         ],
-        parameters=[{"qos": "sensor_data"}],
-        output="screen",
+        output="both",
     )
 
     scene_camera_info_ignition_bridge = Node(
@@ -170,7 +168,7 @@ def generate_launch_description():
         remappings=[
             ("/scene_camera/camera_info", "/scene_camera/color/camera_info"),
         ],
-        output="screen",
+        output="both",
     )
 
     # For the wrist mounted camera, enable RGB and depth topics.
@@ -184,8 +182,7 @@ def generate_launch_description():
         remappings=[
             ("/wrist_mounted_camera/image", "/wrist_mounted_camera/color/image_raw"),
         ],
-        parameters=[{"qos": "sensor_data"}],
-        output="screen",
+        output="both",
     )
     wrist_image_depth_ignition_bridge = Node(
         package="ros_gz_image",
@@ -200,8 +197,7 @@ def generate_launch_description():
                 "/wrist_mounted_camera/depth/image_rect_raw",
             ),
         ],
-        parameters=[{"qos": "sensor_data"}],
-        output="screen",
+        output="both",
     )
     wrist_camera_pointcloud_ignition_bridge = Node(
         package="ros_gz_bridge",
@@ -216,7 +212,7 @@ def generate_launch_description():
                 "/wrist_mounted_camera/depth/color/points",
             ),
         ],
-        output="screen",
+        output="both",
     )
     wrist_camera_info_ignition_bridge = Node(
         package="ros_gz_bridge",
@@ -231,7 +227,7 @@ def generate_launch_description():
                 "/wrist_mounted_camera/color/camera_info",
             ),
         ],
-        output="screen",
+        output="both",
     )
 
     #######################
@@ -250,7 +246,7 @@ def generate_launch_description():
                 "/force_torque_sensor_broadcaster/wrench",
             ),
         ],
-        output="screen",
+        output="both",
     )
 
     clock_bridge = Node(
@@ -258,7 +254,7 @@ def generate_launch_description():
         executable="parameter_bridge",
         name="clock_bridge",
         arguments=["/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock"],
-        output="screen",
+        output="both",
     )
 
     frame_pair_params = [
@@ -272,7 +268,7 @@ def generate_launch_description():
         package="moveit_studio_agent",
         executable="camera_transforms_node",
         name="camera_transforms_node",
-        output="screen",
+        output="both",
         parameters=frame_pair_params,
         arguments=["--ros-args"],
     )
@@ -289,7 +285,7 @@ def generate_launch_description():
     spawn_scene = Node(
         package="ros_gz_sim",
         executable="create",
-        output="screen",
+        output="both",
         arguments=[
             "-string",
             scene_urdf_ignition,

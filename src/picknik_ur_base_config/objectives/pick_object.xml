@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<root BTCPP_format="4" main_tree_to_execute="Pick Object">
+    <BehaviorTree ID="Pick Object" _description="Pick up and lift a small object">
+        <Control ID="Sequence" name="root">
+            <SubTree ID="OpenGripper"/>
+            <SubTree ID="PickObject" grasp_pose="{pick_object.grasp_pose}"/>
+        </Control>
+    </BehaviorTree>
+    <BehaviorTree ID="PickObject">
+        <Control ID="Sequence" name="pick_object_main">
+            <Action ID="LoadObjectiveParameters" config_file_name="pick_object_config.yaml" parameters="{parameters}"/>
+            <Action ID="InitializeMTCTask" task_id="pick_object" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{pick_object_task}"/>
+            <Action ID="SetupMTCCurrentState" task="{pick_object_task}"/>
+            <Action ID="SetupMTCPickObject" grasp_pose="{grasp_pose}" task="{pick_object_task}" parameters="{parameters}"/>
+            <Action ID="PlanMTCTask" solution="{pick_object_solution}" task="{pick_object_task}"/>
+            <Fallback name="wait_for_approval_if_user_available">
+                <Inverter>
+                    <Action ID="IsUserAvailable"/>
+                </Inverter>
+                <Action ID="WaitForUserTrajectoryApproval" solution="{pick_object_solution}"/>
+            </Fallback>
+            <Action ID="ExecuteMTCTask" solution="{pick_object_solution}"/>
+        </Control>
+    </BehaviorTree>
+    <BehaviorTree ID="OpenGripper">
+        <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.0"/>
+    </BehaviorTree>
+</root>

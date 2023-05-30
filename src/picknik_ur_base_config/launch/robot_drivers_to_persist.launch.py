@@ -1,19 +1,19 @@
 # Copyright 2023 PickNik Inc.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 #    * Redistributions of source code must retain the above copyright
 #      notice, this list of conditions and the following disclaimer.
-# 
+#
 #    * Redistributions in binary form must reproduce the above copyright
 #      notice, this list of conditions and the following disclaimer in the
 #      documentation and/or other materials provided with the distribution.
-# 
+#
 #    * Neither the name of the PickNik Inc. nor the names of its
 #      contributors may be used to endorse or promote products derived from
 #      this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -45,7 +45,7 @@ def generate_launch_description():
         package="ur_robot_driver",
         executable="dashboard_client",
         name="dashboard_client",
-        output="screen",
+        output="both",
         emulate_tty=True,
         parameters=[{"robot_ip": hardware_config["ip"]}],
     )
@@ -54,7 +54,7 @@ def generate_launch_description():
         package="moveit_studio_ur_pstop_manager",
         executable="protective_stop_manager_node",
         name="protective_stop_manager_node",
-        output="screen",
+        output="both",
         parameters=[
             {
                 "controllers_default_active": controller_config.get(

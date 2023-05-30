@@ -24,7 +24,7 @@ services:
       # Provides a license key for the MoveIt Studio application to validate in the container.
       - STUDIO_LICENSE_KEY
       # Robot configuration package for deployment. Defaults to a mock hardware UR5e.
-      - STUDIO_CONFIG_PACKAGE=${STUDIO_CONFIG_PACKAGE:-picknik_001_ur5e_config}
+      - STUDIO_CONFIG_PACKAGE=${STUDIO_CONFIG_PACKAGE:-picknik_ur_site_config}
       # The directory on the host machine where MoveIt Studio configurations should be saved, such as new objectives.
       # Typically, this is "$HOME/.config/moveit_studio", which is the default.
       - STUDIO_HOST_CONFIG_DIR=${STUDIO_HOST_CONFIG_DIR:-$HOME/.config/moveit_studio}
@@ -77,6 +77,7 @@ services:
         condition: service_completed_successfully
     command: bash -c "source /build_user_ws.sh"
 
+  # Executes tests for STUDIO_HOST_USER_WORKSPACE. If STUDIO_HOST_USER_WORKSPACE is not defined, this service will do nothing.
   workspace_test:
     container_name: "moveit_studio_workspace_test"
     extends: base
@@ -129,8 +130,6 @@ services:
   # Starts the REST API for the Web UI
   rest_api:
     extends: base
-    environment:
-      - LOG_LEVEL=DEBUG
     healthcheck:
       test: "curl -f http://localhost:5001/objectives"
       interval: 5s

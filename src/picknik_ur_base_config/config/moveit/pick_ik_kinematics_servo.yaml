@@ -10,6 +10,7 @@ manipulator:
   orientation_threshold: 0.001
   approximate_solution_position_threshold: 0.01
   approximate_solution_orientation_threshold: 0.01
+  approximate_solution_joint_threshold: 0.1
   cost_threshold: 0.001
   minimal_displacement_weight: 0.001
   avoid_joint_limits_weight: 0.0

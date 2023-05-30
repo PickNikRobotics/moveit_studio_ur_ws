@@ -3,9 +3,9 @@
     <!-- ////////// -->
     <BehaviorTree ID="Take Snapshot" _description="Take a point cloud snapshot and add to collision scene">
         <Control ID="Sequence">
-            <Action ID="GetPointCloud" target_point_cloud_topic="/wrist_mounted_camera/depth/color/points" uuid="{take_snapshot.uuid}" point_cloud="{point_cloud}" point_cloud_uuid="{request_uuid}" />
+            <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
             <Action ID="UpdatePlanningSceneService" point_cloud="{point_cloud}" point_cloud_service="/point_cloud_service"/>
-            <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures" point_cloud_uuid="{request_uuid}"/>
+            <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures" point_cloud_uuid="{take_snapshot.uuid}"/>
         </Control>
     </BehaviorTree>
 </root>

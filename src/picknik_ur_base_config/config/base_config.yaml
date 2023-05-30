@@ -14,8 +14,10 @@ hardware:
   type: ${UR_HARDWARE_TYPE:-ur5e}
 
   # Set simulated to false if you are using this as a configuration for real hardware.
+  # Override-able by setting the $MOCK_HARDWARE environment variable to 'True'.
+  # This allows users to switch between mock and real hardware using the same configuration.
   # [Required]
-  simulated: True
+  simulated: ${MOCK_HARDWARE:-true}
 
   # If the MoveIt Studio Agent should launch the ros2 controller node.
   # [Optional, default=True]
@@ -33,13 +35,16 @@ hardware:
 
   # The robot's IP address.
   # [Required]
-  ip: "0.0.0.0"
+  ip: "!!! Please set the IP address of the robot"
 
   # Specify additional launch files for running the robot with real hardware.
   # [Required]
   robot_driver_persist_launch_file:
     package: "picknik_ur_base_config"
     path: "launch/robot_drivers_to_persist.launch.py"
+  robot_driver_restart_launch_file:
+    package: "picknik_ur_base_config"
+    path: "launch/robot_drivers_to_restart.launch.py"
   hardware_launch_file:
     package: "picknik_ur_base_config"
     path: "launch/hardware.launch.py"
@@ -50,6 +55,9 @@ hardware:
   simulated_robot_driver_persist_launch_file:
     package: "picknik_ur_base_config"
     path: "launch/sim/robot_drivers_to_persist_sim.launch.py"
+  simulated_robot_driver_restart_launch_file:
+    package: "picknik_ur_base_config"
+    path: "launch/sim/robot_drivers_to_restart_sim.launch.py"
   simulated_hardware_launch_file:
     package: "picknik_ur_base_config"
     path: "launch/sim/hardware_sim.launch.py"
@@ -77,6 +85,7 @@ hardware:
       - name: "%>> hardware.type"
       - prefix: ""
       - use_fake_hardware: "%>> hardware.simulated"
+      - use_pinch_link: "true"
       - fake_sensor_commands: "false"
       - headless_mode: "true"
       - robot_ip: "%>> hardware.ip"
@@ -89,15 +98,15 @@ hardware:
       - kinematics_parameters_file:
       # Load default_kinematics.yaml from ur_description/config/ur5e
           package: "ur_description"
-          path: "config"
+          path: "config/ur5e/default_kinematics.yaml"
       - physical_parameters_file:
       # Load physical_parameters.yaml from ur_description/config/ur5e
           package: "ur_description"
-          path: "config"
+          path: "config/ur5e/physical_parameters.yaml"
       - visual_parameters_file:
       # Load visual_parameters.yaml from ur_description/config/ur5e
           package: "ur_description"
-          path: "config"
+          path: "config/ur5e/visual_parameters.yaml"
 
 # Sets ROS global params for launch.
 # [Optional]
@@ -182,12 +191,20 @@ ros2_control:
   # [Optional, default=[]]
   controllers_inactive_at_startup:
     - "joint_trajectory_controller"
+    - "admittance_controller_open_door"
+    - "joint_trajectory_controller_chained_open_door"
   # Any controllers here will not be spawned by MoveIt Studio.
   # [Optional, default=[]]
   controllers_not_managed: []
   # Optionally configure remapping rules to let multiple controllers receive commands on the same topic.
   # [Optional, default=[]]
   controller_shared_topics: []
+
+# Octomap manager configuration parameters
+octomap_manager:
+  # Input point cloud topic name. The *output* point cloud topic published by
+  # the Octomap manager node is defined in sensors_3d.yaml.
+  input_point_cloud_topic: "/wrist_mounted_camera/depth/color/points"
 
 # Configuration for loading behaviors and objectives. 
 # [Required]
