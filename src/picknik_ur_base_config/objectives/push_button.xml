@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <root BTCPP_format="4" main_tree_to_execute="Push Button">
     <BehaviorTree ID="Push Button" _description="Push a button with the end effector">
-        <Sequence>
+        <Control ID="Sequence">
             <Action ID="LoadObjectiveParameters" config_file_name="push_along_axis_config.yaml" parameters="{parameters}" />
             <SubTree ID="CloseGripper" />
             <Action ID="SaveCurrentState" saved_robot_state="{initial_robot_state}" />
-            <Sequence>
+            <Control ID="Sequence">
                 <Action ID="InitializeMTCTask" task_id="push_button" controller_names="/joint_trajectory_controller" task="{push_button_task}"/>
                 <Action ID="SetupMTCCurrentState" task="{push_button_task}"/>
                 <Action ID="SetupMTCMoveToPose" ik_frame="manual_grasp_link" planning_group_name="manipulator" target_pose="{push_button.target_pose}" task="{push_button_task}"/>
@@ -24,17 +24,17 @@
                         <Action ID="ExecuteMTCTask" solution="{push_solution}" />
                     </ReactiveSequence>
                 </ForceSuccess>
-            </Sequence>
+            </Control>
             <SubTree ID="RetreatToInitialPose" pre_approach_robot_state="{pre_approach_robot_state}" initial_robot_state="{initial_robot_state}" parameters="{parameters}" />
-        </Sequence>
+        </Control>
     </BehaviorTree>
     <BehaviorTree ID="CloseGripper">
-        <Sequence name="close_gripper_main">
+        <Control ID="Sequence" name="close_gripper_main">
             <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.7929" />
-        </Sequence>
+        </Control>
     </BehaviorTree>
     <BehaviorTree ID="RetreatToInitialPose">
-        <Sequence>
+        <Control ID="Sequence">
             <Action ID="InitializeMTCTask" task_id="push_button_retreat" controller_names="/joint_trajectory_controller" task="{retreat_task}" />
             <Action ID="SetupMTCCurrentState" task="{retreat_task}" />
             <Action ID="SetupMTCUpdateGroupCollisionRule" name="AllowGripperCollisionWithOctomap" parameters="{parameters}" task="{retreat_task}" />
@@ -43,6 +43,6 @@
             <Action ID="SetupMTCMoveToJointState" joint_state="{initial_robot_state}" planning_group_name="manipulator" task="{retreat_task}" />
             <Action ID="PlanMTCTask" solution="{return_to_initial_waypoint_solution}" task="{retreat_task}" />
             <Action ID="ExecuteMTCTask" solution="{return_to_initial_waypoint_solution}" />
-        </Sequence>
+        </Control>
     </BehaviorTree>
 </root>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <root BTCPP_format="4" main_tree_to_execute="Looping Pick and Place Object">
     <!-- ////////// -->
-    <BehaviorTree ID="Looping Pick and Place Object" _description="Repeatedly attempt to detect and grasp a cuboid from a target bin, and drop it in the target area.">
+    <BehaviorTree ID="Looping Pick and Place Object" _description="Repeatedly attempt to detect and grasp a cuboid from a target bin, and drop it in the target area." >
         <Control ID="Sequence">
             <Action ID="LoadObjectiveParameters" config_file_name="looping_pick_and_place_object_config.yaml" parameters="{parameters}"/>
             
@@ -21,7 +21,7 @@
                                 <!-- This decorator contains the logic to detect an object and then execute motion to grasp it. If grasping is aborted because the object changed while the robot was moving towards it, we will retry up to 5 times before giving up. -->
                                 <Decorator ID="RetryUntilSuccessful" num_attempts="5">
                                     <Control ID="Fallback" name="TryGraspInner">
-                                        <Sequence>
+                                        <Control ID="Sequence">
                                             <!-- Clear the collision octree. -->
                                             <Action ID="ClearSnapshot"/>
                                             
@@ -59,7 +59,7 @@
 
                                             <!-- Execute the planned motion. -->
                                             <Action ID="ExecuteMTCTask" solution="{solution}"/>
-                                        </Sequence>
+                                        </Control>
 
                                         <!-- TryGraspInner fallback condition. Wait for a short time before triggering a retry. -->
                                         <Control ID="Sequence">

@@ -2,7 +2,7 @@
 <root BTCPP_format="4" main_tree_to_execute="Open Lever Handle Door">
     <BehaviorTree ID="Open Lever Handle Door"
         _description="Open a lever handle door by turning the handle and pushing the door">
-        <Sequence name="Setup">
+        <Control ID="Sequence" name="Setup">
             <Action ID="LoadObjectiveParameters"
                  config_file_name="open_lever_handle_door_config.yaml" parameters="{parameters}" />
             <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
@@ -13,7 +13,7 @@
                 point_cloud="{point_cloud}" target_handle_length="{handle_length}"
                 target_handle_pose="{handle_pose}" target_handle_z_offset="{handle_z_offset}" />
             <SubTree ID="CloseGripper" />
-            <Sequence name="OpenLeverHandleDoor">
+            <Control ID="Sequence" name="OpenLeverHandleDoor">
                 <Action ID="InitializeMTCTask"
                     task_id="open_lever_handle_door"
                     controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
@@ -38,19 +38,19 @@
                     <!-- THEN reset the controllers -->
                     <Action ID="ActivateControllers" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" />
                     <!-- ELSE reset the controllers and return failure -->
-                    <Sequence>
+                    <Control ID="Sequence">
                         <Action ID="ActivateControllers" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" />
                         <Action ID="AlwaysFailure" />
-                    </Sequence>
+                    </Control>
                 </Control>
-            </Sequence>
-        </Sequence>
+            </Control>
+        </Control>
     </BehaviorTree>
     <BehaviorTree ID="CloseGripper">
-        <Sequence name="CloseGripper">
+        <Control ID="Sequence" name="CloseGripper">
             <Action ID="MoveGripperAction"
                 gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd"
                 position="0.7929" />
-        </Sequence>
+        </Control>
     </BehaviorTree>
 </root>

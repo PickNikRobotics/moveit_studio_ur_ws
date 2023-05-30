@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <root BTCPP_format="4" main_tree_to_execute="Move to Known Pose">
     <BehaviorTree ID="Move to Known Pose" _description="Move to a known pose">
-        <Sequence name="root">
+        <Control ID="Sequence" name="root">
             <SubTree ID="MoveToWaypoint" waypoint_name="{move_to_known_pose.target_state_name}"/>
-        </Sequence>
+        </Control>
     </BehaviorTree>
     <BehaviorTree ID="MoveToWaypoint">
-        <Sequence name="move_to_waypoint_main">
+        <Control ID="Sequence" name="move_to_waypoint_main">
             <Action ID="RetrieveWaypoint" waypoint_joint_state="{target_joint_state}" waypoint_name="{waypoint_name}"/>
             <Action ID="InitializeMTCTask" task_id="move_to_known_pose" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{move_to_waypoint_task}"/>
             <Action ID="SetupMTCCurrentState" task="{move_to_waypoint_task}"/>
             <Action ID="SetupMTCMoveToJointState" joint_state="{target_joint_state}" name="SetupMTCMoveToJointState_First" planning_group_name="manipulator" task="{move_to_waypoint_task}"/>
             <Action ID="PlanMTCTask" solution="{move_to_waypoint_solution}" task="{move_to_waypoint_task}"/>
             <Action ID="ExecuteMTCTask" solution="{move_to_waypoint_solution}"/>
-        </Sequence>
+        </Control>
     </BehaviorTree>
 </root>
