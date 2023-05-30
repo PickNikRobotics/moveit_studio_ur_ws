@@ -1,7 +1,9 @@
 ###############################################
 # Modify all parameters related to servoing here
 ###############################################
-use_gazebo: true  # Whether the robot is started in a Gazebo simulation environment
+
+# Enable dynamic parameter updates
+enable_parameter_update: true
 
 ## Properties of incoming commands
 command_in_type: "unitless" # "unitless"> in the range [-1:1], as if from joystick. "speed_units"> cmds are in m/s and rad/s
