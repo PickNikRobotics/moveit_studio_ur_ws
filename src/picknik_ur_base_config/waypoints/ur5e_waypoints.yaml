@@ -170,3 +170,25 @@
     position: [-0.51890546480287725, -1.6439539394774378, -0.50593507289886475, -2.1812287769713343, 1.8930472135543823, -0.48202354112734014]
     velocity: []
     effort: []
+- name: Place Block
+  joint_state:
+    header:
+      frame_id: world
+      stamp:
+        sec: 0
+        nanosec: 0
+    name: [shoulder_pan_joint, shoulder_lift_joint, elbow_joint, wrist_1_joint, wrist_2_joint, wrist_3_joint]
+    position: [0.139626, -2.05949, -1.48353, -1.20428, 1.69297, 0.20944]
+    velocity: []
+    effort: []
+- name: Pick Block
+  joint_state:
+    header:
+      frame_id: world
+      stamp:
+        sec: 0
+        nanosec: 0
+    name: [shoulder_pan_joint, shoulder_lift_joint, elbow_joint, wrist_1_joint, wrist_2_joint, wrist_3_joint]
+    position: [2.89725, -2.0944, -1.50098, -1.0472, 1.69297, 0.20944]
+    velocity: []
+    effort: []
