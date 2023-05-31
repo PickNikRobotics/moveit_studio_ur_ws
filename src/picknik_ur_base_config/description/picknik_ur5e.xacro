@@ -37,7 +37,7 @@
   
   <!-- Import environment macros -->
   <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
-  <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_visual.urdf.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/visual/cube_visual.urdf.xacro" />
 
   <link name="world" />
   <!-- arm -->
