@@ -2,7 +2,8 @@
 <root BTCPP_format="4" main_tree_to_execute="Interpolate to Named State">
     <BehaviorTree ID="Interpolate to Named State" _description="Move to a specified named waypoint">
         <Control ID="Sequence" name="root">
-            <SubTree ID="InterpolateToNamedStateWaypoint" target_named_state="{interpolate_to_named_state.target_named_state}"/>
+            <Action ID="GetStringFromUser" parameter_name="interpolate_to_named_state.target_named_state" parameter_value="{target_named_state}" />
+            <SubTree ID="InterpolateToNamedStateWaypoint" target_named_state="{target_named_state}"/>
         </Control>
     </BehaviorTree>
     <BehaviorTree ID="InterpolateToNamedStateWaypoint">

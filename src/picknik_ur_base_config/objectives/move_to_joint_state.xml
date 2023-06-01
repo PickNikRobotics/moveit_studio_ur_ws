@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <root BTCPP_format="4" main_tree_to_execute="Move to Joint State">
     <BehaviorTree ID="Move to Joint State" _description="Single-node behavior to move to a specified joint state">
-        <Action ID="MoveToJointState" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" planning_group_name="manipulator" waypoint_name="{move_to_joint_state.waypoint_name}" />
+        <Control ID="Sequence">
+            <Action ID="GetStringFromUser" parameter_name="move_to_joint_state.waypoint_name" parameter_value="{waypoint_name}" />
+            <Action ID="MoveToJointState" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" planning_group_name="manipulator" waypoint_name="{waypoint_name}" />
+        </Control>
     </BehaviorTree>
 </root>

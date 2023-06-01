@@ -8,7 +8,8 @@
             <Control ID="Sequence">
                 <Action ID="InitializeMTCTask" task_id="push_button" controller_names="/joint_trajectory_controller" task="{push_button_task}"/>
                 <Action ID="SetupMTCCurrentState" task="{push_button_task}"/>
-                <Action ID="SetupMTCMoveToPose" ik_frame="manual_grasp_link" planning_group_name="manipulator" target_pose="{push_button.target_pose}" task="{push_button_task}"/>
+                <Action ID="GetPoseFromUser" parameter_name="push_button.target_pose" parameter_value="{target_pose}" />
+                <Action ID="SetupMTCMoveToPose" ik_frame="manual_grasp_link" planning_group_name="manipulator" target_pose="{target_pose}" task="{push_button_task}"/>
                 <Action ID="SetupMTCUpdateGroupCollisionRule" name="AllowGripperCollisionWithOctomap" parameters="{parameters}" task="{push_button_task}" />
                 <Action ID="SetupMTCMoveAlongFrameAxis" axis="z" max_distance="0.2" min_distance="0.05" parameters="{parameters}" task="{push_button_task}" />
                 <Action ID="SetupMTCUpdateGroupCollisionRule" name="ForbidGripperCollisionWithOctomap" parameters="{parameters}" task="{push_button_task}" />
