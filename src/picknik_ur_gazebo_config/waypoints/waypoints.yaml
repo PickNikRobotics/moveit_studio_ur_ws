@@ -8,19 +8,19 @@
         nanosec: 0
         sec: 0
     name:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - -0.3130109945880335
-    - -2.275282999078268
-    - -0.994219183921814
-    - -1.4464575362256546
-    - 1.6087517738342285
-    - 0.3333250880241394
+      - -0.3130109945880335
+      - -2.275282999078268
+      - -0.994219183921814
+      - -1.4464575362256546
+      - 1.6087517738342285
+      - 0.3333250880241394
     velocity: []
   name: Place Right
 - description: ''
@@ -33,19 +33,19 @@
         nanosec: 0
         sec: 0
     name:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - 0
-    - -0.78
-    - -0.51
-    - -2.4
-    - 1.65
-    - 0
+      - 0
+      - -0.78
+      - -0.51
+      - -2.4
+      - 1.65
+      - 0
     velocity: []
   name: Home
 - description: ''
@@ -58,19 +58,19 @@
         nanosec: 0
         sec: 0
     name:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - 0.58
-    - -0.78
-    - -0.45
-    - -2.33
-    - 1.64
-    - 0
+      - 0.58
+      - -0.78
+      - -0.45
+      - -2.33
+      - 1.64
+      - 0
     velocity: []
   name: Left Corner
 - description: ''
@@ -83,19 +83,19 @@
         nanosec: 0
         sec: 0
     name:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - -0.61
-    - -0.78
-    - -0.45
-    - -2.49
-    - 1.64
-    - 0
+      - -0.61
+      - -0.78
+      - -0.45
+      - -2.49
+      - 1.64
+      - 0
     velocity: []
   name: Right Corner
 - description: ''
@@ -108,19 +108,19 @@
         nanosec: 0
         sec: 0
     name:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - 0
-    - -1.41
-    - -0.7
-    - -2.12
-    - 1.67
-    - 0
+      - 0
+      - -1.41
+      - -0.7
+      - -2.12
+      - 1.67
+      - 0
     velocity: []
   name: Forward Down
 - description: ''
@@ -133,19 +133,19 @@
         nanosec: 0
         sec: 0
     name:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - 3.03
-    - -0.78
-    - -0.51
-    - -2.39
-    - 1.65
-    - 0
+      - 3.03
+      - -0.78
+      - -0.51
+      - -2.39
+      - 1.65
+      - 0
     velocity: []
   name: Behind
 - description: ''
@@ -158,19 +158,19 @@
         nanosec: 0
         sec: 0
     name:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - -0.5189054648028772
-    - -1.6439539394774378
-    - -0.5059350728988647
-    - -2.1812287769713343
-    - 1.8930472135543823
-    - -0.48202354112734014
+      - -0.5189054648028772
+      - -1.6439539394774378
+      - -0.5059350728988647
+      - -2.1812287769713343
+      - 1.8930472135543823
+      - -0.48202354112734014
     velocity: []
   name: Look at Pick and Place Zone
 - description: ''
@@ -183,19 +183,19 @@
         nanosec: 0
         sec: 0
     name:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - -0.13052112260927373
-    - -2.0738541088499964
-    - -1.386773705482483
-    - -1.2032757264426728
-    - 1.5722750425338745
-    - -1.2421711126910608
+      - -0.13052112260927373
+      - -2.0738541088499964
+      - -1.386773705482483
+      - -1.2032757264426728
+      - 1.5722750425338745
+      - -1.2421711126910608
     velocity: []
   name: Place Left
 - description: ''
@@ -208,19 +208,19 @@
         nanosec: 0
         sec: 0
     name:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - 1.7106408048516861
-    - -1.4059608109989423
-    - -2.244562351801438
-    - -1.0579454569342845
-    - 1.5424139211715722
-    - 0.1396995169505384
+      - 1.7106408048516861
+      - -1.4059608109989423
+      - -2.244562351801438
+      - -1.0579454569342845
+      - 1.5424139211715722
+      - 0.1396995169505384
     velocity: []
   name: Place
 - description: ''
@@ -233,18 +233,18 @@
         nanosec: 0
         sec: 0
     name:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - 2.7831476791281586
-    - -1.9145402017869575
-    - -0.9326611344499681
-    - -1.9358008389543373
-    - 1.696225236121414
-    - -0.32948687062669924
+      - 2.7831476791281586
+      - -1.9145402017869575
+      - -0.9326611344499681
+      - -1.9358008389543373
+      - 1.696225236121414
+      - -0.32948687062669924
     velocity: []
   name: Pick

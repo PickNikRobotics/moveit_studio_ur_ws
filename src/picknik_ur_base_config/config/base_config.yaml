@@ -206,7 +206,7 @@ octomap_manager:
   # the Octomap manager node is defined in sensors_3d.yaml.
   input_point_cloud_topic: "/wrist_mounted_camera/depth/color/points"
 
-# Configuration for loading behaviors and objectives. 
+# Configuration for loading behaviors and objectives.
 # [Required]
 objectives:
   # List of plugins for loading custom behaviors.
