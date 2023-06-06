@@ -4,7 +4,10 @@
         <Control ID="Sequence" name="root">
             <Control ID="Fallback" name="log_error_if_parameter_not_set">
                 <Action ID="GetJointStateFromUser" parameter_name="interpolate_to_joint_state.target_joint_state" parameter_value="{target_joint_state}" />
-                <Action ID="LogMessage" message="This objective is used by joint sliders in the Joints tab." log_level="error" />
+                <Control ID="Sequence">
+                    <Action ID="LogMessage" message="This objective is meant to be used by joint sliders in the Joints tab. Try it out there!" log_level="error" />
+                    <Action ID="AlwaysFailure" />
+                </Control>
             </Control>
             <SubTree ID="InterpolateToJointStateWaypoint" target_joint_state="{target_joint_state}"/>
         </Control>
