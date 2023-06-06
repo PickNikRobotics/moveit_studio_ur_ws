@@ -3,11 +3,10 @@
     <BehaviorTree ID="Move to Known Pose" _description="Move to a known pose">
         <Control ID="Sequence" name="root">
             <!-- When the user clicks on different pose buttons on Endpoint tab, the frontend sets move_to_known_pose.target_state_name parameter value-->
-            <Fallback name="log_error_if_parameter_not_set">
+            <Control ID="Fallback" name="log_error_if_parameter_not_set">
                 <Action ID="GetStringFromUser" parameter_name="move_to_known_pose.target_state_name" parameter_value="{target_state_name}"/>
                 <Action ID="LogMessage" message="This objective is used by Move To Pose buttons in the Endpoint tab." log_level="error" />
-            </Fallback>
-            <Action ID="GetStringFromUser" parameter_name="move_to_known_pose.target_state_name" parameter_value="{target_state_name}"/>
+            </Control>
             <SubTree ID="MoveToWaypoint" waypoint_name="{target_state_name}"/>
         </Control>
     </BehaviorTree>
