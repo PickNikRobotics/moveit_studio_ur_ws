@@ -257,22 +257,6 @@ def generate_launch_description():
         output="both",
     )
 
-    frame_pair_params = [
-        {
-            "world_frame": "world",
-            "camera_frames": generate_camera_frames(cameras_config),
-        }
-    ]
-
-    camera_transforms_node = Node(
-        package="moveit_studio_agent",
-        executable="camera_transforms_node",
-        name="camera_transforms_node",
-        output="both",
-        parameters=frame_pair_params,
-        arguments=["--ros-args"],
-    )
-
     #####################
     # Environment Scene #
     #####################
@@ -311,6 +295,5 @@ def generate_launch_description():
             gazebo,
             spawn_robot,
             spawn_scene,
-            camera_transforms_node,
         ]
     )

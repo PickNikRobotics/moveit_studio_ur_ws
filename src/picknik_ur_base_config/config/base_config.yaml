@@ -38,29 +38,23 @@ hardware:
   ip: "!!! Please set the IP address of the robot"
 
   # Specify additional launch files for running the robot with real hardware.
-  # [Required]
+  # [Optional, defaults to a blank launch file if not specified]
   robot_driver_persist_launch_file:
     package: "picknik_ur_base_config"
     path: "launch/robot_drivers_to_persist.launch.py"
-  robot_driver_restart_launch_file:
-    package: "picknik_ur_base_config"
-    path: "launch/robot_drivers_to_restart.launch.py"
   hardware_launch_file:
-    package: "picknik_ur_base_config"
-    path: "launch/hardware.launch.py"
+    package: "moveit_studio_agent"
+    path: "launch/blank.launch.py"
 
   # Specify any additional launch files for running the robot in simulation mode.
-  # Used when simulated is True.
-  # [Required]
+  # Used when hardware.simulated is True.
+  # [Optional, defaults to a blank launch file if not specified]
   simulated_robot_driver_persist_launch_file:
     package: "picknik_ur_base_config"
     path: "launch/sim/robot_drivers_to_persist_sim.launch.py"
-  simulated_robot_driver_restart_launch_file:
-    package: "picknik_ur_base_config"
-    path: "launch/sim/robot_drivers_to_restart_sim.launch.py"
   simulated_hardware_launch_file:
-    package: "picknik_ur_base_config"
-    path: "launch/sim/hardware_sim.launch.py"
+    package: "moveit_studio_agent"
+    path: "launch/blank.launch.py"
 
   # Configuration details for cameras and scene planning.
   # [Required]
