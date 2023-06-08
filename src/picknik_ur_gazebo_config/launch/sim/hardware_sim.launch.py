@@ -42,7 +42,6 @@ from moveit_studio_utils_py.launch_common import (
     xacro_to_urdf,
 )
 from moveit_studio_utils_py.system_config import get_config_folder, SystemConfigParser
-from moveit_studio_utils_py.generate_camera_frames import generate_camera_frames
 
 
 def path_pattern_change_for_ignition(urdf_string):
@@ -99,7 +98,6 @@ def generate_simulation_description(context, *args, **settings):
 def generate_launch_description():
     system_config_parser = SystemConfigParser()
     optional_feature_setting = system_config_parser.get_optional_feature_configs()
-    cameras_config = system_config_parser.get_cameras_config()
 
     # The path to the auto_created urdf files
     robot_urdf = system_config_parser.get_processed_urdf()
