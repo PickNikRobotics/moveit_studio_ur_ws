@@ -8,8 +8,10 @@
             <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
             <Action ID="PublishPointCloud" point_cloud="{point_cloud}"
                 point_cloud_topic="studio_vision_debug_snapshot" />
-            <Action ID="GetDoorHandle" handle_pivot_pose="{get_door_handle_pose.handle_pivot_pose}"
-                handle_tip_pose="{get_door_handle_pose.handle_tip_pose}" parameters="{parameters}"
+            <Action ID="GetPoseFromUser" parameter_name="get_door_handle_pose.handle_pivot_pose" parameter_value="{handle_pivot_pose}" />
+            <Action ID="GetPoseFromUser" parameter_name="get_door_handle_pose.handle_tip_pose" parameter_value="{handle_tip_pose}" />
+            <Action ID="GetDoorHandle" handle_pivot_pose="{handle_pivot_pose}"
+                handle_tip_pose="{handle_tip_pose}" parameters="{parameters}"
                 point_cloud="{point_cloud}" target_handle_length="{handle_length}"
                 target_handle_pose="{handle_pose}" target_handle_z_offset="{handle_z_offset}" />
             <SubTree ID="CloseGripper" />
