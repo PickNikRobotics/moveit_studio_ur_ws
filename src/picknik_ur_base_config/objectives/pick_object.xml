@@ -3,7 +3,8 @@
     <BehaviorTree ID="Pick Object" _description="Pick up and lift a small object">
         <Control ID="Sequence" name="root">
             <SubTree ID="OpenGripper"/>
-            <SubTree ID="PickObject" grasp_pose="{pick_object.grasp_pose}"/>
+            <Action ID="GetPoseFromUser" parameter_name="pick_object.grasp_pose" parameter_value="{grasp_pose}" />
+            <SubTree ID="PickObject" grasp_pose="{grasp_pose}"/>
         </Control>
     </BehaviorTree>
     <BehaviorTree ID="PickObject">

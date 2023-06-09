@@ -2,7 +2,14 @@
 <root BTCPP_format="4" main_tree_to_execute="Interpolate to Joint State">
     <BehaviorTree ID="Interpolate to Joint State" _description="Move to a specified joint state">
         <Control ID="Sequence" name="root">
-            <SubTree ID="InterpolateToJointStateWaypoint" target_joint_state="{interpolate_to_joint_state.target_joint_state}"/>
+            <Control ID="Fallback" name="log_error_if_parameter_not_set">
+                <Action ID="GetJointStateFromUser" parameter_name="interpolate_to_joint_state.target_joint_state" parameter_value="{target_joint_state}" />
+                <Control ID="Sequence">
+                    <Action ID="LogMessage" message="This Objective is meant to be used by joint sliders in the Joints tab. Try it out there!" log_level="error" />
+                    <Action ID="AlwaysFailure" />
+                </Control>
+            </Control>
+            <SubTree ID="InterpolateToJointStateWaypoint" target_joint_state="{target_joint_state}"/>
         </Control>
     </BehaviorTree>
     <BehaviorTree ID="InterpolateToJointStateWaypoint">

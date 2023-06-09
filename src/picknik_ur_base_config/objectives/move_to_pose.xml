@@ -4,7 +4,8 @@
         <Control ID="Sequence">
             <Action ID="InitializeMTCTask" task_id="move_to_pose" controller_names="/joint_trajectory_controller" task="{move_to_pose_task}"/>
             <Action ID="SetupMTCCurrentState" task="{move_to_pose_task}"/>
-            <Action ID="SetupMTCMoveToPose" ik_frame="manual_grasp_link" planning_group_name="manipulator" target_pose="{move_to_pose.target_pose}" task="{move_to_pose_task}"/>
+            <Action ID="GetPoseFromUser" parameter_name="move_to_pose.target_pose" parameter_value="{target_pose}" />
+            <Action ID="SetupMTCMoveToPose" ik_frame="manual_grasp_link" planning_group_name="manipulator" target_pose="{target_pose}" task="{move_to_pose_task}"/>
             <Action ID="PlanMTCTask" solution="{move_to_pose_solution}" task="{move_to_pose_task}"/>
             <Fallback name="wait_for_approval_if_user_available">
                 <Inverter>

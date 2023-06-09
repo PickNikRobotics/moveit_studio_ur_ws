@@ -2,7 +2,15 @@
 <root BTCPP_format="4" main_tree_to_execute="Move to Known Pose">
     <BehaviorTree ID="Move to Known Pose" _description="Move to a known pose">
         <Control ID="Sequence" name="root">
-            <SubTree ID="MoveToWaypoint" waypoint_name="{move_to_known_pose.target_state_name}"/>
+            <!-- When the user clicks on different pose buttons on Endpoint tab, the frontend sets move_to_known_pose.target_state_name parameter value-->
+            <Control ID="Fallback" name="log_error_if_parameter_not_set">
+                <Action ID="GetStringFromUser" parameter_name="move_to_known_pose.target_state_name" parameter_value="{target_state_name}"/>
+                <Control ID="Sequence">
+                    <Action ID="LogMessage" message="This Objective is meant to be used by Move To Pose buttons in the Endpoint tab. Try it out there!" log_level="error" />
+                    <Action ID="AlwaysFailure" />
+                </Control>
+            </Control>
+            <SubTree ID="MoveToWaypoint" waypoint_name="{target_state_name}"/>
         </Control>
     </BehaviorTree>
     <BehaviorTree ID="MoveToWaypoint">

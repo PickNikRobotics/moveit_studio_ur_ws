@@ -24,7 +24,8 @@
                             <!-- Detect all cuboids in that point cloud-->
                             <Action ID="FindSingularCuboids" point_cloud="{point_cloud}" parameters="{parameters}" detected_shapes="{cuboids}"/>
                             <!-- Find the closest cuboid to the pose calculated from the user's original click -->
-                            <Action ID="GetClosestObjectToPose" objects="{cuboids}" pose="{pick_place_object.grasp_pose}" distance_threshold="0.3" closest_object="{cuboid_object}"/>
+                            <Action ID="GetPoseFromUser" parameter_name="pick_place_object.grasp_pose" parameter_value="{grasp_pose}" />
+                            <Action ID="GetClosestObjectToPose" objects="{cuboids}" pose="{grasp_pose}" distance_threshold="0.3" closest_object="{cuboid_object}"/>
                             <!-- Add this cuboid to the planning scene. -->
                             <Action ID="ModifyObjectInPlanningScene" object="{cuboid_object}" apply_planning_scene_service="/apply_planning_scene"/>
                              <!-- Use point cloud to update the collision octomap (happens after ModifyObjectInPlanningScene so the cuboid is excluded from the octomap)-->
@@ -67,7 +68,8 @@
                                         <Control ID="Sequence">
                                             <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
                                             <Action ID="FindSingularCuboids" parameters="{parameters}" point_cloud="{point_cloud}" detected_shapes="{cuboids}"/>
-                                            <Action ID="GetClosestObjectToPose" objects="{cuboids}" pose="{pick_place_object.grasp_pose}" distance_threshold="0.3" closest_object="{new_cuboid_object}"/>
+                                            <Action ID="GetPoseFromUser" parameter_name="pick_place_object.grasp_pose" parameter_value="{grasp_pose}" />
+                                            <Action ID="GetClosestObjectToPose" objects="{cuboids}" pose="{grasp_pose}" distance_threshold="0.3" closest_object="{new_cuboid_object}"/>
                                             <Action ID="CheckCuboidSimilarity" input_cuboid="{new_cuboid_object}" reference_cuboid="{cuboid_object}" base_frame="world" distance_threshold="0.04" orientation_threshold="3.14" />
                                         </Control>
 
