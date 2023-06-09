@@ -12,6 +12,7 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <exec_depend>moveit_ros_perception</exec_depend>
+  <exec_depend>moveit_studio_agent</exec_depend>
   <exec_depend>moveit_studio_behavior</exec_depend>
   <exec_depend>moveit_studio_ur_pstop_manager</exec_depend>
   <exec_depend>pick_ik</exec_depend>
