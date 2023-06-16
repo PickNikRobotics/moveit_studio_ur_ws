@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="3">
   <name>moveit_studio_agent_examples</name>
-  <version>2.2.0</version>
+  <version>2.2.1</version>
   <description>Package containing scripts for interacting with MoveIt Studio Agent</description>
 
   <maintainer email="chance.cardona@picknik.ai">Chance Cardona</maintainer>
