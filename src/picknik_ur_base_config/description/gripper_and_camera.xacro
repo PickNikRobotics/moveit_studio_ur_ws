@@ -3,7 +3,7 @@
 <robot name="ur5e_gripper_and_camera" xmlns:xacro="http://wiki.ros.org/xacro">
   <!-- Import macros for main hardware components -->
   <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro" />
-  <xacro:include filename="$(find robotiq_description)/urdf/robotiq_gripper_macro.urdf.xacro" />
+  <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro" />
   <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur_camera_adapter.urdf.xacro"/>
   <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro"/>
 
