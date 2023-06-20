@@ -77,9 +77,9 @@ joint_limits:
     has_velocity_limits: true
     max_acceleration: !degrees 30.0
     max_effort: 28.0
-    max_position: !degrees  180.0
+    max_position: !degrees  360.0
     max_velocity: !degrees  60.0
-    min_position: !degrees -180.0
+    min_position: !degrees -360.0
   robotiq_85_left_knuckle_joint:
     has_velocity_limits: true
     max_velocity: 0.5

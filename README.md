@@ -47,6 +47,6 @@ Once that is done, from the root of the workspace run:
 
 `docker compose up`
 
-Wait a moment for the application to start, then open the Chrome browser and navigate to [http://localhost](http://localhost).
+Wait a moment for the application to start, then open the Chrome browser and navigate to ``http://localhost``.
 
 You should be up and running with the default UR5e configuration!

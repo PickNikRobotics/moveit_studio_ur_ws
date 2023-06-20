@@ -16,9 +16,6 @@ scene_scan_camera:
   padding_offset: 0.01
   # The octomap representation will be updated at rate less than or equal to this value.
   max_update_rate: 0.1
-  # This parameter is not required by moveit_studio_plugins/PointCloudServiceOctomapUpdater, but it is needed by the Studio UpdatePlanningScene behavior so we keep it in for now.
-  # TODO(10856): Delete this parameter
-  point_cloud_topic: "/scene_camera/depth/color/points/snapshot"
 
 # Specifies the resolution at which the octomap is maintained (in meters).
 octomap_resolution: 0.01

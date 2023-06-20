@@ -20,7 +20,7 @@ hardware:
   # You can change this to another UR model but you must update any configuration affected by the different arm size
   # UR models in the ur_description package are ur3, ur3e, ur5, ur5e, ur10, ur10e, and ur16e.
   type: "ur5e"
-  
+
   # This is the only option for this site_config
   simulated: True
 
