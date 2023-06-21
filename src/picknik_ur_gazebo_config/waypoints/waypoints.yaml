@@ -147,7 +147,7 @@
       - 1.65
       - 0
     velocity: []
-  name: Behind
+  name: Look at Table
 - description: ''
   favorite: false
   joint_state:
