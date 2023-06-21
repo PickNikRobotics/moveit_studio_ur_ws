@@ -147,31 +147,6 @@
       - 1.65
       - 0
     velocity: []
-  name: Behind
-- description: ''
-  favorite: false
-  joint_state:
-    effort: []
-    header:
-      frame_id: world
-      stamp:
-        nanosec: 0
-        sec: 0
-    name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
-    position:
-      - -0.5189054648028772
-      - -1.6439539394774378
-      - -0.5059350728988647
-      - -2.1812287769713343
-      - 1.8930472135543823
-      - -0.48202354112734014
-    velocity: []
   name: Look at Pick and Place Zone
 - description: ''
   favorite: false
