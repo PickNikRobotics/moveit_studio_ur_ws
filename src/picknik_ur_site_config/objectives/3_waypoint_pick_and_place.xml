@@ -5,7 +5,7 @@
         <Control ID="Sequence">
             <!-- Clear snapshot, move to center pose, and open gripper -->
             <Action ID="ClearSnapshot" />
-            <Action ID="MoveToJointState" waypoint_name="Behind" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
+            <Action ID="MoveToJointState" waypoint_name="Look at Table" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
             <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0"/>
             <!-- Keep executing the pick and place sequence until failure -->
             <Decorator ID="KeepRunningUntilFailure">
@@ -14,19 +14,19 @@
                     <Control ID="Sequence">
                         <Action ID="MoveToJointState" waypoint_name="Pick Block" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
                         <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.7929"/>
-                        <Action ID="MoveToJointState" waypoint_name="Behind" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
+                        <Action ID="MoveToJointState" waypoint_name="Look at Table" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
                         <Action ID="MoveToJointState" waypoint_name="Place Block" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
                         <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0"/>
-                        <Action ID="MoveToJointState" waypoint_name="Behind" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
+                        <Action ID="MoveToJointState" waypoint_name="Look at Table" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
                     </Control>
                     <!-- Pick object from "Place", put it down at "Grab", and go back to center pose -->
                     <Control ID="Sequence">
                         <Action ID="MoveToJointState" waypoint_name="Place Block" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
                         <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.7929"/>
-                        <Action ID="MoveToJointState" waypoint_name="Behind" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
+                        <Action ID="MoveToJointState" waypoint_name="Look at Table" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
                         <Action ID="MoveToJointState" waypoint_name="Pick Block" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
                         <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0"/>
-                        <Action ID="MoveToJointState" waypoint_name="Behind" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
+                        <Action ID="MoveToJointState" waypoint_name="Look at Table" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
                     </Control>
                 </Control>
             </Decorator>
