@@ -159,17 +159,6 @@
     position: [-0.3130109945880335, -2.2752829990782679, -0.99421918392181396, -1.4464575362256546, 1.6087517738342285, 0.3333250880241394]
     velocity: []
     effort: []
-- name: Look at Pick and Place Zone
-  joint_state:
-    header:
-      frame_id: world
-      stamp:
-        sec: 0
-        nanosec: 0
-    name: [shoulder_pan_joint, shoulder_lift_joint, elbow_joint, wrist_1_joint, wrist_2_joint, wrist_3_joint]
-    position: [-0.51890546480287725, -1.6439539394774378, -0.50593507289886475, -2.1812287769713343, 1.8930472135543823, -0.48202354112734014]
-    velocity: []
-    effort: []
 - name: Place Block
   joint_state:
     header:
