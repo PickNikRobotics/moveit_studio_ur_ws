@@ -43,7 +43,7 @@
   <!-- arm -->
   <xacro:ur_robot
     name="$(arg name)"
-    prefix=""
+    tf_prefix=""
     parent="world"
     joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
     kinematics_parameters_file="$(arg kinematics_parameters_file)"
