@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<root BTCPP_format="4" main_tree_to_execute="Cycle Joint">
+<root BTCPP_format="4" main_tree_to_execute="Joint Diagnostic">
   <!-- ////////// -->
-  <BehaviorTree ID="Cycle Joint" _description="Move to a known pose and cycle through the min and max limits of a joint repeatedly">
+  <BehaviorTree ID="Joint Diagnostic" _description="Move to a known pose and cycle through the min and max limits of a joint repeatedly">
     <Control ID="Sequence" name="TopLevelSequence">
       <Action ID="MoveToJointState" waypoint_name="Home" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
       <Decorator ID="KeepRunningUntilFailure">
