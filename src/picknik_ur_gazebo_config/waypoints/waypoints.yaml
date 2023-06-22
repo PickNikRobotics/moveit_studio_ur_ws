@@ -248,3 +248,53 @@
       - 0.6922835016976157
     velocity: []
   name: Pick
+- description: ''
+  favorite: false
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -2.2335834056138996e-05
+    - -0.7800858658974525
+    - -0.5100288585397881
+    - -2.399985082258936
+    - -3.141592653589793
+    - 2.282092208042741e-05
+    velocity: []
+  name: Wrist 2 Min
+- description: ''
+  favorite: false
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -2.2335834056138996e-05
+    - -0.7800858658974525
+    - -0.5100288585397881
+    - -2.399985082258936
+    - 3.141592653589793
+    - 2.282092208042741e-05
+    velocity: []
+  name: Wrist 2 Max
