@@ -7,7 +7,7 @@ based_on_package: "picknik_ur_base_config"
 
 # Optional parameters that can be read in your launch files for specific functionality
 optional_feature_params:
-  gazebo_world_name: "space_station.sdf"
+  gazebo_world_name: "space_station_blocks_world.sdf"
   gazebo_gui: False
   gazebo_verbose: True
 

@@ -14,12 +14,12 @@ FindSingularCuboids:
   # These define a rectangular region of interest relative to base_frame.
   #   The settings here define a box that encloses the shelf in the space station booth just below the XY plane of the world frame.
   # Origin of the region:
-  crop_box_origin_x: -0.8
-  crop_box_origin_y: 0.0
+  crop_box_origin_x: -1.1
+  crop_box_origin_y: -0.75
   crop_box_origin_z: -0.03
   # Extent of the region:
-  crop_box_size_x: 0.5
-  crop_box_size_y: 0.75
+  crop_box_size_x: 1.0
+  crop_box_size_y: 1.5
   crop_box_size_z: 0.5
 
 SetupMTCPickCuboid:
