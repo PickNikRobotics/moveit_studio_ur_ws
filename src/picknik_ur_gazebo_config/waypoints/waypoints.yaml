@@ -149,7 +149,7 @@
     velocity: []
   name: Look at Table
 - description: ''
-  favorite: true
+  favorite: false
   joint_state:
     effort: []
     header:
