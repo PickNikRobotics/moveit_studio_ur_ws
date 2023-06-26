@@ -7,7 +7,7 @@ scene_scan_camera:
   # Set to an empty topic to disable.
   point_cloud_service_name: "/point_cloud_service"
   # Points further than this will not be used (in meters).
-  max_range: 1.5
+  max_range: 3.0
   # Choose one of every 'point_subsample' points (select all if set to 1).
   point_subsample: 1
   # Should always be >= 1.0. Scale up collision shapes in the scene before excluding them from the octomap.
