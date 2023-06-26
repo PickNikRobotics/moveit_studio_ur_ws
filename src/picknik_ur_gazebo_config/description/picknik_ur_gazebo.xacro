@@ -34,7 +34,7 @@
   <!-- arm -->
   <xacro:ur_robot
     name="$(arg name)"
-    prefix=""
+    tf_prefix=""
     parent="world"
     joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
     kinematics_parameters_file="$(arg kinematics_parameters_file)/$(arg name)/default_kinematics.yaml"
@@ -81,7 +81,7 @@
   <!-- Environment -->
   <link name="environment">
     <!-- Table -->
-    <xacro:cube_collision_and_visual length="2.0" width="2.0" height="0.25">
+    <xacro:cube_collision_and_visual length="1.5" width="1.0" height="0.25">
       <origin rpy="0 0 0" xyz="0 0 ${-0.25/2}" />
       <color rgba="0 0 1 0" />
     </xacro:cube_collision_and_visual>
