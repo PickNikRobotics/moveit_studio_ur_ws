@@ -36,15 +36,11 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, OpaqueFunction
 from launch_ros.actions import Node
 
-from moveit_studio_utils_py.launch_common import (
-    get_launch_file,
-    get_ros_path,
-    xacro_to_urdf,
-)
+from moveit_studio_utils_py.launch_common import get_launch_file, get_ros_path
 from moveit_studio_utils_py.system_config import get_config_folder, SystemConfigParser
 
 
-def path_pattern_change_for_ignition(urdf_string):
+def path_pattern_change_for_gazebo(urdf_string):
     """
     Replaces strings in a URDF file such as
         package://package_name/path/to/file
@@ -58,15 +54,15 @@ def path_pattern_change_for_ignition(urdf_string):
 
 
 def generate_simulation_description(context, *args, **settings):
-    world_name = settings.get("gazebo_world_name", "space_station.sdf")
+    world_name = settings.get("gazebo_world_name", "space_station_blocks_world.sdf")
     use_gui = settings.get("gazebo_gui", False)
     is_verbose = settings.get("gazebo_verbose", False)
     gz_renderer = os.environ.get("GAZEBO_RENDERER", "ogre")
 
     # Create a Gazebo world file that swaps out package:// paths with absolute path.
     original_world_file = os.path.join(
-        get_package_share_directory("picknik_accessories"),
-        "descriptions",
+        get_package_share_directory("picknik_ur_gazebo_config"),
+        "description",
         "simulation_worlds",
         world_name,
     )
@@ -74,7 +70,7 @@ def generate_simulation_description(context, *args, **settings):
         get_config_folder(), "auto_created", "gazebo_world.sdf"
     )
     with open(original_world_file, "r") as file:
-        world_sdf = path_pattern_change_for_ignition(file.read())
+        world_sdf = path_pattern_change_for_gazebo(file.read())
     with open(modified_world_file, "w") as file:
         file.write(world_sdf)
 
@@ -101,7 +97,7 @@ def generate_launch_description():
 
     # The path to the auto_created urdf files
     robot_urdf = system_config_parser.get_processed_urdf()
-    robot_urdf_ignition = path_pattern_change_for_ignition(robot_urdf)
+    robot_urdf_ignition = path_pattern_change_for_gazebo(robot_urdf)
 
     # Launch Gazebo
     gazebo = OpaqueFunction(
@@ -255,30 +251,6 @@ def generate_launch_description():
         output="both",
     )
 
-    #####################
-    # Environment Scene #
-    #####################
-    scene_xacro_path = get_ros_path(
-        "picknik_ur_gazebo_config", "description/simulation_scene.urdf.xacro"
-    )
-    scene_urdf = xacro_to_urdf(scene_xacro_path, None)
-    scene_urdf_ignition = path_pattern_change_for_ignition(scene_urdf)
-
-    spawn_scene = Node(
-        package="ros_gz_sim",
-        executable="create",
-        output="both",
-        arguments=[
-            "-string",
-            scene_urdf_ignition,
-            "-name",
-            "cabinet",
-            "-allow_renaming",
-            "true",
-        ]
-        + init_pose_args,
-    )
-
     return LaunchDescription(
         [
             scene_image_rgb_ignition_bridge,
@@ -292,6 +264,5 @@ def generate_launch_description():
             fts_bridge,
             gazebo,
             spawn_robot,
-            spawn_scene,
         ]
     )
