@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <!-- radius of wrist_2_link/forearm_link is ~0.045m. Actual offset of this is (radius - attached_link's radius) -->
-  <xacro:macro name="pinch_link" params="prefix:='' connected_to:='forearm_link' length:=0.30 radius:=0.065">
+  <xacro:macro name="pinch_link" params="prefix:='' connected_to:='forearm_link' length:=0.30 radius:=0.07">
     <xacro:property name="prefix_" value='${prefix + "_" if prefix else ""}' />
     <link name="pinch_link">
       <visual>
