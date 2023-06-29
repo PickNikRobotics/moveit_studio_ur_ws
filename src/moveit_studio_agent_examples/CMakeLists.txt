@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16.3)
+cmake_minimum_required(VERSION 3.22)
 project(moveit_studio_agent_examples)
 
 find_package(ament_cmake REQUIRED)
