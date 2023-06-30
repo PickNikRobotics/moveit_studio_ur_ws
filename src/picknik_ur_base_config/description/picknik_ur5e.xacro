@@ -4,7 +4,7 @@
   <xacro:arg name="use_fake_hardware" default="false" />
   <xacro:arg name="external_camera" default="false" />
   <xacro:arg name="has_tool_changer" default="true" />
-  <xacro:arg name="use_pinch_link" default="true" />
+  <xacro:arg name="use_pinch_links" default="true" />
   <xacro:arg name="name" default="" />
   <xacro:arg name="joint_limits_parameters_file" default="" />
   <xacro:arg name="kinematics_parameters_file" default="" />
@@ -29,7 +29,7 @@
   <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur_camera_adapter.urdf.xacro" />
   <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro" />
   <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro" />
-  <xacro:include filename="$(find picknik_ur_base_config)/description/pinch_link.xacro" />
+  <xacro:include filename="$(find picknik_ur_base_config)/description/pinch_links.xacro" />
 
   <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
   <xacro:arg name="initial_positions_file" default="$(find picknik_ur_base_config)/config/initial_positions.yaml"/>
@@ -65,8 +65,9 @@
   </xacro:if>
 
   <!-- pinch geometry for moveit motion planning. see https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver/issues/611 -->
-  <xacro:if value="$(arg use_pinch_link)">
-    <xacro:pinch_link prefix="" />
+  <xacro:if value="$(arg use_pinch_links)">
+    <xacro:forearm_pinch_link/>
+    <xacro:wrist_3_pinch_link/>
   </xacro:if>
 
   <!-- wrist camera adapter and camera-->
