@@ -24,7 +24,7 @@
     </link>
 
     <joint name="${prefix_}forearm_pinch_joint" type="fixed">
-      <parent link="forearm_link"/>
+      <parent link="${prefix_}forearm_link"/>
       <child link="${prefix_}forearm_pinch_link"/>
       <origin xyz="${-0.08 - length/2} 0 0.0049" rpy="0 ${pi/2} 0" />
     </joint>
@@ -52,7 +52,7 @@
     </link>
 
     <joint name="${prefix_}wrist_3_pinch_joint" type="fixed">
-      <parent link="wrist_3_link"/>
+      <parent link="${prefix_}wrist_3_link"/>
       <child link="${prefix_}wrist_3_pinch_link"/>
       <origin xyz="0 0 0" rpy="0 0 0" />
     </joint>
