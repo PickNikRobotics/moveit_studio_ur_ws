@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<root BTCPP_format="4" main_tree_to_execute="Looping Pick and Place Object">
+<root BTCPP_format="4" main_tree_to_execute="Looping Pick and Place Object" _favorite="true">
     <!-- ////////// -->
     <BehaviorTree ID="Looping Pick and Place Object" _description="Repeatedly attempt to detect and grasp a cuboid from a target bin, and drop it in the target area." _favorite="true">
         <Control ID="Sequence">
