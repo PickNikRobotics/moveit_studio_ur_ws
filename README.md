@@ -3,7 +3,7 @@
 This is a sample user workspace for running MoveIt Studio with a generic Universal Robots arm.
 For more information, refer to the [MoveIt Studio Documentation](https://docs.picknik.ai/).
 
-Instructions for building your own MoveIt Studio configuration can be found [here.](https://docs.picknik.ai/en/stable/concepts/config_package/config_package.html)
+Instructions for building your own MoveIt Studio configuration can be found [here.](https://docs.picknik.ai/en/stable/getting_started/configuration_tutorials/configure_custom_robot/config_package.html)
 
 MoveIt Studio can be used with real robots and full simulators such as Gazebo and NVIDIA Isaac Sim.
 For testing purposes, you can also use the [ROS 2 Control Mock Components](https://control.ros.org/master/doc/ros2_control/hardware_interface/doc/mock_components_userdoc.html), which is what this repo is configured to use.
@@ -34,8 +34,8 @@ We recommend reviewing the [online documentation](https://docs.picknik.ai/en/sta
 
 # Launching a Mock Hardware Robot
 
-**This repository assumes you have followed the [installation instructions online](https://docs.picknik.ai/en/stable/getting_started/software_installation/software_installation.html).**
-If that is the case, follow [these instructions](https://docs.picknik.ai/en/stable/getting_started/configuring_moveit_studio/configuring_moveit_studio.html) for updating and running the configuration provided in this repository.
+**This repository assumes you have followed the [installation instructions online](https://docs.picknik.ai/en/stable/getting_started/setup_tutorials/install_software/software_installation.html).**
+If that is the case, follow [these instructions](https://docs.picknik.ai/en/stable/getting_started/setup_tutorials/configuring_moveit_studio/configuring_moveit_studio.html) for updating and running the configuration provided in this repository.
 
 Otherwise, it is left to the user to ensure that the prerequites from the installation process have been met.
 
