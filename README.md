@@ -24,7 +24,7 @@ MoveIt Studio supports two types of site configuration packages, a base config a
 [Site configs](src/picknik_ur_site_config/README.md) are used to override any parameters of the base configuration, or add additional features or constraints for a particular installation.
 
 This workspace offers a reasonable starting point for those users looking to develop with MoveIt Studio using custom base and site configurations.
-For more information refer to the [online documentation](https://docs.picknik.ai/en/stable/concepts/config_package/config_package.html).
+For more information refer to the [online documentation](https://docs.picknik.ai/en/stable/getting_started/configuration_tutorials/configure_custom_robot/config_package.html).
 
 ## Beyond site configurations
 
