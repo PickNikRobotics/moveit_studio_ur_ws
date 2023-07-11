@@ -31,6 +31,9 @@ hardware:
   # This should be false if you are launching the robot state publisher as part of drivers.
   launch_robot_state_publisher: True
 
+  # If the MoveIt Studio Agent should launch cameras when running on hardware.
+  launch_cameras: True
+
   # If the MoveIt Studio Agent should launch cameras when simulated.
   launch_cameras_when_simulated: True
 
