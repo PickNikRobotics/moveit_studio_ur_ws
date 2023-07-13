@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <root BTCPP_format="4" main_tree_to_execute="Pick Object">
-    <BehaviorTree ID="Pick Object" _description="Pick up and lift a small object">
+    <BehaviorTree ID="Pick Object" _description="Pick up and lift a small object" _favorite="true">
         <Control ID="Sequence" name="root">
             <SubTree ID="OpenGripper"/>
             <Action ID="GetPoseFromUser" parameter_name="pick_object.grasp_pose" parameter_value="{grasp_pose}" />

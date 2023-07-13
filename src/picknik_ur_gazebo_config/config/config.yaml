@@ -3,7 +3,7 @@
 #
 
 # Name of the package to specialize
-based_on_package: "picknik_ur_base_config"
+based_on_package: "picknik_ur_site_config"
 
 # Optional parameters that can be read in your launch files for specific functionality
 optional_feature_params:
