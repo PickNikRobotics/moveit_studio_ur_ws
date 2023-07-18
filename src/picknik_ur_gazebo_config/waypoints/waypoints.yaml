@@ -308,19 +308,19 @@
         nanosec: 0
         sec: 0
     name:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - -1.5113688855545728
-    - -0.849676772994894
-    - -1.7900954114547076
-    - -0.6712599508612579
-    - 1.6807113853283657
-    - -0.010627009718118157
+      - -1.5113688855545728
+      - -0.849676772994894
+      - -1.7900954114547076
+      - -0.6712599508612579
+      - 1.6807113853283657
+      - -0.010627009718118157
     velocity: []
   name: Right Wall
 - description: ''
@@ -333,18 +333,18 @@
         nanosec: 0
         sec: 0
     name:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - 0.0003205429823013286
-    - -0.3419419371606998
-    - -0.5134107235570269
-    - -2.3994585463037112
-    - 1.6501763241696035
-    - 3.878003640148636e-05
+      - 0.0003205429823013286
+      - -0.3419419371606998
+      - -0.5134107235570269
+      - -2.3994585463037112
+      - 1.6501763241696035
+      - 3.878003640148636e-05
     velocity: []
   name: Monitor View
