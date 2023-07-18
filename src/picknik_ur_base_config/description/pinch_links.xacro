@@ -30,7 +30,7 @@
     </joint>
   </xacro:macro>
 
-  <xacro:macro name="wrist_3_pinch_link" params="prefix:='' length:=0.11 offset:=0.075">
+  <xacro:macro name="wrist_3_pinch_link" params="prefix:='' length:=0.11 offset:=0.0075">
     <xacro:property name="prefix_" value='${prefix + "_" if prefix else ""}' />
     <xacro:property name="radius" value='${0.0375 + offset}' />
     <link name="${prefix_}wrist_3_pinch_link">
