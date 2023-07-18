@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <!-- wrist_3_link/forearm_link have a radius 0f 0.0375m. Actual offset from surface is (radius - attached_link's radius). -->
   <!-- UR Drivers check for a 2.5cm  distance between tool_flange/wrist_3 and forearm links. -->
-  <xacro:macro name="forearm_pinch_link" params="prefix:='' length:=0.28 offset:=0.0175">
+  <xacro:macro name="forearm_pinch_link" params="prefix:='' length:=0.28 offset:=0.015">
     <xacro:property name="prefix_" value='${prefix + "_" if prefix else ""}' />
     <xacro:property name="radius" value='${0.0375 + offset}' />
     <link name="${prefix_}forearm_pinch_link">
@@ -30,7 +30,7 @@
     </joint>
   </xacro:macro>
 
-  <xacro:macro name="wrist_3_pinch_link" params="prefix:='' length:=0.11 offset:=0.0075">
+  <xacro:macro name="wrist_3_pinch_link" params="prefix:='' length:=0.11 offset:=0.01">
     <xacro:property name="prefix_" value='${prefix + "_" if prefix else ""}' />
     <xacro:property name="radius" value='${0.0375 + offset}' />
     <link name="${prefix_}wrist_3_pinch_link">
