@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+  <root BTCPP_format="4" main_tree_to_execute="Apriltag Servoing">
+    <!-- ////////// -->
+    <BehaviorTree ID="Apriltag Servoing" _description="Uses fiducial markers and MoveIt Servo to jog towards a grapple fixture and grasp the handle">
+        <Control ID="Sequence">
+            <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.0"/>
+            <Action ID="LoadObjectiveParameters" config_file_name="apriltag_servoing_config.yaml" parameters="{parameters}"/>
+            <Control ID="Parallel" success_count="1" failure_count="1">
+                <Action ID="StreamApriltagPose" parameters="{parameters}" camera_stream_topic="/wrist_mounted_camera/color/image_raw" detection_transform_stamped_topic="/apriltag_detections"/>
+                <Control ID="Sequence">
+                    <Action ID="GraspPoseStreamer" detections_streaming_topic="/apriltag_detections" goal_pose_streaming_topic="/visual_servo_goal_pose" pose_error_topic="/visual_servo_pose_error" goal_frame_id="base_link" target_frame_id="frame_id0" goal_linear_threshold="0.05" goal_angular_threshold="0.1" goal_pose_translation_x="0" goal_pose_translation_y="0.1" goal_pose_translation_z="0.10" goal_pose_orientation_x="1.0" goal_pose_orientation_y="0" goal_pose_orientation_z="0" goal_pose_orientation_w="0"/>
+                    <Action ID="GraspPoseStreamer" detections_streaming_topic="/apriltag_detections" goal_pose_streaming_topic="/visual_servo_goal_pose" pose_error_topic="/visual_servo_pose_error" goal_frame_id="base_link" target_frame_id="frame_id0" goal_linear_threshold="0.02" goal_angular_threshold="0.1" goal_pose_translation_x="0.0" goal_pose_translation_y="0.1" goal_pose_translation_z="0.02" goal_pose_orientation_x="1.0" goal_pose_orientation_y="0" goal_pose_orientation_z="0" goal_pose_orientation_w="0"/>
+                </Control>
+                <Action ID="PoseStreamFilter" input_pose_topic="/visual_servo_goal_pose" output_pose_topic="/visual_servo_goal_pose_filtered" filter_coefficient="0.1"/>
+                <Action ID="VisualServo" parameters="{parameters}" goal_pose_topic="/visual_servo_goal_pose_filtered" controller_name="streaming_controller" pose_error_topic="/visual_servo_pose_error"/>
+            </Control>
+            <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.7929"/>
+        </Control>
+    </BehaviorTree>
+</root>
