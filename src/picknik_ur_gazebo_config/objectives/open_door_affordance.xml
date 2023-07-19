@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <root BTCPP_format="4" main_tree_to_execute="Open Cabinet Door">
-    <BehaviorTree ID="Open Cabinet Door" _description="Open a cabinet door by grasping and pulling its handle" _favorite="true">
+    <BehaviorTree ID="Open Cabinet Door" _description="Open a cabinet door by grasping and pulling its handle">
         <Control ID="Sequence" name="Setup">
             <Action ID="LoadObjectiveParameters" config_file_name="open_door_affordance_config.yaml" parameters="{parameters}" />
             <Action ID="GetPoseFromUser" parameter_name="process_door_selection.hinge_axis_pose_end" parameter_value="{hinge_axis_pose_end}" />
