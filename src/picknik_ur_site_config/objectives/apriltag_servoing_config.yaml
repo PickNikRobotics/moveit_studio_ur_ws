@@ -1,4 +1,4 @@
-GetApriltagPose:
+StreamApriltagPose:
   apriltag_family_name: 16h5
   apriltag_ids:
     - 0
