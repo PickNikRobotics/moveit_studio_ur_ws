@@ -19,8 +19,8 @@
       registered_info: "/wrist_mounted_camera/depth_registered/camera_info"
       registered_image: "/wrist_mounted_camera/depth_registered/image_rect_raw"
 
-- scene_camera:
-    camera_name: "scene_camera"
+- camera_1:
+    camera_name: "camera_1"
     type: "sim"
     use: True
     # These values must match those specified in realsense_d435.urdf.xacro
@@ -28,13 +28,53 @@
     image_height: 480
 
     # information about the topics the camera publishes the raw image and info
-    rgb_info: "/scene_camera/color/camera_info"
-    rgb_image: "/scene_camera/color/image_raw"
+    rgb_info: "/camera_1/color/camera_info"
+    rgb_image: "/camera_1/color/image_raw"
 
     # By adding registered_rgb_depth_pair, this camera can be used for "Set Transform From Click"
     # Since this is simulation, assume registered image is simply the raw image.
     registered_rgb_depth_pair:
-      depth_info: "/scene_camera/color/camera_info"
-      depth_image: "/scene_camera/depth/image_rect_raw"
-      registered_info: "/scene_camera/depth_registered/camera_info"
-      registered_image: "/scene_camera/depth_registered/image_rect_raw"
+      depth_info: "/camera_1/color/camera_info"
+      depth_image: "/camera_1/depth/image_rect_raw"
+      registered_info: "/camera_1/depth_registered/camera_info"
+      registered_image: "/camera_1/depth_registered/image_rect_raw"
+
+- camera_2:
+    camera_name: "camera_2"
+    type: "sim"
+    use: True
+    # These values must match those specified in realsense_d435.urdf.xacro
+    image_width: 640
+    image_height: 480
+
+    # information about the topics the camera publishes the raw image and info
+    rgb_info: "/camera_2/color/camera_info"
+    rgb_image: "/camera_2/color/image_raw"
+
+    # By adding registered_rgb_depth_pair, this camera can be used for "Set Transform From Click"
+    # Since this is simulation, assume registered image is simply the raw image.
+    registered_rgb_depth_pair:
+      depth_info: "/camera_2/color/camera_info"
+      depth_image: "/camera_2/depth/image_rect_raw"
+      registered_info: "/camera_2/depth_registered/camera_info"
+      registered_image: "/camera_2/depth_registered/image_rect_raw"
+
+- camera_3:
+    camera_name: "camera_3"
+    type: "sim"
+    use: True
+    # These values must match those specified in realsense_d435.urdf.xacro
+    image_width: 640
+    image_height: 480
+
+    # information about the topics the camera publishes the raw image and info
+    rgb_info: "/camera_3/color/camera_info"
+    rgb_image: "/camera_3/color/image_raw"
+
+    # By adding registered_rgb_depth_pair, this camera can be used for "Set Transform From Click"
+    # Since this is simulation, assume registered image is simply the raw image.
+    registered_rgb_depth_pair:
+      depth_info: "/camera_3/color/camera_info"
+      depth_image: "/camera_3/depth/image_rect_raw"
+      registered_info: "/camera_3/depth_registered/camera_info"
+      registered_image: "/camera_3/depth_registered/image_rect_raw"

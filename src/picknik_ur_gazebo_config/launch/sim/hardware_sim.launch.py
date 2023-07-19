@@ -165,6 +165,58 @@ def generate_launch_description():
         output="both",
     )
 
+    rgb_bridge = []
+    depth_bridge = []
+    info_bridge=[]
+    for camera_id in range(1, 5):
+
+        image_rgb_ignition_bridge = Node(
+            package="ros_gz_image",
+            executable="image_bridge",
+            name=f"camera_{camera_id}_image_rgb_ignition_bridge",
+            arguments=[
+                f"/camera_{camera_id}/image",
+            ],
+            remappings=[
+                (f"/camera_{camera_id}/image", f"/camera_{camera_id}/color/image_raw"),
+            ],
+            output="both",
+        )
+        rgb_bridge.append(image_rgb_ignition_bridge)
+
+        image_depth_ignition_bridge = Node(
+            package="ros_gz_image",
+            executable="image_bridge",
+            name=f"camera_{camera_id}_image_depth_ignition_bridge",
+            arguments=[
+                f"/camera_{camera_id}/depth_image",
+            ],
+            remappings=[
+                (
+                    f"/camera_{camera_id}/depth_image",
+                    f"/camera_{camera_id}/depth/image_rect_raw",
+                ),
+            ],
+            output="both",
+        )
+        depth_bridge.append(image_depth_ignition_bridge)
+
+        camera_info_ignition_bridge = Node(
+            package="ros_gz_bridge",
+            executable="parameter_bridge",
+            name=f"camera_{camera_id}_camera_info_ignition_bridge",
+            arguments=[
+                f"/camera_{camera_id}/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo",
+            ],
+            remappings=[
+                (f"/camera_{camera_id}/camera_info", f"/camera_{camera_id}/color/camera_info"),
+            ],
+            output="both",
+        )
+        info_bridge.append(camera_info_ignition_bridge)
+
+
+
     # For the wrist mounted camera, enable RGB and depth topics.
     wrist_image_rgb_ignition_bridge = Node(
         package="ros_gz_image",
@@ -251,18 +303,19 @@ def generate_launch_description():
         output="both",
     )
 
-    return LaunchDescription(
-        [
-            scene_image_rgb_ignition_bridge,
-            scene_image_depth_ignition_bridge,
-            scene_camera_info_ignition_bridge,
-            wrist_image_rgb_ignition_bridge,
-            wrist_camera_info_ignition_bridge,
-            wrist_image_depth_ignition_bridge,
-            wrist_camera_pointcloud_ignition_bridge,
-            clock_bridge,
-            fts_bridge,
-            gazebo,
-            spawn_robot,
-        ]
-    )
+    return LaunchDescription([
+        scene_image_rgb_ignition_bridge,
+        scene_image_depth_ignition_bridge,
+        scene_camera_info_ignition_bridge,
+        *rgb_bridge,
+        *depth_bridge,
+        *info_bridge,
+        wrist_image_rgb_ignition_bridge,
+        wrist_camera_info_ignition_bridge,
+        wrist_image_depth_ignition_bridge,
+        wrist_camera_pointcloud_ignition_bridge,
+        clock_bridge,
+        fts_bridge,
+        gazebo,
+        spawn_robot,
+    ])
