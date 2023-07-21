@@ -8,6 +8,7 @@ install(
     config
     description
     launch
+    meshes
     objectives
     waypoints
   DESTINATION
