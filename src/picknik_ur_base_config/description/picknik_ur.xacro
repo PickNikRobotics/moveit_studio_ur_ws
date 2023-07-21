@@ -56,7 +56,7 @@
     script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
     output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
     input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
-    <origin xyz="0 0 0" rpy="0 0 0" />
+    <origin xyz="0 0 0.5" rpy="0 0 0" />
   </xacro:ur_robot>
 
   <xacro:if value="$(arg has_tool_changer)">
@@ -102,23 +102,23 @@
   <!-- Environment -->
   <link name="environment">
     <visual>
-      <origin xyz="0 1 0" rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
         <mesh filename="file://$(find picknik_ur_base_config)/meshes/cnc.dae" scale="1 1 1"/>
       </geometry>
     </visual> 
     <collision>
-      <origin xyz="0 1 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="file://$(find picknik_ur_base_config)/meshes/cnc.dae" scale="1 1 1"/>
       </geometry>
     </collision>
   </link>
 
-  <joint name="table_joint" type="fixed">
-    <parent link="base" />
+  <joint name="lathe_machine" type="fixed">
+    <parent link="world" />
     <child link="environment" />
-    <origin rpy="0 0 0" xyz="0 0 0" />
+    <origin xyz="0 -1 0" rpy="0 0 3.14"  />
   </joint>
 
   <!-- External Camera -->
