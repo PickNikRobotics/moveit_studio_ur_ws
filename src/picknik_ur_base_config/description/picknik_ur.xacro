@@ -56,7 +56,7 @@
     script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
     output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
     input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
-    <origin xyz="0 0 0.5" rpy="0 0 0" />
+    <origin xyz="0 0 0.8" rpy="0 0 0" />
   </xacro:ur_robot>
 
   <xacro:if value="$(arg has_tool_changer)">
@@ -99,8 +99,8 @@
     <origin xyz="0 0 0" rpy="${pi / 180.0 * 5} 0 0" />
   </joint>
 
-  <!-- Environment -->
-  <link name="environment">
+  <!-- CNC machine -->
+  <link name="cnc_machine">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
@@ -115,10 +115,55 @@
     </collision>
   </link>
 
-  <joint name="lathe_machine" type="fixed">
+  <joint name="cnc_machine_joint" type="fixed">
     <parent link="world" />
-    <child link="environment" />
-    <origin xyz="0 -1 0" rpy="0 0 3.14"  />
+    <child link="cnc_machine" />
+    <origin xyz="-0.1 -1 0" rpy="0 0 3.14"  />
+  </joint>
+
+  <!-- Robot base -->
+  <link name="robot_base">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find picknik_ur_base_config)/meshes/base.dae" scale="1 1 1"/>
+      </geometry>
+    </visual> 
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find picknik_ur_base_config)/meshes/base.dae" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="robot_base_joint" type="fixed">
+    <parent link="world" />
+    <child link="robot_base" />
+    <origin xyz="0 0 0" rpy="0 0 0"  />
+  </joint>
+
+
+  <!-- Exagonal table 1 -->
+  <link name="exagonal_table_1">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find picknik_ur_base_config)/meshes/table.dae" scale="1 1 1"/>
+      </geometry>
+    </visual> 
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find picknik_ur_base_config)/meshes/table.dae" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="exagonal_table_joint_1" type="fixed">
+    <parent link="world" />
+    <child link="exagonal_table_1" />
+    <origin xyz="0.8 0 0" rpy="0 0 0"  />
   </joint>
 
   <!-- External Camera -->

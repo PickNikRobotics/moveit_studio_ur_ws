@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 3.6.1 commit date:2023-07-17, commit time:12:50, hash:8bda729ef4dc</authoring_tool>
     </contributor>
-    <created>2023-07-21T19:41:45</created>
-    <modified>2023-07-21T19:41:45</modified>
+    <created>2023-07-21T20:17:20</created>
+    <modified>2023-07-21T20:17:20</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -59,14 +59,14 @@
   <library_effects>
     <effect id="Raw_Aluminium-effect">
       <profile_COMMON>
-        <newparam sid="Texture_png-surface">
+        <newparam sid="cnc_png-surface">
           <surface type="2D">
-            <init_from>Texture_png</init_from>
+            <init_from>cnc_png</init_from>
           </surface>
         </newparam>
-        <newparam sid="Texture_png-sampler">
+        <newparam sid="cnc_png-sampler">
           <sampler2D>
-            <source>Texture_png-surface</source>
+            <source>cnc_png-surface</source>
           </sampler2D>
         </newparam>
         <technique sid="common">
@@ -75,7 +75,7 @@
               <color sid="emission">0 0 0 1</color>
             </emission>
             <diffuse>
-              <texture texture="Texture_png-sampler" texcoord="UVMap"/>
+              <texture texture="cnc_png-sampler" texcoord="UVMap"/>
             </diffuse>
             <reflectivity>
               <float sid="specular">1</float>
@@ -89,14 +89,14 @@
     </effect>
     <effect id="White-effect">
       <profile_COMMON>
-        <newparam sid="Texture_png-surface">
+        <newparam sid="cnc_png-surface">
           <surface type="2D">
-            <init_from>Texture_png</init_from>
+            <init_from>cnc_png</init_from>
           </surface>
         </newparam>
-        <newparam sid="Texture_png-sampler">
+        <newparam sid="cnc_png-sampler">
           <sampler2D>
-            <source>Texture_png-surface</source>
+            <source>cnc_png-surface</source>
           </sampler2D>
         </newparam>
         <technique sid="common">
@@ -105,7 +105,7 @@
               <color sid="emission">0 0 0 1</color>
             </emission>
             <diffuse>
-              <texture texture="Texture_png-sampler" texcoord="UVMap"/>
+              <texture texture="cnc_png-sampler" texcoord="UVMap"/>
             </diffuse>
             <index_of_refraction>
               <float sid="ior">1.45</float>
@@ -116,14 +116,14 @@
     </effect>
     <effect id="Blue_paint_old-effect">
       <profile_COMMON>
-        <newparam sid="Texture_png-surface">
+        <newparam sid="cnc_png-surface">
           <surface type="2D">
-            <init_from>Texture_png</init_from>
+            <init_from>cnc_png</init_from>
           </surface>
         </newparam>
-        <newparam sid="Texture_png-sampler">
+        <newparam sid="cnc_png-sampler">
           <sampler2D>
-            <source>Texture_png-surface</source>
+            <source>cnc_png-surface</source>
           </sampler2D>
         </newparam>
         <technique sid="common">
@@ -132,7 +132,7 @@
               <color sid="emission">0 0 0 1</color>
             </emission>
             <diffuse>
-              <texture texture="Texture_png-sampler" texcoord="UVMap"/>
+              <texture texture="cnc_png-sampler" texcoord="UVMap"/>
             </diffuse>
             <reflectivity>
               <float sid="specular">1</float>
@@ -163,8 +163,8 @@
     </effect>
   </library_effects>
   <library_images>
-    <image id="Texture_png" name="Texture_png">
-      <init_from>Texture.png</init_from>
+    <image id="cnc_png" name="cnc_png">
+      <init_from>cnc.png</init_from>
     </image>
   </library_images>
   <library_materials>
