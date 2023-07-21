@@ -143,7 +143,6 @@
     <origin xyz="0 0 0" rpy="0 0 0"  />
   </joint>
 
-
   <!-- Exagonal table 1 -->
   <link name="exagonal_table_1">
     <visual>
@@ -165,6 +164,51 @@
     <child link="exagonal_table_1" />
     <origin xyz="0.8 0 0" rpy="0 0 0"  />
   </joint>
+
+  <!-- Exagonal table 2 -->
+  <link name="exagonal_table_2">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find picknik_ur_base_config)/meshes/table.dae" scale="1 1 1"/>
+      </geometry>
+    </visual> 
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find picknik_ur_base_config)/meshes/table.dae" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="exagonal_table_joint_2" type="fixed">
+    <parent link="world" />
+    <child link="exagonal_table_2" />
+    <origin xyz="-0.8 0 0" rpy="0 0 0"  />
+  </joint>
+
+  <!-- Cylinder item -->
+  <link name="cylinder_item">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find picknik_ur_base_config)/meshes/cylinder-item.dae" scale="1 1 1"/>
+      </geometry>
+    </visual> 
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find picknik_ur_base_config)/meshes/cylinder-item.dae" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="cylinder_item_joint" type="fixed">
+    <parent link="world" />
+    <child link="cylinder_item" />
+    <origin xyz="0.73 0.06 0.5" rpy="0 0 0"  />
+  </joint>
+  
 
   <!-- External Camera -->
   <link name="external_camera_link" />
