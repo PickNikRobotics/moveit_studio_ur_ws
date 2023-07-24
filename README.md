@@ -1,6 +1,6 @@
 # MoveIt Studio Workspace
 
-This is a sample user workspace for running MoveIt Studio with a generic Universal Robots arm.
+This is a sample user workspace for running MoveIt Studio with a generic Universal Robots (UR) arm.
 For more information, refer to the [MoveIt Studio Documentation](https://docs.picknik.ai/).
 
 Instructions for building your own MoveIt Studio configuration can be found [in the getting started guides.](https://docs.picknik.ai/en/stable/getting_started/getting_started.html)

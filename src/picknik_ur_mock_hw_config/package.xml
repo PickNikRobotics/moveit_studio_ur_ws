@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package format="3">
-  <name>picknik_ur_site_config</name>
+  <name>picknik_ur_mock_hw_config</name>
   <version>2.5.0</version>
 
-  <description>Site config package for a UR5e that can be simulated with mock hardware</description>
+  <description>Config package for a UR5e that can be simulated with mock hardware</description>
 
   <maintainer email="studio.maintainers@picknik.ai">MoveIt Studio Maintainer</maintainer>
 

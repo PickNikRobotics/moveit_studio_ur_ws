@@ -4,4 +4,4 @@ be under the 3-Clause BSD License, as dictated by that
 
 # Contributing to this Repository
 
-Thanks for getting involved! If you want to add to this base config, please reach out to studio.maintainers@picknik.ai
+Thanks for getting involved! If you want to add to this repository, please reach out to studio.maintainers@picknik.ai.

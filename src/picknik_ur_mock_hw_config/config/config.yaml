@@ -1,0 +1,23 @@
+based_on_package: "picknik_ur_base_config"
+
+hardware:
+
+  # Be sure to set your robot's IP address.
+  ip: "0.0.0.0"
+
+  # Update robot description for machine tending world.
+  robot_description:
+    urdf:
+      package: "picknik_ur_mock_hw_config"
+      path: "description/picknik_ur_machine_tending.xacro"
+    srdf:
+      package: "picknik_ur_mock_hw_config"
+      path: "config/moveit/picknik_ur_machine_tending.srdf"
+
+objectives:
+  objective_library_paths:
+    # You must use a unique key for each package.
+    # The picknik_ur_base_config uses "core"
+    mock_hardware_objectives:
+      package_name: "picknik_ur_mock_hw_config"
+      relative_path: "objectives"

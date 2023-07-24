@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<robot name="ur5e_gripper_and_camera" xmlns:xacro="http://wiki.ros.org/xacro">
+  <!-- Import macros for main hardware components -->
+  <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro" />
+  <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur_camera_adapter.urdf.xacro"/>
+  <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro"/>
+
+  <!-- Create base link -->
+  <!-- Moveit Studio requires a link name called manual_grasp_link to perform built-in Objectives such as inspect surface without modification. -->
+  <link name="manual_grasp_link" />
+
+  <link name="tool0" />
+  <joint name="flange-tool0" type="fixed">
+    <parent link="manual_grasp_link" />
+    <child link="tool0" />
+    <origin xyz="0.0 -0.016124 -0.18430" rpy="${pi / 180.0 * 5} 0 -${pi}" />
+  </joint>
+
+  <link name="tool_changer_tool0" />
+  <joint name="tool_side_joint" type="fixed">
+    <parent link="tool0" />
+    <child link="tool_changer_tool0" />
+    <origin xyz="0 0 0.0331" rpy="0 0 0" />
+  </joint>
+
+  <!-- wrist camera adapter and camera-->
+  <xacro:ur_realsense_camera_adapter prefix="" connected_to="tool_changer_tool0" rotation="0"/>
+
+  <xacro:realsense_d415 parent="d415_mount_link" name="wrist_mounted_camera">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:realsense_d415>
+
+  <!-- Gripper and UR adapter-->
+  <xacro:ur_to_robotiq prefix="" connected_to="realsense_camera_adapter_tool0" rotation="0"/>
+
+  <xacro:robotiq_gripper prefix="" parent="gripper_mount_link" sim="true">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:robotiq_gripper>
+
+</robot>
