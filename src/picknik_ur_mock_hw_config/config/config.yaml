@@ -4,6 +4,7 @@ hardware:
 
   # Be sure to set your robot's IP address.
   ip: "0.0.0.0"
+  simulated: ${MOCK_HARDWARE:-true}
 
   # Update robot description for machine tending world.
   robot_description:
@@ -15,6 +16,9 @@ hardware:
       path: "config/moveit/picknik_ur_machine_tending.srdf"
 
 objectives:
+  waypoints_file:
+    package_name: "picknik_ur_mock_hw_config"
+    relative_path: "waypoints/machine_tending_waypoints.yaml"
   objective_library_paths:
     # You must use a unique key for each package.
     # The picknik_ur_base_config uses "core"

@@ -35,7 +35,7 @@ hardware:
 
   # The robot's IP address.
   # [Required]
-  ip: "!!! Please set the IP address of the robot"
+  ip: "0.0.0.0"
 
   # Specify additional launch files for running the robot with real hardware.
   # [Optional, defaults to a blank launch file if not specified]
