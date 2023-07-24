@@ -32,9 +32,9 @@
                       <Action ID="UpdatePlanningSceneService" point_cloud="{point_cloud}" point_cloud_service="/point_cloud_service"/>
                       <Action ID="InitializeMTCTask" task_id="looping_pick_and_place_object" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{task}"/>
                       <Action ID="SetupMTCCurrentState" task="{task}"/>
-                      <Action ID="SetupMTCApproachGrasp" parameters="{parameters}" cuboid_object="{cuboid_object}" monitored_stage="{monitored_stage}" task="{task}"/>
-                      <Action ID="SetupMTCGenerateCuboidGrasps" parameters="{parameters}" cuboid_object="{cuboid_object}" monitored_stage="{monitored_stage}" task="{task}"/>
-                      <Action ID="SetupMTCRetractFromGrasp" parameters="{parameters}" cuboid_object="{cuboid_object}" task="{task}"/>
+                      <Action ID="SetupMTCApproachGrasp" parameters="{parameters}" target_object="{cuboid_object}" monitored_stage="{monitored_stage}" task="{task}"/>
+                      <Action ID="SetupMTCGenerateCuboidGrasps" parameters="{parameters}" target_object="{cuboid_object}" monitored_stage="{monitored_stage}" task="{task}"/>
+                      <Action ID="SetupMTCRetractFromGrasp" parameters="{parameters}" target_object="{cuboid_object}" task="{task}"/>
                       <Action ID="PlanMTCTask" solution="{solution}" task="{task}"/>
                       <Action ID="ExecuteMTCTask" solution="{solution}"/>
                     </Control>
