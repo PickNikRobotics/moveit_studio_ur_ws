@@ -17,7 +17,7 @@
       <Control ID="Sequence" name="GraspObject">
         <Action ID="TransformPoseFrame" input_pose="{detection_pose}" target_frame_id="world" output_pose="{detection_pose_world}"/>
         <Action ID="TransformPose" input_pose="{detection_pose_world}" translation_xyz="-0.1;0.0;0.05" quaternion_xyzw="-0.707;0.707;0.0;0.0" output_pose="{grasp_pose}"/>
-        <Action ID="MoveToPose" target_pose="{grasp_pose}" ik_frame="manual_grasp_link" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
+        <Action ID="MoveToPose" target_pose="{grasp_pose}" ik_frame="manual_grasp_link" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true"/>
         <SubTree ID="Close Gripper"/>
         <Action ID="MoveToJointState" waypoint_name="Look at Pick and Place Zone" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
       </Control>
