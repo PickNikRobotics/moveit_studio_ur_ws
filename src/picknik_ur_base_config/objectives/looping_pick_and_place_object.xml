@@ -84,7 +84,7 @@
                     <!-- TryGraspOuter fallback condition. Reset scene objects, move home, and then wait a short while before triggering a retry. -->
                     <Control ID="Sequence">
                         <Action ID="ResetPlanningSceneObjects" apply_planning_scene_service="/apply_planning_scene"/>
-                        <Action ID="MoveToJointState" waypoint_name="Look at Pick and Place Zone" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
+                        <Action ID="MoveToJointState" waypoint_name="Look at Pick and Place Zone" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true"/>
                         <Action ID="WaitForDuration" delay_duration="5"/>
                         <Action ID="AlwaysSuccess"/>
                     </Control>

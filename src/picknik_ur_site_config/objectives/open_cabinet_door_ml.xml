@@ -22,7 +22,7 @@
                 waypoint_name="Home"
                 planning_group_name="manipulator"
                 controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
-                use_all_planners="false" />
+                use_all_planners="true" />
             <Action ID="DetectObjects"
                 rgb_image_topic="/wrist_mounted_camera/color/image_raw"
                 depth_image_topic="/wrist_mounted_camera/depth/image_rect_raw"
