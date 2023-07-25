@@ -4,7 +4,7 @@ hardware:
 
   # Be sure to set your robot's IP address.
   ip: "0.0.0.0"
-  simulated: ${MOCK_HARDWARE:-true}
+  simulated: True
 
   # Update robot description for machine tending world.
   robot_description:

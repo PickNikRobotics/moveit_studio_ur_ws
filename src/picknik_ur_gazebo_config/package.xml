@@ -3,7 +3,7 @@
   <name>picknik_ur_gazebo_config</name>
   <version>2.5.0</version>
 
-  <description>Site config package for the simulated UR5e in PickNik's space station world simulated by Gazebo.</description>
+  <description>Site configuration package for the UR5e in PickNik's space station world simulated by Gazebo.</description>
 
   <maintainer email="studio.maintainers@picknik.ai">MoveIt Studio Maintainer</maintainer>
 

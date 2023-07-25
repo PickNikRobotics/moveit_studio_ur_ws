@@ -224,7 +224,7 @@
     velocity: []
   name: Look at Left Table
 - description: ''
-  favorite: false
+  favorite: true
   joint_state:
     effort: []
     header:
@@ -240,12 +240,12 @@
       - wrist_2_joint
       - wrist_3_joint
     position:
-      - 0.47702945477493075
-      - -1.0062790980482423
-      - -1.4929256817875407
-      - -1.1832344093653935
-      - 1.238994660290608
-      - 0.29377648188224675
+      - -9.243789166212083e-05
+      - -0.8567979964335799
+      - -1.3708767942937286
+      - -1.4565565939370861
+      - 1.6699628638609312
+      - 3.217637641355396e-05
     velocity: []
   name: Look at Machine
 - description: ''

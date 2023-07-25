@@ -3,7 +3,7 @@
   <name>picknik_ur_mock_hw_config</name>
   <version>2.5.0</version>
 
-  <description>Config package for a UR5e that can be simulated with mock hardware</description>
+  <description>Configuration package for a UR arm that can be simulated with mock hardware</description>
 
   <maintainer email="studio.maintainers@picknik.ai">MoveIt Studio Maintainer</maintainer>
 

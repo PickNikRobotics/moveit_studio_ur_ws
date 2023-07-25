@@ -3,7 +3,7 @@
   <name>picknik_ur_base_config</name>
   <version>2.5.0</version>
 
-  <description>Base config package for a UR5e robot</description>
+  <description>Base configuration package for Picknik's UR robot arms</description>
 
   <maintainer email="studio.maintainers@picknik.ai">MoveIt Studio Maintainer</maintainer>
 
