@@ -15,6 +15,11 @@ hardware:
       package: "picknik_ur_mock_hw_config"
       path: "config/moveit/picknik_ur_machine_tending.srdf"
 
+moveit_params:
+  servo:
+    package: "picknik_ur_mock_hw_config"
+    path: "config/moveit/ur_servo.yaml"
+
 objectives:
   waypoints_file:
     package_name: "picknik_ur_mock_hw_config"
