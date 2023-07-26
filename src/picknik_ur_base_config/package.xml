@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="3">
   <name>picknik_ur_base_config</name>
-  <version>2.3.0</version>
+  <version>2.4.0</version>
 
   <description>Base config package for a UR5e that can be simulated with mock hardware</description>
 
@@ -13,6 +13,7 @@
 
   <exec_depend>admittance_controller</exec_depend>
   <exec_depend>kinematics_interface_kdl</exec_depend>
+  <exec_depend>moveit_planners_stomp</exec_depend>
   <exec_depend>moveit_ros_perception</exec_depend>
   <exec_depend>moveit_studio_agent</exec_depend>
   <exec_depend>moveit_studio_behavior</exec_depend>
