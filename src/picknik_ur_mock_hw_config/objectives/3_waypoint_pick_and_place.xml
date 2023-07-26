@@ -12,7 +12,7 @@
                 <Control ID="Sequence">
                     <!-- Pick object from left, put it down at place location, and go back to center pose -->
                     <Control ID="Sequence">
-                        <Action ID="MoveToJointState" waypoint_name="Pick Left" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true"/>
+                        <Action ID="MoveToJointState" waypoint_name="Grasp Left" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true"/>
                         <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.7929"/>
                         <Action ID="MoveToJointState" waypoint_name="Look at Machine" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true"/>
                         <Action ID="MoveToJointState" waypoint_name="Place" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true"/>
@@ -24,7 +24,7 @@
                         <Action ID="MoveToJointState" waypoint_name="Place" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true"/>
                         <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.7929"/>
                         <Action ID="MoveToJointState" waypoint_name="Look at Machine" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true"/>
-                        <Action ID="MoveToJointState" waypoint_name="Pick Left" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true"/>
+                        <Action ID="MoveToJointState" waypoint_name="Grasp Left" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true"/>
                         <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0"/>
                         <Action ID="MoveToJointState" waypoint_name="Look at Machine" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true"/>
                     </Control>

@@ -28,16 +28,11 @@
   <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/mtc_ur_tool_changer/mtc_ur_tool_changer.urdf.xacro" />
   <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur_camera_adapter.urdf.xacro" />
   <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro" />
-  <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro" />
   <xacro:include filename="$(find picknik_ur_base_config)/description/pinch_link.xacro" />
 
   <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
-  <xacro:arg name="initial_positions_file" default="$(find picknik_ur_base_config)/config/initial_positions.yaml"/>
+  <xacro:arg name="initial_positions_file" default="$(find picknik_ur_mock_hw_config)/config/initial_positions.yaml"/>
   <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
-  
-  <!-- Import environment macros -->
-  <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
-  <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/visual/cube_visual.urdf.xacro" />
 
   <link name="world" />
   <!-- arm -->
@@ -56,7 +51,7 @@
     script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
     output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
     input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
-    <origin xyz="0 0 0.8" rpy="0 0 ${pi/2}" />
+    <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
   </xacro:ur_robot>
 
   <xacro:if value="$(arg has_tool_changer)">
@@ -118,7 +113,7 @@
   <joint name="cnc_machine_joint" type="fixed">
     <parent link="world" />
     <child link="cnc_machine" />
-    <origin xyz="-0.1 -1.2 0" rpy="0 0 3.14"  />
+    <origin xyz="-0.1 -1.2 -0.8" rpy="0 0 3.14"  />
   </joint>
 
   <!-- Robot base -->
@@ -140,11 +135,11 @@
   <joint name="robot_base_joint" type="fixed">
     <parent link="world" />
     <child link="robot_base" />
-    <origin xyz="0 0 0" rpy="0 0 0"  />
+    <origin xyz="0 0 -0.8" rpy="0 0 0"  />
   </joint>
 
-  <!-- Hexagonal table 1 -->
-  <link name="hexagonal_table_1">
+  <!-- Hexagonal tables -->
+  <link name="left_hexagonal_table">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
@@ -152,21 +147,20 @@
       </geometry>
     </visual> 
     <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0.29" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/table.dae" scale="1 1 1"/>
+        <box size="1.0 1.0 0.58"/>
       </geometry>
     </collision>
   </link>
 
-  <joint name="hexagonal_table_joint_1" type="fixed">
+  <joint name="left_hexagonal_table_joint" type="fixed">
     <parent link="world" />
-    <child link="hexagonal_table_1" />
-    <origin xyz="0.8 0 0" rpy="0 0 0"  />
+    <child link="left_hexagonal_table" />
+    <origin xyz="0.8 0 -0.8" rpy="0 0 0"  />
   </joint>
 
-  <!-- Hexagonal table 2 -->
-  <link name="hexagonal_table_2">
+  <link name="right_hexagonal_table">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
@@ -174,51 +168,49 @@
       </geometry>
     </visual> 
     <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0.29" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/table.dae" scale="1 1 1"/>
+        <box size="1.0 1.0 0.58"/>
       </geometry>
     </collision>
   </link>
 
-  <joint name="hexagonal_table_joint_2" type="fixed">
+  <joint name="right_hexagonal_table_joint" type="fixed">
     <parent link="world" />
-    <child link="hexagonal_table_2" />
-    <origin xyz="-0.8 0 0" rpy="0 0 0"  />
+    <child link="right_hexagonal_table" />
+    <origin xyz="-0.8 0 -0.8" rpy="0 0 0"  />
   </joint>
 
-  <!-- Cylinder item -->
-  <link name="cylinder_item">
+  <!-- Cylinder items -->
+  <link name="left_cylinder_item">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
         <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/cylinder-item.dae" scale="1 1 1"/>
       </geometry>
     </visual> 
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+    <!-- No collision geometry so the gripper can overlap with the object. -->
+  </link>
+
+  <joint name="left_cylinder_item_joint" type="fixed">
+    <parent link="world" />
+    <child link="left_cylinder_item" />
+    <origin xyz="0.73 0.06 -0.25" rpy="0 0 0"  />
+  </joint>
+
+  <link name="right_cylinder_item">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
         <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/cylinder-item.dae" scale="1 1 1"/>
       </geometry>
-    </collision>
+    </visual> 
+    <!-- No collision geometry so the gripper can overlap with the object. -->
   </link>
 
-  <joint name="cylinder_item_joint" type="fixed">
+  <joint name="right_cylinder_item_joint" type="fixed">
     <parent link="world" />
-    <child link="cylinder_item" />
-    <origin xyz="0.73 0.06 0.5" rpy="0 0 0"  />
+    <child link="right_cylinder_item" />
+    <origin xyz="-0.73 0.06 -0.25" rpy="0 0 0"  />
   </joint>
-  
-
-  <!-- External Camera -->
-  <link name="external_camera_link" />
-  <joint name="external_camera_joint" type="fixed">
-    <parent link="world" />
-    <child link="external_camera_link" />
-    <origin xyz="-0.3 0.3 1.0" rpy="0.0 0.4 0" />
-  </joint>
-
-  <xacro:realsense_d435 parent="external_camera_link" name="scene_camera" visible="false">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:realsense_d435>
 </robot>
