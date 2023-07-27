@@ -34,10 +34,10 @@
                                             <!-- Detect all cuboids in that point cloud-->
                                             <Action ID="FindSingularCuboids" point_cloud="{point_cloud}" parameters="{parameters}" detected_shapes="{cuboids}"/>
                                             
-                                            <!-- Get the first detected cuboid. NOTE: this is a small hack to get ForEachCollisionObject to iterate just once, which returns the first object in the vector. -->
+                                            <!-- Get the first detected cuboid. NOTE: this is a small hack to get ForEachGraspableObject to iterate just once, which returns the first object in the vector. -->
                                             <Control ID="Sequence">
                                                 <Decorator ID="ForceSuccess">
-                                                    <Decorator ID="ForEachCollisionObject" vector_in="{cuboids}" out="{cuboid_object}">
+                                                    <Decorator ID="ForEachGraspableObject" vector_in="{cuboids}" out="{cuboid_object}">
                                                         <Control ID="Sequence">
                                                             <Action ID="AlwaysFailure"/>
                                                         </Control>
