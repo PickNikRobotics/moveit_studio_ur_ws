@@ -22,15 +22,18 @@ FindSingularCuboids:
   crop_box_size_y: 0.75
   crop_box_size_z: 0.5
 
-SetupMTCApproachGrasp:
+SetupMTCPickCuboid:
   # The lift vector points to the direction of the positive z-axis of the frame marked as the world frame.
   world_frame_name: "world"
   arm_group_name: "manipulator"
   end_effector_group_name: "gripper"
   end_effector_name: "moveit_ee"
   hand_frame_name: "manual_grasp_link"
+  end_effector_closed_pose_name: "close"
+  ui_grasp_link: "manual_grasp_link"
 
   approach_distance: 0.15
+  lift_distance: 0.1
 
   # Set to true to make the robot keep the object within view of its camera while reaching to grasp it
   enforce_visibility_constraint: true
@@ -38,14 +41,6 @@ SetupMTCApproachGrasp:
   camera_field_of_view_angle: 1.0472  # radians: approx. 60 degrees, which is narrower than the 70 degree diagonal FOV of the D415 camera
   sensor_z_offset: 0.02
   target_diameter: 0.0  # Set to 0 to disable the visibility cone constraint -- it's not useful with a single-arm camera-in-hand configuration.
-
-
-SetupMTCGenerateCuboidGrasps:
-  end_effector_group_name: "gripper"
-  end_effector_name: "moveit_ee"
-  hand_frame_name: "manual_grasp_link"
-  end_effector_closed_pose_name: "close"
-  ui_grasp_link: "manual_grasp_link"
 
   # Grasp candidate configs
   grasp_candidate_config:
@@ -82,14 +77,3 @@ SetupMTCGenerateCuboidGrasps:
       roll: 0.0
       pitch: 0.0
       yaw: 1.57
-
-SetupMTCRetractFromGrasp:
-  world_frame_name: "world"
-  arm_group_name: "manipulator"
-  end_effector_group_name: "gripper"
-  hand_frame_name: "manual_grasp_link"
-  end_effector_closed_pose_name: "close"
-
-  # The lift vector points to the direction of the positive z-axis of the frame marked as the world frame.
-  approach_distance: 0.15
-  lift_distance: 0.1

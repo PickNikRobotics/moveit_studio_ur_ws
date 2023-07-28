@@ -54,9 +54,7 @@
                                             <!-- Set up an MTC task to pick the cuboid and then plan the task. -->
                                             <Action ID="InitializeMTCTask" task_id="looping_pick_and_place_object" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{task}"/>
                                             <Action ID="SetupMTCCurrentState" task="{task}"/>
-                                            <Action ID="SetupMTCApproachGrasp" parameters="{parameters}" target_object="{cuboid_object}" monitored_stage="{monitored_stage}" task="{task}"/>
-                                            <Action ID="SetupMTCGenerateCuboidGrasps" parameters="{parameters}" target_object="{cuboid_object}" monitored_stage="{monitored_stage}" task="{task}"/>
-                                            <Action ID="SetupMTCRetractFromGrasp" parameters="{parameters}" target_object="{cuboid_object}" task="{task}"/>
+                                            <Action ID="SetupMTCPickCuboid" cuboid_object="{cuboid_object}" task="{task}" parameters="{parameters}"/>
                                             <Action ID="PlanMTCTask" solution="{solution}" task="{task}"/>
 
                                             <!-- Execute the planned motion. -->
