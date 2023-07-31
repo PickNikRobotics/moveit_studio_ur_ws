@@ -22,8 +22,7 @@ FindSingularCuboids:
   crop_box_size_y: 0.75
   crop_box_size_z: 0.5
 
-SetupMTCPickCuboid:
-  # The lift vector points to the direction of the positive z-axis of the frame marked as the world frame.
+SetupMTCApproachGrasp:
   world_frame_name: "world"
   arm_group_name: "manipulator"
   end_effector_group_name: "gripper"
@@ -33,7 +32,6 @@ SetupMTCPickCuboid:
   ui_grasp_link: "manual_grasp_link"
 
   approach_distance: 0.15
-  lift_distance: 0.1
 
   # Set to true to make the robot keep the object within view of its camera while reaching to grasp it
   enforce_visibility_constraint: true
@@ -50,6 +48,13 @@ SetupMTCPickCuboid:
 
     # Number of samples to generate for each quadrant of the cuboid.
     samples_per_quadrant: 3
+
+SetupMTCGenerateCuboidGrasps:
+  end_effector_group_name: "gripper"
+  end_effector_name: "moveit_ee"
+  hand_frame_name: "manual_grasp_link"
+  end_effector_closed_pose_name: "close"
+  ui_grasp_link: "manual_grasp_link"
 
   # Grasp data configs
   grasp_data:
@@ -77,6 +82,17 @@ SetupMTCPickCuboid:
       roll: 0.0
       pitch: 0.0
       yaw: 1.57
+
+SetupMTCRetractFromGrasp:
+  world_frame_name: "world"
+  arm_group_name: "manipulator"
+  end_effector_group_name: "gripper"
+  hand_frame_name: "manual_grasp_link"
+  end_effector_closed_pose_name: "close"
+
+  # The lift vector points to the direction of the positive z-axis of the frame marked as the world frame.
+  approach_distance: 0.15
+  lift_distance: 0.1
 
 IsConstraintSatisfied:
   camera_optical_frame_id: "wrist_mounted_camera_color_optical_frame"

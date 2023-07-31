@@ -1,0 +1,19 @@
+based_on_package: "picknik_ur_base_config"
+
+hardware:
+
+  # Be sure to set your robot's IP address.
+  ip: "0.0.0.0"
+
+objectives:
+  behavior_loader_plugins:
+    visual_servo_behaviors:
+      - "moveit_visual_servo::behaviors::VisualServoBehaviorLoader"
+    gibson:
+      - "gibson_behavior::GibsonBehaviorsLoader"
+  objective_library_paths:
+    # You must use a unique key for each package.
+    # The picknik_ur_base_config uses "core"
+    custom_objectives:
+      package_name: "picknik_ur_site_config"
+      relative_path: "objectives"

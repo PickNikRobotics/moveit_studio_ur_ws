@@ -1,5 +1,5 @@
 - description: ''
-  favorite: false
+  favorite: true
   joint_state:
     effort: []
     header:
@@ -15,14 +15,14 @@
       - wrist_2_joint
       - wrist_3_joint
     position:
-      - -0.03055364989895528
-      - -1.874208284941999
-      - -1.6717395412157527
-      - -1.1279590406032947
-      - 1.588292220374199
-      - -0.045145903387218154
+      - -1.483921129263475
+      - -2.46201364140547
+      - -1.4155434352593872
+      - -0.8311314387025445
+      - 1.5924748792504824
+      - 0.1385336124548016
     velocity: []
-  name: Place Right
+  name: Grasp Right
 - description: ''
   favorite: true
   joint_state:
@@ -41,13 +41,38 @@
       - wrist_3_joint
     position:
       - 0
-      - -0.78
-      - -0.51
-      - -2.4
-      - 1.65
+      - -1.41
+      - -0.7
+      - -2.12
+      - 1.67
       - 0
     velocity: []
-  name: Home
+  name: Forward Down
+- description: ''
+  favorite: true
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    position:
+      - 1.8388098170804708
+      - -2.443292149016804
+      - -1.4333817078874915
+      - -0.8454175837578257
+      - 1.5642496598380444
+      - 0.37040650512506323
+    velocity: []
+  name: Grasp Left
 - description: ''
   favorite: false
   joint_state:
@@ -90,6 +115,181 @@
       - wrist_2_joint
       - wrist_3_joint
     position:
+      - -2.2335834056138996e-05
+      - -0.7800858658974525
+      - -0.5100288585397881
+      - -2.399985082258936
+      - -3.141592653589793
+      - 2.282092208042741e-05
+    velocity: []
+  name: Wrist 2 Min
+- description: ''
+  favorite: true
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    position:
+      - -1.5707963267948966
+      - -2.0943951023931953
+      - -0.7
+      - -1.71359599286716
+      - 1.5707963267948966
+      - 0
+    velocity: []
+  name: Look at Right Table
+- description: ''
+  favorite: false
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    position:
+      - 2.89725
+      - -2.0944
+      - -1.50098
+      - -1.0472
+      - 1.69297
+      - 0.20944
+    velocity: []
+  name: Pick Block
+- description: ''
+  favorite: true
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    position:
+      - 0
+      - -0.78
+      - -0.51
+      - -2.4
+      - 1.65
+      - 0
+    velocity: []
+  name: Home
+- description: ''
+  favorite: true
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    position:
+      - 1.6966397903773711
+      - -2.0432638182120124
+      - -0.845901355537658
+      - -1.6204157592324464
+      - 1.5452251290161947
+      - 0.12328727782236398
+    velocity: []
+  name: Look at Left Table
+- description: ''
+  favorite: true
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    position:
+      - -8.750649834980185e-05
+      - -1.1423973285781064
+      - -1.5136764603659911
+      - -0.9424777960769379
+      - 1.6698888795166742
+      - -1.2553728371838726e-05
+    velocity: []
+  name: Look at Machine
+- description: ''
+  favorite: false
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    position:
+      - -0.3130109945880335
+      - -2.275282999078268
+      - -0.994219183921814
+      - -1.4464575362256546
+      - 1.6087517738342285
+      - 0.3333250880241394
+    velocity: []
+  name: Place Right
+- description: ''
+  favorite: false
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    position:
       - -0.61
       - -0.78
       - -0.45
@@ -115,39 +315,14 @@
       - wrist_2_joint
       - wrist_3_joint
     position:
-      - 0
-      - -1.41
-      - -0.7
-      - -2.12
-      - 1.67
-      - 0
+      - -2.2335834056138996e-05
+      - -0.7800858658974525
+      - -0.5100288585397881
+      - -2.399985082258936
+      - 3.141592653589793
+      - 2.282092208042741e-05
     velocity: []
-  name: Forward Down
-- description: ''
-  favorite: true
-  joint_state:
-    effort: []
-    header:
-      frame_id: world
-      stamp:
-        nanosec: 0
-        sec: 0
-    name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
-    position:
-      - 0
-      - -1.41
-      - -0.7
-      - -2.12
-      - 1.67
-      - 0
-    velocity: []
-  name: Look at Table
+  name: Wrist 2 Max
 - description: ''
   favorite: false
   joint_state:
@@ -165,37 +340,12 @@
       - wrist_2_joint
       - wrist_3_joint
     position:
-      - 0
-      - -1.41
-      - -0.7
-      - -2.12
-      - 1.67
-      - 0
-    velocity: []
-  name: Look at Pick and Place Zone
-- description: ''
-  favorite: false
-  joint_state:
-    effort: []
-    header:
-      frame_id: world
-      stamp:
-        nanosec: 0
-        sec: 0
-    name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
-    position:
-      - 0.479731822615088
-      - -1.8702324043535852
-      - -1.6880380784492945
-      - -1.1069405167126336
-      - 1.5697229551505079
-      - 0.4674808859060223
+      - -0.13052112260927373
+      - -2.0738541088499964
+      - -1.386773705482483
+      - -1.2032757264426728
+      - 1.5722750425338745
+      - -1.2421711126910608
     velocity: []
   name: Place Left
 - description: ''
@@ -215,136 +365,11 @@
       - wrist_2_joint
       - wrist_3_joint
     position:
-      - -0.10774080734174153
-      - -1.973107534393786
-      - -1.762800130470483
-      - -0.8924615569387039
-      - 1.6471325765469933
-      - -0.1093947632696369
+      - 0.11111391121840652
+      - -2.5862044847356653
+      - -0.5012274095862923
+      - -0.7858302699684137
+      - 1.454618253084769
+      - 0.06085157834607742
     velocity: []
-  name: Place
-- description: ''
-  favorite: true
-  joint_state:
-    effort: []
-    header:
-      frame_id: world
-      stamp:
-        nanosec: 0
-        sec: 0
-    name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
-    position:
-      - 0.6990811829310895
-      - -2.0709114458531928
-      - -1.6333620764775305
-      - -0.9327059744875862
-      - 1.5029559069893608
-      - 0.6922835016976157
-    velocity: []
-  name: Pick
-- description: ''
-  favorite: false
-  joint_state:
-    effort: []
-    header:
-      frame_id: world
-      stamp:
-        nanosec: 0
-        sec: 0
-    name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
-    position:
-      - -2.2335834056138996e-05
-      - -0.7800858658974525
-      - -0.5100288585397881
-      - -2.399985082258936
-      - -3.141592653589793
-      - 2.282092208042741e-05
-    velocity: []
-  name: Wrist 2 Min
-- description: ''
-  favorite: false
-  joint_state:
-    effort: []
-    header:
-      frame_id: world
-      stamp:
-        nanosec: 0
-        sec: 0
-    name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
-    position:
-      - -2.2335834056138996e-05
-      - -0.7800858658974525
-      - -0.5100288585397881
-      - -2.399985082258936
-      - 3.141592653589793
-      - 2.282092208042741e-05
-    velocity: []
-  name: Wrist 2 Max
-- description: Move here and run Take Snapshot again!
-  favorite: true
-  joint_state:
-    effort: []
-    header:
-      frame_id: world
-      stamp:
-        nanosec: 0
-        sec: 0
-    name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
-    position:
-      - -1.5113688855545728
-      - -0.849676772994894
-      - -1.7900954114547076
-      - -0.6712599508612579
-      - 1.6807113853283657
-      - -0.010627009718118157
-    velocity: []
-  name: Right Wall
-- description: ''
-  favorite: true
-  joint_state:
-    effort: []
-    header:
-      frame_id: world
-      stamp:
-        nanosec: 0
-        sec: 0
-    name:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
-    position:
-      - 0.0003205429823013286
-      - -0.3419419371606998
-      - -0.5134107235570269
-      - -2.3994585463037112
-      - 1.6501763241696035
-      - 3.878003640148636e-05
-    velocity: []
-  name: Monitor View
+  name: Grasp Machine

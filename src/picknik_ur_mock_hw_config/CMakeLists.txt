@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(picknik_ur_base_config)
+project(picknik_ur_mock_hw_config)
 
 find_package(ament_cmake REQUIRED)
 
@@ -7,7 +7,7 @@ install(
   DIRECTORY
     config
     description
-    launch
+    meshes
     objectives
     waypoints
   DESTINATION
