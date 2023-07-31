@@ -9,7 +9,7 @@
                     service_name="/io_and_status_controller/zero_ftsensor" />
             </Decorator>
             <Action ID="UpdateAdmittanceController"
-                config_file_name="open_door_admittance_controller_config.yaml" />
+                config_file_name="open_cabinet_door_admittance_controller_config.yaml" />
             <Action ID="LoadObjectiveParameters" config_file_name="open_door_affordance_config.yaml"
                 parameters="{parameters}" />
             <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
