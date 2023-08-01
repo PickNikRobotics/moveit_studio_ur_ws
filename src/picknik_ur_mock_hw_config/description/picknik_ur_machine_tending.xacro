@@ -135,7 +135,7 @@
   <joint name="robot_base_joint" type="fixed">
     <parent link="world" />
     <child link="robot_base" />
-    <origin xyz="0 0 -0.8" rpy="0 0 0"  />
+    <origin xyz="0 0 -0.8" rpy="0 0 3.14"  />
   </joint>
 
   <!-- Hexagonal tables -->
@@ -157,7 +157,7 @@
   <joint name="left_hexagonal_table_joint" type="fixed">
     <parent link="world" />
     <child link="left_hexagonal_table" />
-    <origin xyz="0.8 0 -0.8" rpy="0 0 0"  />
+    <origin xyz="0.8 0 -0.8" rpy="0 0 3.14"  />
   </joint>
 
   <link name="right_hexagonal_table">
@@ -178,7 +178,7 @@
   <joint name="right_hexagonal_table_joint" type="fixed">
     <parent link="world" />
     <child link="right_hexagonal_table" />
-    <origin xyz="-0.8 0 -0.8" rpy="0 0 0"  />
+    <origin xyz="-0.8 0 -0.8" rpy="0 0 3.14"  />
   </joint>
 
   <!-- Cylinder items -->
@@ -195,7 +195,7 @@
   <joint name="left_cylinder_item_joint" type="fixed">
     <parent link="world" />
     <child link="left_cylinder_item" />
-    <origin xyz="0.73 0.06 -0.25" rpy="0 0 0"  />
+    <origin xyz="0.73 0.06 -0.30" rpy="0 0 3.14"  />
   </joint>
 
   <link name="right_cylinder_item">
@@ -211,6 +211,6 @@
   <joint name="right_cylinder_item_joint" type="fixed">
     <parent link="world" />
     <child link="right_cylinder_item" />
-    <origin xyz="-0.73 0.06 -0.25" rpy="0 0 0"  />
+    <origin xyz="-0.73 0.06 -0.30" rpy="0 0 3.14"  />
   </joint>
 </robot>

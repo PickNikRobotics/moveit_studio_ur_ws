@@ -25,6 +25,7 @@ repos:
         args: ["--unsafe"] # Fixes errors parsing custom YAML constructors like ur_description's !degrees
       - id: debug-statements
       - id: end-of-file-fixer
+        exclude: (\.(svg|stl|dae))$
       - id: mixed-line-ending
       - id: fix-byte-order-marker
 
