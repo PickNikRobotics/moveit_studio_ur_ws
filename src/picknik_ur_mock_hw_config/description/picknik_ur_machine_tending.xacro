@@ -102,10 +102,11 @@
         <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/cnc.dae" scale="1 1 1"/>
       </geometry>
     </visual> 
+    <!-- CNC base collision -->
     <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0.1 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/cnc.dae" scale="1 1 1"/>
+        <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/cnc-collision.dae" scale="1 1 1"/>
       </geometry>
     </collision>
   </link>
@@ -147,9 +148,9 @@
       </geometry>
     </visual> 
     <collision>
-      <origin xyz="0 0 0.29" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <box size="1.0 1.0 0.58"/>
+        <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/table-collision.dae" scale="1 1 1"/>
       </geometry>
     </collision>
   </link>
@@ -168,9 +169,9 @@
       </geometry>
     </visual> 
     <collision>
-      <origin xyz="0 0 0.29" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <box size="1.0 1.0 0.58"/>
+        <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/table-collision.dae" scale="1 1 1"/>
       </geometry>
     </collision>
   </link>
