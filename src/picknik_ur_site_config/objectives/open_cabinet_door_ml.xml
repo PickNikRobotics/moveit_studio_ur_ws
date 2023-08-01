@@ -4,12 +4,17 @@
     <BehaviorTree ID="Open Cabinet Door ML"
         _description="Move to Home waypoint, and then open a cabinet door detected by a network">
         <Control ID="Sequence" name="Setup">
+            <!-- Wrap in a ForceSuccess as Sim doesn't have the zero_ftsensor service -->
+            <!-- This should eventually get overridden for non sim site configs to not ForceSuccess -->
+            <!-- See https://github.com/PickNikRobotics/moveit_studio/issues/3406 -->
             <Decorator ID="ForceSuccess">
                 <Action ID="CallTriggerService" 
                     service_name="/io_and_status_controller/zero_ftsensor" />
             </Decorator>
-            <Action ID="UpdateAdmittanceController"
-                config_file_name="open_cabinet_door_admittance_controller_config.yaml" />
+            <Decorator ID="ForceSuccess">
+                <Action ID="UpdateAdmittanceController"
+                    config_file_name="open_cabinet_door_admittance_controller_config.yaml" />
+            </Decorator>
             <Action ID="LoadObjectiveParameters" config_file_name="open_door_affordance_config.yaml"
                 parameters="{parameters}" />
             <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
