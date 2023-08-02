@@ -104,7 +104,7 @@
     </visual> 
     <!-- CNC base collision -->
     <collision>
-      <origin xyz="0 0.1 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/cnc-collision.dae" scale="1 1 1"/>
       </geometry>
