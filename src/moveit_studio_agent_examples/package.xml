@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>moveit_studio_agent_examples</name>
+  <version>2.5.0</version>
+  <description>Package containing scripts for interacting with MoveIt Studio Agent</description>
+
+  <maintainer email="chance.cardona@picknik.ai">Chance Cardona</maintainer>
+  <author email="chance.cardona@picknik.ai">Chance Cardona</author>
+
+  <license>BSD-3-Clause</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>moveit_studio_agent_msgs</depend>
+  <depend>moveit_studio_behavior_msgs</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_cmake_gtest</test_depend>
+  <test_depend>ament_clang_format</test_depend>
+  <test_depend>ament_clang_tidy</test_depend>
+  <test_depend>ament_cmake_copyright</test_depend>
+  <test_depend>ament_cmake_lint_cmake</test_depend>
+  <test_depend>picknik_ament_copyright</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
