@@ -3,13 +3,19 @@
     <BehaviorTree ID="Open Cabinet Door" _description="Open a cabinet door by grasping and pulling its handle">
         <Control ID="Sequence" name="Setup">
             <!-- Tare the force torque sensor -->
+            <!-- Wrap in a ForceSuccess as Sim doesn't have the zero_ftsensor service -->
+            <!-- See https://github.com/PickNikRobotics/moveit_studio/issues/3406 -->
             <Decorator ID="ForceSuccess">
                 <Action ID="CallTriggerService" service_name="/io_and_status_controller/zero_ftsensor" />
             </Decorator>
             <!-- Set admittance control parameters at the start of the Objective -->
-            <Action ID="UpdateAdmittanceController" config_file_name="open_door_admittance_controller_config.yaml"/>
+            <!-- Wrap in a ForceSuccess as Sim doesn't have the admittance controller loaded -->
+            <!-- See https://github.com/PickNikRobotics/moveit_studio/issues/3406 -->
+            <Decorator ID="ForceSuccess">
+                <Action ID="UpdateAdmittanceController" config_file_name="open_cabinet_door_admittance_controller_config.yaml"/>
+            </Decorator>
             <!-- Execute the Objective -->
-            <Action ID="LoadObjectiveParameters" config_file_name="open_door_affordance_config.yaml" parameters="{parameters}" />
+            <Action ID="LoadObjectiveParameters" config_file_name="open_cabinet_door_affordance_config.yaml" parameters="{parameters}" />
             <Action ID="GetPoseFromUser" parameter_name="process_door_selection.hinge_axis_pose_end" parameter_value="{hinge_axis_pose_end}" />
             <Action ID="GetPoseFromUser" parameter_name="process_door_selection.hinge_axis_pose_start" parameter_value="{hinge_axis_pose_start}" />
             <Action ID="GetPoseFromUser" parameter_name="process_door_selection.grasp_pose" parameter_value="{grasp_pose}" />

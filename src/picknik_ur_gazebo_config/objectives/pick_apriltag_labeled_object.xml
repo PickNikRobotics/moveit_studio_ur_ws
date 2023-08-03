@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Pick Apriltag Labeled Object">
+  <!-- ////////// -->
+  <BehaviorTree ID="Pick Apriltag Labeled Object" _description="Picks up an object that is at a known pose offset from an AprilTag marker.">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Control ID="Sequence" name="Setup">
+        <Action ID="LoadObjectiveParameters" config_file_name="apriltag_detection_config.yaml" parameters="{parameters}"/>
+        <SubTree ID="Open Gripper"/>
+        <Action ID="MoveToJointState" waypoint_name="Look at Pick and Place Zone" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
+      </Control>
+      <Control ID="Sequence" name="GetDetection">
+        <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>
+        <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
+        <Action ID="DetectApriltags" image="{image}" camera_info="{camera_info}" parameters="{parameters}" detections="{detections}"/>
+        <Action ID="GetDetectionPose" detections="{detections}" target_id="1" target_label="" detection_pose="{detection_pose}"/>
+      </Control>
+      <Control ID="Sequence" name="GraspObject">
+        <Action ID="TransformPoseFrame" input_pose="{detection_pose}" target_frame_id="world" output_pose="{detection_pose_world}"/>
+        <Action ID="TransformPose" input_pose="{detection_pose_world}" translation_xyz="-0.1;0.0;0.05" quaternion_xyzw="-0.707;0.707;0.0;0.0" output_pose="{grasp_pose}"/>
+        <Action ID="MoveToPose" target_pose="{grasp_pose}" ik_frame="manual_grasp_link" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true"/>
+        <SubTree ID="Close Gripper"/>
+        <Action ID="MoveToJointState" waypoint_name="Look at Pick and Place Zone" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
+      </Control>
+    </Control>
+  </BehaviorTree>
+</root>
