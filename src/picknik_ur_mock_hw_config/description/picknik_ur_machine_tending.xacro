@@ -114,7 +114,7 @@
   <joint name="cnc_machine_joint" type="fixed">
     <parent link="world" />
     <child link="cnc_machine" />
-    <origin xyz="-0.1 -1.2 -0.8" rpy="0 0 3.14"  />
+    <origin xyz="-0.1 -1.25 -0.8" rpy="0 0 3.14"  />
   </joint>
 
   <!-- Robot base -->
