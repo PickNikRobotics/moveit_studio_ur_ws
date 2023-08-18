@@ -1,5 +1,6 @@
 UpdateAdmittanceController:
   controller_name: "admittance_controller_open_door"
+  base_frame: "base_link"
   end_effector_frame: "grasp_link"
   control_frame: "grasp_link"
   admittance:
