@@ -79,7 +79,7 @@ hardware:
       - name: "%>> hardware.type"
       - prefix: ""
       - use_fake_hardware: "%>> hardware.simulated"
-      - use_pinch_link: "true"
+      - use_pinch_links: "true"
       - fake_sensor_commands: "false"
       - headless_mode: "true"
       - robot_ip: "%>> hardware.ip"
