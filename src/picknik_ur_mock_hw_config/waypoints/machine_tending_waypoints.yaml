@@ -33,19 +33,19 @@
         nanosec: 0
         sec: 0
     name:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - 0.06985069152408796
-    - -1.4672882628347366
-    - -1.7175797731890454
-    - -1.5205531132576242
-    - 1.5615168254863208
-    - -1.3999864602892913
+      - 0.06985069152408796
+      - -1.4672882628347366
+      - -1.7175797731890454
+      - -1.5205531132576242
+      - 1.5615168254863208
+      - -1.3999864602892913
     velocity: []
   name: Gripper Down
 - description: ''
