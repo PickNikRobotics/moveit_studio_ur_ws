@@ -38,6 +38,10 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
       # Allow access to host hardware e.g. RealSense cameras
       - /dev:/dev
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 2s
     # TODO: replace this tee here and in common_aliases with some integrated logger
     command: bash -c "ros2 launch moveit_studio_agent studio_agent_bridge.launch.py 2>&1 | tee -a ~/.ros/log/agent_bridge_0_0.log"
 
