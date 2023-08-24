@@ -42,7 +42,7 @@
                 <Action ID="SetupMTCCurrentState" task="{push_along_axis_task}" />
                 <Action ID="SetupMTCMoveToPose" ik_frame="manual_grasp_link"
                     planning_group_name="manipulator" target_pose="{button_pose}"
-                    task="{push_along_axis_task}" />
+                    task="{push_along_axis_task}" use_all_planners="false"/>
                 <Action ID="SetupMTCUpdateGroupCollisionRule"
                     name="AllowGripperCollisionWithOctomap" parameters="{parameters}"
                     task="{push_along_axis_task}" />
