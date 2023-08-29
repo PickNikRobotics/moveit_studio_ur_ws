@@ -3,12 +3,12 @@
   <!-- ////////// -->
   <BehaviorTree ID="Constrained Pick and Place" _description="Pick and place an object with constraints on the gripper's range of motion" _favorite="true">
     <Control ID="Sequence" name="TopLevelSequence">
-      <Action ID="MoveToJointState" waypoint_name="Grasp Left" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
+      <Action ID="MoveToWaypoint" waypoint_name="Grasp Left" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
       <Action ID="InitializeMotionConstraints" constraints_name="gripper pointing down" constraints="{constraints}"/>
       <Action ID="AppendOrientationConstraint" config_file_name="my_constraints.yaml" constraints="{constraints}"/>
       <SubTree ID="Open Gripper"/>
-      <Action ID="MoveToJointState" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" planning_group_name="manipulator" waypoint_name="Gripper Down" use_all_planners="true" constraints="{constraints}"/>
-      <Action ID="MoveToJointState" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" planning_group_name="manipulator" waypoint_name="Grasp Right" use_all_planners="true" constraints="{constraints}"/>
+      <Action ID="MoveToWaypoint" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" planning_group_name="manipulator" waypoint_name="Gripper Down" use_all_planners="true" constraints="{constraints}"/>
+      <Action ID="MoveToWaypoint" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" planning_group_name="manipulator" waypoint_name="Grasp Right" use_all_planners="true" constraints="{constraints}"/>
       <SubTree ID="Close Gripper"/>
     </Control>
   </BehaviorTree>

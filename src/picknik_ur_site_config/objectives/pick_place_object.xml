@@ -99,15 +99,15 @@
 
                 <!-- The "Then" condition of the TryGraspOuter IfThenElse control. After successful grasp, move to dropoff pose and release object, then return to the Look at Pick and Place Zone pose. -->
                 <Control ID="Sequence">
-                    <Action ID="MoveToJointState" waypoint_name="Place" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true"/>
+                    <Action ID="MoveToWaypoint" waypoint_name="Place" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true"/>
                     <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.0"/>
-                    <Action ID="MoveToJointState" waypoint_name="Look at Pick and Place Zone" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true"/>
+                    <Action ID="MoveToWaypoint" waypoint_name="Look at Pick and Place Zone" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true"/>
                 </Control>
 
                 <!-- The "Else" condition of the TryGraspOuter IfThenElse control. Move to the Look at Pick and Place Zone pose if all retry attempts failed. -->
                 <Control ID="Sequence">
                     <Action ID="ResetPlanningSceneObjects" apply_planning_scene_service="/apply_planning_scene"/>
-                    <Action ID="MoveToJointState" waypoint_name="Look at Pick and Place Zone" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true"/>
+                    <Action ID="MoveToWaypoint" waypoint_name="Look at Pick and Place Zone" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true"/>
                     <Action ID="AlwaysFailure"/>
                 </Control>
             </Control>
