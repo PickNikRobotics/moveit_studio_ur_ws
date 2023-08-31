@@ -11,6 +11,9 @@ FindSingularCuboids:
   #   Reducing this value allows recognizing objects that are close to each other as distinct objects, but could increase the false positive rate.
   cluster_distance_threshold: 0.01
 
+  # Time allowed for transform lookup to wait for desired tf to appear in buffer before throwing error.
+  tf_lookup_timeout: 0.1
+
   # These define a rectangular region of interest relative to base_frame.
   #   The settings here define a 2m x 2m x 1m box just below the XY plane of the world frame.
   # Origin of the region:
