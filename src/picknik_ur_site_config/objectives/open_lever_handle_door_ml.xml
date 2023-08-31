@@ -22,7 +22,7 @@
             <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}"
                 sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"
                 point_cloud_uuid="" />
-            <Action ID="MoveToJointState"
+            <Action ID="MoveToWaypoint"
                 waypoint_name="Door"
                 planning_group_name="manipulator"
                 controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
