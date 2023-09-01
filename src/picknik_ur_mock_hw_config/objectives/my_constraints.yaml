@@ -8,4 +8,4 @@ AppendOrientationConstraint:
   tolerance:    # radians
     x: 0.1
     y: 0.1
-    z: 10.0
+    z: 3.14
