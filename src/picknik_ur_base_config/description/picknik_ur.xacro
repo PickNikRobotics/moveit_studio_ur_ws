@@ -97,7 +97,7 @@
   <joint name="manual_grasp_joint" type="fixed">
     <parent link="grasp_link" />
     <child link="manual_grasp_link" />
-    <origin xyz="0 0 0" rpy="${pi / 180.0 * 5} 0 0" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
 
   <!-- Environment -->
