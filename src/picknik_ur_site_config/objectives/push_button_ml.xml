@@ -63,7 +63,7 @@
                 <Action ID="SaveCurrentState" saved_robot_state="{pre_approach_robot_state}" />
                 <ForceSuccess>
                     <ReactiveSequence>
-                        <Action ID="IsForceWithinThreshold" parameters="{parameters}" />
+                        <Condition ID="IsForceWithinThreshold" parameters="{parameters}" />
                         <Action ID="ExecuteMTCTask" solution="{push_solution}" />
                     </ReactiveSequence>
                 </ForceSuccess>
