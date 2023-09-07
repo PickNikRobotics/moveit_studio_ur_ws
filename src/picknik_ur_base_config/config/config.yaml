@@ -111,7 +111,7 @@ ros_global_params:
 
 # Configure additional, optional features in MoveIt Studio.
 # [Optional]
-optional_feature_params: []
+optional_feature_params: {}
 
 # Configuration files for MoveIt.
 # For more information, refer to https://moveit.picknik.ai/humble/doc/examples/examples.html#configuration
