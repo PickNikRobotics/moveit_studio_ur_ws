@@ -4,12 +4,7 @@
     <BehaviorTree ID="Open Lever Handle Door ML" _description="Move to Door waypoint, and then open a lever handle door detected by a network">
         <Control ID="Sequence" name="Setup">
             <Action ID="LoadObjectiveParameters" config_file_name="open_lever_handle_door_ml_config.yaml" parameters="{parameters}"/>
-            <!-- Wrap in a ForceSuccess as Sim doesn't have the zero_ftsensor service -->
-            <!-- See https://github.com/PickNikRobotics/moveit_studio/issues/3406 -->
-            <Decorator ID="ForceSuccess">
-                <Action ID="CallTriggerService"
-                    service_name="/io_and_status_controller/zero_ftsensor" />
-            </Decorator>
+            <SubTree ID="Re-Zero Force/Torque Sensors" />
             <!-- Wrap in a ForceSuccess as Sim doesn't have the admittance controller loaded -->
             <!-- See https://github.com/PickNikRobotics/moveit_studio/issues/3406 -->
             <Decorator ID="ForceSuccess">

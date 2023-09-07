@@ -2,12 +2,7 @@
 <root BTCPP_format="4" main_tree_to_execute="Push Button">
     <BehaviorTree ID="Push Button" _description="Push a button with the end effector">
         <Control ID="Sequence">
-            <!-- Wrap in a ForceSuccess as Sim doesn't have the zero_ftsensor service -->
-            <!-- See https://github.com/PickNikRobotics/moveit_studio/issues/3406 -->
-            <Decorator ID="ForceSuccess">
-                <Action ID="CallTriggerService"
-                    service_name="/io_and_status_controller/zero_ftsensor" />
-            </Decorator>
+            <SubTree ID="Re-Zero Force/Torque Sensors" />
             <Action ID="LoadObjectiveParameters" config_file_name="push_along_axis_config.yaml" parameters="{parameters}" />
             <SubTree ID="CloseGripper" />
             <Action ID="SaveCurrentState" saved_robot_state="{initial_robot_state}" />
