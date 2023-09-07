@@ -44,11 +44,6 @@ services:
         delay: 2s
     command: agent_bridge.app
 
-  # Starts the frontend-agent
-  frontend_agent:
-    extends: base
-    command: /usr/lib/formant/agent/formant-agent
-
   # Starts the REST API for the Web UI
   rest_api:
     extends: base

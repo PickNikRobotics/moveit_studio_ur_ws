@@ -111,10 +111,7 @@ ros_global_params:
 
 # Configure additional, optional features in MoveIt Studio.
 # [Optional]
-optional_feature_params:
-  # Whether or not to use the Formant bridge for over-the-internet comms.
-  # [Optional, default=False]
-  use_formant_bridge: False
+optional_feature_params: []
 
 # Configuration files for MoveIt.
 # For more information, refer to https://moveit.picknik.ai/humble/doc/examples/examples.html#configuration
