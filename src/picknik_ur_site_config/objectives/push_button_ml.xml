@@ -3,7 +3,7 @@
     <BehaviorTree ID="Push Button ML"
         _description="Move to Home waypoint, and then push a button detected by a network with the end effector">
         <Control ID="Sequence">
-            <SubTree ID="Re-Zero Force/Torque Sensors" />
+            <SubTree ID="Re-Zero Force-Torque Sensors" />
             <Action ID="LoadObjectiveParameters" config_file_name="push_along_axis_config.yaml"
                 parameters="{parameters}" />
             <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
