@@ -4,7 +4,6 @@
   <BehaviorTree ID="Pick Apriltag Labeled Object" _description="Picks up an object that is at a known pose offset from an AprilTag marker." _favorite="true">
     <Control ID="Sequence" name="TopLevelSequence">
       <Control ID="Sequence" name="Setup">
-        <Action ID="LoadObjectiveParameters" config_file_name="apriltag_detection_config.yaml" parameters="{parameters}"/>
         <SubTree ID="Open Gripper"/>
         <Action ID="MoveToWaypoint" waypoint_name="Look at Pick and Place Zone" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
       </Control>
