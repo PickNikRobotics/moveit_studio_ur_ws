@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Loop Detect April">
+  <!-- ////////// -->
+  <BehaviorTree ID="Loop Detect April" _description="Loops finding April Tag marker until failure." _favorite="true">
+    <Control ID="Sequence">
+      <!-- Keep executing until failure -->
+      <Decorator ID="KeepRunningUntilFailure">
+        <Control ID="Sequence" name="GetDetection">
+          <Action ID="LoadObjectiveParameters" config_file_name="apriltag_detection_config.yaml" parameters="{parameters}"/>
+          <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>
+          <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
+          <Action ID="DetectApriltags" image="{image}" camera_info="{camera_info}" parameters="{parameters}" detections="{detections}"/>
+          <!-- if you don't want this behavior to fail when it can't find an April tag comment out the line below -->
+          <Action ID="GetDetectionPose" detections="{detections}" target_id="0" target_label="" detection_pose="{detection_pose}"/>
+        </Control>
+      </Decorator>  
+    </Control>
+  </BehaviorTree>
+</root>
