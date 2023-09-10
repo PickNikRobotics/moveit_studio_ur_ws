@@ -29,9 +29,6 @@ publish_joint_positions: true
 publish_joint_velocities: false
 publish_joint_accelerations: false
 
-## Set to true to correct for drift. Useful for robots with poor joint tracking.
-apply_anti_drift: false
-
 ## Plugins for smoothing outgoing commands
 use_smoothing: true
 smoothing_filter_plugin_name: "online_signal_smoothing::ButterworthFilterPlugin"
