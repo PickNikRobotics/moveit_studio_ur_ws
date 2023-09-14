@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Sample April Tag">
   <!-- ////////// -->
-  <BehaviorTree ID="Sample April Tag" _description="Samples the pose of an April tag and returns the average measurement." _favorite="true">
+  <BehaviorTree ID="Sample April Tag" _description="Samples the pose of an AprilTag and returns the average measurement." _favorite="true">
       <Decorator ID="Repeat" num_cycles="{num_cycles}" name="SamplePose">
         <Control ID="Sequence">
         <Action ID="LoadObjectiveParameters" config_file_name="{apriltag_config}" parameters="{parameters}"/>
