@@ -5,17 +5,17 @@
       <!-- Create demo waypoints -->
       <!-- Waypoint 1 -->
       <Action ID="CreateStampedPose" reference_frame="manual_grasp_link" position_xyz="-0.1;0.0;0.0" orientation_xyzw="0.0;0.0;0.0;1.0" stamped_pose="{stamped_pose}"/>
-      <Action ID="AddCartesianPoseToSequence" input_pose="{stamped_pose}" cartesian_sequence="{cartesian_sequence}"/>
+      <Action ID="AddPoseStampedToVector" input_pose="{stamped_pose}" pose_stamped_vector="{pose_stamped_vector}"/>
       <!-- Waypoint 2 -->
       <Action ID="CreateStampedPose" reference_frame="manual_grasp_link" position_xyz="-0.1;0.0;0.1" orientation_xyzw="0.0;0.0;0.0;1.0" stamped_pose="{stamped_pose}"/>
-      <Action ID="AddCartesianPoseToSequence" input_pose="{stamped_pose}" cartesian_sequence="{cartesian_sequence}"/>
+      <Action ID="AddPoseStampedToVector" input_pose="{stamped_pose}" pose_stamped_vector="{pose_stamped_vector}"/>
       <!-- Waypoint 3 -->
       <Action ID="CreateStampedPose" reference_frame="manual_grasp_link" position_xyz="0.0;0.0;0.1" orientation_xyzw="0.0;0.0;0.0;1.0" stamped_pose="{stamped_pose}"/>
-      <Action ID="AddCartesianPoseToSequence" input_pose="{stamped_pose}" cartesian_sequence="{cartesian_sequence}"/>
+      <Action ID="AddPoseStampedToVector" input_pose="{stamped_pose}" pose_stamped_vector="{pose_stamped_vector}"/>
       <!-- Plan Cartesian motion -->
       <Action ID="InitializeMTCTask" task_id="cartesian_sequence" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{cartesian_sequence_task}"/>
       <Action ID="SetupMTCCurrentState" task="{cartesian_sequence_task}"/>
-      <Action ID="SetupMTCCartesianSequence" name="SetupMTCCartesianSequence" planning_group_name="manipulator" cartesian_sequence="{cartesian_sequence}" ik_frame="manual_grasp_link" task="{cartesian_sequence_task}"/>
+      <Action ID="SetupMTCCartesianSequence" name="SetupMTCCartesianSequence" planning_group_name="manipulator" pose_stamped_vector="{pose_stamped_vector}" ik_frame="manual_grasp_link" task="{cartesian_sequence_task}"/>
       <Action ID="PlanMTCTask" solution="{cartesian_sequence_solution}" task="{cartesian_sequence_task}"/>
       <Action ID="ExecuteMTCTask" solution="{cartesian_sequence_solution}"/>
     </Control>
