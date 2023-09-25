@@ -24,7 +24,6 @@
                         <Condition ID="IsForceWithinThreshold" parameters="{parameters}"/>
                     </Decorator>
                     <Action ID="ExecuteMTCTask" solution="{push_solution}"/>
-                    </Control>
                 </Control>
             </Control>
             <SubTree ID="RetreatToInitialPose" pre_approach_robot_state="{pre_approach_robot_state}" initial_robot_state="{initial_robot_state}" parameters="{parameters}" />
