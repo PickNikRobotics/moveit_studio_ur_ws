@@ -18,14 +18,13 @@
                 <Action ID="SplitMTCSolution" solution_in="{full_push_button_solution}" index="3" solution_out_1="{move_to_approach_solution}" solution_out_2="{push_solution}" />
                 <Action ID="WaitForUserTrajectoryApproval" solution="{full_push_button_solution}"/>
                 <Action ID="ExecuteMTCTask" solution="{move_to_approach_solution}"/>
-
                 <Action ID="SaveCurrentState" saved_robot_state="{pre_approach_robot_state}" />
-                <ForceSuccess>
-                    <ReactiveSequence>
-                        <Condition ID="IsForceWithinThreshold" parameters="{parameters}" />
-                        <Action ID="ExecuteMTCTask" solution="{push_solution}" />
-                    </ReactiveSequence>
-                </ForceSuccess>
+                <Control ID="Parallel" success_count="1" failure_count="1">
+                    <Decorator ID="Inverter">
+                        <Condition ID="IsForceWithinThreshold" parameters="{parameters}"/>
+                    </Decorator>
+                    <Action ID="ExecuteMTCTask" solution="{push_solution}"/>
+                </Control>
             </Control>
             <SubTree ID="RetreatToInitialPose" pre_approach_robot_state="{pre_approach_robot_state}" initial_robot_state="{initial_robot_state}" parameters="{parameters}" />
         </Control>

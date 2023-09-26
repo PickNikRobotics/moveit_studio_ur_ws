@@ -56,14 +56,13 @@
                 <Action ID="WaitForUserTrajectoryApproval"
                     solution="{full_push_along_axis_solution}" />
                 <Action ID="ExecuteMTCTask" solution="{move_to_approach_solution}" />
-
                 <Action ID="SaveCurrentState" saved_robot_state="{pre_approach_robot_state}" />
-                <ForceSuccess>
-                    <ReactiveSequence>
-                        <Condition ID="IsForceWithinThreshold" parameters="{parameters}" />
-                        <Action ID="ExecuteMTCTask" solution="{push_solution}" />
-                    </ReactiveSequence>
-                </ForceSuccess>
+                <Control ID="Parallel" success_count="1" failure_count="1">
+                    <Decorator ID="Inverter">
+                        <Condition ID="IsForceWithinThreshold" parameters="{parameters}"/>
+                    </Decorator>
+                    <Action ID="ExecuteMTCTask" solution="{push_solution}"/>
+                </Control>
             </Control>
             <SubTree ID="RetreatToInitialPose"
                 pre_approach_robot_state="{pre_approach_robot_state}"
