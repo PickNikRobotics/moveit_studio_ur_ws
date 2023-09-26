@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Loop Detect AprilTag">
   <!-- ////////// -->
-  <BehaviorTree ID="Loop Detect AprilTag" _description="Loops finding April Tag markers until failure." _favorite="true">
+  <BehaviorTree ID="Loop Detect AprilTag" _description="Loops finding April Tag markers until failure." _favorite="false">
     <Control ID="Sequence">
       <!-- Keep executing until failure -->
       <Decorator ID="KeepRunningUntilFailure">
