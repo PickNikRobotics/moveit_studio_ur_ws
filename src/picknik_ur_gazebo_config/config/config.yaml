@@ -76,7 +76,7 @@ moveit_params:
     path: "config/moveit/sensors_3d.yaml"
   servo:
     package: "picknik_ur_gazebo_config"
-    path: "config/moveit/ur5e_servo.yaml"
+    path: "config/moveit/ur_servo.yaml"
 
 octomap_manager:
   # Input point cloud topic name. The *output* point cloud topic published by
