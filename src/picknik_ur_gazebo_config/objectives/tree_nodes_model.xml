@@ -1,6 +1,6 @@
 <root>
   <TreeNodesModel>
-    <SubTree ID="Sample Apriltag">
+    <SubTree ID="Sample April Tag">
         <description>
           <p>
               Samples the pose of an Apriltag and returns the average measurement.
