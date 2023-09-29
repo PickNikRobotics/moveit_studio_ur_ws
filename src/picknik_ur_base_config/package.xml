@@ -22,6 +22,7 @@
   <exec_depend>picknik_accessories</exec_depend>
   <exec_depend>realsense2_description</exec_depend>
   <exec_depend>robotiq_description</exec_depend>
+  <exec_depend>trac_ik_kinematics_plugin</exec_depend>
   <exec_depend>ur_description</exec_depend>
   <exec_depend>ur_robot_driver</exec_depend>
 
