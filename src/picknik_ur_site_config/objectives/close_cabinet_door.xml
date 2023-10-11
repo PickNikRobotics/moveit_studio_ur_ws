@@ -21,7 +21,7 @@
                 <Action ID="SaveCurrentState" saved_robot_state="{pre_approach_robot_state}" />
                 <Control ID="Parallel" success_count="1" failure_count="1">
                     <Decorator ID="Inverter">
-                        <Condition ID="IsForceWithinThreshold" parameters="{parameters}"/>
+                        <Action ID="IsForceWithinThreshold" parameters="{parameters}"/>
                     </Decorator>
                     <Action ID="ExecuteMTCTask" solution="{push_solution}"/>
                 </Control>
