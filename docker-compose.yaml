@@ -55,7 +55,7 @@ services:
     healthcheck:
       test: "curl -f http://localhost:3200/objectives"
       interval: 5s
-      timeout: 1m
+      timeout: 3m
     command: rest_api.app
 
   # Starts the robot drivers
