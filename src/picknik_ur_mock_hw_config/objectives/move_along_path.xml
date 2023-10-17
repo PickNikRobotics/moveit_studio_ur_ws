@@ -3,7 +3,6 @@
   <!-- ////////// -->
   <BehaviorTree ID="Move along Path" _description="Moves the robot tip on a rectangular path." _favorite="true" _hardcoded="false">
     <Control ID="Sequence" name="TopLevelSequence">
-      <Action ID="MoveToWaypoint" waypoint_name="Look at Right Table" planning_group_name="manipulator" controller_names="/joint_trajectory_controller" use_all_planners="false" constraints=""/>
       <Control ID="Sequence">
         <Action ID="CreateStampedPose" reference_frame="base_link" position_xyz="-0.4;0.4;-0.0" orientation_xyzw="0.0;1.0;0.0;0.0" stamped_pose="{stamped_pose}"/>
         <Action ID="AddPoseStampedToVector" input_pose="{stamped_pose}" pose_stamped_vector="{pose_stamped_vector}"/>
@@ -16,8 +15,13 @@
         <Action ID="CreateStampedPose" reference_frame="base_link" position_xyz="-0.4;0.4;-0.0" orientation_xyzw="0.0;1.0;0.0;0.0" stamped_pose="{stamped_pose}"/>
         <Action ID="AddPoseStampedToVector" input_pose="{stamped_pose}" pose_stamped_vector="{pose_stamped_vector}"/>
       </Control>
-      <Action ID="PlanCartesianPath" path="{pose_stamped_vector}" planning_group_name="manipulator" tip_link="grasp_link" tip_offset="0.0;0.0;0.0" position_only="false" blending_radius="0.02" velocity_scale_factor="1.0" acceleration_scale_factor="1.0" trajectory_sampling_rate="100" joint_trajectory_msg="{joint_trajectory_msg}"/>
-      <Action ID="ExecuteFollowJointTrajectory" execute_follow_joint_trajectory_action_name="/joint_trajectory_controller/follow_joint_trajectory" joint_trajectory_msg="{joint_trajectory_msg}"/>
+      <Decorator ID="KeepRunningUntilFailure">
+        <Control ID="Sequence">
+          <Action ID="MoveToWaypoint" waypoint_name="Look at Right Table" planning_group_name="manipulator" controller_names="/joint_trajectory_controller" use_all_planners="false" constraints=""/>
+          <Action ID="PlanCartesianPath" path="{pose_stamped_vector}" planning_group_name="manipulator" tip_link="grasp_link" tip_offset="0.0;0.0;0.0" position_only="false" blending_radius="0.02" velocity_scale_factor="1.0" acceleration_scale_factor="1.0" trajectory_sampling_rate="100" joint_trajectory_msg="{joint_trajectory_msg}"/>
+          <Action ID="ExecuteFollowJointTrajectory" execute_follow_joint_trajectory_action_name="/joint_trajectory_controller/follow_joint_trajectory" joint_trajectory_msg="{joint_trajectory_msg}"/>
+        </Control>
+      </Decorator>
     </Control>
   </BehaviorTree>
 </root>
