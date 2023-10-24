@@ -19,6 +19,8 @@
         <Control ID="Sequence">
           <Action ID="MoveToWaypoint" waypoint_name="Look at Right Table" planning_group_name="manipulator" controller_names="/joint_trajectory_controller" use_all_planners="false" constraints=""/>
           <Action ID="PlanCartesianPath" path="{pose_stamped_vector}" planning_group_name="manipulator" tip_link="grasp_link" tip_offset="0.0;0.0;0.0" position_only="false" blending_radius="0.02" velocity_scale_factor="1.0" acceleration_scale_factor="1.0" trajectory_sampling_rate="100" joint_trajectory_msg="{joint_trajectory_msg}"/>
+          <Action ID="GetCurrentPlanningScene" planning_scene_msg="{planning_scene_msg}"/>
+          <Action ID="ValidateTrajectory" planning_scene_msg="{planning_scene_msg}" planning_group_name="manipulator" joint_trajectory_msg="{joint_trajectory_msg}" joint_space_step="0.05" cartesian_space_step="0.02"/>
           <Action ID="ExecuteFollowJointTrajectory" execute_follow_joint_trajectory_action_name="/joint_trajectory_controller/follow_joint_trajectory" joint_trajectory_msg="{joint_trajectory_msg}"/>
         </Control>
       </Decorator>
