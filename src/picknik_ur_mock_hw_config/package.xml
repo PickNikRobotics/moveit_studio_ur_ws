@@ -11,6 +11,8 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <exec_depend>robotiq_description</exec_depend>
+
   <depend>picknik_ur_base_config</depend>
 
   <export>
