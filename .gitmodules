@@ -4,4 +4,4 @@
 [submodule "src/external_dependencies/picknik_accessories"]
 	path = src/external_dependencies/picknik_accessories
 	url = git@github.com:PickNikRobotics/picknik_accessories.git
-  branch = ur-main
+	branch = ur-main
