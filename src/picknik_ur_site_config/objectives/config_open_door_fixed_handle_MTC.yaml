@@ -1,0 +1,53 @@
+UpdateAdmittanceController:
+  controller_name: "admittance_controller_open_door"
+  base_frame: "base_link"
+  end_effector_frame: "grasp_link"
+  control_frame: "grasp_link"
+  admittance:
+    selected_axes:
+      x: True
+      y: True
+      z: True
+      rx: True
+      ry: True
+      rz: True
+    mass_position:  # kg
+      x: 10.0
+      y: 10.0
+      z: 10.0
+      min: 0.001
+      max: 100.0
+    mass_rotation:  # kg*m^2
+      x: 5.0
+      y: 5.0
+      z: 5.0
+      min: 0.001
+      max: 100.0
+    stiffness_position:  # N/m
+      x: 500.0
+      y: 500.0
+      z: 500.0
+      min: 0.0
+      max: 1000.0
+    stiffness_rotation:  # N*m/rad
+      x: 100.0
+      y: 100.0
+      z: 100.0
+      min: 0.0
+      max: 1000.0
+    damping_ratio_position:  # unitless
+      x: 5.0
+      y: 5.0
+      z: 5.0
+      min: 0.0
+      max: 100.0
+    damping_ratio_rotation:  # unitless
+      x: 5.0
+      y: 5.0
+      z: 5.0
+      min: 0.0
+      max: 100.0
+    joint_damping:  # 1/s
+      value: 5.0
+      min: 0.0
+      max: 100.0
