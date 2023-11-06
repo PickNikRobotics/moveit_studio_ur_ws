@@ -22,7 +22,7 @@ FindSingularCuboids:
   crop_box_size_y: 0.75
   crop_box_size_z: 0.5
 
-SetupMTCPickApproachGrasp:
+SetupMTCApproachGrasp:
   world_frame_name: "world"
   arm_group_name: "manipulator"
   end_effector_group_name: "gripper"
