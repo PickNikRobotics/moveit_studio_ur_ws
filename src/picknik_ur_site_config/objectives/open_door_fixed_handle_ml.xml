@@ -12,7 +12,7 @@
       <Action ID="UpdatePlanningSceneService" point_cloud="{point_cloud}" point_cloud_service="/point_cloud_service"/>
       <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
       <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
-      <Action ID="GetMasks2DAction" image="{image}" action_name="{masks2d_action_name}" min_confidence="0.8" max_nms_iou="0.8" min_relative_area="0" max_relative_area="1" masks2d="{masks2d}"/>
+      <Action ID="GetMasks2DAction" image="{image}" action_name="get_masks_2d_maskrcnn" min_confidence="0.8" max_nms_iou="0.8" min_relative_area="0" max_relative_area="1" masks2d="{masks2d}"/>
       <Action ID="GetMasks3DFromMasks2D" point_cloud="{point_cloud}" masks2d="{masks2d}" camera_info="{camera_info}" masks3d="{masks3d}"/>
       <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
         <Control ID="Sequence">
@@ -24,7 +24,7 @@
       <Decorator ID="ForEachGraspableObject" vector_in="{graspable_objects}" out="{graspable_object}">
         <Control ID="Sequence">
           <Action ID="ModifyObjectInPlanningScene" object="{graspable_object}" apply_planning_scene_service="/apply_planning_scene"/>
-          <Action ID="LoadPosesFromYaml" file_path="affordance_cabinet_door.yaml" poses="{relative_poses}" pose_names="{relative_pose_names}"/>
+          <Action ID="LoadPosesFromYaml" file_path="config_cabinet_door_affordance_poses.yaml" poses="{relative_poses}" pose_names="{relative_pose_names}"/>
           <Action ID="GetAffordancePoses" relative_poses="{relative_poses}" relative_pose_names="{relative_pose_names}" graspable_object="{graspable_object}"/>
           <Control ID="Sequence" name="OpenDoorFixedHandleMTC">
             <Action ID="InitializeMTCTask" task_id="open_door_fixed_handle_ml" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{open_door_affordance_task}"/>
