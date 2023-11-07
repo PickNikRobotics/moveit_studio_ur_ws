@@ -48,14 +48,15 @@ hardware:
     package: "picknik_ur_gazebo_config"
     path: "config/cameras.yaml"
   robot_description:
-    srdf:
-      package: "picknik_ur_gazebo_config"
-      path: "config/moveit/picknik_ur_gazebo.srdf"
     urdf:
       package: "picknik_ur_gazebo_config"
       path: "description/picknik_ur_gazebo.xacro"
+    srdf:
+      package: "picknik_ur_gazebo_config"
+      path: "config/moveit/picknik_ur_gazebo.srdf.xacro"
     urdf_params:
       - name: "%>> hardware.type"
+      - gripper_name: "robotiq_85"
       # Using the ogre renderer as it is compatible with most host hardware.
       # ogre2 (which is the Gazebo default) is also an option if your system supports it.
       - gazebo_renderer: ${GAZEBO_RENDERER:-ogre}
