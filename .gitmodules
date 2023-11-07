@@ -1,0 +1,7 @@
+[submodule "src/external_dependencies/ros2_robotiq_gripper"]
+	path = src/external_dependencies/ros2_robotiq_gripper
+	url = git@github.com:PickNikRobotics/ros2_robotiq_gripper.git
+[submodule "src/external_dependencies/picknik_accessories"]
+	path = src/external_dependencies/picknik_accessories
+	url = git@github.com:PickNikRobotics/picknik_accessories.git
+	branch = ur-main
