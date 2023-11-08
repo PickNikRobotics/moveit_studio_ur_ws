@@ -5,7 +5,7 @@
 -->
 <robot name="ur5e" xmlns:xacro="http://wiki.ros.org/xacro">
     <!--Xacro Parameters-->
-    <xacro:arg name="gripper_name" default="$(arg robotiq_85)"/>
+    <xacro:arg name="gripper_name" default="robotiq_85"/>
 
     <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
     <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
