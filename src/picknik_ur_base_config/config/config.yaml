@@ -117,9 +117,10 @@ optional_feature_params:
   use_formant_bridge: False
 
 # Configuration files for MoveIt.
-# For more information, refer to https://moveit.picknik.ai/humble/doc/examples/examples.html#configuration
+# For more information, refer to https://moveit.picknik.ai/main/doc/how_to_guides/moveit_configuration/moveit_configuration_tutorial.html
 # [Required]
 moveit_params:
+  # Used by the Waypoint Manager to save joint states from this joint group.
   joint_group_name: "manipulator"
 
   ompl_planning:
