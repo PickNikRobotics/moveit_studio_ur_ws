@@ -9,7 +9,7 @@ grasp:
     z: 0.0
     w: 1.0
 
-hinge_axis_start:
+screw_1:
   position:
     x: 0.0
     y: 0.0
@@ -20,7 +20,7 @@ hinge_axis_start:
     z: 0.0
     w: 1.0
 
-hinge_axis_end:
+screw_2:
   position:
     x: 0.0
     y: 0.0

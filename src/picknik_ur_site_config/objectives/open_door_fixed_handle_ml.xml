@@ -23,13 +23,25 @@
       <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.01" minimum_face_area="0.000625" face_separation_threshold="0.01" graspable_objects="{graspable_objects}"/>
       <Decorator ID="ForEachGraspableObject" vector_in="{graspable_objects}" out="{graspable_object}">
         <Control ID="Sequence">
+          <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.0"/>
           <Action ID="ModifyObjectInPlanningScene" object="{graspable_object}" apply_planning_scene_service="/apply_planning_scene"/>
-          <Action ID="LoadPosesFromYaml" file_path="config_cabinet_door_affordance_poses.yaml" poses="{relative_poses}" pose_names="{relative_pose_names}"/>
-          <Action ID="GetAffordancePoses" relative_poses="{relative_poses}" relative_pose_names="{relative_pose_names}" graspable_object="{graspable_object}"/>
+          <!-- Temporary todo(chancecardo): switch for loading from yaml, then fully automatically eventually -->
+          <Action ID="GetPoseFromUser" parameter_name="process_door_selection.grasp_pose" parameter_value="{grasp_pose}" />
+          <Action ID="AnnotateObjectWithSubframe" subframe_pose="{grasp_pose}" subframe_name="grasp" graspable_object="{graspable_object}"/>
+          <Action ID="GetPoseFromUser" parameter_name="process_door_selection.screw_1_pose" parameter_value="{screw_1_pose}" />
+          <Action ID="AnnotateObjectWithSubframe" subframe_pose="{screw_1_pose}" subframe_name="screw_1" graspable_object="{graspable_object}"/>
+          <Action ID="GetPoseFromUser" parameter_name="process_door_selection.screw_2_pose" parameter_value="{screw_2_pose}" />
+          <Action ID="AnnotateObjectWithSubframe" subframe_pose="{screw_2_pose}" subframe_name="screw_2" graspable_object="{graspable_object}"/>
+          <!-- End -->
+          <!--
+          <Action ID="LoadPosesFromYaml" file_path="config_cabinet_door_affordance_poses.yaml" poses="{subframe_poses}" pose_names="{subframe_names}"/>
+          <Action ID="AnnotateObjectWithSubframes" subframe_poses="{subframe_poses}" subframe_names="{subframe_names}" graspable_object="{graspable_object}"/>
+          -->
+          <Action ID="GetHingeAxisFromSurfaceSelection" graspable_object="{graspable_object}" />
           <Control ID="Sequence" name="OpenDoorFixedHandleMTC">
             <Action ID="InitializeMTCTask" task_id="open_door_fixed_handle_ml" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{open_door_affordance_task}"/>
             <Action ID="SetupMTCCurrentState" task="{open_door_affordance_task}"/>
-            <Action ID="SetupMTCAffordanceTemplate" grasp_pose="{affordance_grasp_pose}" parameters="{parameters}" screw_axis_pose="{screw_axis_pose}" screw_origin_pose="{screw_origin_pose}" task="{open_door_affordance_task}"/>
+            <Action ID="SetupMTCAffordanceTemplate" graspable_object="{graspable_object}" parameters="{parameters}" task="{open_door_affordance_task}"/>
             <Action ID="PlanMTCTask" task="{open_door_affordance_task}" solution="{open_door_affordance_solution}"/>
             <Control ID="Fallback">
               <Decorator ID="Inverter">
