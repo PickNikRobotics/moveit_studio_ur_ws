@@ -12,7 +12,7 @@
       <Control ID="Sequence" name="GraspObject">
         <Action ID="TransformPoseFrame" input_pose="{tag_pose}" target_frame_id="world" output_pose="{tag_pose_world}"/>
         <Action ID="TransformPoseFromYaml" input_pose="{tag_pose_world}" pose_parameters="{pose_parameters}" parameter_namespace="GraspOffset" output_pose="{grasp_pose}"/>
-        <SubTree ID="PickObject" grasp_pose="{grasp_pose}"/>
+        <SubTree ID="Pick Object" grasp_pose="{grasp_pose}"/>
       </Control>
     </Control>
   </BehaviorTree>

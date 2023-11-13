@@ -2,13 +2,11 @@
 <root BTCPP_format="4" main_tree_to_execute="Pick Object">
     <BehaviorTree ID="Pick Object" _description="Pick up and lift a small object" _favorite="true">
         <Control ID="Sequence" name="root">
-            <SubTree ID="OpenGripper"/>
-            <Action ID="GetPoseFromUser" parameter_name="pick_object.grasp_pose" parameter_value="{grasp_pose}" />
-            <SubTree ID="PickObject" grasp_pose="{grasp_pose}"/>
-        </Control>
-    </BehaviorTree>
-    <BehaviorTree ID="PickObject">
-        <Control ID="Sequence" name="pick_object_main">
+            <SubTree ID="Open Gripper"/>
+            <!-- Wrap in a ForceSuccess decorator so this can be used as both a top-level tree and subtree -->
+            <Decorator ID="ForceSuccess">
+                <Action ID="GetPoseFromUser" parameter_name="pick_object.grasp_pose" parameter_value="{grasp_pose}" />
+            </Decorator>
             <Action ID="LoadObjectiveParameters" config_file_name="pick_object_config.yaml" parameters="{parameters}"/>
             <Action ID="InitializeMTCTask" task_id="pick_object" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{pick_object_task}"/>
             <Action ID="SetupMTCCurrentState" task="{pick_object_task}"/>
@@ -22,8 +20,5 @@
             </Fallback>
             <Action ID="ExecuteMTCTask" solution="{pick_object_solution}"/>
         </Control>
-    </BehaviorTree>
-    <BehaviorTree ID="OpenGripper">
-        <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.0"/>
     </BehaviorTree>
 </root>
