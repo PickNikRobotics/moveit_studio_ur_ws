@@ -5,3 +5,7 @@
 	path = src/external_dependencies/picknik_accessories
 	url = https://github.com/PickNikRobotics/picknik_accessories.git
 	branch = ur-main
+[submodule "src/external_dependencies/serial"]
+	path = src/external_dependencies/serial
+	url = https://github.com/tylerjw/serial.git
+	branch = ros2
