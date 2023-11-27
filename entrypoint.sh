@@ -4,14 +4,9 @@
 
 set +e
 
-# Source the MoveIt Studio binaries and your workspace
-source "/opt/overlay_ws/install/setup.bash"
-if [ -f "${USER_OVERLAY_WS}/install/local_setup.bash" ]; then
-  source "${USER_OVERLAY_WS}/install/local_setup.bash"
-fi
-
-# Set the location for custom Behavior package generation
-export STUDIO_GENERATE_PACKAGE_OUTPUT_PATH="${USER_OVERLAY_WS}/src"
+# Set up the ROS workspaces at startup.
+# shellcheck source=bin/docker/utils/setup_workspaces.sh
+source /moveit_studio_utils/setup_workspaces.sh
 
 # Set the permissions for your non-root user at startup.
 # shellcheck source=bin/docker/utils/change_permissions.sh

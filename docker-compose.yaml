@@ -44,12 +44,7 @@ services:
         delay: 2s
     command: agent_bridge.app
 
-  # Starts the frontend-agent
-  frontend_agent:
-    extends: base
-    command: /usr/lib/formant/agent/formant-agent
-
-  # Starts the REST API for the Web UI
+  # Starts the REST API for the Web UI.
   rest_api:
     extends: base
     healthcheck:
@@ -58,7 +53,7 @@ services:
       timeout: 1m
     command: rest_api.app
 
-  # Starts the robot drivers
+  # Starts the robot drivers.
   drivers:
     extends: base
     privileged: true
@@ -69,6 +64,7 @@ services:
       - "/dev/ttyUSB0:/dev/ttyUSB0"  # Allow access to the gripper.
     command: robot.app
 
+  # Starts the web UI frontend.
   web_ui:
     image: picknikciuser/moveit-studio-frontend:${STUDIO_DOCKER_TAG:-main}
     ports:

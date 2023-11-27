@@ -21,19 +21,19 @@ FROM ${MOVEIT_STUDIO_BASE_IMAGE} as base
 # hadolint ignore=DL3002
 USER root
 
-# Copy source code from the workspace's ROS 2 packages to a workspace inside the container
-ARG USER_OVERLAY_WS=/opt/user_overlay_ws
-ENV USER_OVERLAY_WS $USER_OVERLAY_WS
-RUN mkdir -p ${USER_OVERLAY_WS}/src ${USER_OVERLAY_WS}/build ${USER_OVERLAY_WS}/install ${USER_OVERLAY_WS}/log
-COPY ./src ${USER_OVERLAY_WS}/src
-
 # Create a non-root user
 ARG USERNAME
 ARG USER_UID
 ARG USER_GID
 
+# Copy source code from the workspace's ROS 2 packages to a workspace inside the container
+ARG USER_DIR=/home/${USERNAME}/user_overlay_ws
+ENV USER_DIR=${USER_DIR}
+RUN mkdir -p ${USER_DIR}/src ${USER_DIR}/build ${USER_DIR}/install ${USER_DIR}/log
+COPY ./src ${USER_DIR}/src
+
 # Also mkdir with user permission directories which will be mounted later to avoid docker creating them as root
-WORKDIR $USER_OVERLAY_WS
+WORKDIR $USER_DIR
 # hadolint ignore=DL3008
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -48,7 +48,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
       /home/${USERNAME}/.config \
       /home/${USERNAME}/.ignition \
       /home/${USERNAME}/.ros/log && \
-    chown -R $USER_UID:$USER_GID /home/${USERNAME} ${USER_OVERLAY_WS} /opt/overlay_ws/
+    chown -R $USER_UID:$USER_GID /home/${USERNAME} /opt/overlay_ws/
 
 # Install additional dependencies
 # You can also add any necessary apt-get install, pip install, etc. commands at this point.
@@ -62,10 +62,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
       --from-paths src \
       --ignore-src
 
-# Remove .bashrc from parent image and create a new one
-USER ${USERNAME}
-RUN rm /home/${USERNAME}/.bashrc && touch /home/${USERNAME}/.bashrc
-
 #########################################
 # Target for compiled, deployable image #
 #########################################
@@ -73,10 +69,13 @@ FROM base as user-overlay
 
 ARG USERNAME
 USER ${USERNAME}
+ARG USER_DIR=/home/${USERNAME}/user_overlay_ws
+ENV USER_DIR=${USER_DIR}
 
 # Compile the workspace
+WORKDIR $USER_DIR
 # hadolint ignore=SC1091
-RUN --mount=type=cache,target=/home/studio-user/.ccache \
+RUN --mount=type=cache,target=/home/${USERNAME}/.ccache \
     . /opt/overlay_ws/install/setup.sh && \
     colcon build
 
@@ -92,11 +91,6 @@ CMD ["/usr/bin/bash"]
 FROM base as user-overlay-dev
 
 USER root
-
-# The location of the user's workspace inside the container
-ARG USER_OVERLAY_WS=/opt/user_overlay_ws
-ENV USER_OVERLAY_WS $USER_OVERLAY_WS
-
 # Install any additional packages for development work
 # hadolint ignore=DL3008
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -107,9 +101,12 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         gdb \
         nano
 
-# Add the dev entrypoint
-ARG USERNAME
 USER ${USERNAME}
+ARG USERNAME
+ARG USER_DIR=/home/${USERNAME}/user_overlay_ws
+ENV USER_DIR=${USER_DIR}
+
+# Add the dev entrypoint
 COPY ./entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 RUN echo "source /entrypoint.sh && set +e" >> ~/.bashrc
