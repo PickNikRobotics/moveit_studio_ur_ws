@@ -18,9 +18,6 @@ ARG USER_GID=1000
 # hadolint ignore=DL3006
 FROM ${MOVEIT_STUDIO_BASE_IMAGE} as base
 
-# hadolint ignore=DL3002
-USER root
-
 # Create a non-root user
 ARG USERNAME
 ARG USER_UID
@@ -47,7 +44,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
       /home/${USERNAME}/.ccache \
       /home/${USERNAME}/.config \
       /home/${USERNAME}/.ignition \
-      /home/${USERNAME}/.ros/log && \
+      /home/${USERNAME}/.colcon \
+      /home/${USERNAME}/.ros && \
     chown -R $USER_UID:$USER_GID /home/${USERNAME} /opt/overlay_ws/
 
 # Install additional dependencies
@@ -73,7 +71,6 @@ RUN rm -rf build/serial install/serial
 FROM base as user-overlay
 
 ARG USERNAME
-USER ${USERNAME}
 ARG USER_WS=/home/${USERNAME}/user_overlay_ws
 ENV USER_WS=${USER_WS}
 
@@ -84,10 +81,8 @@ RUN --mount=type=cache,target=/home/${USERNAME}/.ccache \
     . /opt/overlay_ws/install/setup.sh && \
     colcon build
 
-# Add the custom entrypoint
-COPY ./entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
-RUN echo "source /entrypoint.sh && set +e" >> ~/.bashrc
+# Set up the user's .bashrc file and shell.
+RUN echo "source /moveit_studio_utils/setup_workspaces.sh && set +e" >> /home/${USERNAME}/.bashrc
 CMD ["/usr/bin/bash"]
 
 ###################################################################
@@ -95,7 +90,10 @@ CMD ["/usr/bin/bash"]
 ###################################################################
 FROM base as user-overlay-dev
 
-USER root
+ARG USERNAME
+ARG USER_WS=/home/${USERNAME}/user_overlay_ws
+ENV USER_WS=${USER_WS}
+
 # Install any additional packages for development work
 # hadolint ignore=DL3008
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -106,13 +104,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         gdb \
         nano
 
-USER ${USERNAME}
-ARG USERNAME
-ARG USER_WS=/home/${USERNAME}/user_overlay_ws
-ENV USER_WS=${USER_WS}
-
-# Add the dev entrypoint
-COPY ./entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
-RUN echo "source /entrypoint.sh && set +e" >> ~/.bashrc
+# Set up the user's .bashrc file and shell.
+RUN echo "source /moveit_studio_utils/setup_workspaces.sh && set +e" >> /home/${USERNAME}/.bashrc
 CMD ["/usr/bin/bash"]

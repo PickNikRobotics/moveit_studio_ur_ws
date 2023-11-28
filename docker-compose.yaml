@@ -19,6 +19,7 @@ services:
         - USER_GID=${STUDIO_USER_UID:-1000}
         - USERNAME=${USERNAME:-studio-user}
         - MOVEIT_STUDIO_BASE_IMAGE=picknikciuser/moveit-studio:${STUDIO_DOCKER_TAG:-main}
+    # Set the user workspace folder location.
     environment:
       - USER_WS=/home/${USERNAME:-studio-user}/user_overlay_ws
 
