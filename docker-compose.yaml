@@ -104,7 +104,7 @@ services:
       - ./install/:/home/${USERNAME:-studio-user}/user_overlay_ws/install:rw
       - ./log/:/home/${USERNAME:-studio-user}/user_overlay_ws/log:rw
       - ./.ccache/:/home/${USERNAME:-studio-user}/.ccache:rw
-      - ${HOME}/.ros/log_moveit_studio:/root/.ros/log:/root/.ros/log
+      - ${HOME}/.ros/log_moveit_studio:/home/${USERNAME:-studio-user}/.ros/log
       # Allow access to host hardware e.g. RealSense cameras
       - /dev:/dev
     command: sleep infinity

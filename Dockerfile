@@ -40,6 +40,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get install -q -y --no-install-recommends sudo && \
     echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} && \
     chmod 0440 /etc/sudoers.d/${USERNAME} && \
+    cp -r /etc/skel/. /home/${USERNAME} && \
     mkdir -p \
       /home/${USERNAME}/.ccache \
       /home/${USERNAME}/.config \
@@ -82,7 +83,7 @@ RUN --mount=type=cache,target=/home/${USERNAME}/.ccache \
     colcon build
 
 # Set up the user's .bashrc file and shell.
-RUN echo "source /moveit_studio_utils/setup_workspaces.sh && set +e" >> /home/${USERNAME}/.bashrc
+# RUN echo "source /moveit_studio_utils/setup_workspaces.sh && set +e" >> /home/${USERNAME}/.bashrc
 CMD ["/usr/bin/bash"]
 
 ###################################################################
@@ -105,5 +106,5 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         nano
 
 # Set up the user's .bashrc file and shell.
-RUN echo "source /moveit_studio_utils/setup_workspaces.sh && set +e" >> /home/${USERNAME}/.bashrc
+# RUN echo "source /moveit_studio_utils/setup_workspaces.sh && set +e" >> /home/${USERNAME}/.bashrc
 CMD ["/usr/bin/bash"]
