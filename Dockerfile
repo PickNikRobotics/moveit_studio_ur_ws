@@ -27,13 +27,13 @@ ARG USER_UID
 ARG USER_GID
 
 # Copy source code from the workspace's ROS 2 packages to a workspace inside the container
-ARG USER_DIR=/home/${USERNAME}/user_overlay_ws
-ENV USER_DIR=${USER_DIR}
-RUN mkdir -p ${USER_DIR}/src ${USER_DIR}/build ${USER_DIR}/install ${USER_DIR}/log
-COPY ./src ${USER_DIR}/src
+ARG USER_WS=/home/${USERNAME}/user_overlay_ws
+ENV USER_WS=${USER_WS}
+RUN mkdir -p ${USER_WS}/src ${USER_WS}/build ${USER_WS}/install ${USER_WS}/log
+COPY ./src ${USER_WS}/src
 
 # Also mkdir with user permission directories which will be mounted later to avoid docker creating them as root
-WORKDIR $USER_DIR
+WORKDIR $USER_WS
 # hadolint ignore=DL3008
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -74,11 +74,11 @@ FROM base as user-overlay
 
 ARG USERNAME
 USER ${USERNAME}
-ARG USER_DIR=/home/${USERNAME}/user_overlay_ws
-ENV USER_DIR=${USER_DIR}
+ARG USER_WS=/home/${USERNAME}/user_overlay_ws
+ENV USER_WS=${USER_WS}
 
 # Compile the workspace
-WORKDIR $USER_DIR
+WORKDIR $USER_WS
 # hadolint ignore=SC1091
 RUN --mount=type=cache,target=/home/${USERNAME}/.ccache \
     . /opt/overlay_ws/install/setup.sh && \
@@ -108,8 +108,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 
 USER ${USERNAME}
 ARG USERNAME
-ARG USER_DIR=/home/${USERNAME}/user_overlay_ws
-ENV USER_DIR=${USER_DIR}
+ARG USER_WS=/home/${USERNAME}/user_overlay_ws
+ENV USER_WS=${USER_WS}
 
 # Add the dev entrypoint
 COPY ./entrypoint.sh /entrypoint.sh

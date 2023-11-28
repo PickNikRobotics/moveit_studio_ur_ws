@@ -20,7 +20,7 @@ services:
         - USERNAME=${USERNAME:-studio-user}
         - MOVEIT_STUDIO_BASE_IMAGE=picknikciuser/moveit-studio:${STUDIO_DOCKER_TAG:-main}
     environment:
-      - USER_DIR=/home/${USERNAME:-studio-user}/user_overlay_ws
+      - USER_WS=/home/${USERNAME:-studio-user}/user_overlay_ws
 
   # Starts the MoveIt Studio Agent and the Bridge between the Agent and the Web UI
   agent_bridge:
