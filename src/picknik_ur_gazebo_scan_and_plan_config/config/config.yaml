@@ -9,4 +9,3 @@ based_on_package: "picknik_ur_gazebo_config"
 optional_feature_params:
   gazebo_world_package_name: "picknik_ur_gazebo_scan_and_plan_config"
   gazebo_world_path: "description/simulation_worlds/scan_and_plan_world.sdf"
-  gazebo_gui: True
