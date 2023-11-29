@@ -1,0 +1,76 @@
+SetupMTCOpenLeverHandleDoor:
+  arm_group_name: "manipulator"
+  end_effector_group_name: "gripper"
+  ik_frame_name: "grasp_link"
+
+  # List of controllers to use during the stages that interact with the door.
+  door_opening_controllers: "/joint_trajectory_controller_chained_open_door /admittance_controller_open_door /robotiq_gripper_controller"
+
+  # The hand should be placed 75% of the way down the handle length when
+  # manipulating the handle. Valid value range [0, 1.0].
+  handle_grasp_offset_percent: 0.75
+  # The distance above the handle the robot should approach with before
+  # manipulating it.
+  above_handle_approach_distance: 0.03 # meters
+  # The distance the hand should move past the end of the handle to release it.
+  release_handle_distance: 0.03 # meters
+  # How many degrees to rotate the lever handle (use positive value for
+  # counter-clockwise rotation and negative value for clockwise rotation).
+  handle_twist_angle: 65.0  # degrees
+  approach_distance: 0.15   # meters
+  push_open_distance: 0.05  # meters
+  use_circular_arc: true
+
+UpdateAdmittanceController:
+  controller_name: "admittance_controller_open_door"
+  base_frame: "base_link"
+  end_effector_frame: "grasp_link"
+  control_frame: "grasp_link"
+  admittance:
+    selected_axes:
+      x: True
+      y: True
+      z: True
+      rx: True
+      ry: True
+      rz: True
+    mass_position:  # kg
+      x: 10.0
+      y: 10.0
+      z: 10.0
+      min: 0.001
+      max: 100.0
+    mass_rotation:  # kg*m^2
+      x: 5.0
+      y: 5.0
+      z: 5.0
+      min: 0.001
+      max: 100.0
+    stiffness_position:  # N/m
+      x: 500.0
+      y: 500.0
+      z: 500.0
+      min: 0.0
+      max: 1000.0
+    stiffness_rotation:  # N*m/rad
+      x: 100.0
+      y: 100.0
+      z: 100.0
+      min: 0.0
+      max: 1000.0
+    damping_ratio_position:  # unitless
+      x: 5.0
+      y: 5.0
+      z: 5.0
+      min: 0.0
+      max: 100.0
+    damping_ratio_rotation:  # unitless
+      x: 5.0
+      y: 5.0
+      z: 5.0
+      min: 0.0
+      max: 100.0
+    joint_damping:  # 1/s
+      value: 5.0
+      min: 0.0
+      max: 100.0

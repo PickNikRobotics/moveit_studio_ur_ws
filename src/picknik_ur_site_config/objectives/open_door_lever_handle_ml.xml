@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<root BTCPP_format="4" main_tree_to_execute="Open Door Fixed Handle ML">
+<root BTCPP_format="4" main_tree_to_execute="Open Door Lever Handle ML">
   <!-- ////////// -->
-  <BehaviorTree ID="Open Door Fixed Handle ML" _description="Attempts to open a door with a fixed handle (such as cabinet doors) using ML." _favorite="false" _hardcoded="false">
+  <BehaviorTree ID="Open Door Lever Handle ML" _description="Attempts to open a door with a lever handle using ML." _favorite="false" _hardcoded="false">
     <Control ID="Sequence" name="TopLevelSequence">
       <!-- Load the objectives needed for this behavior -->
-      <Action ID="LoadObjectiveParameters" config_file_name="config_open_door_fixed_handle_MTC.yaml" parameters="{parameters}"/>
+      <Action ID="LoadObjectiveParameters" config_file_name="config_open_door_lever_handle_MTC.yaml" parameters="{parameters}"/>
       <!-- Update the admittance controller and reset the FTS -->
       <SubTree ID="Re-Zero Force-Torque Sensors" _collapsed="true"/>
       <SubTree ID="Update Admittance Controller" _collapsed="true"/>
@@ -16,7 +16,7 @@
       <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
       <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
       <!-- Segment out Objects from data -->
-      <Action ID="GetMasks2DAction" image="{image}" action_name="get_masks_2d_maskrcnn" min_confidence="0.8" max_nms_iou="0.8" min_relative_area="0" max_relative_area="1" masks2d="{masks2d}" valid_classes="'door', 'space booth cabinet door'"/>
+      <Action ID="GetMasks2DAction" image="{image}" action_name="get_masks_2d_maskrcnn" min_confidence="0.8" max_nms_iou="0.8" min_relative_area="0" max_relative_area="1" masks2d="{masks2d}" valid_classes="'door'"/>
       <Action ID="GetMasks3DFromMasks2D" point_cloud="{point_cloud}" masks2d="{masks2d}" camera_info="{camera_info}" masks3d="{masks3d}"/>
       <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
         <Control ID="Sequence">
@@ -36,17 +36,17 @@
           <Action ID="GetPoseFromUser" parameter_name="process_door_selection.grasp_pose" parameter_value="{grasp_pose}"/>
           <Action ID="GetPoseFromUser" parameter_name="process_door_selection.hinge_axis_pose_start" parameter_value="{screw_1_pose}"/>
           <Action ID="GetPoseFromUser" parameter_name="process_door_selection.hinge_axis_pose_end" parameter_value="{screw_2_pose}"/>
-          <!-- Helper behavior to convert poses into subframes that adhere to the expected axis convention -->
-          <Action ID="GetMoveAlongArcSubframes" target_grasp_pose="{grasp_pose}" hinge_axis_pose_start="{screw_1_pose}" hinge_axis_pose_end="{screw_2_pose}" move_along_arc_subframes="{move_along_arc_subframes}"/>
-          <Decorator ID="ForEachObjectSubframe" vector_in="{move_along_arc_subframes}" out="{subframe}">
+          <!-- Helper behavior to convert poses into subframes for grasping near a lever and applying torque -->
+          <Action ID="GetGraspAndTwistSubframes" target_grasp_pose="{grasp_pose}"  />
+          <Decorator ID="ForEachObjectSubframe" vector_in="{_subframes}" out="{subframe}">
             <Control ID="Sequence">
-              <Action ID="AddSubframeToObject" subframe="{subframe}" graspable_object="{graspable_object}"/>
+              <Action ID="AddSubframeToObject" subframe="{subframe}" graspable_object="{graspable_object}" />
             </Control>
-          </Decorator>
-          <Control ID="Sequence" name="OpenDoorFixedHandleMTC">
-            <Action ID="InitializeMTCTask" task_id="open_door_fixed_handle_ml" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{open_door_affordance_task}"/>
+          </Decorator> 
+          <Control ID="Sequence" name="OpenDoorLeverHandleMTC">
+            <Action ID="InitializeMTCTask" task_id="open_door_lever_handle_ml" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{open_door_affordance_task}"/>
             <Action ID="SetupMTCCurrentState" task="{open_door_affordance_task}"/>
-            <Action ID="SetupMTCGraspThenMoveAlongArcPull" graspable_object="{graspable_object}" parameters="{parameters}" task="{open_door_affordance_task}"/>
+            <Action ID="SetupMTCGraspAndTwistThenMoveAlongArcPush" graspable_object="{graspable_object}" parameters="{parameters}" task="{open_door_affordance_task}"/>
             <Action ID="PlanMTCTask" task="{open_door_affordance_task}" solution="{open_door_affordance_solution}"/>
             <Control ID="Fallback">
               <Decorator ID="Inverter">
