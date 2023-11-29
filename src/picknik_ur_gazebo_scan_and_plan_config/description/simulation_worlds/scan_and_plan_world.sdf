@@ -190,7 +190,6 @@
           <geometry>
             <mesh>
               <uri>package://picknik_accessories/descriptions/miscellaneous/farnese-hercules-head.stl</uri>
-              <scale>0.003 0.003 0.003</scale>
             </mesh>
           </geometry>
           <surface>
@@ -216,7 +215,6 @@
           <geometry>
             <mesh>
               <uri>package://picknik_accessories/descriptions/miscellaneous/farnese-hercules-head.stl</uri>
-              <scale>0.003 0.003 0.003</scale>
             </mesh>
           </geometry>
           <material>
