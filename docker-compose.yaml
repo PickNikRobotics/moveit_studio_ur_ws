@@ -19,6 +19,9 @@ services:
         - USER_GID=${STUDIO_USER_UID:-1000}
         - USERNAME=${USERNAME:-studio-user}
         - MOVEIT_STUDIO_BASE_IMAGE=picknikciuser/moveit-studio:${STUDIO_DOCKER_TAG:-main}
+    # Set the user workspace folder location.
+    environment:
+      - USER_WS=/home/${USERNAME:-studio-user}/user_overlay_ws
 
   # Starts the MoveIt Studio Agent and the Bridge between the Agent and the Web UI
   agent_bridge:
@@ -44,12 +47,7 @@ services:
         delay: 2s
     command: agent_bridge.app
 
-  # Starts the frontend-agent
-  frontend_agent:
-    extends: base
-    command: /usr/lib/formant/agent/formant-agent
-
-  # Starts the REST API for the Web UI
+  # Starts the REST API for the Web UI.
   rest_api:
     extends: base
     healthcheck:
@@ -58,7 +56,7 @@ services:
       timeout: 1m
     command: rest_api.app
 
-  # Starts the robot drivers
+  # Starts the robot drivers.
   drivers:
     extends: base
     privileged: true
@@ -69,6 +67,7 @@ services:
       - "/dev/ttyUSB0:/dev/ttyUSB0"  # Allow access to the gripper.
     command: robot.app
 
+  # Starts the web UI frontend.
   web_ui:
     image: picknikciuser/moveit-studio-frontend:${STUDIO_DOCKER_TAG:-main}
     ports:
@@ -100,12 +99,12 @@ services:
     privileged: true
     volumes:
       # Mount the source code, colcon generated artifacts, and ccache
-      - ./src/:/opt/user_overlay_ws/src:rw
-      - ./build/:/opt/user_overlay_ws/build:rw
-      - ./install/:/opt/user_overlay_ws/install:rw
-      - ./log/:/opt/user_overlay_ws/log:rw
+      - ./src/:/home/${USERNAME:-studio-user}/user_overlay_ws/src:rw
+      - ./build/:/home/${USERNAME:-studio-user}/user_overlay_ws/build:rw
+      - ./install/:/home/${USERNAME:-studio-user}/user_overlay_ws/install:rw
+      - ./log/:/home/${USERNAME:-studio-user}/user_overlay_ws/log:rw
       - ./.ccache/:/home/${USERNAME:-studio-user}/.ccache:rw
-      - ${HOME}/.ros/log_moveit_studio:/root/.ros/log:/root/.ros/log
+      - ${HOME}/.ros/log_moveit_studio:/home/${USERNAME:-studio-user}/.ros/log
       # Allow access to host hardware e.g. RealSense cameras
       - /dev:/dev
     command: sleep infinity

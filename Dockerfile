@@ -18,22 +18,19 @@ ARG USER_GID=1000
 # hadolint ignore=DL3006
 FROM ${MOVEIT_STUDIO_BASE_IMAGE} as base
 
-# hadolint ignore=DL3002
-USER root
-
-# Copy source code from the workspace's ROS 2 packages to a workspace inside the container
-ARG USER_OVERLAY_WS=/opt/user_overlay_ws
-ENV USER_OVERLAY_WS $USER_OVERLAY_WS
-RUN mkdir -p ${USER_OVERLAY_WS}/src ${USER_OVERLAY_WS}/build ${USER_OVERLAY_WS}/install ${USER_OVERLAY_WS}/log
-COPY ./src ${USER_OVERLAY_WS}/src
-
 # Create a non-root user
 ARG USERNAME
 ARG USER_UID
 ARG USER_GID
 
+# Copy source code from the workspace's ROS 2 packages to a workspace inside the container
+ARG USER_WS=/home/${USERNAME}/user_overlay_ws
+ENV USER_WS=${USER_WS}
+RUN mkdir -p ${USER_WS}/src ${USER_WS}/build ${USER_WS}/install ${USER_WS}/log
+COPY ./src ${USER_WS}/src
+
 # Also mkdir with user permission directories which will be mounted later to avoid docker creating them as root
-WORKDIR $USER_OVERLAY_WS
+WORKDIR $USER_WS
 # hadolint ignore=DL3008
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -43,12 +40,14 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get install -q -y --no-install-recommends sudo && \
     echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} && \
     chmod 0440 /etc/sudoers.d/${USERNAME} && \
+    cp -r /etc/skel/. /home/${USERNAME} && \
     mkdir -p \
       /home/${USERNAME}/.ccache \
       /home/${USERNAME}/.config \
       /home/${USERNAME}/.ignition \
-      /home/${USERNAME}/.ros/log && \
-    chown -R $USER_UID:$USER_GID /home/${USERNAME} ${USER_OVERLAY_WS} /opt/overlay_ws/
+      /home/${USERNAME}/.colcon \
+      /home/${USERNAME}/.ros && \
+    chown -R $USER_UID:$USER_GID /home/${USERNAME} /opt/overlay_ws/
 
 # Install additional dependencies
 # You can also add any necessary apt-get install, pip install, etc. commands at this point.
@@ -62,9 +61,10 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
       --from-paths src \
       --ignore-src
 
-# Remove .bashrc from parent image and create a new one
-USER ${USERNAME}
-RUN rm /home/${USERNAME}/.bashrc && touch /home/${USERNAME}/.bashrc
+# Remove duplicated serial dependency install files, otherwise there will be a build error.
+# NOTE: This can be removed when MoveIt Studio fully separates core and hardware capabilities.
+WORKDIR /opt/overlay_ws
+RUN rm -rf build/serial install/serial
 
 #########################################
 # Target for compiled, deployable image #
@@ -72,18 +72,18 @@ RUN rm /home/${USERNAME}/.bashrc && touch /home/${USERNAME}/.bashrc
 FROM base as user-overlay
 
 ARG USERNAME
-USER ${USERNAME}
+ARG USER_WS=/home/${USERNAME}/user_overlay_ws
+ENV USER_WS=${USER_WS}
 
 # Compile the workspace
+WORKDIR $USER_WS
 # hadolint ignore=SC1091
-RUN --mount=type=cache,target=/home/studio-user/.ccache \
+RUN --mount=type=cache,target=/home/${USERNAME}/.ccache \
     . /opt/overlay_ws/install/setup.sh && \
     colcon build
 
-# Add the custom entrypoint
-COPY ./entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
-RUN echo "source /entrypoint.sh && set +e" >> ~/.bashrc
+# Set up the user's .bashrc file and shell.
+# RUN echo "source /moveit_studio_utils/setup_workspaces.sh && set +e" >> /home/${USERNAME}/.bashrc
 CMD ["/usr/bin/bash"]
 
 ###################################################################
@@ -91,11 +91,9 @@ CMD ["/usr/bin/bash"]
 ###################################################################
 FROM base as user-overlay-dev
 
-USER root
-
-# The location of the user's workspace inside the container
-ARG USER_OVERLAY_WS=/opt/user_overlay_ws
-ENV USER_OVERLAY_WS $USER_OVERLAY_WS
+ARG USERNAME
+ARG USER_WS=/home/${USERNAME}/user_overlay_ws
+ENV USER_WS=${USER_WS}
 
 # Install any additional packages for development work
 # hadolint ignore=DL3008
@@ -107,10 +105,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         gdb \
         nano
 
-# Add the dev entrypoint
-ARG USERNAME
-USER ${USERNAME}
-COPY ./entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
-RUN echo "source /entrypoint.sh && set +e" >> ~/.bashrc
+# Set up the user's .bashrc file and shell.
+# RUN echo "source /moveit_studio_utils/setup_workspaces.sh && set +e" >> /home/${USERNAME}/.bashrc
 CMD ["/usr/bin/bash"]

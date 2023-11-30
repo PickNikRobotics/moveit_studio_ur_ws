@@ -1,0 +1,9 @@
+---
+# Disable all checks in this folder.
+# At least one check must be enabled to avoid errors, though.
+Checks:          '-*,
+                 cppcoreguidelines-avoid-goto,
+                 '
+HeaderFilterRegex: ''
+AnalyzeTemporaryDtors: false
+...
