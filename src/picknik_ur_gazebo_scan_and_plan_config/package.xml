@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>picknik_ur_gazebo_scan_and_plan_config</name>
+  <version>2.11.0</version>
+
+  <description>Site configuration package for the UR5e simulated in Gazebo to show "scan and plan" applications.</description>
+
+  <maintainer email="studio.maintainers@picknik.ai">MoveIt Studio Maintainer</maintainer>
+
+  <license>BSD-3-Clause</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>picknik_ur_gazebo_config</depend>
+
+  <exec_depend>moveit_ros_perception</exec_depend>
+  <exec_depend>ros_gz</exec_depend>
+  <exec_depend>ign_ros2_control</exec_depend>
+  <exec_depend>picknik_accessories</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+
+  <test_depend>ament_clang_format</test_depend>
+  <test_depend>ament_clang_tidy</test_depend>
+  <test_depend>ament_cmake_copyright</test_depend>
+  <test_depend>ament_cmake_lint_cmake</test_depend>
+  <test_depend>picknik_ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
