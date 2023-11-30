@@ -1,10 +1,3 @@
-IsForceWithinThreshold:
-  wrench_topic_name: "/force_torque_sensor_broadcaster/wrench"
-  hand_frame_name: "manual_grasp_link"
-  wrench_frame_name: "tool0"
-  minimum_consecutive_wrench_values: 10
-  force_threshold: 10.0  # Newtons
-
 SetupMTCMoveAlongFrameAxis:
   arm_group_name: "manipulator"
   hand_frame_name: "manual_grasp_link"
