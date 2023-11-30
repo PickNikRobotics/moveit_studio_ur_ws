@@ -31,7 +31,6 @@ import os
 import re
 import shlex
 
-from ament_index_python import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, OpaqueFunction
 from launch_ros.actions import Node
