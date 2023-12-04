@@ -45,7 +45,7 @@
           <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
         </Control>
       </Decorator>
-      <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.01" minimum_face_area="0.000625" face_separation_threshold="0.01" graspable_objects="{graspable_objects}" name="GetHandleGraspableObjects"/>
+      <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.005" minimum_face_area="0.000625" face_separation_threshold="0.005" graspable_objects="{graspable_objects}" name="GetHandleGraspableObjects"/>
       <Decorator ID="ForEachGraspableObject" vector_in="{graspable_objects}" out="{object}">
         <Action ID="ConvertObjectToPoseStamped" graspable_object="{object}" pose="{grasp_pose}"/>
       </Decorator>
