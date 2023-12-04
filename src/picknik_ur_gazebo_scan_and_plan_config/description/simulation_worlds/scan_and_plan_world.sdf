@@ -129,7 +129,7 @@
     <!-- Table -->
     <model name="table">
       <static>true</static>
-      <pose>0 0 1 0 0 0</pose>
+      <pose>-0.5 0 1 0 0 0</pose>
       <link name="table_link">
         <collision name="box_collision">
           <geometry>
