@@ -129,12 +129,12 @@
     <!-- Table -->
     <model name="table">
       <static>true</static>
-      <pose>0 0 1 0 0 0</pose>
+      <pose>-0.5 0 1 0 0 0</pose>
       <link name="table_link">
         <collision name="box_collision">
           <geometry>
             <box>
-              <size>1.5 1.0 0.05</size>
+              <size>2.5 1.0 0.05</size>
             </box>
           </geometry>
           <surface>
@@ -173,7 +173,7 @@
     <!-- Hercules head on table -->
     <model name="head">
       <static>true</static>
-      <pose>-0.3 -0.1 1.05 0 0 1.57</pose>
+      <pose>-0.6 -0.1 1.05 0 0 1.57</pose>
       <link name="head_link">
         <collision name="head_collision">
           <geometry>
