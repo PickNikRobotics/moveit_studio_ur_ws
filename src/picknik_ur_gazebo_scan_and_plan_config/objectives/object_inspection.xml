@@ -12,6 +12,7 @@
       <Action ID="TransformPointCloud" input_cloud="{model_point_cloud}" transform_pose="{object_stamped_pose_estimate}" output_cloud="{model_point_cloud}"/>
       <Action ID="RegisterPointClouds" base_point_cloud="{model_point_cloud}" target_point_cloud="{point_cloud}" max_iterations="30" max_correspondence_distance="0.5" target_pose_in_base_frame="{model_to_real_pose}"/>
       <Action ID="TransformPointCloud" input_cloud="{model_point_cloud}" transform_pose="{model_to_real_pose}" output_cloud="{aligned_model_cloud}"/>
+      <Action ID="TransformPoseWithPose" input_pose="{object_stamped_pose_estimate}" transform_pose="{model_to_real_pose}" output_pose="{model_to_real_pose}"/>
       <Action ID="SendPointCloudToUI" point_cloud="{aligned_model_cloud}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
       <Action ID="LoadPoseStampedVectorFromYaml" file_path="/home/studio-user/.config/moveit_studio/picknik_ur_gazebo_scan_and_plan_config/objectives/trajectory_around_hercules.yaml" output="{pose_stamped_msgs}"/>
       <Decorator ID="ForEachPoseStamped" vector_in="{pose_stamped_msgs}" out="{trajectory_pose}">
