@@ -14,6 +14,10 @@
   <xacro:arg name="headless_mode" default="false" />
   <xacro:arg name="robot_ip" default="0.0.0.0" />
 
+  <xacro:arg name="tool_usb_port" default="/dev/ttyUSB0" />
+  <xacro:arg name="use_tool_communication" default="false" />
+  <xacro:arg name="tool_voltage" default="0" />
+
   <xacro:if value="$(arg has_tool_changer)">
     <xacro:property name="camera_adapter_parent" value="tool_changer_tool0" />
   </xacro:if>
@@ -55,7 +59,10 @@
     robot_ip="$(arg robot_ip)"
     script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
     output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
-    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
+    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
+    use_tool_communication="true"
+    tool_voltage="$(arg tool_voltage)"
+    tool_device_name="$(arg tool_usb_port)">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:ur_robot>
 
@@ -81,7 +88,7 @@
   <xacro:ur_to_robotiq prefix="" connected_to="realsense_camera_adapter_tool0" rotation="0" />
 
   <xacro:robotiq_gripper name="RobotiqGripperHardwareInterface" prefix="" 
-    parent="gripper_mount_link" use_fake_hardware="$(arg use_fake_hardware)" com_port="/dev/ttyUSB0">
+    parent="gripper_mount_link" use_fake_hardware="$(arg use_fake_hardware)" com_port="$(arg tool_usb_port)">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:robotiq_gripper>
 

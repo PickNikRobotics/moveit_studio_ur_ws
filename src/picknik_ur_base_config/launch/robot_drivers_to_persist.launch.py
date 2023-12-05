@@ -28,6 +28,7 @@
 
 
 from launch import LaunchDescription
+from launch.actions import ExecuteProcess
 from launch_ros.actions import Node
 
 from moveit_studio_utils_py.launch_common import empty_gen
@@ -67,9 +68,22 @@ def generate_launch_description():
         ],
     )
 
+    # This command is needed when using direct connection to the end effector rather than a
+    # USB to serial adapter (which is where the default port name of /dev/ttyUSB0 comes from).
+    start_tool_comms = ExecuteProcess(
+        name="start_tool_comms",
+        cmd=[
+            [
+                "socat pty,link=/tmp/ttyUR,raw,ignoreeof,waitslave tcp:192.168.1.102:54321"
+            ]
+        ],
+        shell=True,
+    )
+
     nodes_to_launch = [
         dashboard_client_node,
         protective_stop_manager_node,
+        start_tool_comms,
     ]
 
     return LaunchDescription(nodes_to_launch)
