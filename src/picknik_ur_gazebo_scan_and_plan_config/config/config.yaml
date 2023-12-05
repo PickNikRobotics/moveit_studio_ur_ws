@@ -20,4 +20,3 @@ objectives:
     sim:
       package_name: "picknik_ur_gazebo_scan_and_plan_config"
       relative_path: "objectives"
-
