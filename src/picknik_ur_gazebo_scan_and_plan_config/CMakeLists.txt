@@ -7,6 +7,8 @@ install(
   DIRECTORY
     config
     description
+    waypoints
+    objectives
   DESTINATION
     share/${PROJECT_NAME}
 )
