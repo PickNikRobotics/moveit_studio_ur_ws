@@ -1,4 +1,4 @@
-pose2:
+pose1:
  header:
   frame_id: "world"
  pose:
@@ -12,7 +12,7 @@ pose2:
    z: 0.270598
    w: 0.6532815
 
-pose1:
+pose2:
  header:
   frame_id: "world"
  pose:
