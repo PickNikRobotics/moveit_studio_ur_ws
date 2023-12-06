@@ -1,42 +1,41 @@
 pose2:
  header:
-   frame_id: "world"
+  frame_id: "world"
  pose:
   position:
-    x: 0.4
-    y: -0.2
-    z: 0.4
+   x: 0.4
+   y: -0.2
+   z: 0.4
   orientation:
-    x: -0.6532815
-    y: -0.2705981
-    z: 0.270598
-    w: 0.6532815
+   x: -0.6532815
+   y: -0.2705981
+   z: 0.270598
+   w: 0.6532815
 
 pose1:
  header:
-   frame_id: "world"
+  frame_id: "world"
  pose:
   position:
-    x: 0.0
-    y: -0.2
-    z: 0.4
+   x: 0.0
+   y: -0.2
+   z: 0.4
   orientation:
-    x: -0.7071068
-    y: 0.0
-    z: 0.0
-    w: 0.7071068
+   x: -0.7071068
+   y: 0.0
+   z: 0.0
+   w: 0.7071068
 
 pose3:
  header:
-   frame_id: "world"
+  frame_id: "world"
  pose:
   position:
-    x: -0.4
-    y: -0.2
-    z: 0.4
+   x: -0.4
+   y: -0.2
+   z: 0.4
   orientation:
-    x: -0.6532815
-    y: 0.2705981
-    z: -0.270598
-    w: 0.6532815
-
+   x: -0.6532815
+   y: 0.2705981
+   z: -0.270598
+   w: 0.6532815
