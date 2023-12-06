@@ -8,19 +8,19 @@
         nanosec: 0
         sec: 0
     name:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - -0.6458566060390687
-    - -0.3877845139911879
-    - -1.8848677930083997
-    - -1.5467516570804267
-    - 2.0648023306748278
-    - -0.3257925328124284
+      - -0.6458566060390687
+      - -0.3877845139911879
+      - -1.8848677930083997
+      - -1.5467516570804267
+      - 2.0648023306748278
+      - -0.3257925328124284
     velocity: []
   name: Look at Object
 - description: ''
@@ -33,19 +33,19 @@
         nanosec: 0
         sec: 0
     name:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - -0.61
-    - -0.78
-    - -0.45
-    - -2.49
-    - 1.64
-    - 0
+      - -0.61
+      - -0.78
+      - -0.45
+      - -2.49
+      - 1.64
+      - 0
     velocity: []
   name: Right Corner
 - description: ''
@@ -58,19 +58,19 @@
         nanosec: 0
         sec: 0
     name:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - 0
-    - -0.78
-    - -0.51
-    - -2.4
-    - 1.65
-    - 0
+      - 0
+      - -0.78
+      - -0.51
+      - -2.4
+      - 1.65
+      - 0
     velocity: []
   name: Home
 - description: ''
@@ -83,19 +83,19 @@
         nanosec: 0
         sec: 0
     name:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - 0.58
-    - -0.78
-    - -0.45
-    - -2.33
-    - 1.64
-    - 0
+      - 0.58
+      - -0.78
+      - -0.45
+      - -2.33
+      - 1.64
+      - 0
     velocity: []
   name: Left Corner
 - description: ''
@@ -108,18 +108,18 @@
         nanosec: 0
         sec: 0
     name:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - 0
-    - -1.41
-    - -0.7
-    - -2.12
-    - 1.67
-    - 0
+      - 0
+      - -1.41
+      - -0.7
+      - -2.12
+      - 1.67
+      - 0
     velocity: []
   name: Forward Down
