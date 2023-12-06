@@ -9,3 +9,14 @@ based_on_package: "picknik_ur_gazebo_config"
 optional_feature_params:
   gazebo_world_package_name: "picknik_ur_gazebo_scan_and_plan_config"
   gazebo_world_path: "description/simulation_worlds/scan_and_plan_world.sdf"
+
+objectives:
+  # Override with a new set of waypoints based on the Gazebo world.
+  waypoints_file:
+    package_name: "picknik_ur_gazebo_scan_and_plan_config"
+    relative_path: "waypoints/waypoints.yaml"
+  # Add new simulation Objectives in addition to the one in the base config package.
+  objective_library_paths:
+    sim:
+      package_name: "picknik_ur_gazebo_scan_and_plan_config"
+      relative_path: "objectives"
