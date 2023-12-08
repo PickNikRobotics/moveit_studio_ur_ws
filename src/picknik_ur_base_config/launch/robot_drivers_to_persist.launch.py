@@ -28,10 +28,12 @@
 
 
 from launch import LaunchDescription
-from launch.actions import ExecuteProcess
+from launch.actions import IncludeLaunchDescription
 from launch_ros.actions import Node
+from launch.substitutions import ThisLaunchFileDir
+from launch.launch_description_sources import AnyLaunchDescriptionSource
 
-from moveit_studio_utils_py.launch_common import empty_gen
+from moveit_studio_utils_py.launch_common import empty_gen, get_launch_file
 from moveit_studio_utils_py.system_config import (
     SystemConfigParser,
 )
@@ -68,22 +70,19 @@ def generate_launch_description():
         ],
     )
 
-    # This command is needed when using direct connection to the end effector rather than a
-    # USB to serial adapter (which is where the default port name of /dev/ttyUSB0 comes from).
-    start_tool_comms = ExecuteProcess(
-        name="start_tool_comms",
-        cmd=[
-            [
-                "socat pty,link=/tmp/ttyUR,raw,ignoreeof,waitslave tcp:192.168.1.102:54321"
-            ]
-        ],
-        shell=True,
+    tool_comms_launch = IncludeLaunchDescription(
+        AnyLaunchDescriptionSource([ThisLaunchFileDir(), "/ur_tool_comms.launch.xml"]),
+        launch_arguments={
+            "robot_ip": hardware_config["ip"],
+            "tool_tcp_port": "54321",
+            "tool_device_name": "/tmp/ttyUR",
+        }.items(),
     )
 
     nodes_to_launch = [
         dashboard_client_node,
         protective_stop_manager_node,
-        start_tool_comms,
+        tool_comms_launch,
     ]
 
     return LaunchDescription(nodes_to_launch)
