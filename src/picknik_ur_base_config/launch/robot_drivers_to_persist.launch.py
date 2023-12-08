@@ -33,7 +33,7 @@ from launch_ros.actions import Node
 from launch.substitutions import ThisLaunchFileDir
 from launch.launch_description_sources import AnyLaunchDescriptionSource
 
-from moveit_studio_utils_py.launch_common import empty_gen, get_launch_file
+from moveit_studio_utils_py.launch_common import empty_gen
 from moveit_studio_utils_py.system_config import (
     SystemConfigParser,
 )
