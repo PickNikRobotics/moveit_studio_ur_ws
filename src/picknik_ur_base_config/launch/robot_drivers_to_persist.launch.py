@@ -28,7 +28,10 @@
 
 
 from launch import LaunchDescription
+from launch.actions import IncludeLaunchDescription
 from launch_ros.actions import Node
+from launch.substitutions import ThisLaunchFileDir
+from launch.launch_description_sources import AnyLaunchDescriptionSource
 
 from moveit_studio_utils_py.launch_common import empty_gen
 from moveit_studio_utils_py.system_config import (
@@ -67,9 +70,19 @@ def generate_launch_description():
         ],
     )
 
+    tool_comms_launch = IncludeLaunchDescription(
+        AnyLaunchDescriptionSource([ThisLaunchFileDir(), "/ur_tool_comms.launch.xml"]),
+        launch_arguments={
+            "robot_ip": hardware_config["ip"],
+            "tool_tcp_port": "54321",
+            "tool_device_name": "/tmp/ttyUR",
+        }.items(),
+    )
+
     nodes_to_launch = [
         dashboard_client_node,
         protective_stop_manager_node,
+        tool_comms_launch,
     ]
 
     return LaunchDescription(nodes_to_launch)
