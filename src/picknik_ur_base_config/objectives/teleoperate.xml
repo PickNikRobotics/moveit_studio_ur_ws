@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Teleoperate">
+  <!-- ////////// -->
+  <BehaviorTree ID="Teleoperate" _description="" _favorite="false" _hardcoded="false">
+    <Control ID="Sequence">
+      <Action ID="Script" code="teleop_mode := 0"/>
+      <Control ID="Parallel" success_count="2" failure_count="1">
+        <Action ID="DoTeleoperateAction" enable_user_interaction="true" user_interaction_prompt="" initial_teleop_mode="1" current_teleop_mode="{teleop_mode}"/>
+        <Decorator ID="KeepRunningUntilFailure">
+          <Action ID="Script" code="teleop_str := teleop_mode"/>
+        </Decorator>
+        <Decorator ID="KeepRunningUntilFailure">
+          <Control ID="Sequence">
+            <SubTree ID="Close Gripper" _skipIf="teleop_str != 7"/>
+            <SubTree ID="Open Gripper" _skipIf="teleop_str != 6"/>
+            <Action ID="MoveToWaypoint" waypoint_name="Forward Down" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints="" _skipIf="teleop_str != 5"/>
+            <Action ID="MoveToWaypoint" waypoint_name="Grasp Left" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints="" _skipIf="teleop_str != 4"/>
+            <Action ID="MoveToWaypoint" waypoint_name="Grasp Right" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints="" _skipIf="teleop_str != 3"/>
+              <Action ID="TeleoperateTwist" controller_name="streaming_controller" _while="teleop_str == 2"/>
+              <Action ID="TeleoperateJointJog" controller_name="streaming_controller" _while="teleop_str == 1"/>
+          </Control>
+        </Decorator>
+      </Control>
+    </Control>
+  </BehaviorTree>
+</root>
