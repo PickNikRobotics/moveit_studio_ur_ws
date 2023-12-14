@@ -14,11 +14,11 @@ jobs:
     container: picknikciuser/moveit-studio:main
     steps:
       - uses: actions/checkout@v4
-      - name: Run colcon build
+      - name: Run colcon build and test
         run: |
           . /opt/ros/humble/setup.sh
           . /opt/underlay_ws/install/setup.sh
           . /opt/overlay_ws/install/setup.sh
-          pwd
-          ls -la .
           colcon build
+          colcon test
+          colcon test-result
