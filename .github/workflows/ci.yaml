@@ -1,7 +1,7 @@
 name: CI
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
   workflow_dispatch:
 jobs:
@@ -13,6 +13,7 @@ jobs:
     # TODO: example for custom base images
     container: picknikciuser/moveit-studio:main
     steps:
+      - uses: actions/checkout@v4
       - name: Run colcon build
         run: |
           . /opt/ros/humble/setup.sh
