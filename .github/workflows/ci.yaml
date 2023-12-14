@@ -21,6 +21,6 @@ jobs:
           ls /
           ls .
           pwd
-          cd ${{ GITHUB_WORKSPACE }}
+          cd ${GITHUB_WORKSPACE}
           ls
           colcon build
