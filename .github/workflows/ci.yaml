@@ -18,9 +18,6 @@ jobs:
           . /opt/ros/humble/setup.sh
           . /opt/underlay_ws/install/setup.sh
           . /opt/overlay_ws/install/setup.sh
-          ls /
-          ls .
           pwd
-          cd ${GITHUB_WORKSPACE}
-          ls
+          ls -la .
           colcon build
