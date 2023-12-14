@@ -18,4 +18,6 @@ jobs:
           . /opt/ros/humble/setup.sh
           . /opt/underlay_ws/install/setup.sh
           . /opt/overlay_ws/install/setup.sh
-          colcon build
+          ls /
+          ls .
+          env
