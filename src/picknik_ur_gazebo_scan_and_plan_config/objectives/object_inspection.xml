@@ -6,7 +6,7 @@
       <Action ID="ClearSnapshot"/>
       <Action ID="MoveToWaypoint" waypoint_name="Look at Object" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
       <SubTree ID="EstimateObjectPose" object_model_file_path="/opt/overlay_ws/install/picknik_accessories/share/picknik_accessories/descriptions/miscellaneous/farnese-hercules-head.stl" guess_position="-0.5;0.0;0.0" guess_orientation="0.0;0.0;0.6442177;0.7648422" icp_max_correspondence_distance="0.5" model_to_real_pose="{model_to_real_pose}"/>
-      <Action ID="LoadPoseStampedVectorFromYaml" file_path="/home/studio-user/.config/moveit_studio/picknik_ur_gazebo_scan_and_plan_config/objectives/trajectory_around_hercules.yaml" output="{pose_stamped_msgs}"/>
+      <Action ID="LoadPoseStampedVectorFromYaml" file_path="/opt/overlay_ws/install/picknik_ur_gazebo_scan_and_plan_config/share/picknik_ur_gazebo_scan_and_plan_config/objectives/trajectory_around_hercules.yaml" output="{pose_stamped_msgs}"/>
       <Decorator ID="ForEachPoseStamped" vector_in="{pose_stamped_msgs}" out="{trajectory_pose}">
         <Control ID="Sequence">
           <Action ID="TransformPoseWithPose" input_pose="{trajectory_pose}" transform_pose="{model_to_real_pose}" output_pose="{target_pose}"/>
