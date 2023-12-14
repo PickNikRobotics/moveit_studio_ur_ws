@@ -1,0 +1,33 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  integration-test-in-studio-container:
+    runs-on: ubuntu-latest
+    env:
+      # TODO this variable is required but github workspace is different
+      # see https://github.com/actions/runner/issues/2058
+      USER_WS: /github/workspace
+    # TODO: docker tag
+    # TODO: example for custom base images
+    container: picknikciuser/moveit-studio:main
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run colcon build
+        run: |
+          . /opt/ros/humble/setup.sh
+          . /opt/underlay_ws/install/setup.sh
+          . /opt/overlay_ws/install/setup.sh
+          colcon build
+      - name: Run colcon test
+        run: |
+          . /opt/ros/humble/setup.sh
+          . /opt/underlay_ws/install/setup.sh
+          . /opt/overlay_ws/install/setup.sh
+          colcon test
+      - if: always()
+        run: |
+          colcon test-result
