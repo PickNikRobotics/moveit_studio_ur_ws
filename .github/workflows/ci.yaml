@@ -20,4 +20,7 @@ jobs:
           . /opt/overlay_ws/install/setup.sh
           ls /
           ls .
-          env
+          pwd
+          cd ${{ GITHUB_WORKSPACE }}
+          ls
+          colcon build
