@@ -5,7 +5,7 @@
       <Inverter>
         <Action ID="IsUserAvailable"/>
       </Inverter>
-      <Action ID="WaitForUserTrajectoryApproval" solution="{mtc_solution}"/>
+      <Action ID="WaitForUserTrajectoryApproval" solution="{solution}"/>
     </Fallback>
   </BehaviorTree>
 </root>
