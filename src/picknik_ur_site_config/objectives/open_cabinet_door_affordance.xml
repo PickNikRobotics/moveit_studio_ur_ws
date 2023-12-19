@@ -21,12 +21,7 @@
                 <Action ID="SetupMTCCurrentState" task="{open_door_affordance_task}" />
                 <Action ID="SetupMTCAffordanceTemplate" grasp_pose="{grasp_pose}" name="SetupMTCOpenDoorAffordance" parameters="{parameters}" screw_axis_pose="{screw_axis_pose}" screw_origin_pose="{screw_origin_pose}" task="{open_door_affordance_task}" />
                 <Action ID="PlanMTCTask" solution="{open_door_affordance_solution}" task="{open_door_affordance_task}" />
-                <Fallback name="wait_for_approval_if_user_available">
-                    <Inverter>
-                        <Action ID="IsUserAvailable" />
-                    </Inverter>
-                    <Action ID="WaitForUserTrajectoryApproval" solution="{open_door_affordance_solution}" />
-                </Fallback>
+            	<SubTree ID="Wait for Trajectory Approval if User Available" solution="{open_door_affordance_solution}">
                 <!-- Whether task execution succeeds or fails, reset the controllers to disable admittance control. -->
                 <Control ID="IfThenElse" name="execute_and_reset_controllers">
                     <!-- IF task execution succeeds -->

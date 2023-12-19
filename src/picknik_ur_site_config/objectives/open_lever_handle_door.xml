@@ -34,13 +34,7 @@
                     parameters="{parameters}" task="{open_lever_handle_door_task}" />
                 <Action ID="PlanMTCTask" solution="{open_lever_handle_door_solution}"
                     task="{open_lever_handle_door_task}" />
-                <Fallback>
-                    <Inverter>
-                        <Action ID="IsUserAvailable" />
-                    </Inverter>
-                    <Action ID="WaitForUserTrajectoryApproval"
-                        solution="{open_lever_handle_door_solution}" />
-                </Fallback>
+            	<SubTree ID="Wait for Trajectory Approval if User Available" solution="{open_lever_handle_door_solution}">
                 <!-- Whether task execution succeeds or fails, reset the controllers to disable admittance control. -->
                 <Control ID="IfThenElse" name="execute_and_reset_controllers">
                     <!-- IF task execution succeeds -->
