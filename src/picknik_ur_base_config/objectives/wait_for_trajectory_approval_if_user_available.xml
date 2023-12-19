@@ -5,7 +5,7 @@
       <Decorator ID="Inverter">
         <Action ID="IsUserAvailable"/>
       </Decorator>
-      <Action ID="WaitForUserTrajectoryApproval" solution="{mtc_solution}"/>
+      <Action ID="WaitForUserTrajectoryApproval" solution="{solution}"/>
     </Control>
   </BehaviorTree>
 </root>

@@ -12,7 +12,7 @@
             <Action ID="SetupMTCCurrentState" task="{pick_object_task}"/>
             <Action ID="SetupMTCPickObject" grasp_pose="{grasp_pose}" task="{pick_object_task}" parameters="{parameters}"/>
             <Action ID="PlanMTCTask" solution="{pick_object_solution}" task="{pick_object_task}"/>
-            <SubTree ID="Wait for Trajectory Approval if User Available" solution="{pick_object_task}">
+            <SubTree ID="Wait for Trajectory Approval if User Available" solution="{pick_object_solution}"/>
             <Action ID="ExecuteMTCTask" solution="{pick_object_solution}"/>
         </Control>
     </BehaviorTree>
