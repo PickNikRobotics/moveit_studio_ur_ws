@@ -41,12 +41,7 @@
 
                             <!-- Send trajectory preview to user only if this is the first time trying to pick the object. -->
                             <Precondition if="first_attempt" else="SUCCESS">
-                                <Fallback name="WaitForApprovalIfUserAvailable">
-                                    <Inverter>
-                                        <Action ID="IsUserAvailable" />
-                                    </Inverter>
-                                    <Action ID="WaitForUserTrajectoryApproval" solution="{solution}" />
-                                </Fallback>
+            			<SubTree ID="Wait for Trajectory Approval if User Available" solution="{solution}"/>
                             </Precondition>
 
                             <!-- Set value to port to skip preview on following attempts. -->

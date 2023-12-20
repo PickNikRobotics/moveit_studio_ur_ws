@@ -63,13 +63,7 @@
                     task="{open_door_affordance_task}" />
                 <Action ID="PlanMTCTask" solution="{open_door_affordance_solution}"
                     task="{open_door_affordance_task}" />
-                <Fallback name="wait_for_approval_if_user_available">
-                    <Inverter>
-                        <Action ID="IsUserAvailable" />
-                    </Inverter>
-                    <Action ID="WaitForUserTrajectoryApproval"
-                        solution="{open_door_affordance_solution}" />
-                </Fallback>
+            	<SubTree ID="Wait for Trajectory Approval if User Available" solution="{open_door_affordance_solution}"/>
                 <Action ID="ExecuteMTCTask" solution="{open_door_affordance_solution}" />
             </Control>
         </Control>
