@@ -10,6 +10,7 @@ jobs:
     env:
       # TODO this variable is required but github workspace is different
       # see https://github.com/actions/runner/issues/2058
+      STUDIO_LICENSE_KEY: ${{ secrets.STUDIO_CI_LICENSE_KEY }}
       USER_WS: /github/workspace
       ROS_DOMAIN_ID: 49
       ROS_LOCALHOST_ONLY: 1
