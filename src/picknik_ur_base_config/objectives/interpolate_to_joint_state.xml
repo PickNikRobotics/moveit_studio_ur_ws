@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <root BTCPP_format="4" main_tree_to_execute="Interpolate to Joint State">
-    <BehaviorTree ID="Interpolate to Joint State" _description="Move to a specified joint state">
+    <BehaviorTree ID="Interpolate to Joint State" _description="Move to a specified joint state using joint interpolation">
         <Control ID="Sequence" name="root">
             <Control ID="Fallback" name="log_error_if_parameter_not_set">
                 <Action ID="RetrieveJointStateParameter" timeout_sec="0" joint_state="{target_joint_state}"/>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<root BTCPP_format="4" main_tree_to_execute="Move to Joint State">
+    <BehaviorTree ID="Move to Joint State" _description="Move to a specified joint state">
+        <Control ID="Sequence" name="root">
+            <Control ID="Fallback" name="log_error_if_parameter_not_set">
+                <Action ID="RetrieveJointStateParameter" timeout_sec="0" joint_state="{target_joint_state}"/>
+                <Control ID="Sequence">
+                    <Action ID="LogMessage" message="This Objective is meant to be used by clicking a Waypoint name in the UI. Try it out there!" log_level="error" />
+                    <Action ID="AlwaysFailure" />
+                </Control>
+            </Control>
+            <SubTree ID="MoveToJointStateWaypoint" target_joint_state="{target_joint_state}"/>
+        </Control>
+    </BehaviorTree>
+    <BehaviorTree ID="MoveToJointStateWaypoint">
+        <Control ID="Sequence" name="move_to_waypoint_main">
+            <Action ID="InitializeMTCTask" task_id="move_tojoint_state" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{move_to_waypoint_task}"/>
+            <Action ID="SetupMTCCurrentState" task="{move_to_waypoint_task}"/>
+            <Action ID="SetupMTCMoveToJointState" joint_state="{target_joint_state}" name="SetupMTCMoveToJointState_First" planning_group_name="manipulator" task="{move_to_waypoint_task}" use_all_planners="true" constraints=""/>
+            <Action ID="PlanMTCTask" solution="{move_to_waypoint_solution}" task="{move_to_waypoint_task}"/>
+            <Action ID="ExecuteMTCTask" solution="{move_to_waypoint_solution}"/>
+        </Control>
+    </BehaviorTree>
+</root>
