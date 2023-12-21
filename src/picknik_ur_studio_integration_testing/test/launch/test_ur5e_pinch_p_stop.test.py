@@ -17,6 +17,7 @@ from picknik_ur_studio_integration_testing.generate_agent_plus_drivers_launch_de
     generate_agent_plus_drivers_launch_description,
 )
 
+
 def generate_test_description():
     return generate_agent_plus_drivers_launch_description(
         gtest_name="test_ur5e_pinch_p_stop",
