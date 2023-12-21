@@ -8,6 +8,7 @@ jobs:
   integration-test-in-studio-container:
     runs-on: ubuntu-latest
     env:
+      STUDIO_LICENSE_KEY: ${{ secrets.STUDIO_CI_LICENSE_KEY }}
       # TODO this variable is required but github workspace is different
       # see https://github.com/actions/runner/issues/2058
       USER_WS: /github/workspace
