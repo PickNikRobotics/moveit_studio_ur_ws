@@ -4,8 +4,9 @@
   <name>picknik_ur_studio_integration_testing</name>
   <version>2.11.0</version>
   <description>Integration tests for UR with MoveIt Studio.</description>
-  <maintainer email="joseph.schornak@picknik.ai">Joe Schornak</maintainer>
-  <license>Proprietary</license>
+  <maintainer email="studio.maintainers@picknik.ai">MoveIt Studio Maintainer</maintainer>
+
+  <license>BSD-3-Clause</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <buildtool_depend>ament_cmake_python</buildtool_depend>
