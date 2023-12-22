@@ -171,7 +171,6 @@ def generate_agent_plus_drivers_launch_description(
         condition=condition_save_rosbag,
     )
 
-    # TODO(9427): Add support for taking snapshots prior to test execution.
     gtest_action = objective_client_gtest
 
     # This command terminates the process which runs Gazebo after the test cases have all finished
