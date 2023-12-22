@@ -10,7 +10,7 @@ target_link_libraries(test_basic_ur5e_objectives moveit_studio_agent::do_objecti
 add_ros_test(launch/test_basic_ur5e_objectives.test.py TIMEOUT 120 ARGS "test_binary_dir:=${CMAKE_CURRENT_BINARY_DIR}")
 
 # Integration test for the 'getPlanningGroups' MoveGroup capability.
-ament_add_gtest_executable(test_get_planning_groups  test_get_planning_groups.cpp)
+ament_add_gtest_executable(test_get_planning_groups test_get_planning_groups.cpp)
 target_link_libraries(test_get_planning_groups moveit_studio_agent::do_objective_test_fixture)
 add_ros_test(launch/test_get_planning_groups.test.py TIMEOUT 120 ARGS "test_binary_dir:=${CMAKE_CURRENT_BINARY_DIR}")
 
