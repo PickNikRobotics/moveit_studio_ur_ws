@@ -169,7 +169,7 @@ TEST_F(ObjectiveFixture, TestInterpolateToJointState)
   EXPECT_TRUE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal), 30.0));
 }
 
-// TODO: Enable once admittance control works with Ignition Gazebo, or we can override behaviors for sim configs.
+// TODO: Enable once admittance control works in the current simulation environment, or we can override behaviors for sim configs.
 TEST_F(ObjectiveFixture, DISABLED_TestOpenDoorAffordance)
 {
   ASSERT_TRUE(setupDoObjectiveSequenceClient());
