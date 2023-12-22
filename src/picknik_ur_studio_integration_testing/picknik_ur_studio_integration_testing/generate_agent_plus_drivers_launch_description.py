@@ -173,14 +173,6 @@ def generate_agent_plus_drivers_launch_description(
 
     gtest_action = objective_client_gtest
 
-    # This command terminates the process which runs Gazebo after the test cases have all finished
-    kill_gazebo_on_gtest_exit = RegisterEventHandler(
-        event_handler=OnProcessExit(
-            target_action=gtest_action,
-            on_exit=[ExecuteProcess(cmd=["killall", "ruby"])],
-        )
-    )
-
     return LaunchDescription(
         [
             # Increase timeout for SIGINT when shutting down the launch processes
@@ -202,7 +194,6 @@ def generate_agent_plus_drivers_launch_description(
                 period=10.0,
                 actions=[gtest_action],
             ),
-            kill_gazebo_on_gtest_exit,
             launch_testing.actions.ReadyToTest(),
         ]
     ), {
