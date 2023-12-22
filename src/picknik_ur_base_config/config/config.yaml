@@ -126,6 +126,9 @@ moveit_params:
   ompl_planning:
     package: "picknik_ur_base_config"
     path: "config/moveit/ompl_planning.yaml"
+  pilz_planning:
+    package: "picknik_ur_base_config"
+    path: "config/moveit/pilz_industrial_motion_planner_planning.yaml"
   stomp_planning:
     package: "picknik_ur_base_config"
     path: "config/moveit/stomp_planning.yaml"
