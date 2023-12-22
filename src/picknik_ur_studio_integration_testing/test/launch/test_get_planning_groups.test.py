@@ -23,7 +23,7 @@ def generate_test_description():
         gtest_name="test_get_planning_groups",
         env_vars={
             # Load site config for simulated UR-5e
-            "STUDIO_CONFIG_PACKAGE": "picknik_001_ur5e_config",
+            "STUDIO_CONFIG_PACKAGE": "picknik_ur_site_config",
             "MOCK_HARDWARE": "true",
         },
     )
