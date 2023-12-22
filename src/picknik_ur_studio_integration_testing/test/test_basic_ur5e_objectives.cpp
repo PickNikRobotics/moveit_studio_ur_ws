@@ -190,11 +190,11 @@ TEST_F(ObjectiveFixture, DISABLED_TestOpenDoorAffordance)
     return msg;
   }();
 
-  BehaviorParameter hing_axis_pose_start_parameter;
-  hing_axis_pose_start_parameter.behavior_namespaces.emplace_back("process_door_selection");
-  hing_axis_pose_start_parameter.description.name = "hinge_axis_pose_start";
-  hing_axis_pose_start_parameter.description.type = BehaviorParameterDescription::TYPE_POSE;
-  hing_axis_pose_start_parameter.pose_value = [] {
+  BehaviorParameter hinge_axis_pose_start_parameter;
+  hinge_axis_pose_start_parameter.behavior_namespaces.emplace_back("process_door_selection");
+  hinge_axis_pose_start_parameter.description.name = "hinge_axis_pose_start";
+  hinge_axis_pose_start_parameter.description.type = BehaviorParameterDescription::TYPE_POSE;
+  hinge_axis_pose_start_parameter.pose_value = [] {
     PoseStamped msg;
     msg.header.frame_id = "world";
     msg.pose.position = geometry_msgs::build<Point>().x(0.55).y(0.350).z(0.765);
@@ -214,7 +214,7 @@ TEST_F(ObjectiveFixture, DISABLED_TestOpenDoorAffordance)
     return msg;
   }();
 
-  do_objective_goal->parameter_overrides = { pose_name_parameter, hing_axis_pose_start_parameter,
+  do_objective_goal->parameter_overrides = { pose_name_parameter, hinge_axis_pose_start_parameter,
                                              hinge_axis_pose_end_parameter };
 
   EXPECT_TRUE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal), 30.0));
