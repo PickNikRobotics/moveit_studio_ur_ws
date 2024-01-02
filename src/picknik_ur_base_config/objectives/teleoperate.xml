@@ -15,13 +15,13 @@
             <SubTree ID="Close Gripper" _skipIf="teleop_str != 7"/>
             <SubTree ID="Open Gripper" _skipIf="teleop_str != 6"/>
             <!-- Joint sliders: Keep listening for stored joint states and interpolate to joint state. -->
-            <Decorator ID="KeepRunningUntilFailure" _skipIf="teleop_str != 5">
+            <Decorator ID="KeepRunningUntilFailure" _while="teleop_str == 5">
               <Decorator ID="ForceSuccess">
                 <SubTree ID="Interpolate to Joint State"/>
               </Decorator>
             </Decorator>
             <!-- Interactive marker and waypoint buttons both send joint states -->
-            <Decorator ID="KeepRunningUntilFailure" _skipIf="teleop_str &lt; 3">
+            <Decorator ID="KeepRunningUntilFailure" _while="teleop_str >= 3">
               <Decorator ID="ForceSuccess">
                 <SubTree ID="Move to Joint State"/>
               </Decorator>
