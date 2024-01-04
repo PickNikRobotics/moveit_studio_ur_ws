@@ -4,7 +4,7 @@
   <BehaviorTree ID="Teleoperate" _description="Handles the different variations of teleoperation from the web UI, with the option of interactive user prompts and choosing the initial mode. Should be used as a subtree with port remapping as part of an another Objective." _favorite="false" _hardcoded="false">
     <Control ID="Sequence">
       <Action ID="Script" code="teleop_mode := 0"/>
-      <Control ID="Parallel" success_count="2" failure_count="1">
+      <Control ID="Parallel" success_count="3" failure_count="1">
         <Action ID="DoTeleoperateAction" enable_user_interaction="{enable_user_interaction}" user_interaction_prompt="{user_interaction_prompt}" initial_teleop_mode="{initial_teleop_mode}" current_teleop_mode="{teleop_mode}"/>
         <Decorator ID="KeepRunningUntilFailure">
           <Action ID="Script" code="teleop_str := teleop_mode"/>
@@ -12,19 +12,19 @@
         <Decorator ID="KeepRunningUntilFailure">
           <Control ID="Sequence">
             <!-- Closing and opening the gripper -->
-            <SubTree ID="Close Gripper" _skipIf="teleop_str != 7"/>
-            <SubTree ID="Open Gripper" _skipIf="teleop_str != 6"/>
-            <!-- Joint sliders: Keep listening for stored joint states and interpolate to joint state. -->
-            <Decorator ID="KeepRunningUntilFailure" _while="teleop_str == 5">
-              <Decorator ID="ForceSuccess">
-                <SubTree ID="Interpolate to Joint State"/>
-              </Decorator>
+            <Decorator ID="ForceSuccess" _skipIf="teleop_str != 7">
+              <SubTree ID="Close Gripper"/>
+            </Decorator>
+            <Decorator ID="ForceSuccess" _skipIf="teleop_str != 6">
+              <SubTree ID="Open Gripper"/>
+            </Decorator>
+            <!-- Joint sliders: Keep listening for stored joint states and interpolate to joint state -->
+            <Decorator ID="ForceSuccess" _skipIf="teleop_str != 5">
+              <SubTree ID="Interpolate to Joint State"/>
             </Decorator>
             <!-- Interactive marker and waypoint buttons both send joint states -->
-            <Decorator ID="KeepRunningUntilFailure" _while="teleop_str >= 3">
-              <Decorator ID="ForceSuccess">
-                <SubTree ID="Move to Joint State"/>
-              </Decorator>
+            <Decorator ID="ForceSuccess" _while="teleop_str == 3 || teleop_str == 4">
+              <SubTree ID="Move to Joint State"/>
             </Decorator>
             <!-- Cartesian and joint jogging -->
             <Action ID="TeleoperateTwist" controller_name="streaming_controller" _while="teleop_str == 2"/>
