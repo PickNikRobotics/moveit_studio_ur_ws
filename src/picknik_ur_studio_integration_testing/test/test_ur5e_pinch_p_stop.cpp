@@ -73,7 +73,7 @@ TEST_F(ObjectiveFixture, InterpolateToPinchJointState)
   auto store_request = std::make_shared<StoreJointState::Request>();
   store_request->joint_state.name = { "shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint",
                                       "wrist_1_joint",      "wrist_2_joint",       "wrist_3_joint" };
-  store_request->joint_state.position = { 0, -0.78, -0.51, -1.57, 1.65, 0 };
+  store_request->joint_state.position = { -0.66, -2.10, -1.27, 0.60, 2.87, 0.36 };
 
   auto store_result_future = store_client->async_send_request(store_request);
   ASSERT_EQ(store_result_future.wait_for(kServiceWaitTime), std::future_status::ready)
@@ -99,7 +99,7 @@ TEST_F(ObjectiveFixture, InterpolateToNearPinchJointState)
   auto store_request = std::make_shared<StoreJointState::Request>();
   store_request->joint_state.name = { "shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint",
                                       "wrist_1_joint",      "wrist_2_joint",       "wrist_3_joint" };
-  store_request->joint_state.position = { 0, -0.78, -0.51, -1.57, 1.65, 0 };
+  store_request->joint_state.position = { -0.66, -2.10, -1.27, 0.60, 2.70, 0.36 };
 
   auto store_result_future = store_client->async_send_request(store_request);
   ASSERT_EQ(store_result_future.wait_for(kServiceWaitTime), std::future_status::ready)
