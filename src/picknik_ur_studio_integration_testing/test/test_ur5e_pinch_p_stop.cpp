@@ -28,23 +28,30 @@
 
 #include <moveit_studio_agent/test/do_objective_test_fixture.hpp>
 
+#include <chrono>
+
 #include <geometry_msgs/msg/point.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <geometry_msgs/msg/quaternion.hpp>
 #include <geometry_msgs/msg/vector3.hpp>
 #include <moveit_studio_agent_msgs/srv/set_transform.hpp>
 #include <moveit_studio_sdk_msgs/msg/behavior_parameter.hpp>
+#include <moveit_studio_agent_msgs/srv/store_joint_state.hpp>
+#include <rclcpp/rclcpp.hpp>
 
 namespace
 {
 using BehaviorParameter = moveit_studio_sdk_msgs::msg::BehaviorParameter;
 using BehaviorParameterDescription = moveit_studio_sdk_msgs::msg::BehaviorParameterDescription;
+
+constexpr auto kServiceWaitTime = std::chrono::seconds{ 1 };
 }  // namespace
 
 namespace moveit_studio::agent::testing
 {
 using Point = geometry_msgs::msg::Point;
 using PoseStamped = geometry_msgs::msg::PoseStamped;
+using StoreJointState = moveit_studio_agent_msgs::srv::StoreJointState;
 using Quaternion = geometry_msgs::msg::Quaternion;
 using TransformStamped = geometry_msgs::msg::TransformStamped;
 using Vector3 = geometry_msgs::msg::Vector3;
@@ -59,19 +66,23 @@ TEST_F(ObjectiveFixture, InterpolateToPinchJointState)
 {
   ASSERT_TRUE(setupDoObjectiveSequenceClient());
 
+  // Store a joint state parameter
+  rclcpp::Client<StoreJointState>::SharedPtr store_client = node_->create_client<StoreJointState>("store_joint_state");
+  ASSERT_TRUE(store_client->wait_for_service(kServiceWaitTime));
+
+  auto store_request = std::make_shared<StoreJointState::Request>();
+  store_request->joint_state.name = { "shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint",
+                                      "wrist_1_joint",      "wrist_2_joint",       "wrist_3_joint" };
+  store_request->joint_state.position = { 0, -0.78, -0.51, -1.57, 1.65, 0 };
+
+  auto store_result_future = store_client->async_send_request(store_request);
+  ASSERT_EQ(store_result_future.wait_for(kServiceWaitTime), std::future_status::ready)
+      << "Timed out waiting for store joint state service response.";
+  ASSERT_TRUE(store_result_future.get()->success);
+
+  // Run the Objective
   auto do_objective_goal = std::make_unique<DoObjectiveSequence::Goal>();
   do_objective_goal->objective_name = "Interpolate to Joint State";
-
-  // Update the joint_state parameter used when planning the objective
-  BehaviorParameter pose_name_parameter;
-  pose_name_parameter.behavior_namespaces = { "interpolate_to_joint_state" };
-  pose_name_parameter.description.name = "target_joint_state";
-  pose_name_parameter.description.type = BehaviorParameterDescription::TYPE_JOINT_STATE;
-  pose_name_parameter.joint_state_value.name = { "shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint",
-                                                 "wrist_1_joint",      "wrist_2_joint",       "wrist_3_joint" };
-  pose_name_parameter.joint_state_value.position = { -0.66, -2.10, -1.27, 0.60, 2.87, 0.36 };
-
-  do_objective_goal->parameter_overrides = { pose_name_parameter };
 
   // Expect to fail due to pinch links blocking entering a pinch stop zone
   EXPECT_FALSE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal), 30.0));
@@ -81,20 +92,23 @@ TEST_F(ObjectiveFixture, InterpolateToNearPinchJointState)
 {
   ASSERT_TRUE(setupDoObjectiveSequenceClient());
 
+  // Store a joint state parameter
+  rclcpp::Client<StoreJointState>::SharedPtr store_client = node_->create_client<StoreJointState>("store_joint_state");
+  ASSERT_TRUE(store_client->wait_for_service(kServiceWaitTime));
+
+  auto store_request = std::make_shared<StoreJointState::Request>();
+  store_request->joint_state.name = { "shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint",
+                                      "wrist_1_joint",      "wrist_2_joint",       "wrist_3_joint" };
+  store_request->joint_state.position = { 0, -0.78, -0.51, -1.57, 1.65, 0 };
+
+  auto store_result_future = store_client->async_send_request(store_request);
+  ASSERT_EQ(store_result_future.wait_for(kServiceWaitTime), std::future_status::ready)
+      << "Timed out waiting for store joint state service response.";
+  ASSERT_TRUE(store_result_future.get()->success);
+
+  // Run the Objective
   auto do_objective_goal = std::make_unique<DoObjectiveSequence::Goal>();
   do_objective_goal->objective_name = "Interpolate to Joint State";
-
-  // Update the joint_state parameter used when planning the objective
-  BehaviorParameter pose_name_parameter;
-  pose_name_parameter.behavior_namespaces = { "interpolate_to_joint_state" };
-  pose_name_parameter.description.name = "target_joint_state";
-  pose_name_parameter.description.type = BehaviorParameterDescription::TYPE_JOINT_STATE;
-  pose_name_parameter.joint_state_value.name = { "shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint",
-                                                 "wrist_1_joint",      "wrist_2_joint",       "wrist_3_joint" };
-  // Now we put wrist_2_joint around 10 degrees more relaxed from the pinch point.
-  pose_name_parameter.joint_state_value.position = { -0.66, -2.10, -1.27, 0.60, 2.70, 0.36 };
-
-  do_objective_goal->parameter_overrides = { pose_name_parameter };
 
   // Expect the pinch link geometries to be unobtrusive enough that planning to just outside the
   // pinch zone still works.
