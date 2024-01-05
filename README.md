@@ -21,6 +21,7 @@ Base[picknik_ur_base_config] --> Site[picknik_ur_site_config]
 Base --> Mock[picknik_ur_mock_hw_config]
 Site --> Gazebo[picknik_ur_gazebo_config]
 Site --> Picknik[Other PickNik configs]
+Gazebo --> ScanAndPlan[picknik_ur_gazebo_scan_and_plan_config]
 ```
 
 Specifically:
@@ -29,4 +30,5 @@ Specifically:
 * `picknik_ur_mock_hw_config` provides overrides for a machine tending application simulated using mock components (no physics).
 * `picknik_ur_site_config` extends the base configuration with capabilities for robots with physics and perception.
 * `picknik_ur_gazebo_config` extends the site configuration with support for the Gazebo simulator.
+* `picknik_ur_gazebo_scan_and_plan_config` extends the Gazebo configuration with an alternate environment for 3D object scanning.
 * Other hardware-specific configurations, such as the ones used on PickNik's UR arms, inherit from `picknik_ur_site_config`.
