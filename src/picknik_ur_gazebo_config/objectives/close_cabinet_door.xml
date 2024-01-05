@@ -12,7 +12,7 @@
                 <Action ID="GetPoseFromUser" parameter_name="close_cabinet_door.target_pose" parameter_value="{target_pose}" />
                 <Action ID="SetupMTCMoveToPose" ik_frame="manual_grasp_link" planning_group_name="manipulator" target_pose="{target_pose}" task="{close_cabinet_door_task}" use_all_planners="false"/>
                 <Action ID="SetupMTCUpdateGroupCollisionRule" name="AllowGripperCollisionWithOctomap" parameters="{parameters}" task="{close_cabinet_door_task}" />
-                <Action ID="SetupMTCMoveAlongFrameAxis" axis="z" max_distance="1.5" min_distance="0.05" parameters="{parameters}" task="{close_cabinet_door_task}" />
+                <Action ID="SetupMTCMoveAlongFrameAxis" task="{push_along_axis_task}" hand_frame="manual_grasp_link" axis_frame="world" axis_x="0.0" axis_y="0.0" axis_z="1.0" max_distance="1.5" min_distance="0.05" planning_group_name="manipulator" velocity_scale="0.05" acceleration_scale="0.05" />
                 <Action ID="SetupMTCUpdateGroupCollisionRule" name="ForbidGripperCollisionWithOctomap" parameters="{parameters}" task="{close_cabinet_door_task}" />
                 <Action ID="PlanMTCTask" solution="{full_close_cabinet_door_solution}" task="{close_cabinet_door_task}"/>
                 <Action ID="SplitMTCSolution" solution_in="{full_close_cabinet_door_solution}" index="3" solution_out_1="{move_to_approach_solution}" solution_out_2="{push_solution}" />
