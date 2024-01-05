@@ -348,3 +348,28 @@
       - 3.878003640148636e-05
     velocity: []
   name: Monitor View
+- description: ''
+  favorite: true
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    position:
+      - -0.0466258679542878
+      - -3.139660258833212
+      - 0.43562009602415774
+      - -2.083247513659768
+      - -0.133798126833976
+      - 1.809151380399623
+    velocity: []
+  name: Extended Right
