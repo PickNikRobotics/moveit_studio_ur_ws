@@ -18,3 +18,10 @@ add_ros_test(launch/test_get_planning_groups.test.py TIMEOUT 120 ARGS "test_bina
 ament_add_gtest_executable(test_ur5e_pinch_p_stop test_ur5e_pinch_p_stop.cpp)
 target_link_libraries(test_ur5e_pinch_p_stop moveit_studio_agent::do_objective_test_fixture)
 add_ros_test(launch/test_ur5e_pinch_p_stop.test.py TIMEOUT 120 ARGS "test_binary_dir:=${CMAKE_CURRENT_BINARY_DIR}")
+
+# Install config files needed at runtime by integration tests
+install(
+  DIRECTORY
+    objectives
+  DESTINATION share/${PROJECT_NAME}/test
+)
