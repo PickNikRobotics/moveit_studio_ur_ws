@@ -17,7 +17,7 @@
       <!-- Get the door GraspableObject(s) -->
       <!-- TODO: can we combine the vectors of masks2d so we only have to call this chunk once? -->
       <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
-      <Action ID="GetMasks2DAction" image="{image}" action_name="get_masks_2d_maskrcnn" min_confidence="0.8" max_nms_iou="0.8" min_relative_area="0" max_relative_area="1" masks2d="{masks2d}" valid_classes="space booth cabinet door"/>
+      <Action ID="GetMasks2DAction" image="{image}" action_name="get_masks_2d_maskrcnn" min_confidence="0.8" max_nms_iou="0.8" min_relative_area="0" max_relative_area="5" timeout_sec="1.0" masks2d="{masks2d}" valid_classes="space booth cabinet door"/>
       <Action ID="GetMasks3DFromMasks2D" point_cloud="{point_cloud}" masks2d="{masks2d}" camera_info="{camera_info}" masks3d="{masks3d}"/>
       <Action ID="LogMessage" message="Found a mask for the door." log_level="warn"/>
       <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
