@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<root BTCPP_format="4" main_tree_to_execute="MoveToJointState">
-    <BehaviorTree ID="MoveToJointState" _description="Move to a specified joint state">
+<root BTCPP_format="4" main_tree_to_execute="Move to Joint State">
+    <BehaviorTree ID="Move to Joint State" _description="Move to a specified joint state">
         <Control ID="Sequence" name="root">
             <Action ID="RetrieveJointStateParameter" timeout_sec="" joint_state="{target_joint_state}"/>
             <Action ID="InitializeMTCTask" task_id="move_to_joint_state" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{move_to_waypoint_task}"/>
