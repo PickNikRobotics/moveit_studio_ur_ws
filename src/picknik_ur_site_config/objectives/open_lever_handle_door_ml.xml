@@ -41,7 +41,7 @@
             <Control ID="Sequence" name="OpenLeverHandleDoor">
                 <Action ID="InitializeMTCTask" task_id="open_lever_handle_door_ml" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{open_lever_handle_door_task}"/>
                 <Action ID="SetupMTCCurrentState" task="{open_lever_handle_door_task}"/>
-                <Action ID="SetupMTCOpenLeverHandleDoor"
+                <Action ID="SetupMTCGraspAndTwistThenMoveAlongArcPush"
                     handle_pose="{handle_pose}"
                     handle_length="{length}"
                     handle_z_offset="{height}"
