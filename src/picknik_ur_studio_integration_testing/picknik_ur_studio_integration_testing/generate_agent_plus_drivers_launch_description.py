@@ -42,11 +42,9 @@ from launch.actions import (
     DeclareLaunchArgument,
     ExecuteProcess,
     IncludeLaunchDescription,
-    RegisterEventHandler,
     TimerAction,
 )
 from launch.conditions import IfCondition
-from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.some_substitutions_type import SomeSubstitutionsType
 from launch.substitutions import (
