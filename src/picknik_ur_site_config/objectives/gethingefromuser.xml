@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="GetHingeFromUser">
+  <!-- ////////// -->
+  <BehaviorTree ID="GetHingeFromUser" _description="" _favorite="false" _hardcoded="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="GetPoseFromUser" parameter_name="process_door_selection.hinge_axis_pose_start" parameter_value="{hinge_axis_pose_start}"/>
+      <Action ID="GetPoseFromUser" parameter_name="process_door_selection.hinge_axis_pose_end" parameter_value="{hinge_axis_pose_end}"/>
+      <Action ID="SavePoseStampedToYaml" yaml_filename="pose_stamped.yaml" namespace="" message="{hinge_axis_pose_start}"/>
+      <Action ID="SavePoseStampedToYaml" yaml_filename="pose_stamped_end.yaml" namespace="" message="{hinge_axis_pose_end}"/>
+    </Control>
+  </BehaviorTree>
+</root>

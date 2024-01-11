@@ -18,19 +18,22 @@
           <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
         </Control>
       </Decorator>
-      <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.01" minimum_face_area="0" face_separation_threshold="1" graspable_objects="{graspable_objects}" name="GetHingeGraspableObjects"/>
+      <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.01" minimum_face_area="0" face_separation_threshold="0.01" graspable_objects="{hinge_objects}" name="GetHingeGraspableObjects"/>
       <Action ID="LogMessage" message="Successfully got GraspableObjects for Hinges" log_level="warn"/>
-      <Decorator ID="ForEachGraspableObject" vector_in="{graspable_objects}" out="{object}">
-        <Control ID="IfThenElse">
-          <Action ID="Script" code="first_pose_received == false"/>
-          <Control ID="Sequence">
-            <Action ID="LogMessage" message="Getting First Hinge Pose" log_level="info"/>
-            <Action ID="ExtractGraspableObjectPose" graspable_object="{object}" pose="{screw_1_pose}"/>
-            <Action ID="Script" code="first_pose_received := true"/>
-          </Control>
-          <Control ID="Sequence">
-            <Action ID="LogMessage" message="Getting Second Hinge Pose" log_level="info"/>
-            <Action ID="ExtractGraspableObjectPose" graspable_object="{object}" pose="{screw_2_pose}"/>
+      <Decorator ID="ForEachGraspableObject" vector_in="{hinge_objects}" out="{hinge_object}">
+        <Control ID="Sequence">
+          <Action ID="ModifyObjectInPlanningScene" object="{hinge_object}" apply_planning_scene_service="/apply_planning_scene"/>
+          <Control ID="IfThenElse">
+            <Action ID="Script" code="first_pose_received == false"/>
+            <Control ID="Sequence">
+              <Action ID="LogMessage" message="Getting First Hinge Pose" log_level="info"/>
+              <Action ID="ExtractGraspableObjectPose" graspable_object="{hinge_object}" pose="{screw_1_pose}"/>
+              <Action ID="Script" code="first_pose_received := true"/>
+            </Control>
+            <Control ID="Sequence">
+              <Action ID="LogMessage" message="Getting Second Hinge Pose" log_level="info"/>
+              <Action ID="ExtractGraspableObjectPose" graspable_object="{hinge_object}" pose="{screw_2_pose}"/>
+            </Control>
           </Control>
         </Control>
       </Decorator>

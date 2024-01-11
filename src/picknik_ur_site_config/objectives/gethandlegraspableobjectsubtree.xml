@@ -18,9 +18,10 @@
           <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
         </Control>
       </Decorator>
-      <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.002" minimum_face_area="0" face_separation_threshold="1.0" graspable_objects="{graspable_objects}" name="GetHandleGraspableObjectsFromMasks"/>
-      <Decorator ID="ForEachGraspableObject" vector_in="{graspable_objects}" out="{object}">
-        <Action ID="ExtractGraspableObjectPose" graspable_object="{object}" pose="{grasp_pose}"/>
+      <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.002" minimum_face_area="0" face_separation_threshold="1.0" graspable_objects="{handle_objects}" name="GetHandleGraspableObjectsFromMasks"/>
+      <Decorator ID="ForEachGraspableObject" vector_in="{handle_objects}" out="{handle_object}">
+        <Action ID="ModifyObjectInPlanningScene" object="{handle_object}" apply_planning_scene_service="/apply_planning_scene"/>
+        <Action ID="ExtractGraspableObjectPose" graspable_object="{handle_object}" pose="{grasp_pose}"/>
       </Decorator>
     </Control>
   </BehaviorTree>

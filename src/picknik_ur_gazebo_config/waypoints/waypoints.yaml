@@ -373,3 +373,28 @@
       - 1.809151380399623
     velocity: []
   name: Extended Right
+- description: ''
+  favorite: true
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -0.8133408191541488
+    - -1.5335793394092558
+    - -1.6245281801738987
+    - -0.32750966840462314
+    - 1.1063101202873569
+    - 0.21460700974263816
+    velocity: []
+  name: Hinge View

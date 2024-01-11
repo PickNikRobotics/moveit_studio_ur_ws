@@ -10,23 +10,7 @@
       <SubTree ID="Update Admittance Controller" _collapsed="true"/>
       <!-- Look at the desired location where objects (door) will be present -->
       <Action ID="MoveToWaypoint" waypoint_name="Right Wall" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true" constraints=""/>
-      <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>
-      <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
-      <Action ID="UpdatePlanningSceneService" point_cloud="{point_cloud}" point_cloud_service="/point_cloud_service"/>
-      <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
-      <!-- Get the door GraspableObject(s) -->
-      <!-- TODO: can we combine the vectors of masks2d so we only have to call this chunk once? -->
-      <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
-      <Action ID="GetMasks2DAction" image="{image}" action_name="get_masks_2d_maskrcnn" min_confidence="0.8" max_nms_iou="0.8" min_relative_area="0" max_relative_area="5" timeout_sec="1.0" masks2d="{masks2d}" valid_classes="space booth cabinet door"/>
-      <Action ID="GetMasks3DFromMasks2D" point_cloud="{point_cloud}" masks2d="{masks2d}" camera_info="{camera_info}" masks3d="{masks3d}"/>
-      <Action ID="LogMessage" message="Found a mask for the door." log_level="warn"/>
-      <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
-        <Control ID="Sequence">
-          <Action ID="GetPointCloudFromMask3D" point_cloud="{point_cloud}" mask3d="{mask3d}" point_cloud_fragment="{point_cloud_fragment}"/>
-          <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
-        </Control>
-      </Decorator>
-      <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.01" minimum_face_area="0.000625" face_separation_threshold="0.01" graspable_objects="{graspable_objects}" name="GetDoorGraspableObjects"/>
+      <SubTree ID="GetDoorGraspableObjectSubtree" _collapsed="true"/>
 
       <!-- Get the masks for the handle subframe of the door GraspableObject -->
       <Control ID="Fallback">
@@ -43,11 +27,11 @@
       <!-- Get the masks for the hinge subframes of the door GraspableObject -->
       <Control ID="Fallback">
         <Control ID="Sequence">
-          <Action ID="MoveToWaypoint" waypoint_name="Forward Down" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
+          <Action ID="MoveToWaypoint" waypoint_name="Right Wall" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
           <SubTree ID="GetHingeGraspableObjectSubtree" _collapsed="true"/>
         </Control>
         <Control ID="Sequence">
-          <Action ID="MoveToWaypoint" waypoint_name="Forward Down" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
+          <Action ID="MoveToWaypoint" waypoint_name="Hinge View" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
           <SubTree ID="GetHingeGraspableObjectSubtree" _collapsed="true"/>
         </Control>
       </Control>

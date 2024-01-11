@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="GetDoorGraspableObjectSubtree">
+  <!-- ////////// -->
+  <BehaviorTree ID="GetDoorGraspableObjectSubtree">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <!-- Load the objectives needed for this behavior -->
+      <!-- Update the admittance controller and reset the FTS -->
+      <!-- Look at the desired location where objects (door) will be present -->
+      <!-- Get the door GraspableObject(s) -->
+      <!-- TODO: can we combine the vectors of masks2d so we only have to call this chunk once? -->
+      <!-- Get the masks for the handle subframe of the door GraspableObject -->
+      <!-- Get the masks for the hinge subframes of the door GraspableObject -->
+      <!-- Helper behavior to convert poses into subframes that adhere to the expected axis convention -->
+      <!-- Add the subframes to the Object-->
+      <!-- Now for each door graspable object (with subframes added) do MTC -->
+      <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>
+      <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
+      <Action ID="UpdatePlanningSceneService" point_cloud="{point_cloud}" point_cloud_service="/point_cloud_service"/>
+      <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
+      <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
+      <Action ID="GetMasks2DAction" image="{image}" action_name="get_masks_2d_maskrcnn" min_confidence="0.8" max_nms_iou="0.8" min_relative_area="0" max_relative_area="5" timeout_sec="1.0" masks2d="{masks2d}" valid_classes="space booth cabinet door"/>
+      <Action ID="GetMasks3DFromMasks2D" point_cloud="{point_cloud}" masks2d="{masks2d}" camera_info="{camera_info}" masks3d="{masks3d}"/>
+      <Action ID="LogMessage" message="Found a mask for the door." log_level="warn"/>
+      <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
+        <Control ID="Sequence">
+          <Action ID="GetPointCloudFromMask3D" point_cloud="{point_cloud}" mask3d="{mask3d}" point_cloud_fragment="{point_cloud_fragment}"/>
+          <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
+        </Control>
+      </Decorator>
+      <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.01" minimum_face_area="0.000625" face_separation_threshold="0.01" graspable_objects="{door_objects}" name="GetDoorGraspableObjects"/>
+      <Decorator ID="ForEachGraspableObject" vector_in="{door_objects}" out="{door_object}">
+        <Action ID="ModifyObjectInPlanningScene" object="{door_object}" apply_planning_scene_service="/apply_planning_scene"/>
+      </Decorator>
+    </Control>
+  </BehaviorTree>
+</root>
