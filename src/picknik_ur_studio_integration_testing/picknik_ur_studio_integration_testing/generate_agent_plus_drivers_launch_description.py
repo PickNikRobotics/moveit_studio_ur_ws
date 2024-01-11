@@ -42,11 +42,9 @@ from launch.actions import (
     DeclareLaunchArgument,
     ExecuteProcess,
     IncludeLaunchDescription,
-    RegisterEventHandler,
     TimerAction,
 )
 from launch.conditions import IfCondition
-from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.some_substitutions_type import SomeSubstitutionsType
 from launch.substitutions import (
@@ -81,7 +79,7 @@ def generate_agent_plus_drivers_launch_description(
 
     # Get path to test objective directory defined within this repo
     test_objective_path = Path(
-        get_package_share_directory("moveit_studio_integration_testing"),
+        get_package_share_directory("picknik_ur_studio_integration_testing"),
         "test",
         "objectives",
     )
@@ -110,7 +108,7 @@ def generate_agent_plus_drivers_launch_description(
 
     # Get path to test objective directory defined within this repo
     test_objective_path = Path(
-        get_package_share_directory("moveit_studio_integration_testing"),
+        get_package_share_directory("picknik_ur_studio_integration_testing"),
         "test",
         "objectives",
     )

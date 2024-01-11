@@ -1,8 +1,3 @@
-SetupMTCMoveAlongFrameAxis:
-  arm_group_name: "manipulator"
-  hand_frame_name: "manual_grasp_link"
-  velocity_acceleration_scaling_factor: 0.05
-
 AllowGripperCollisionWithOctomap:
   group_name: "gripper"
   object_name: "<octomap>"

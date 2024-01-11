@@ -43,8 +43,7 @@
                 <Action ID="SetupMTCUpdateGroupCollisionRule"
                     name="AllowGripperCollisionWithOctomap" parameters="{parameters}"
                     task="{push_along_axis_task}" />
-                <Action ID="SetupMTCMoveAlongFrameAxis" axis="z" max_distance="0.2"
-                    min_distance="0.05" parameters="{parameters}" task="{push_along_axis_task}" />
+                <Action ID="SetupMTCMoveAlongFrameAxis" task="{push_along_axis_task}" hand_frame="manual_grasp_link" axis_frame="manual_grasp_link" axis_x="0.0" axis_y="0.0" axis_z="1.0" max_distance="0.2" min_distance="0.05" planning_group_name="manipulator" velocity_scale="0.05" acceleration_scale="0.05" />
                 <Action ID="SetupMTCUpdateGroupCollisionRule"
                     name="ForbidGripperCollisionWithOctomap" parameters="{parameters}"
                     task="{push_along_axis_task}" />

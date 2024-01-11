@@ -51,4 +51,4 @@ jobs:
           colcon test
       - if: always()
         run: |
-          colcon test-result
+          colcon test-result --verbose
