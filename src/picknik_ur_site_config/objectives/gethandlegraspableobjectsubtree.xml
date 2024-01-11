@@ -20,8 +20,10 @@
       </Decorator>
       <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.002" minimum_face_area="0" face_separation_threshold="1.0" graspable_objects="{handle_objects}" name="GetHandleGraspableObjectsFromMasks"/>
       <Decorator ID="ForEachGraspableObject" vector_in="{handle_objects}" out="{handle_object}">
-        <Action ID="ModifyObjectInPlanningScene" object="{handle_object}" apply_planning_scene_service="/apply_planning_scene"/>
-        <Action ID="ExtractGraspableObjectPose" graspable_object="{handle_object}" pose="{grasp_pose}"/>
+        <Control ID="Sequence">
+          <Action ID="ModifyObjectInPlanningScene" object="{handle_object}" apply_planning_scene_service="/apply_planning_scene"/>
+          <Action ID="ExtractGraspableObjectPose" graspable_object="{handle_object}" pose="{grasp_pose}"/>
+        </Control>
       </Decorator>
     </Control>
   </BehaviorTree>
