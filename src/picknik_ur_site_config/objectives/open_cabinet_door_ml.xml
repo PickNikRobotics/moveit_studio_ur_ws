@@ -39,7 +39,7 @@
                 grasp_pose="{detected_grasp_pose}"
                 hinge_axis_pose_start="{hinge_axis_pose_start}"
                 hinge_axis_pose_end="{hinge_axis_pose_end}" />
-            <Action ID="GetHingeAxisFromSurfaceSelection"
+            <Action ID="GetMoveAlongArcSubframes"
                 target_grasp_pose="{detected_grasp_pose}"
                 hinge_axis_pose_end="{hinge_axis_pose_end}"
                 hinge_axis_pose_start="{hinge_axis_pose_start}"
@@ -54,7 +54,7 @@
                     controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
                     task="{open_door_affordance_task}" />
                 <Action ID="SetupMTCCurrentState" task="{open_door_affordance_task}" />
-                <Action ID="SetupMTCAffordanceTemplate"
+                <Action ID="SetupMTCGraspThenMoveAlongArcPull"
                     name="SetupMTCOpenDoorAffordance"
                     grasp_pose="{affordance_grasp_pose}"
                     parameters="{parameters}"
