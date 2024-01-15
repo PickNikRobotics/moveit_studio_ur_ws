@@ -147,6 +147,9 @@ moveit_params:
   joint_limits:
     package: "picknik_ur_base_config"
     path: "config/moveit/joint_limits.yaml"
+  servo_joint_limits:
+    package: "picknik_ur_base_config"
+    path: "config/moveit/hard_joint_limits.yaml"
   pilz_cartesian_limits:
     package: "picknik_ur_base_config"
     path: "config/moveit/pilz_cartesian_limits.yaml"

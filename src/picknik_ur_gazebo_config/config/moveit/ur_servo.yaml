@@ -33,7 +33,7 @@ publish_joint_accelerations: false
 ## Plugins for smoothing outgoing commands
 use_smoothing: true
 smoothing_filter_plugin_name: "online_signal_smoothing::AccelerationLimitedPlugin"
-acceleration_filter_update_rate: 0.01 # [seconds] Must match the publish_period parameter   
+acceleration_filter_update_rate: 0.01 # [seconds] Must match the publish_period parameter
 
 ## MoveIt properties
 move_group_name: manipulator  # Often 'manipulator' or 'arm'
