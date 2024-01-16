@@ -177,7 +177,7 @@
       <parameters>$(find picknik_ur_gazebo_config)/config/control/picknik_ur5e.ros2_control.yaml</parameters>
       <ros>
         <remapping>/streaming_controller/commands:=/robot_controllers/commands</remapping>
-        <remapping>/joint_trajectory_controller/joint_trajectory:=/robot_controllers/joint_trajectory</remapping>
+        <remapping>/streaming_controller/joint_trajectory:=/robot_controllers/joint_trajectory</remapping>
       </ros>
     </plugin>
   </gazebo>
