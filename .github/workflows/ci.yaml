@@ -4,6 +4,10 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+  # Run every 6 hours Mon-Fri
+  schedule:
+    - chron: "* */6 * * 1-5"
+
 jobs:
   setup:
     runs-on: ubuntu-latest
