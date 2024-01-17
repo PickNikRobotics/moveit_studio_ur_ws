@@ -176,8 +176,8 @@
     <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
       <parameters>$(find picknik_ur_gazebo_config)/config/control/picknik_ur5e.ros2_control.yaml</parameters>
       <ros>
-        <remapping>/streaming_controller/commands:=/robot_controllers/commands</remapping>
-        <remapping>/streaming_controller/joint_trajectory:=/robot_controllers/joint_trajectory</remapping>
+        <remapping>/servo_controller/commands:=/robot_controllers/commands</remapping>
+        <remapping>/servo_controller/joint_trajectory:=/robot_controllers/joint_trajectory</remapping>
       </ros>
     </plugin>
   </gazebo>

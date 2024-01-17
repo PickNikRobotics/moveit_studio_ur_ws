@@ -13,7 +13,7 @@ controller_manager:
       type: position_controllers/GripperActionController
     robotiq_activation_controller:
       type: robotiq_controllers/RobotiqActivationController
-    streaming_controller:
+    servo_controller:
       type: joint_trajectory_controller/JointTrajectoryController
     admittance_controller_open_door:
       type: admittance_controller/AdmittanceController
@@ -118,7 +118,7 @@ joint_trajectory_controller_chained_open_door:
       wrist_3_joint:
         goal: 0.25
 
-streaming_controller:
+servo_controller:
   ros__parameters:
     joints:
       - shoulder_pan_joint
