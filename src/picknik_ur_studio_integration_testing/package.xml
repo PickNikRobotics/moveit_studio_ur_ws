@@ -13,8 +13,8 @@
 
   <test_depend>ament_cmake_gtest</test_depend>
   <test_depend>ament_lint_auto</test_depend>
-  <test_depend>moveit_studio_agent</test_depend>
-  <test_depend>moveit_studio_test_utils</test_depend>
+  <test_depend>moveit_pro_agent</test_depend>
+  <test_depend>moveit_pro_test_utils</test_depend>
   <test_depend>rclcpp</test_depend>
   <test_depend>ros_testing</test_depend>
 

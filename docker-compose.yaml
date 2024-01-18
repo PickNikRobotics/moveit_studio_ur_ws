@@ -79,7 +79,7 @@ services:
     extends: base
     profiles:
       - rviz
-    command: bash -c "ros2 launch moveit_studio_agent developer_rviz.launch.py"
+    command: bash -c "ros2 launch moveit_pro_agent developer_rviz.launch.py"
 
   # Starts MoveIt Setup Assistant for creating MoveIt configurations.
   setup_assistant:
@@ -104,7 +104,7 @@ services:
       - ./install/:/home/${USERNAME:-studio-user}/user_overlay_ws/install:rw
       - ./log/:/home/${USERNAME:-studio-user}/user_overlay_ws/log:rw
       - ./.ccache/:/home/${USERNAME:-studio-user}/.ccache:rw
-      - ${HOME}/.ros/log_moveit_studio:/home/${USERNAME:-studio-user}/.ros/log
+      - ${HOME}/.ros/log_moveit_pro:/home/${USERNAME:-studio-user}/.ros/log
       # Allow access to host hardware e.g. RealSense cameras
       - /dev:/dev
     command: sleep infinity

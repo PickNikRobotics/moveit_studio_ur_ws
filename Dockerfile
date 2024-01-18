@@ -83,7 +83,7 @@ RUN --mount=type=cache,target=/home/${USERNAME}/.ccache \
     colcon build
 
 # Set up the user's .bashrc file and shell.
-# RUN echo "source /moveit_studio_utils/setup_workspaces.sh && set +e" >> /home/${USERNAME}/.bashrc
+# RUN echo "source /moveit_pro_utils/setup_workspaces.sh && set +e" >> /home/${USERNAME}/.bashrc
 CMD ["/usr/bin/bash"]
 
 ###################################################################
@@ -106,5 +106,5 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         nano
 
 # Set up the user's .bashrc file and shell.
-# RUN echo "source /moveit_studio_utils/setup_workspaces.sh && set +e" >> /home/${USERNAME}/.bashrc
+# RUN echo "source /moveit_pro_utils/setup_workspaces.sh && set +e" >> /home/${USERNAME}/.bashrc
 CMD ["/usr/bin/bash"]

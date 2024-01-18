@@ -33,8 +33,8 @@ from launch_ros.actions import Node
 from launch.substitutions import ThisLaunchFileDir
 from launch.launch_description_sources import AnyLaunchDescriptionSource
 
-from moveit_studio_utils_py.launch_common import empty_gen
-from moveit_studio_utils_py.system_config import (
+from moveit_pro_utils_py.launch_common import empty_gen
+from moveit_pro_utils_py.system_config import (
     SystemConfigParser,
 )
 
@@ -54,7 +54,7 @@ def generate_launch_description():
     )
 
     protective_stop_manager_node = Node(
-        package="moveit_studio_ur_pstop_manager",
+        package="moveit_pro_ur_pstop_manager",
         executable="protective_stop_manager_node",
         name="protective_stop_manager_node",
         output="both",

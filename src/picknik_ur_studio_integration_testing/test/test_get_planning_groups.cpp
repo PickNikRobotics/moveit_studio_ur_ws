@@ -29,19 +29,19 @@
 #include <chrono>
 #include "rclcpp/rclcpp.hpp"
 
-#include <moveit_studio_agent/test/do_objective_test_fixture.hpp>
-#include <moveit_studio_agent_msgs/srv/get_planning_groups.hpp>
+#include <moveit_pro_agent/test/do_objective_test_fixture.hpp>
+#include <moveit_pro_agent_msgs/srv/get_planning_groups.hpp>
 
 namespace moveit_pro::agent::testing
 {
 
 TEST_F(ObjectiveFixture, CallGetPlanningGroupsService)
 {
-  rclcpp::Client<moveit_studio_agent_msgs::srv::GetPlanningGroups>::SharedPtr client =
-      node_->create_client<moveit_studio_agent_msgs::srv::GetPlanningGroups>("get_planning_groups");
+  rclcpp::Client<moveit_pro_agent_msgs::srv::GetPlanningGroups>::SharedPtr client =
+      node_->create_client<moveit_pro_agent_msgs::srv::GetPlanningGroups>("get_planning_groups");
 
   // Send request to /get_planning_groups service.
-  auto request = std::make_shared<moveit_studio_agent_msgs::srv::GetPlanningGroups::Request>();
+  auto request = std::make_shared<moveit_pro_agent_msgs::srv::GetPlanningGroups::Request>();
   ASSERT_TRUE(client->wait_for_service(std::chrono::seconds(1)));
   auto result = client->async_send_request(request);
 

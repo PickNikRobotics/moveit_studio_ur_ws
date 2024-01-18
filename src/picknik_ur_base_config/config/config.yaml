@@ -43,7 +43,7 @@ hardware:
     package: "picknik_ur_base_config"
     path: "launch/robot_drivers_to_persist.launch.py"
   hardware_launch_file:
-    package: "moveit_studio_agent"
+    package: "moveit_pro_agent"
     path: "launch/blank.launch.py"
 
   # Specify any additional launch files for running the robot in simulation mode.
@@ -53,7 +53,7 @@ hardware:
     package: "picknik_ur_base_config"
     path: "launch/sim/robot_drivers_to_persist_sim.launch.py"
   simulated_hardware_launch_file:
-    package: "moveit_studio_agent"
+    package: "moveit_pro_agent"
     path: "launch/blank.launch.py"
 
   # Configuration details for cameras and scene planning.

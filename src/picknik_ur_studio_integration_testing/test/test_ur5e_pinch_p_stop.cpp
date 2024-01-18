@@ -26,7 +26,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <moveit_studio_agent/test/do_objective_test_fixture.hpp>
+#include <moveit_pro_agent/test/do_objective_test_fixture.hpp>
 
 #include <chrono>
 
@@ -34,15 +34,15 @@
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <geometry_msgs/msg/quaternion.hpp>
 #include <geometry_msgs/msg/vector3.hpp>
-#include <moveit_studio_agent_msgs/srv/set_transform.hpp>
-#include <moveit_studio_sdk_msgs/msg/behavior_parameter.hpp>
-#include <moveit_studio_agent_msgs/srv/store_joint_state.hpp>
+#include <moveit_pro_agent_msgs/srv/set_transform.hpp>
+#include <moveit_pro_sdk_msgs/msg/behavior_parameter.hpp>
+#include <moveit_pro_agent_msgs/srv/store_joint_state.hpp>
 #include <rclcpp/rclcpp.hpp>
 
 namespace
 {
-using BehaviorParameter = moveit_studio_sdk_msgs::msg::BehaviorParameter;
-using BehaviorParameterDescription = moveit_studio_sdk_msgs::msg::BehaviorParameterDescription;
+using BehaviorParameter = moveit_pro_sdk_msgs::msg::BehaviorParameter;
+using BehaviorParameterDescription = moveit_pro_sdk_msgs::msg::BehaviorParameterDescription;
 
 constexpr auto kServiceWaitTime = std::chrono::seconds{ 1 };
 }  // namespace
@@ -51,7 +51,7 @@ namespace moveit_pro::agent::testing
 {
 using Point = geometry_msgs::msg::Point;
 using PoseStamped = geometry_msgs::msg::PoseStamped;
-using StoreJointState = moveit_studio_agent_msgs::srv::StoreJointState;
+using StoreJointState = moveit_pro_agent_msgs::srv::StoreJointState;
 using Quaternion = geometry_msgs::msg::Quaternion;
 using TransformStamped = geometry_msgs::msg::TransformStamped;
 using Vector3 = geometry_msgs::msg::Vector3;

@@ -2,7 +2,7 @@ sensors:
   - scene_scan_camera
 scene_scan_camera:
   # The name of the Octomap updater plugin that we are using.
-  sensor_plugin: "moveit_studio_plugins/PointCloudServiceOctomapUpdater"
+  sensor_plugin: "moveit_pro_plugins/PointCloudServiceOctomapUpdater"
   # Specifies the topic to listen on for a point cloud.
   # Set to an empty topic to disable.
   point_cloud_service_name: "/point_cloud_service"

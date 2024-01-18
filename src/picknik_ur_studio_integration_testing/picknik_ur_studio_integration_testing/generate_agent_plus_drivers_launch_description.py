@@ -54,7 +54,7 @@ from launch.substitutions import (
 )
 from launch_ros.substitutions import FindPackageShare
 
-from moveit_studio_utils_py.system_config import (
+from moveit_pro_utils_py.system_config import (
     SystemConfigParser,
 )
 
@@ -129,7 +129,7 @@ def generate_agent_plus_drivers_launch_description(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution(
                 [
-                    FindPackageShare("moveit_studio_agent"),
+                    FindPackageShare("moveit_pro_agent"),
                     "launch",
                     "studio_agent.launch.py",
                 ]
@@ -146,7 +146,7 @@ def generate_agent_plus_drivers_launch_description(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution(
                 [
-                    FindPackageShare("moveit_studio_agent"),
+                    FindPackageShare("moveit_pro_agent"),
                     "launch",
                     "robot_drivers.launch.py",
                 ]

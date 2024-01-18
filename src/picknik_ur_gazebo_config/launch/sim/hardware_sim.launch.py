@@ -35,8 +35,8 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, OpaqueFunction
 from launch_ros.actions import Node
 
-from moveit_studio_utils_py.launch_common import get_launch_file, get_ros_path
-from moveit_studio_utils_py.system_config import get_config_folder, SystemConfigParser
+from moveit_pro_utils_py.launch_common import get_launch_file, get_ros_path
+from moveit_pro_utils_py.system_config import get_config_folder, SystemConfigParser
 
 
 def path_pattern_change_for_gazebo(urdf_string):
