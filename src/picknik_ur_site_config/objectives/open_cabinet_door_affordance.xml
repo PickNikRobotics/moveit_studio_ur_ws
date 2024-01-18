@@ -5,7 +5,6 @@
             <SubTree ID="Re-Zero Force-Torque Sensors" />
             <!-- Set admittance control parameters at the start of the Objective -->
             <!-- Wrap in a ForceSuccess as Sim doesn't have the admittance controller loaded -->
-            <!-- See https://github.com/PickNikRobotics/moveit_pro/issues/3406 -->
             <Decorator ID="ForceSuccess">
                 <Action ID="UpdateAdmittanceController" config_file_name="open_cabinet_door_admittance_controller_config.yaml"/>
             </Decorator>
