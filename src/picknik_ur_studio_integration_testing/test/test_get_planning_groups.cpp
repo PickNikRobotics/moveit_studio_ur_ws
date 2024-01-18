@@ -32,7 +32,7 @@
 #include <moveit_studio_agent/test/do_objective_test_fixture.hpp>
 #include <moveit_studio_agent_msgs/srv/get_planning_groups.hpp>
 
-namespace moveit_studio::agent::testing
+namespace moveit_pro::agent::testing
 {
 
 TEST_F(ObjectiveFixture, CallGetPlanningGroupsService)
@@ -52,7 +52,7 @@ TEST_F(ObjectiveFixture, CallGetPlanningGroupsService)
   ASSERT_GT(result.get()->planning_groups.size(), 0);
 }
 
-}  // namespace moveit_studio::agent::testing
+}  // namespace moveit_pro::agent::testing
 
 int main(int argc, char** argv)
 {

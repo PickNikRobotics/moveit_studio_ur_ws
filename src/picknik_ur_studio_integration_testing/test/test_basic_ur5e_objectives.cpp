@@ -45,7 +45,7 @@ using BehaviorParameterDescription = moveit_studio_sdk_msgs::msg::BehaviorParame
 constexpr auto kServiceWaitTime = std::chrono::seconds{ 1 };
 }  // namespace
 
-namespace moveit_studio::agent::testing
+namespace moveit_pro::agent::testing
 {
 using Point = geometry_msgs::msg::Point;
 using PoseStamped = geometry_msgs::msg::PoseStamped;
@@ -240,7 +240,7 @@ TEST_F(ObjectiveFixture, DISABLED_TestOpenDoorAffordance)
 
   EXPECT_TRUE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal), 30.0));
 }
-}  // namespace moveit_studio::agent::testing
+}  // namespace moveit_pro::agent::testing
 
 int main(int argc, char** argv)
 {

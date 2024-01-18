@@ -70,7 +70,7 @@
     <origin xyz="0.0 0.0 0.134" rpy="0.0 0.0 ${pi}" />
   </joint>
 
-  <!-- Moveit Studio requires a link name called manual_grasp_link to perform quick tasks such as inspect surface -->
+  <!-- MoveIt Pro requires a link name called manual_grasp_link to perform quick tasks such as inspect surface -->
   <link name="manual_grasp_link" />
   <joint name="manual_grasp_joint" type="fixed">
     <parent link="grasp_link" />

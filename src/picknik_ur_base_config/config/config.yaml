@@ -1,10 +1,10 @@
 ###############################################################
 #
-#  This configures the robot to work with moveit studio
+#  This configures the robot to work with MoveIt Pro
 #
 ###############################################################
 
-# Baseline hardware configuration parameters for MoveIt Studio.
+# Baseline hardware configuration parameters for MoveIt Pro.
 # [Required]
 hardware:
   # Used by the ur_description package to set kinematics and geometry for a specific robot type.
@@ -19,16 +19,16 @@ hardware:
   # [Required]
   simulated: ${MOCK_HARDWARE:-true}
 
-  # If the MoveIt Studio Agent should launch the ros2 controller node.
+  # If the MoveIt Pro Agent should launch the ros2 controller node.
   # [Optional, default=True]
   launch_control_node: True
 
-  # If the MoveIt Studio Agent should launch the robot state publisher.
+  # If the MoveIt Pro Agent should launch the robot state publisher.
   # This should be false if you are launching the robot state publisher as part of drivers.
   # [Optional, default=True]
   launch_robot_state_publisher: True
 
-  # If the MoveIt Studio Agent should launch cameras when simulated.
+  # If the MoveIt Pro Agent should launch cameras when simulated.
   # This must be False when using mock hardware, since there are no cameras simulated.
   # [Optional, default=True]
   launch_cameras_when_simulated: False
@@ -109,7 +109,7 @@ ros_global_params:
   # [Optional, default=False]
   use_sim_time: False
 
-# Configure additional, optional features in MoveIt Studio.
+# Configure additional, optional features in MoveIt Pro.
 # [Optional]
 optional_feature_params:
   # Whether or not to use the Formant bridge for over-the-internet comms.
@@ -163,10 +163,10 @@ moveit_params:
     allowed_goal_duration_margin: 5.0
     allowed_start_tolerance: 0.01
 
-# Additional configurable parameters for the MoveIt Studio user interface.
+# Additional configurable parameters for the MoveIt Pro user interface.
 # [Required]
 ui_params:
-  # By default, MoveIt Studio uses a frame called "manual_grasp_link" for tool grasp pose rendering
+  # By default, MoveIt Pro uses a frame called "manual_grasp_link" for tool grasp pose rendering
   # and planning.
   # [Required]
   servo_endpoint_frame_id: "manual_grasp_link"
@@ -177,7 +177,7 @@ ros2_control:
   config:
     package: "picknik_ur_base_config"
     path: "config/control/picknik_ur.ros2_control.yaml"
-  # MoveIt Studio will load and activate these controllers at start up to ensure they are available.
+  # MoveIt Pro will load and activate these controllers at start up to ensure they are available.
   # If not specified, it is up to the user to ensure the appropriate controllers are active and available
   # for running the application.
   # [Optional, default=[]]
@@ -194,7 +194,7 @@ ros2_control:
     - "joint_trajectory_controller"
     - "admittance_controller_open_door"
     - "joint_trajectory_controller_chained_open_door"
-  # Any controllers here will not be spawned by MoveIt Studio.
+  # Any controllers here will not be spawned by MoveIt Pro.
   # [Optional, default=[]]
   controllers_not_managed: []
   # Optionally configure remapping rules to let multiple controllers receive commands on the same topic.
@@ -213,10 +213,10 @@ objectives:
   # List of plugins for loading custom behaviors.
   # [Required]
   behavior_loader_plugins:
-    # This plugin will load the core MoveIt Studio behaviors.
+    # This plugin will load the core MoveIt Pro behaviors.
     # Add additional plugin loaders as needed.
     core:
-      - "moveit_studio::behaviors::CoreBehaviorsLoader"
+      - "moveit_pro::behaviors::CoreBehaviorsLoader"
   # Specify source folder for objectives
   # [Required]
   objective_library_paths:
