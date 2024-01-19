@@ -19,7 +19,7 @@
               <SubTree ID="Open Gripper"/>
             </Decorator>
             <!-- Joint sliders: Keep listening for stored joint states and interpolate to joint state -->
-            <Decorator ID="ForceSuccess" _skipIf="teleop_str != 5">
+            <Decorator ID="ForceSuccess" _while="teleop_str == 5">
               <SubTree ID="Interpolate to Joint State"/>
             </Decorator>
             <!-- Interactive marker and waypoint buttons both send joint states -->
