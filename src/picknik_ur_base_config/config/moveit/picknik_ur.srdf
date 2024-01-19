@@ -10,7 +10,7 @@
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
     <group name="manipulator">
-        <chain base_link="base_link" tip_link="manual_grasp_link"/>
+        <chain base_link="base_link" tip_link="grasp_link"/>
     </group>
     <group name="gripper">
         <link name="robotiq_85_base_link"/>

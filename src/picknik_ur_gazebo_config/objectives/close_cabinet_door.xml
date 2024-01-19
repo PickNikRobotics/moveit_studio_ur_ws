@@ -10,9 +10,9 @@
                 <Action ID="InitializeMTCTask" task_id="close_cabinet_door" controller_names="/joint_trajectory_controller" task="{close_cabinet_door_task}"/>
                 <Action ID="SetupMTCCurrentState" task="{close_cabinet_door_task}"/>
                 <Action ID="GetPoseFromUser" parameter_name="close_cabinet_door.target_pose" parameter_value="{target_pose}" />
-                <Action ID="SetupMTCMoveToPose" ik_frame="manual_grasp_link" planning_group_name="manipulator" target_pose="{target_pose}" task="{close_cabinet_door_task}" use_all_planners="false"/>
+                <Action ID="SetupMTCMoveToPose" ik_frame="grasp_link" planning_group_name="manipulator" target_pose="{target_pose}" task="{close_cabinet_door_task}" use_all_planners="false"/>
                 <Action ID="SetupMTCUpdateGroupCollisionRule" name="AllowGripperCollisionWithOctomap" parameters="{parameters}" task="{close_cabinet_door_task}" />
-                <Action ID="SetupMTCMoveAlongFrameAxis" task="{push_along_axis_task}" hand_frame="manual_grasp_link" axis_frame="manual_grasp_link" axis_x="0.0" axis_y="0.0" axis_z="1.0" max_distance="1.5" min_distance="0.05" planning_group_name="manipulator" velocity_scale="0.05" acceleration_scale="0.05" />
+                <Action ID="SetupMTCMoveAlongFrameAxis" task="{push_along_axis_task}" hand_frame="grasp_link" axis_frame="grasp_link" axis_x="0.0" axis_y="0.0" axis_z="1.0" max_distance="1.5" min_distance="0.05" planning_group_name="manipulator" velocity_scale="0.05" acceleration_scale="0.05" />
                 <Action ID="SetupMTCUpdateGroupCollisionRule" name="ForbidGripperCollisionWithOctomap" parameters="{parameters}" task="{close_cabinet_door_task}" />
                 <Action ID="PlanMTCTask" solution="{full_close_cabinet_door_solution}" task="{close_cabinet_door_task}"/>
                 <Action ID="SplitMTCSolution" solution_in="{full_close_cabinet_door_solution}" index="3" solution_out_1="{move_to_approach_solution}" solution_out_2="{push_solution}" />
@@ -20,7 +20,7 @@
                 <Action ID="ExecuteMTCTask" solution="{move_to_approach_solution}"/>
                 <Action ID="SaveCurrentState" saved_robot_state="{pre_approach_robot_state}" />
                 <Control ID="Parallel" success_count="1" failure_count="1">
-                    <Action ID="ForceExceedsThreshold" wrench_topic_name="/force_torque_sensor_broadcaster/wrench" hand_frame_name="manual_grasp_link" wrench_frame_name="tool0" minimum_consecutive_wrench_values="10" force_threshold="10.0"/>
+                    <Action ID="ForceExceedsThreshold" wrench_topic_name="/force_torque_sensor_broadcaster/wrench" hand_frame_name="grasp_link" wrench_frame_name="tool0" minimum_consecutive_wrench_values="10" force_threshold="10.0"/>
                     <Action ID="ExecuteMTCTask" solution="{push_solution}"/>
                 </Control>
             </Control>
