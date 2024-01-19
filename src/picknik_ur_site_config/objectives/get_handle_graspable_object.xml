@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<root BTCPP_format="4" main_tree_to_execute="GetHandleGraspableObjectSubtree">
+<root BTCPP_format="4" main_tree_to_execute="GetHandleGraspableObject">
   <!-- ////////// -->
-  <BehaviorTree ID="GetHandleGraspableObjectSubtree">
+  <BehaviorTree ID="GetHandleGraspableObject">
     <Control ID="Sequence" name="TopLevelSequence">
       <Control ID="Sequence" name="GetDepthImage">
         <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>

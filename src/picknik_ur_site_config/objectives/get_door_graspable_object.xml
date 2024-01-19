@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<root BTCPP_format="4" main_tree_to_execute="GetDoorGraspableObjectSubtree">
+<root BTCPP_format="4" main_tree_to_execute="GetDoorGraspableObject">
   <!-- ////////// -->
-  <BehaviorTree ID="GetDoorGraspableObjectSubtree">
+  <BehaviorTree ID="GetDoorGraspableObject">
     <Control ID="Sequence" name="TopLevelSequence">
       <!-- Load the objectives needed for this behavior -->
       <!-- Update the admittance controller and reset the FTS -->
