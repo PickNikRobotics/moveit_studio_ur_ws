@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(picknik_ur_studio_integration_testing)
+project(picknik_ur_integration_testing)
 
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)

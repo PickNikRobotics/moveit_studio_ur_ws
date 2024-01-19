@@ -33,18 +33,17 @@ import unittest
 
 import launch_testing
 
-from picknik_ur_studio_integration_testing.generate_agent_plus_drivers_launch_description import (
+from picknik_ur_integration_testing.generate_agent_plus_drivers_launch_description import (
     generate_agent_plus_drivers_launch_description,
 )
 
 
 def generate_test_description():
     return generate_agent_plus_drivers_launch_description(
-        gtest_name="test_ur5e_pinch_p_stop",
+        gtest_name="test_get_planning_groups",
         env_vars={
-            # Load site config for simulated UR-5e.
-            # Note: we want a configuration without the tool_changer_link for this one as it will throw off the collision check.
-            "STUDIO_CONFIG_PACKAGE": "picknik_001_ur5e_config",
+            # Load site config for simulated UR-5e
+            "STUDIO_CONFIG_PACKAGE": "picknik_ur_site_config",
             "MOCK_HARDWARE": "true",
         },
     )

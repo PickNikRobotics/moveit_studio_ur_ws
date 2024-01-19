@@ -33,7 +33,7 @@ import unittest
 
 import launch_testing
 
-from picknik_ur_studio_integration_testing.generate_agent_plus_drivers_launch_description import (
+from picknik_ur_integration_testing.generate_agent_plus_drivers_launch_description import (
     generate_agent_plus_drivers_launch_description,
 )
 
