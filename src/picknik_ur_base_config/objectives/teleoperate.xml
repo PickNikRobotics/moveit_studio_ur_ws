@@ -18,12 +18,16 @@
             <Decorator ID="ForceSuccess" _skipIf="teleop_str != 6">
               <SubTree ID="Open Gripper"/>
             </Decorator>
-            <!-- Joint sliders: Keep listening for stored joint states and interpolate to joint state -->
+            <!-- Joint sliders interpolate to joint state -->
             <Decorator ID="ForceSuccess" _while="teleop_str == 5">
               <SubTree ID="Interpolate to Joint State"/>
             </Decorator>
-            <!-- Interactive marker and waypoint buttons both send joint states -->
-            <Decorator ID="ForceSuccess" _while="teleop_str == 3 || teleop_str == 4">
+            <!-- Interactive markers move to pose -->
+            <Decorator ID="ForceSuccess" _while="teleop_str == 4">
+              <SubTree ID="Move to Pose"/>
+            </Decorator>
+            <!--Waypoint buttons move to joint state -->
+            <Decorator ID="ForceSuccess" _while="teleop_str == 3">
               <SubTree ID="Move to Joint State"/>
             </Decorator>
             <!-- Cartesian and joint jogging -->
