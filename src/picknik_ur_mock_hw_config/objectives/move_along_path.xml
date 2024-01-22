@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<root BTCPP_format="4" main_tree_to_execute="Move along Path">
+<root BTCPP_format="4" main_tree_to_execute="Move Along Path">
   <!-- ////////// -->
-  <BehaviorTree ID="Move along Path" _description="Moves the robot tip on a rectangular path." _favorite="true" _hardcoded="false">
+  <BehaviorTree ID="Move Along Path" _description="Moves the robot tip on a rectangular path." _favorite="true" _hardcoded="false">
     <Control ID="Sequence" name="TopLevelSequence">
       <Control ID="Sequence">
         <Action ID="CreateStampedPose" reference_frame="base_link" position_xyz="-0.4;0.4;-0.0" orientation_xyzw="0.0;1.0;0.0;0.0" stamped_pose="{stamped_pose}"/>

@@ -26,7 +26,7 @@
     <Control ID="Sequence">
       <Action ID="InitializeMTCTask" task_id="move_to_pose" controller_names="/joint_trajectory_controller" task="{move_to_pose_task}"/>
       <Action ID="SetupMTCCurrentState" task="{move_to_pose_task}"/>
-      <Action ID="SetupMTCMoveToPose" ik_frame="manual_grasp_link" planning_group_name="manipulator" target_pose="{target_pose}" use_all_planners="false" task="{move_to_pose_task}"/>
+      <Action ID="SetupMTCMoveToPose" ik_frame="grasp_link" planning_group_name="manipulator" target_pose="{target_pose}" use_all_planners="false" task="{move_to_pose_task}"/>
       <Action ID="PlanMTCTask" task="{move_to_pose_task}" solution="{move_to_pose_solution}"/>
       <Action ID="ExecuteMTCTask" solution="{move_to_pose_solution}"/>
     </Control>
