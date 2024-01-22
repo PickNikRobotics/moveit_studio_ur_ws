@@ -9,7 +9,6 @@
       <SubTree ID="Re-Zero Force-Torque Sensors" _collapsed="true"/>
       <SubTree ID="Update Admittance Controller" _collapsed="true"/>
       <!-- Look at the desired location where objects (door) will be present -->
-      <!-- TODO: need to be directly in front of door for this behavior until () is fixed. -->
       <Action ID="MoveToWaypoint" waypoint_name="Extended Right" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true" constraints=""/>
       <SubTree ID="GetDoorGraspableObject" _collapsed="true"/>
 
