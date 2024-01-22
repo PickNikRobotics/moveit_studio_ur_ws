@@ -91,6 +91,7 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:robotiq_gripper>
 
+  <!-- This link aligns the axes of the grasp frame to our required convention for motion planning tasks. -->
   <link name="grasp_link" />
   <joint name="grasp_link_joint" type="fixed">
     <parent link="gripper_mount_link" />
