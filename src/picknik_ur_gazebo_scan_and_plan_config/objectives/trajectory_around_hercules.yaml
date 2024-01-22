@@ -1,41 +1,41 @@
 ---
 header:
-frame_id: "world"
+  frame_id: "world"
 pose:
-position:
-  x: 0.4
-  y: -0.2
-  z: 0.4
-orientation:
-  x: -0.6532815
-  y: -0.2705981
-  z: 0.270598
-  w: 0.6532815
+  position:
+    x: 0.4
+    y: -0.2
+    z: 0.36
+  orientation:
+    x: -0.6811546
+    y: -0.2585376
+    z: 0.2821434
+    w: 0.6241649
 
 ---
 header:
-frame_id: "world"
+  frame_id: "world"
 pose:
-position:
-  x: 0.0
-  y: -0.2
-  z: 0.4
-orientation:
-  x: -0.7071068
-  y: 0.0
-  z: 0.0
-  w: 0.7071068
+  position:
+    x: 0.0
+    y: -0.2
+    z: 0.36
+  orientation:
+    x: -0.7372764
+    y: 0.0
+    z: 0.0
+    w: 0.6755912
 
 ---
 header:
-frame_id: "world"
+  frame_id: "world"
 pose:
-position:
-  x: -0.4
-  y: -0.2
-  z: 0.4
-orientation:
-  x: -0.6532815
-  y: 0.2705981
-  z: -0.270598
-  w: 0.6532815
+  position:
+    x: -0.4
+    y: -0.2
+    z: 0.36
+  orientation:
+    x: -0.6811546
+    y: 0.2585376
+    z: -0.2821434
+    w: 0.6241649
