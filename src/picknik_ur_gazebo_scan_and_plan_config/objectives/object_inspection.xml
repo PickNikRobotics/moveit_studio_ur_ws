@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Object Inspection">
   <!-- ////////// -->
-  <BehaviorTree ID="Object Inspection" _description="Object location estimated first with ICP; then, the object is 3D-reconstructed from multiple views. " _favorite="true" _hardcoded="false">
+  <BehaviorTree ID="Object Inspection" _description="Estimate the pose of an object using ICP; then, perform a 3D reconstruction of the object from multiple views." _favorite="true" _hardcoded="false">
     <Control ID="Sequence" name="TopLevelSequence">
       <Action ID="ClearSnapshot"/>
       <Action ID="MoveToWaypoint" waypoint_name="Look at Object" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
