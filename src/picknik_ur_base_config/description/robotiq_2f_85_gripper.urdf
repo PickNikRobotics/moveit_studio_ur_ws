@@ -11,7 +11,7 @@
     <color rgba="0.1 0.1 0.1 1"/>
   </material>
   <!-- Create base link -->
-  <!-- Moveit Studio requires a link name called manual_grasp_link to perform quick tasks such as inspect surface -->
+  <!-- Moveit Pro requires a link name called manual_grasp_link to perform quick tasks such as inspect surface -->
   <link name="manual_grasp_link"/>
   <link name="tool0"/>
   <joint name="flange-tool0" type="fixed">

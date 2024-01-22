@@ -1,5 +1,5 @@
 # Placeholders for camera configuration.
-# Cameras are not a requirement for running MoveIt Studio, but this is provided as an
+# Cameras are not a requirement for running MoveIt Pro, but this is provided as an
 # example for plugging in Realsense D415 camera topics to the application.
 
 - scene_camera:

@@ -124,7 +124,7 @@ def generate_agent_plus_drivers_launch_description(
         system_config_parser.get_objective_library_paths() + [str(test_objective_path)]
     )
 
-    # Get launch description for Studio Agent nodes
+    # Get launch description for MoveIt Pro Agent nodes
     agent_launch_description = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution(
@@ -141,7 +141,7 @@ def generate_agent_plus_drivers_launch_description(
         }.items(),
     )
 
-    # Get launch description for Studio robot driver nodes
+    # Get launch description for MoveIt Pro robot driver nodes
     robot_driver_launch_description = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution(

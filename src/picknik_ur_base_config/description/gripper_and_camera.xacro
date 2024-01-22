@@ -8,7 +8,7 @@
   <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro"/>
 
   <!-- Create base link -->
-  <!-- Moveit Studio requires a link name called manual_grasp_link to perform built-in Objectives such as inspect surface without modification. -->
+  <!-- Moveit Pro requires a link name called manual_grasp_link to perform built-in Objectives such as inspect surface without modification. -->
   <link name="manual_grasp_link" />
 
   <link name="tool0" />
