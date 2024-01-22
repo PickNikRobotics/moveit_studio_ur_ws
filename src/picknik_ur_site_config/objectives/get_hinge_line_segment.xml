@@ -20,10 +20,10 @@
       <Control ID="Sequence">
         <Action ID="GetPointCloudFromMask3D" point_cloud="{point_cloud}" mask3d="{mask3d}" point_cloud_fragment="{point_cloud_fragment}"/>
         <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
-        <Action ID="FitLineSegmentToMask3D" point_cloud="{point_cloud_fragment}" mask3d="{mask3d}" base_frame="world" max_distance_from_line_for_inlier="0.02" line_segment_startpoint="{line_segment_startpoint}" line_segment_endpoint="{line_segment_endpoint}"/>
+        <Action ID="FitLineSegmentToMask3D" point_cloud="{point_cloud_fragment}" mask3d="{mask3d}" base_frame="world" max_distance_from_line_for_inlier="0.02" line_segment_start_point="{line_segment_start_point}" line_segment_end_point="{line_segment_end_point}"/>
         <Action ID="LogMessage" message="Successfully fit a Line Segment for the Hinge" log_level="warn"/>
-        <Action ID="SavePoseStampedToYaml" yaml_filename="line_startpoint" namespace="" message="{line_segment_startpoint}"/>
-        <Action ID="SavePoseStampedToYaml" yaml_filename="line_endpoint" namespace="" message="{line_segment_endpoint}"/>
+        <Action ID="SavePoseStampedToYaml" yaml_filename="line_startpoint" namespace="" message="{line_segment_start_point}"/>
+        <Action ID="SavePoseStampedToYaml" yaml_filename="line_endpoint" namespace="" message="{line_segment_end_point}"/>
       </Control>
     </Control>
   </BehaviorTree>
