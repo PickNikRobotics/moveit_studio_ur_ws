@@ -7,32 +7,29 @@
       <Control ID="Parallel" success_count="1" failure_count="1">
         <Action ID="DoTeleoperateAction" enable_user_interaction="{enable_user_interaction}" user_interaction_prompt="{user_interaction_prompt}" initial_teleop_mode="{initial_teleop_mode}" current_teleop_mode="{teleop_mode}"/>
         <Decorator ID="KeepRunningUntilFailure">
-          <Action ID="Script" code="teleop_str := teleop_mode"/>
-        </Decorator>
-        <Decorator ID="KeepRunningUntilFailure">
           <Control ID="Sequence">
             <!-- Closing and opening the gripper -->
-            <Decorator ID="ForceSuccess" _skipIf="teleop_str != 7">
+            <Decorator ID="ForceSuccess" _skipIf="teleop_mode != 7">
               <SubTree ID="Close Gripper"/>
             </Decorator>
-            <Decorator ID="ForceSuccess" _skipIf="teleop_str != 6">
+            <Decorator ID="ForceSuccess" _skipIf="teleop_mode != 6">
               <SubTree ID="Open Gripper"/>
             </Decorator>
             <!-- Joint sliders interpolate to joint state -->
-            <Decorator ID="ForceSuccess" _while="teleop_str == 5">
+            <Decorator ID="ForceSuccess" _while="teleop_mode == 5">
               <SubTree ID="Interpolate to Joint State"/>
             </Decorator>
             <!-- Interactive markers move to pose -->
-            <Decorator ID="ForceSuccess" _while="teleop_str == 4">
+            <Decorator ID="ForceSuccess" _while="teleop_mode == 4">
               <SubTree ID="Move to Pose"/>
             </Decorator>
-            <!--Waypoint buttons move to joint state -->
-            <Decorator ID="ForceSuccess" _while="teleop_str == 3">
+            <!-- Waypoint buttons move to joint state -->
+            <Decorator ID="ForceSuccess" _while="teleop_mode == 3">
               <SubTree ID="Move to Joint State"/>
             </Decorator>
             <!-- Cartesian and joint jogging -->
-            <Action ID="TeleoperateTwist" controller_name="servo_controller" _while="teleop_str == 2"/>
-            <Action ID="TeleoperateJointJog" controller_name="servo_controller" _while="teleop_str == 1"/>
+            <Action ID="TeleoperateTwist" controller_name="servo_controller" _while="teleop_mode == 2"/>
+            <Action ID="TeleoperateJointJog" controller_name="servo_controller" _while="teleop_mode == 1"/>
           </Control>
         </Decorator>
       </Control>
