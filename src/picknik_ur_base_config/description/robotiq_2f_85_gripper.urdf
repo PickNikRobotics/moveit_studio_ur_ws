@@ -11,13 +11,13 @@
     <color rgba="0.1 0.1 0.1 1"/>
   </material>
   <!-- Create base link -->
-  <!-- Moveit Studio requires a link name called manual_grasp_link to perform quick tasks such as inspect surface -->
-  <link name="manual_grasp_link"/>
+  <!-- We use a link name called grasp_link to perform quick tasks such as inspect surface -->
+  <link name="grasp_link"/>
   <link name="tool0"/>
   <joint name="flange-tool0" type="fixed">
-    <parent link="manual_grasp_link"/>
+    <parent link="grasp_link"/>
     <child link="tool0"/>
-    <origin rpy="0.08726646259971647 0 -3.141592653589793" xyz="0.0 -0.016124 -0.18430"/>
+    <origin rpy="0 0 -3.141592653589793" xyz="0.0 -0.016124 -0.18430"/>
   </joint>
   <link name="tool_changer_tool0"/>
   <joint name="tool_side_joint" type="fixed">
