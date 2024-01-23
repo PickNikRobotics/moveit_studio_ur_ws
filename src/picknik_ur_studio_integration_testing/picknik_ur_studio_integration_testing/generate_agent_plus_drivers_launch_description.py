@@ -114,7 +114,7 @@ def generate_agent_plus_drivers_launch_description(
     )
 
     # The agent looks for objective XML files in the user folder
-    # <HOME>/.config/moveit_studio/objectives
+    # <HOME>/.config/moveit_pro/objectives
     # This folder is created by the REST API which is executed before the agent.
     # While testing the agent alone, this folder does not exist so we need to
     # point the agent to an alternate set of locations defined by test_objective_path.
