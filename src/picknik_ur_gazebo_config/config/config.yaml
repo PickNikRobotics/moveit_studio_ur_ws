@@ -88,7 +88,7 @@ octomap_manager:
 ros2_control:
   controllers_active_at_startup:
     - "joint_state_broadcaster"
-    - "streaming_controller"
+    - "servo_controller"
     - "robotiq_gripper_controller"
   controllers_inactive_at_startup:
     - "joint_trajectory_controller"

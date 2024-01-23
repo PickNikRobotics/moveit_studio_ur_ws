@@ -147,6 +147,9 @@ moveit_params:
   joint_limits:
     package: "picknik_ur_base_config"
     path: "config/moveit/joint_limits.yaml"
+  servo_joint_limits:
+    package: "picknik_ur_base_config"
+    path: "config/moveit/hard_joint_limits.yaml"
   pilz_cartesian_limits:
     package: "picknik_ur_base_config"
     path: "config/moveit/pilz_cartesian_limits.yaml"
@@ -184,7 +187,7 @@ ros2_control:
     - "force_torque_sensor_broadcaster"
     - "robotiq_gripper_controller"
     - "joint_state_broadcaster"
-    - "streaming_controller"
+    - "servo_controller"
     - "io_and_status_controller"
     - "robotiq_activation_controller"
   # Load but do not start these controllers so they can be activated later if needed.
