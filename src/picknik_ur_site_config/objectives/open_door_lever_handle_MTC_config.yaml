@@ -1,7 +1,7 @@
 SetupMTCGraspAndTwistThenMoveAlongArcPush:
   arm_group_name: "manipulator"
   end_effector_group_name: "gripper"
-  ik_frame_name: "manual_grasp_link"
+  ik_frame_name: "grasp_link"
 
   # List of controllers to use during the stages that interact with the door.
   move_along_arc_controllers: "/joint_trajectory_controller_chained_open_door /admittance_controller_open_door /robotiq_gripper_controller"
