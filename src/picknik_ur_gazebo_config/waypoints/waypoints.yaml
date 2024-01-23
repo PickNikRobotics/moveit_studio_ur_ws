@@ -383,6 +383,31 @@
         nanosec: 0
         sec: 0
     name:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    position:
+    - -0.01950116734887175
+    - -3.2546306424581943
+    - 1.22436212111886
+    - -2.5529490373427066
+    - -0.13498686942518082
+    - 1.3589808032170339
+    velocity: []
+  name: Extended Right 2
+- description: ''
+  favorite: true
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
     - shoulder_pan_joint
     - shoulder_lift_joint
     - elbow_joint

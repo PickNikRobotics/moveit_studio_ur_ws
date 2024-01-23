@@ -21,7 +21,6 @@
       <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
       <Action ID="GetMasks2DAction" image="{image}" action_name="get_masks_2d_maskrcnn" min_confidence="0.8" max_nms_iou="0.8" min_relative_area="0.05" max_relative_area="0.8" timeout_sec="5.0" masks2d="{masks2d}" valid_classes="space booth cabinet door"/>
       <Action ID="GetMasks3DFromMasks2D" point_cloud="{point_cloud}" masks2d="{masks2d}" camera_info="{camera_info}" masks3d="{masks3d}"/>
-      <Action ID="LogMessage" message="Found a mask for the door." log_level="warn"/>
       <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
         <Control ID="Sequence">
           <Action ID="GetPointCloudFromMask3D" point_cloud="{point_cloud}" mask3d="{mask3d}" point_cloud_fragment="{point_cloud_fragment}"/>
@@ -35,7 +34,7 @@
         </Decorator>
       </Decorator>
       <Action ID="ModifyObjectInPlanningScene" object="{door_object}" apply_planning_scene_service="/apply_planning_scene"/>
-      <Action ID="CreateGraspableObject" px="0.0" py="0.0" pz="0.0" rx="0.0" ry="0.0" rz="0.0" dx="0.1" dy="0.1" dz="0.1" frame_id="world" object_id="object" generate_top_face="true" generate_front_face="true" generate_side_faces="true" cuboid_object="{cuboid_object}"/>
+      <Action ID="LogMessage" message="Found a GraspableObject for the door." log_level="warn"/>
     </Control>
   </BehaviorTree>
 </root>

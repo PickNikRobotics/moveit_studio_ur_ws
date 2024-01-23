@@ -2,7 +2,7 @@
 <root BTCPP_format="4" main_tree_to_execute="GetHandleGraspableObject">
   <!-- ////////// -->
   <!-- TODO: need to be directly in front of handle for this behavior to work until (https://github.com/PickNikRobotics/moveit_studio/issues/5968) is fixed or mesh completion behaviors are completed. -->
-  <BehaviorTree ID="GetHandleGraspableObject">
+  <BehaviorTree ID="GetHandleGraspableObject" _favorite="true">
     <Control ID="Sequence" name="TopLevelSequence">
       <Control ID="Sequence" name="GetDepthImage">
         <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>
@@ -12,20 +12,21 @@
       </Control>
       <Action ID="GetMasks2DAction" image="{image}" action_name="get_masks_2d_maskrcnn" min_confidence="0.8" max_nms_iou="0.8" min_relative_area="0" max_relative_area="1" timeout_sec="1" masks2d="{handle_masks2d}" valid_classes="pull handle"/>
       <Action ID="GetMasks3DFromMasks2D" point_cloud="{point_cloud}" masks2d="{handle_masks2d}" camera_info="{camera_info}" masks3d="{masks3d}"/>
-      <Action ID="LogMessage" message="Found a mask for the pull handle." log_level="warn"/>
       <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
         <Control ID="Sequence">
           <Action ID="GetPointCloudFromMask3D" point_cloud="{point_cloud}" mask3d="{mask3d}" point_cloud_fragment="{point_cloud_fragment}"/>
           <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
         </Control>
       </Decorator>
-      <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.002" minimum_face_area="0" face_separation_threshold="1.0" graspable_objects="{handle_objects}" name="GetHandleGraspableObjectsFromMasks"/>
-      <Decorator ID="ForEachGraspableObject" vector_in="{handle_objects}" out="{handle_object}">
-        <Control ID="Sequence">
-          <Action ID="ModifyObjectInPlanningScene" object="{handle_object}" apply_planning_scene_service="/apply_planning_scene"/>
-          <Action ID="ExtractGraspableObjectPose" graspable_object="{handle_object}" pose="{grasp_pose}"/>
-        </Control>
+      <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.01" minimum_face_area="0.000625" face_separation_threshold="0.02" graspable_objects="{handle_objects}" name="GetHandleGraspableObjectsFromMasks"/>
+      <Decorator ID="ForceSuccess">
+        <Decorator ID="ForEachGraspableObject" vector_in="{handle_objects}" out="{handle_object}">
+          <Action ID="AlwaysFailure"/>
+        </Decorator>
       </Decorator>
+      <Action ID="ModifyObjectInPlanningScene" object="{handle_object}" apply_planning_scene_service="/apply_planning_scene"/>
+      <Action ID="ExtractGraspableObjectPose" graspable_object="{handle_object}" pose="{grasp_pose}"/>
+      <Action ID="LogMessage" message="Found a GraspableObject for the pull handle." log_level="warn"/>
     </Control>
   </BehaviorTree>
 </root>

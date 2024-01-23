@@ -10,47 +10,40 @@
       <SubTree ID="Update Admittance Controller" _collapsed="true"/>
       <!-- Look at the desired location where objects (door) will be present -->
       <Action ID="MoveToWaypoint" waypoint_name="Extended Right" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true" constraints=""/>
-      <SubTree ID="GetDoorGraspableObject" _collapsed="true"/>
-
+      <SubTree ID="Clear Snapshot" _collapsed="true"/>
+      <SubTree ID="Reset Planning Scene" _collapsed="true"/>
+      <SubTree ID="GetDoorGraspableObject" _collapsed="true" door_object="{door_object}"/>
       <!-- Get the masks for the handle subframe of the door GraspableObject -->
       <!-- May require multiple view-points due to incomplete point clouds due to angle. -->
       <Control ID="Fallback">
+        <SubTree ID="GetHandleGraspableObject" _collapsed="true" grasp_pose="{grasp_pose}"/>
         <Control ID="Sequence">
-          <Action ID="MoveToWaypoint" waypoint_name="Extended Right" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
-          <SubTree ID="GetHandleGraspableObject" _collapsed="true"/>
+          <Action ID="MoveToWaypoint" waypoint_name="Extended Right 2" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true" constraints=""/>
+          <SubTree ID="GetHandleGraspableObject" _collapsed="true" grasp_pose="{grasp_pose}"/>
         </Control>
         <Control ID="Sequence">
-          <Action ID="MoveToWaypoint" waypoint_name="Right Wall" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
-          <SubTree ID="GetHandleGraspableObject" _collapsed="true"/>
+          <Action ID="MoveToWaypoint" waypoint_name="Extended Right" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true" constraints=""/>
+          <SubTree ID="GetHandleGraspableObject" _collapsed="true" grasp_pose="{grasp_pose}"/>
         </Control>
       </Control>
-
       <!-- Get the masks for the hinge subframes of the door GraspableObject -->
       <Action ID="MoveToWaypoint" waypoint_name="Hinge View" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
-      <SubTree ID="GetHingeLineSegment" _collapsed="true"/>
-
+      <SubTree ID="GetHingeLineSegment" _collapsed="true" line_segment_start_point="{line_segment_start_point}" line_segment_end_point="{line_segment_end_point}"/>
       <!-- Helper behavior to convert poses into subframes that adhere to the expected axis convention -->
       <Action ID="GetMoveAlongArcSubframes" target_grasp_pose="{grasp_pose}" hinge_axis_pose_start="{line_segment_start_point}" hinge_axis_pose_end="{line_segment_end_point}" move_along_arc_subframes="{move_along_arc_subframes}"/>
       <!-- Add the subframes to the Object-->
       <Decorator ID="ForEachObjectSubframe" vector_in="{move_along_arc_subframes}" out="{subframe}">
         <Control ID="Sequence">
-          <Action ID="AddSubframeToObject" subframe="{subframe}" graspable_object="{graspable_object}"/>
+          <Action ID="AddSubframeToObject" subframe="{subframe}" graspable_object="{door_object}"/>
         </Control>
       </Decorator>
-      <!-- Now get the first graspable object (which should have subframes added) and do MTC -->
-      <Decorator ID="ForceSuccess">
-        <Decorator ID="ForEachGraspableObject" vector_in="{graspable_objects}" out="{graspable_object}">
-          <Action ID="AlwaysFailure"/>
-        </Decorator>
-      </Decorator>
-      <Action ID="ModifyObjectInPlanningScene" object="{graspable_object}" apply_planning_scene_service="/apply_planning_scene"/>
       <!-- Open Gripper -->
       <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.0"/>
       <!-- Plan and optionally Execute MTC task -->
       <Control ID="Sequence" name="OpenDoorFixedHandleMTC">
         <Action ID="InitializeMTCTask" task_id="open_door_fixed_handle_ml" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{open_door_fixed_handle_task}"/>
         <Action ID="SetupMTCCurrentState" task="{open_door_fixed_handle_task}"/>
-        <Action ID="SetupMTCGraspThenMoveAlongArcPull" graspable_object="{graspable_object}" parameters="{parameters}" task="{open_door_fixed_handle_task}"/>
+        <Action ID="SetupMTCGraspThenMoveAlongArcPull" graspable_object="{door_object}" parameters="{parameters}" task="{open_door_fixed_handle_task}"/>
         <Action ID="PlanMTCTask" task="{open_door_fixed_handle_task}" solution="{open_door_fixed_handle_solution}"/>
         <Control ID="Fallback">
           <Decorator ID="Inverter">
