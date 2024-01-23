@@ -9,10 +9,10 @@
                 <Action ID="SetupMTCInterpolateToJointState" joint_state="{target_joint_state}" name="SetupMTCInterpolateToJointState_First" planning_group_name="manipulator" task="{interpolate_to_waypoint_task}"/>
                 <Action ID="PlanMTCTask" solution="{interpolate_to_waypoint_solution}" task="{interpolate_to_waypoint_task}"/>
                 <Action ID="ExecuteMTCTask" solution="{interpolate_to_waypoint_solution}"/>
-                <Action ID="PublishEmpty" message="" topic="/studio_ui/motion_ended" queue_size="1" use_best_effort="false"/>
+                <Action ID="PublishEmpty" topic="/studio_ui/motion_ended" queue_size="1" use_best_effort="false"/>
             </Control>
             <Control ID="Sequence">
-                <Action ID="PublishEmpty" message="" topic="/studio_ui/motion_ended" queue_size="1" use_best_effort="false"/>
+                <Action ID="PublishEmpty" topic="/studio_ui/motion_ended" queue_size="1" use_best_effort="false"/>
                 <Action ID="AlwaysFailure"/>
             </Control>
         </Control>

@@ -9,10 +9,10 @@
                 <Action ID="SetupMTCMoveToJointState" joint_state="{target_joint_state}" name="SetupMTCMoveToJointState_First" planning_group_name="manipulator" task="{move_to_waypoint_task}" use_all_planners="true" constraints=""/>
                 <Action ID="PlanMTCTask" solution="{move_to_waypoint_solution}" task="{move_to_waypoint_task}"/>
                 <Action ID="ExecuteMTCTask" solution="{move_to_waypoint_solution}"/>
-                <Action ID="PublishEmpty" message="" topic="/studio_ui/motion_ended" queue_size="1" use_best_effort="false"/>
+                <Action ID="PublishEmpty" topic="/studio_ui/motion_ended" queue_size="1" use_best_effort="false"/>
             </Control>
             <Control ID="Sequence">
-                <Action ID="PublishEmpty" message="" topic="/studio_ui/motion_ended" queue_size="1" use_best_effort="false"/>
+                <Action ID="PublishEmpty" topic="/studio_ui/motion_ended" queue_size="1" use_best_effort="false"/>
                 <Action ID="AlwaysFailure"/>
             </Control>
         </Control>
