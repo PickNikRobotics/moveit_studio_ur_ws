@@ -31,8 +31,8 @@
               <SubTree ID="Move to Joint State"/>
             </Decorator>
             <!-- Cartesian and joint jogging -->
-            <Action ID="TeleoperateTwist" controller_name="streaming_controller" _while="teleop_str == 2"/>
-            <Action ID="TeleoperateJointJog" controller_name="streaming_controller" _while="teleop_str == 1"/>
+            <Action ID="TeleoperateTwist" controller_name="servo_controller" _while="teleop_str == 2"/>
+            <Action ID="TeleoperateJointJog" controller_name="servo_controller" _while="teleop_str == 1"/>
           </Control>
         </Decorator>
       </Control>

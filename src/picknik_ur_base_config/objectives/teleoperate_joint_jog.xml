@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<root BTCPP_format="4" main_tree_to_execute="Teleoperate Joint Jog">
+    <BehaviorTree ID="Teleoperate Joint Jog" _description="Teleoperate the robot in joint jog mode from the Web UI">
+        <Control ID="Sequence" name="root">
+            <Action ID="TeleoperateJointJog" controller_name="servo_controller"/>
+        </Control>
+    </BehaviorTree>
+</root>
