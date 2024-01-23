@@ -4,24 +4,22 @@
         _description="Open a lever handle door by turning the handle and pushing the door">
         <Control ID="Sequence" name="Setup">
             <Action ID="LoadObjectiveParameters"
-                 config_file_name="open_lever_handle_door_config.yaml" parameters="{parameters}" />
-            <SubTree ID="Re-Zero Force-Torque Sensors" />
-            <!-- Wrap in a ForceSuccess as Sim doesn't have the admittance controllers -->
-            <!-- This should eventually get overridden for non sim site configs to not ForceSuccess -->
-            <!-- See https://github.com/PickNikRobotics/moveit_studio/issues/3406 -->
-            <Decorator ID="ForceSuccess">
-                <Action ID="UpdateAdmittanceController"
-                    config_file_name="open_lever_handle_door_admittance_controller_config.yaml" />
-            </Decorator>
+                 config_file_name="open_door_lever_handle_MTC_config.yaml" parameters="{parameters}" />
+            <SubTree ID="Re-Zero Force-Torque Sensors" _collapsed="true"/>
+            <SubTree ID="Update Admittance Controller" _collapsed="true"/>
+
             <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
             <Action ID="PublishPointCloud" point_cloud="{point_cloud}"
                 point_cloud_topic="studio_vision_debug_snapshot" />
+
             <Action ID="GetPoseFromUser" parameter_name="get_door_handle_pose.handle_pivot_pose" parameter_value="{handle_pivot_pose}" />
             <Action ID="GetPoseFromUser" parameter_name="get_door_handle_pose.handle_tip_pose" parameter_value="{handle_tip_pose}" />
+
             <Action ID="GetDoorHandle" handle_pivot_pose="{handle_pivot_pose}"
                 handle_tip_pose="{handle_tip_pose}" parameters="{parameters}"
                 point_cloud="{point_cloud}" target_handle_length="{handle_length}"
                 target_handle_pose="{handle_pose}" target_handle_z_offset="{handle_z_offset}" />
+
             <SubTree ID="CloseGripper" />
             <Control ID="Sequence" name="OpenLeverHandleDoor">
                 <Action ID="InitializeMTCTask"

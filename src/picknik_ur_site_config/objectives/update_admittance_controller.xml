@@ -7,7 +7,7 @@
       <!-- See https://github.com/PickNikRobotics/moveit_studio/issues/3406 -->
       <Decorator ID="ForceSuccess">
       <Action ID="UpdateAdmittanceController"
-        config_file_name="config_open_door_admittance.yaml" />
+        config_file_name="open_door_admittance_controller_config.yaml" />
       </Decorator>
     </Control>
   </BehaviorTree>

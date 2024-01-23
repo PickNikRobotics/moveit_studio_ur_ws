@@ -14,7 +14,7 @@
             <Action ID="GetPoseFromUser" parameter_name="process_door_selection.grasp_pose" parameter_value="{grasp_pose}" />
 
             <!-- Set up Subframes for MTC -->
-            <Action ID="GetMoveAlongArcSubframes" grasp_pose="{grasp_pose}" hinge_axis_pose_end="{hinge_axis_pose_end}" hinge_axis_pose_start="{hinge_axis_pose_start}" move_along_arc_subframes="{move_along_arc_subframes}" />
+            <Action ID="GetMoveAlongArcSubframes" target_grasp_pose="{grasp_pose}" hinge_axis_pose_end="{hinge_axis_pose_end}" hinge_axis_pose_start="{hinge_axis_pose_start}" move_along_arc_subframes="{move_along_arc_subframes}" />
             <Action ID="CreateGraspableObject" px="0.0" py="0.0" pz="0.0" rx="0.0" ry="0.0" rz="0.0" dx="0.1" dy="0.1" dz="0.1" frame_id="world" object_id="cabinet_door" generate_top_face="true" generate_front_face="true" generate_side_faces="true" cuboid_object="{door_object}"/>
             <!-- Add the subframes to the Object-->
             <Decorator ID="ForEachObjectSubframe" vector_in="{move_along_arc_subframes}" out="{subframe}">
@@ -27,7 +27,7 @@
             <Control ID="Sequence" name="OpenDoorFixedHandleMTC">
                 <Action ID="InitializeMTCTask" task_id="open_door_fixed_handle_user" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{open_door_fixed_handle_task}" />
                 <Action ID="SetupMTCCurrentState" task="{open_door_fixed_handle_task}" />
-                <Action ID="SetupMTCGraspThenMoveAlongArcPull" graspable_object="door_object" parameters="{parameters}" task="{open_door_fixed_handle_task}" />
+                <Action ID="SetupMTCGraspThenMoveAlongArcPull" graspable_object="{door_object}" parameters="{parameters}" task="{open_door_fixed_handle_task}" />
                 <Action ID="PlanMTCTask" solution="{open_door_fixed_handle_solution}" task="{open_door_fixed_handle_task}" />
                 <Fallback name="wait_for_approval_if_user_available">
                     <Inverter>

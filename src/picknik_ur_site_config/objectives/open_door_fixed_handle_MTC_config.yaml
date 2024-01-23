@@ -7,7 +7,7 @@ SetupMTCGraspThenMoveAlongArcPull:
   end_effector_open_pose_name: "open"
 
   # List of controllers to use during the stages that interact with the door.
-  door_opening_controllers: "/joint_trajectory_controller_chained_open_door /admittance_controller_open_door /robotiq_gripper_controller"
+  move_along_arc_controllers: "/joint_trajectory_controller_chained_open_door /admittance_controller_open_door /robotiq_gripper_controller"
 
   approach_distance: 0.15   # meters
   translation_distance: 0.15   # meters
