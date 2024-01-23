@@ -166,10 +166,9 @@ moveit_params:
 # Additional configurable parameters for the MoveIt Pro user interface.
 # [Required]
 ui_params:
-  # By default, MoveIt Pro uses a frame called "manual_grasp_link" for tool grasp pose rendering
-  # and planning.
+  # By default, we use a frame named "grasp_link" for tool grasp pose rendering and planning.
   # [Required]
-  servo_endpoint_frame_id: "manual_grasp_link"
+  servo_endpoint_frame_id: "grasp_link"
 
 # Configuration for launching ros2_control processes.
 # [Required, if using ros2_control]

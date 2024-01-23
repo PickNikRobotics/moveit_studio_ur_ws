@@ -91,19 +91,12 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:robotiq_gripper>
 
+  <!-- This link aligns the axes of the grasp frame to our required convention for motion planning tasks. -->
   <link name="grasp_link" />
   <joint name="grasp_link_joint" type="fixed">
     <parent link="gripper_mount_link" />
     <child link="grasp_link" />
     <origin xyz="0.0 0.0 0.134" rpy="0.0 0.0 ${pi}" />
-  </joint>
-
-  <!-- Moveit Pro requires a link name called manual_grasp_link to perform quick tasks such as inspect surface -->
-  <link name="manual_grasp_link" />
-  <joint name="manual_grasp_joint" type="fixed">
-    <parent link="grasp_link" />
-    <child link="manual_grasp_link" />
-    <origin xyz="0 0 0" rpy="${pi / 180.0 * 5} 0 0" />
   </joint>
 
   <!-- Environment -->
