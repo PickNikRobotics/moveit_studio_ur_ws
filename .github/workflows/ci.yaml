@@ -35,6 +35,8 @@ jobs:
     container: picknikciuser/moveit-studio:${{ needs.setup.outputs.image_tag }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: 'true'
       # The lo interfaces will not have multicast, and will barf trying to claim a participant index
       # with the default cyclone dds config. We set one for the unit tests to be able to execute.
       - name: Configure DDS
