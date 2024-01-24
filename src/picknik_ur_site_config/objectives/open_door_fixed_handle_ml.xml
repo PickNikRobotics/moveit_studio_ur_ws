@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Open Door Fixed Handle ML">
   <!-- ////////// -->
-  <BehaviorTree ID="Open Door Fixed Handle ML" _description="Attempts to open a door with a fixed handle (such as cabinet doors) using ML." _favorite="true" _hardcoded="false">
+  <BehaviorTree ID="Open Door Fixed Handle ML" _description="Attempts to open a door with a fixed handle (such as cabinet doors) using ML." _favorite="true" _hardcoded="true">
     <Control ID="Sequence" name="TopLevelSequence">
       <!-- Load the parameters needed for this behavior -->
       <Action ID="LoadObjectiveParameters" config_file_name="open_door_fixed_handle_MTC_config.yaml" parameters="{parameters}"/>
@@ -12,18 +12,18 @@
       <Action ID="MoveToWaypoint" waypoint_name="Extended Right" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true" constraints=""/>
       <SubTree ID="Clear Snapshot" _collapsed="true"/>
       <SubTree ID="Reset Planning Scene" _collapsed="true"/>
-      <SubTree ID="GetDoorGraspableObject" _collapsed="true" door_object="{door_object}"/>
+      <SubTree ID="GetDoorGraspableObject" _collapsed="true" door_object="{door_object}" detection_classes="space booth cabinet door"/>
       <!-- Get the masks for the handle subframe of the door GraspableObject -->
       <!-- May require multiple view-points due to incomplete point clouds due to angle. -->
       <Control ID="Fallback">
-        <SubTree ID="GetFixedhandleGraspableObject" _collapsed="true" grasp_pose="{grasp_pose}"/>
+        <SubTree ID="GetFixedHandleGraspableObject" _collapsed="true" grasp_pose="{grasp_pose}"/>
         <Control ID="Sequence">
           <Action ID="MoveToWaypoint" waypoint_name="Extended Right 2" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true" constraints=""/>
-          <SubTree ID="GetFixedhandleGraspableObject" _collapsed="true" grasp_pose="{grasp_pose}"/>
+          <SubTree ID="GetFixedHandleGraspableObject" _collapsed="true" grasp_pose="{grasp_pose}"/>
         </Control>
         <Control ID="Sequence">
           <Action ID="MoveToWaypoint" waypoint_name="Extended Right" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true" constraints=""/>
-          <SubTree ID="GetFixedhandleGraspableObject" _collapsed="true" grasp_pose="{grasp_pose}"/>
+          <SubTree ID="GetFixedHandleGraspableObject" _collapsed="true" grasp_pose="{grasp_pose}"/>
         </Control>
       </Control>
       <!-- Get the masks for the hinge subframes of the door GraspableObject -->
