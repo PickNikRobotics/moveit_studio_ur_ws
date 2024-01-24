@@ -4,16 +4,22 @@
     <Control ID="Sequence">
       <Action ID="LoadObjectiveParameters" config_file_name="push_along_axis_config.yaml" parameters="{parameters}"/>
       <SubTree ID="Re-Zero Force-Torque Sensors" _collapsed="true"/>
-      <Action ID="MoveToWaypoint" waypoint_name="Right Wall" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true" constraints=""/>
+      <Action ID="MoveToWaypoint" waypoint_name="Hinge View" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true" constraints=""/>
+      <SubTree ID="Clear Snapshot" _collapsed="true"/>
+      <SubTree ID="Reset Planning Scene" _collapsed="true"/>
       <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>
       <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
       <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
       <Action ID="UpdatePlanningSceneService" point_cloud="{point_cloud}" point_cloud_service="/point_cloud_service"/>
       <Action ID="GetMasks2DAction" image="{image}" action_name="get_masks_2d_maskrcnn" valid_classes="button" min_confidence="0.8" max_nms_iou="0.8" min_relative_area="0" max_relative_area="0.7" timeout_sec="5" masks2d="{masks2d}"/>
       <Action ID="GetMasks3DFromMasks2D" point_cloud="{point_cloud}" masks2d="{masks2d}" camera_info="{camera_info}" masks3d="{masks3d}"/>
-      <Decorator ID="RetryUntilSuccessful" num_attempts="3">
-        <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.01" minimum_face_area="0.000625" face_separation_threshold="0.015" graspable_objects="{graspable_objects}"/>
+      <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
+        <Control ID="Sequence">
+          <Action ID="GetPointCloudFromMask3D" point_cloud="{point_cloud}" mask3d="{mask3d}" point_cloud_fragment="{point_cloud_fragment}"/>
+          <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
+        </Control>
       </Decorator>
+      <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.02" minimum_face_area="0.000625" face_separation_threshold="0.03" graspable_objects="{graspable_objects}"/>
       <Decorator ID="ForceSuccess">
         <Decorator ID="ForEachGraspableObject" vector_in="{graspable_objects}" out="{button}">
           <Action ID="AlwaysFailure"/>
