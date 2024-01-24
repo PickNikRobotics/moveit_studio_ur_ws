@@ -16,14 +16,14 @@
       <!-- Get the masks for the handle subframe of the door GraspableObject -->
       <!-- May require multiple view-points due to incomplete point clouds due to angle. -->
       <Control ID="Fallback">
-        <SubTree ID="GetHandleGraspableObject" _collapsed="true" grasp_pose="{grasp_pose}"/>
+        <SubTree ID="GetFixedhandleGraspableObject" _collapsed="true" grasp_pose="{grasp_pose}"/>
         <Control ID="Sequence">
           <Action ID="MoveToWaypoint" waypoint_name="Extended Right 2" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true" constraints=""/>
-          <SubTree ID="GetHandleGraspableObject" _collapsed="true" grasp_pose="{grasp_pose}"/>
+          <SubTree ID="GetFixedhandleGraspableObject" _collapsed="true" grasp_pose="{grasp_pose}"/>
         </Control>
         <Control ID="Sequence">
           <Action ID="MoveToWaypoint" waypoint_name="Extended Right" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="true" constraints=""/>
-          <SubTree ID="GetHandleGraspableObject" _collapsed="true" grasp_pose="{grasp_pose}"/>
+          <SubTree ID="GetFixedhandleGraspableObject" _collapsed="true" grasp_pose="{grasp_pose}"/>
         </Control>
       </Control>
       <!-- Get the masks for the hinge subframes of the door GraspableObject -->
