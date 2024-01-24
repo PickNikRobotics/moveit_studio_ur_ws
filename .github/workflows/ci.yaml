@@ -50,6 +50,13 @@ jobs:
             </Domain>
           </CycloneDDS>
           EOF
+      - name: Install rosdeps
+        run: |
+          . /opt/ros/humble/setup.sh
+          . /opt/underlay_ws/install/setup.sh
+          . /opt/overlay_ws/install/setup.sh
+          rosdep update
+          rosdep install --from-paths src --ignore-src -r -y
       - name: Run colcon build
         run: |
           . /opt/ros/humble/setup.sh
