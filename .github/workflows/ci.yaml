@@ -55,6 +55,7 @@ jobs:
           . /opt/ros/humble/setup.sh
           . /opt/underlay_ws/install/setup.sh
           . /opt/overlay_ws/install/setup.sh
+          apt-get update
           rosdep update
           rosdep install --from-paths src --ignore-src -r -y
       - name: Run colcon build
