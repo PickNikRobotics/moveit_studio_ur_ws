@@ -196,6 +196,7 @@ ros2_control:
     - "joint_trajectory_controller"
     - "admittance_controller_open_door"
     - "joint_trajectory_controller_chained_open_door"
+    - "joint_velocity_controller"
   # Any controllers here will not be spawned by MoveIt Studio.
   # [Optional, default=[]]
   controllers_not_managed: []
