@@ -1,19 +1,19 @@
-# Docker image for extending MoveIt Studio with a custom overlay.
+# Docker image for extending MoveIt Pro with a custom overlay.
 #
 # Example build command (with defaults):
 #
 # docker build -f ./Dockerfile .
 #
 
-# Specify the MoveIt Studio release to build on top of.
+# Specify the MoveIt Pro release to build on top of.
 ARG MOVEIT_STUDIO_BASE_IMAGE
 ARG USERNAME=studio-user
 ARG USER_UID=1000
 ARG USER_GID=1000
 
-#####################################################
-# Starting from the specified MoveIt Studio release #
-#####################################################
+##################################################
+# Starting from the specified MoveIt Pro release #
+##################################################
 # The image tag is specified in the argument itself.
 # hadolint ignore=DL3006
 FROM ${MOVEIT_STUDIO_BASE_IMAGE} as base
@@ -51,7 +51,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 
 # Install additional dependencies
 # You can also add any necessary apt-get install, pip install, etc. commands at this point.
-# NOTE: The /opt/overlay_ws folder contains MoveIt Studio binary packages and the source file.
+# NOTE: The /opt/overlay_ws folder contains MoveIt Pro binary packages and the source file.
 # hadolint ignore=SC1091
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -62,7 +62,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
       --ignore-src
 
 # Remove duplicated serial dependency install files, otherwise there will be a build error.
-# NOTE: This can be removed when MoveIt Studio fully separates core and hardware capabilities.
+# NOTE: This can be removed when MoveIt Pro fully separates core and hardware capabilities.
 WORKDIR /opt/overlay_ws
 RUN rm -rf build/serial install/serial
 
