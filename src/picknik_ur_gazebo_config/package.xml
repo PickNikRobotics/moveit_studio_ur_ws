@@ -13,13 +13,12 @@
 
   <depend>picknik_ur_base_config</depend>
 
-  <exec_depend>moveit_ros_perception</exec_depend>
-  <exec_depend>ros_gz</exec_depend>
-  <exec_depend>ign_ros2_control</exec_depend>
-  <exec_depend>picknik_accessories</exec_depend>
+  <depend>ign_ros2_control</depend>
+  <depend>moveit_ros_perception</depend>
+  <depend>picknik_accessories</depend>
+  <depend>ros_gz</depend>
 
   <test_depend>ament_lint_auto</test_depend>
-
   <test_depend>ament_clang_format</test_depend>
   <test_depend>ament_clang_tidy</test_depend>
   <test_depend>ament_cmake_copyright</test_depend>
