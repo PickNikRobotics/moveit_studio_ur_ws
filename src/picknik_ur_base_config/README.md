@@ -1,5 +1,5 @@
 # picknik_ur_base_config
 
-A MoveIt Studio base configuration for PickNik's Universal Robots (UR) arms.
+A MoveIt Pro base configuration for PickNik's Universal Robots (UR) arms.
 
-For detailed documentation see: [MoveIt Studio Documentation](https://docs.picknik.ai/)
+For detailed documentation see: [MoveIt Pro Documentation](https://docs.picknik.ai/)

@@ -27,11 +27,11 @@ hardware:
   # Gazebo starts its own controller manager through the ros2_control plugin, so set this to False
   launch_control_node: False
 
-  # If the MoveIt Studio Agent should launch the robot state publisher
+  # If the MoveIt Pro Agent should launch the robot state publisher
   # This should be false if you are launching the robot state publisher as part of drivers.
   launch_robot_state_publisher: True
 
-  # If the MoveIt Studio Agent should launch cameras when simulated.
+  # If the MoveIt Pro Agent should launch cameras when simulated.
   launch_cameras_when_simulated: True
 
   # The robot's IP address
@@ -88,7 +88,7 @@ octomap_manager:
 ros2_control:
   controllers_active_at_startup:
     - "joint_state_broadcaster"
-    - "streaming_controller"
+    - "servo_controller"
     - "robotiq_gripper_controller"
   controllers_inactive_at_startup:
     - "joint_trajectory_controller"
