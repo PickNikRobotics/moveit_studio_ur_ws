@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>picknik_ur_studio_integration_testing</name>
-  <version>3.0.0</version>
+  <version>4.0.0</version>
   <description>Integration tests for UR with MoveIt Pro.</description>
   <maintainer email="support@picknik.ai">MoveIt Pro Maintainer</maintainer>
 
