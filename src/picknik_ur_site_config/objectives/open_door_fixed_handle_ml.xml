@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" main_tree_to_execute="Open Door Fixed Handle ML">
   <!-- ////////// -->
   <BehaviorTree ID="Open Door Fixed Handle ML" _description="Attempts to open a door with a fixed handle (such as cabinet doors) using ML." _favorite="true" _hardcoded="true">
