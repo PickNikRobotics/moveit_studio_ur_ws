@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="AprilTag VS demo using Servo">
+  <!-- ////////// -->
+  <BehaviorTree ID="AprilTag VS demo using Servo" _description="" _favorite="true" _hardcoded="false">
+    <Control ID="Sequence">
+      <Action ID="LoadObjectiveParameters" config_file_name="apriltag1_grasp_offset.yaml" parameters="{grasp_offset_parameters}"/>
+      <Action ID="LoadObjectiveParameters" config_file_name="apriltag_detection_config.yaml" parameters="{tag_parameters}"/>
+      <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>
+      <Action ID="ActivateControllers" controller_names="servo_controller"/>
+      <Control ID="Sequence">
+        <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
+        <Action ID="DetectApriltags" image="{image}" camera_info="{camera_info}" parameters="{tag_parameters}" detections="{detections}"/>
+        <Action ID="GetDetectionPose" detections="{detections}" target_id="1" target_label="" detection_pose="{detection_pose}"/>
+        <Action ID="TransformPoseFromYaml" input_pose="{detection_pose}" parameter_namespace="GraspOffset" pose_parameters="{grasp_offset_parameters}" output_pose="{target_pose}"/>
+        <Action ID="TransformPoseFrame" input_pose="{target_pose}" target_frame_id="world" output_pose="{target_pose}"/>
+      </Control>
+      <Control ID="Parallel" success_count="1" failure_count="1">
+        <Decorator ID="KeepRunningUntilFailure">
+          <Control ID="Sequence">
+            <Decorator ID="RetryUntilSuccessful" num_attempts="2">
+              <Control ID="Sequence">
+                <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
+                <Action ID="DetectApriltags" image="{image}" camera_info="{camera_info}" parameters="{tag_parameters}" detections="{detections}"/>
+                <Action ID="GetDetectionPose" detections="{detections}" target_id="1" target_label="" detection_pose="{detection_pose}"/>
+              </Control>
+            </Decorator>
+            <Action ID="AveragePoseStamped" run_continuously="true" num_samples="5" max_distance="0.02" max_rotation="0.2" pose_sample="{detection_pose}" avg_pose="{avg_pose}"/>
+            <Action ID="TransformPoseFromYaml" input_pose="{avg_pose}" parameter_namespace="GraspOffset" pose_parameters="{grasp_offset_parameters}" output_pose="{target_pose}"/>
+            <Action ID="TransformPoseFrame" input_pose="{target_pose}" target_frame_id="world" output_pose="{target_pose}"/>
+          </Control>
+        </Decorator>
+        <Action ID="ServoPose" planning_group_name="manipulator" controller_name="servo_controller" target_pose="{target_pose}" publish_rate="10" max_translational_vel="0.2" max_rotational_vel="0.2"/>
+      </Control>
+    </Control>
+  </BehaviorTree>
+</root>
