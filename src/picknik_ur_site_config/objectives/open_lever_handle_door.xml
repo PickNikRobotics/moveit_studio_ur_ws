@@ -9,15 +9,13 @@
       <Action ID="PublishPointCloud" point_cloud="{point_cloud}" point_cloud_topic="studio_vision_debug_snapshot"/>
       <Action ID="GetPoseFromUser" parameter_name="get_door_handle_pose.handle_pivot_pose" parameter_value="{handle_pivot_pose}"/>
       <Action ID="GetPoseFromUser" parameter_name="get_door_handle_pose.handle_tip_pose" parameter_value="{handle_tip_pose}"/>
-      <Action ID="GetDoorHandle" handle_pivot_pose="{handle_pivot_pose}" handle_tip_pose="{handle_tip_pose}" point_cloud="{point_cloud}" minimum_door_handle_height="0.02" target_output_frame_id="world" target_handle_length="{handle_length}" target_handle_pose="{handle_pose}" target_handle_z_offset="{handle_z_offset}"/>
+      <Action ID="GetDoorHandle" handle_pivot_pose="{handle_pivot_pose}" handle_tip_pose="{handle_tip_pose}" point_cloud="{point_cloud}" minimum_door_handle_depth="0.02" target_output_frame_id="world" target_handle_length="{handle_length}" target_handle_pose="{handle_pose}" target_handle_z_offset="{handle_z_offset}"/>
       <!-- Set up Subframes for MTC -->
       <Action ID="GetGraspAndTwistSubframes" grasp_rotation_z_radians="1.5708" target_grasp_pose="{handle_pose}" grasp_and_twist_subframes="{grasp_and_twist_subframes}"/>
       <Action ID="CreateGraspableObject" px="0.0" py="0.0" pz="0.0" rx="0.0" ry="0.0" rz="0.0" dx="0.1" dy="0.1" dz="0.1" frame_id="world" object_id="lever_door" generate_top_face="true" generate_front_face="true" generate_side_faces="true" cuboid_object="{door_object}"/>
       <!-- Add the subframes to the Object-->
       <Decorator ID="ForEachObjectSubframe" vector_in="{grasp_and_twist_subframes}" out="{subframe}">
-        <Control ID="Sequence">
-          <Action ID="AddSubframeToObject" subframe="{subframe}" graspable_object="{door_object}"/>
-        </Control>
+        <Action ID="AddSubframeToObject" subframe="{subframe}" graspable_object="{door_object}"/>
       </Decorator>
       <SubTree ID="Close Gripper" _collapsed="true"/>
       <Control ID="Sequence" name="OpenLeverHandleDoor">

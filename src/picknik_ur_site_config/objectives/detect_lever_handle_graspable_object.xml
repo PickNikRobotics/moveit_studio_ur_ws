@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root BTCPP_format="4" main_tree_to_execute="GetLeverHandleGraspableObject">
+<root BTCPP_format="4" main_tree_to_execute="Detect Lever Handle Graspable Object">
   <!-- ////////// -->
-  <!-- TODO: need to be directly in front of handle for this behavior to work until (https://github.com/PickNikRobotics/moveit_studio/issues/5968) is fixed or mesh completion behaviors are completed. -->
-  <BehaviorTree ID="GetLeverHandleGraspableObject" _favorite="true">
+  <BehaviorTree ID="Detect Lever Handle Graspable Object" _description="Detects a lever-handle graspable object from a depth image and returns 2 PoseStampeds to represent the handle.">
+    <!-- TODO: need to be directly in front of handle for this objective to work until GetGraspableObjectsFromMasks3D calculates the collision more robustly for non cuboid objects or shape completion is available. -->
     <Control ID="Sequence" name="TopLevelSequence">
+      <!-- Get the point cloud from the wrist camera -->
       <Control ID="Sequence" name="GetDepthImage">
         <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>
         <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
         <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
         <Action ID="UpdatePlanningSceneService" point_cloud="{point_cloud}" point_cloud_service="/point_cloud_service"/>
       </Control>
+      <!-- Segment out 2D masks and then convert to 3D masks and visualize in UI -->
       <Action ID="GetMasks2DAction" image="{image}" action_name="get_masks_2d_maskrcnn" min_confidence="0.8" max_nms_iou="0.8" min_relative_area="0" max_relative_area="1" timeout_sec="1" masks2d="{handle_tip_masks2d}" valid_classes="lever_handle_tip"/>
       <Action ID="GetMasks3DFromMasks2D" point_cloud="{point_cloud}" masks2d="{handle_tip_masks2d}" camera_info="{camera_info}" masks3d="{masks3d}"/>
       <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
@@ -18,14 +20,17 @@
           <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
         </Control>
       </Decorator>
-      <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.01" minimum_face_area="0.000625" face_separation_threshold="0.02" graspable_objects="{handle_tip_objects}" name="GetLeverHandleGraspableObjectsFromMasks"/>
+      <!-- Convert 3D mask into graspable object -->
+      <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.01" minimum_face_area="0.000625" face_separation_threshold="0.02" graspable_objects="{handle_tip_objects}"/>
       <Decorator ID="ForceSuccess">
         <Decorator ID="ForEachGraspableObject" vector_in="{handle_tip_objects}" out="{handle_tip_object}">
           <Action ID="AlwaysFailure"/>
         </Decorator>
       </Decorator>
+      <!-- Add object to planning scene and extract its pose  -->
       <Action ID="ModifyObjectInPlanningScene" object="{handle_tip_object}" apply_planning_scene_service="/apply_planning_scene"/>
       <Action ID="ExtractGraspableObjectPose" graspable_object="{handle_tip_object}" pose="{handle_tip_pose}"/>
+      <!-- Segment out 2D masks and then convert to 3D masks and visualize in UI -->
       <Action ID="GetMasks2DAction" image="{image}" action_name="get_masks_2d_maskrcnn" min_confidence="0.8" max_nms_iou="0.8" min_relative_area="0" max_relative_area="1" timeout_sec="1" masks2d="{handle_pivot_masks2d}" valid_classes="lever_handle_pivot"/>
       <Action ID="GetMasks3DFromMasks2D" point_cloud="{point_cloud}" masks2d="{handle_pivot_masks2d}" camera_info="{camera_info}" masks3d="{masks3d}"/>
       <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
@@ -34,16 +39,17 @@
           <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
         </Control>
       </Decorator>
-      <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.01" minimum_face_area="0.000625" face_separation_threshold="0.02" graspable_objects="{handle_pivot_objects}" name="GetLeverHandleGraspableObjectsFromMasks"/>
+      <!-- Convert 3D mask into graspable object -->
+      <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.01" minimum_face_area="0.000625" face_separation_threshold="0.02" graspable_objects="{handle_pivot_objects}"/>
       <Decorator ID="ForceSuccess">
         <Decorator ID="ForEachGraspableObject" vector_in="{handle_pivot_objects}" out="{handle_pivot_object}">
           <Action ID="AlwaysFailure"/>
         </Decorator>
       </Decorator>
+      <!-- Add object to planning scene and extract its pose  -->
       <Action ID="ModifyObjectInPlanningScene" object="{handle_pivot_object}" apply_planning_scene_service="/apply_planning_scene"/>
       <Action ID="ExtractGraspableObjectPose" graspable_object="{handle_pivot_object}" pose="{handle_pivot_pose}"/>
-      <Action ID="LogMessage" message="Found a GraspableObject for the lever handle" log_level="warn"/>
-      <!--<Action ID="GetDoorHandle" handle_pivot_pose="{handle_pivot_pose}" handle_tip_pose="{handle_tip_pose}" point_cloud="{point_cloud}" minimum_door_handle_height="0.02" target_output_frame_id="world" targe        t_handle_length="{handle_length}" target_handle_pose="{handle_pose}" target_handle_z_offset="{handle_z_offset}"/>-->
+      <Action ID="LogMessage" message="Successfully extracted necessary subframes for the detected lever handle." log_level="info"/>
     </Control>
   </BehaviorTree>
 </root>

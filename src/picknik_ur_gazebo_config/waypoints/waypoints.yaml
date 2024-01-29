@@ -374,7 +374,7 @@
     velocity: []
   name: Extended Right
 - description: ''
-  favorite: true
+  favorite: false
   joint_state:
     effort: []
     header:
@@ -399,7 +399,7 @@
     velocity: []
   name: Extended Right 2
 - description: ''
-  favorite: true
+  favorite: false
   joint_state:
     effort: []
     header:

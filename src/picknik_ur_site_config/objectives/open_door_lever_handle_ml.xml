@@ -13,14 +13,12 @@
       <SubTree ID="Clear Snapshot" _collapsed="true"/>
       <SubTree ID="Reset Planning Scene" _collapsed="true"/>
 
-      <SubTree ID="GetDoorGraspableObject" _collapsed="true" door_object="{door_object}" detection_classes="door"/>
-      <SubTree ID="GetLeverHandleGraspableObject" _collapsed="true" handle_tip_pose="{handle_tip_pose}" handle_pivot_pose="{handle_pivot_pose}"/> 
-      <Action ID="GetDoorHandle" handle_pivot_pose="{handle_pivot_pose}" handle_tip_pose="{handle_tip_pose}" point_cloud="{point_cloud}" minimum_door_handle_height="0.02" target_output_frame_id="world" target_handle_length="{handle_length}" target_handle_pose="{handle_pose}" target_handle_z_offset="{handle_z_offset}"/>
+      <SubTree ID="Detect Door Graspable Object" _collapsed="true" door_object="{door_object}" detection_classes="door"/>
+      <SubTree ID="Detect Lever Handle Graspable Object" _collapsed="true" handle_tip_pose="{handle_tip_pose}" handle_pivot_pose="{handle_pivot_pose}"/> 
+      <Action ID="GetDoorHandle" handle_pivot_pose="{handle_pivot_pose}" handle_tip_pose="{handle_tip_pose}" point_cloud="{point_cloud}" minimum_door_handle_depth="0.02" target_output_frame_id="world" target_handle_length="{handle_length}" target_handle_pose="{handle_pose}" target_handle_z_offset="{handle_z_offset}"/>
       <Action ID="GetGraspAndTwistSubframes" grasp_rotation_z_radians="1.5708" target_grasp_pose="{grasp_pose}" grasp_and_twist_subframes="{grasp_and_twist_subframes}"/>
       <Decorator ID="ForEachObjectSubframe" vector_in="{grasp_and_twist_subframes}" out="{subframe}">
-        <Control ID="Sequence">
-          <Action ID="AddSubframeToObject" subframe="{subframe}" graspable_object="{door_object}"/>
-        </Control>
+        <Action ID="AddSubframeToObject" subframe="{subframe}" graspable_object="{door_object}"/>
       </Decorator> 
       <Action ID="ModifyObjectInPlanningScene" object="{door_object}" apply_planning_scene_service="/apply_planning_scene"/>
       <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.0"/>
@@ -29,12 +27,7 @@
         <Action ID="SetupMTCCurrentState" task="{open_door_lever_handle_task}"/>
         <Action ID="SetupMTCGraspAndTwistThenMoveAlongArcPush" graspable_object="{door_object}" parameters="{parameters}" task="{open_door_lever_handle_task}" handle_length="{handle_length}" handle_z_offset="{handle_z_offset}"/>
         <Action ID="PlanMTCTask" task="{open_door_lever_handle_task}" solution="{open_door_lever_handle_solution}"/>
-        <Control ID="Fallback">
-          <Decorator ID="Inverter">
-            <Action ID="IsUserAvailable"/>
-          </Decorator>
-          <Action ID="WaitForUserTrajectoryApproval" solution="{open_door_lever_handle_solution}"/>
-        </Control>
+        <SubTree ID="Wait for Trajectory Approval if User Available" solution="{open_door_lever_handle_solution}"/>
         <Action ID="ExecuteMTCTask" solution="{open_door_lever_handle_solution}"/>
       </Control>
     </Control>
