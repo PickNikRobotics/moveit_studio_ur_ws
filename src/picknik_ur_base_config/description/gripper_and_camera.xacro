@@ -7,7 +7,6 @@
   <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur_camera_adapter.urdf.xacro"/>
   <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro"/>
 
-  <!-- Create base link -->
   <!-- We use a link name called grasp_link to perform built-in Objectives such as inspect surface without modification. -->
   <link name="grasp_link"/>
   <link name="tool0" />
