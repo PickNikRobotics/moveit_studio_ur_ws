@@ -4,7 +4,8 @@ SetupMTCGraspAndTwistThenMoveAlongArcPush:
   ik_frame_name: "grasp_link"
 
   # List of controllers to use during the stages that interact with the door.
-  door_opening_controllers: "/joint_trajectory_controller_chained_open_door /admittance_controller_open_door /robotiq_gripper_controller"
+  # TODO: this file currently only exists as gazebo does not have the door admittance controller. Remove if this becomes available.
+  move_along_arc_controllers: "/joint_trajectory_controller_chained_open_door /robotiq_gripper_controller"
 
   # The hand should be placed 75% of the way down the handle length when
   # manipulating the handle. Valid value range [0, 1.0].
@@ -17,6 +18,6 @@ SetupMTCGraspAndTwistThenMoveAlongArcPush:
   # How many degrees to rotate the lever handle (use positive value for
   # counter-clockwise rotation and negative value for clockwise rotation).
   handle_twist_angle: 65.0  # degrees
-  approach_distance: 0.15   # meters
+  approach_distance: 0.10   # meters
   push_open_distance: 0.05  # meters
   use_circular_arc: true
