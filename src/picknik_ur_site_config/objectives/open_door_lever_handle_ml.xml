@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" main_tree_to_execute="Open Door Lever Handle ML">
   <!-- ////////// -->
-  <BehaviorTree ID="Open Door Lever Handle ML" _description="Attempts to open a door with a lever handle using ML." _favorite="false" _hardcoded="true">
+  <BehaviorTree ID="Open Door Lever Handle ML" _description="Attempts to open a door with a lever handle using machine learning." _favorite="false" _hardcoded="true">
     <Control ID="Sequence" name="TopLevelSequence">
-      <!-- Load the parameters needed for this behavior -->
+      <!-- Load the parameters needed for this Objective -->
       <Action ID="LoadObjectiveParameters" config_file_name="open_door_lever_handle_MTC_config.yaml" parameters="{parameters}"/>
       <!-- Update the admittance controller and reset the FTS -->
       <SubTree ID="Re-Zero Force-Torque Sensors" _collapsed="true"/>

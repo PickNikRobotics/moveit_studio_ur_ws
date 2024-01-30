@@ -23,7 +23,7 @@
                             <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures" point_cloud_uuid=""/>
                             <!-- Detect all cuboids in that point cloud-->
                             <Action ID="FindSingularCuboids" point_cloud="{point_cloud}" parameters="{parameters}" detected_shapes="{cuboids}"/>
-                            <!-- Find the closest cuboid to the pose calculated from the users original click -->
+                            <!-- Find the closest cuboid to the pose calculated from the user's original click -->
                             <Action ID="GetPoseFromUser" parameter_name="pick_place_object.grasp_pose" parameter_value="{grasp_pose}" />
                             <Action ID="GetClosestObjectToPose" objects="{cuboids}" pose="{grasp_pose}" distance_threshold="0.3" closest_object="{cuboid_object}"/>
                             <!-- Add this cuboid to the planning scene. -->

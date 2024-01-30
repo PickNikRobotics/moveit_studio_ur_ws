@@ -20,7 +20,6 @@
                 <Action ID="ExecuteMTCTask" solution="{move_to_approach_solution}"/>
                 <Action ID="SaveCurrentState" saved_robot_state="{pre_approach_robot_state}" />
                 <Control ID="Parallel" success_count="1" failure_count="1">
-                    <!--<Action ID="ForceExceedsThreshold" wrench_topic_name="/force_torque_sensor_broadcaster/wrench" hand_frame_name="grasp_link" wrench_frame_name="tool0" minimum_consecutive_wrench_values="20" force_threshold="30.0"/>-->
                     <SubTree ID="Force Exceeds Threshold"/>
                     <Action ID="ExecuteMTCTask" solution="{push_solution}"/>
                 </Control>
