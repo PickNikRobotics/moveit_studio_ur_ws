@@ -9,9 +9,9 @@
  */
 
 #include <chrono>
+
 #include <gtest/gtest.h>
 #include <rclcpp/rclcpp.hpp>
-
 #include <std_srvs/srv/trigger.hpp>
 
 namespace

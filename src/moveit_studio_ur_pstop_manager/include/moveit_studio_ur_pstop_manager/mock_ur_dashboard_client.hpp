@@ -7,9 +7,10 @@
 #pragma once
 
 #include <rclcpp/rclcpp.hpp>
+#include <std_srvs/srv/trigger.hpp>
+
 #include <ur_dashboard_msgs/srv/get_safety_mode.hpp>
 #include <ur_dashboard_msgs/srv/is_program_running.hpp>
-#include <std_srvs/srv/trigger.hpp>
 
 namespace moveit_studio::ur_pstop_manager
 {

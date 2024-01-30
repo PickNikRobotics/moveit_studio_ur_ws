@@ -26,16 +26,18 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <moveit_studio_agent/test/do_objective_test_fixture.hpp>
-
 #include <chrono>
+
+#include <rclcpp/rclcpp.hpp>
+
 #include <geometry_msgs/msg/point.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <geometry_msgs/msg/quaternion.hpp>
 #include <geometry_msgs/msg/vector3.hpp>
 #include <moveit_studio_agent_msgs/srv/set_transform.hpp>
 #include <moveit_studio_agent_msgs/srv/store_joint_state.hpp>
-#include <rclcpp/rclcpp.hpp>
+
+#include <moveit_studio_agent/test/do_objective_test_fixture.hpp>
 
 namespace
 {

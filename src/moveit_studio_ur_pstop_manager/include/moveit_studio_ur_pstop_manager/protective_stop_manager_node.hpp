@@ -9,12 +9,13 @@
 
 #pragma once
 
-#include <controller_manager_msgs/srv/switch_controller.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <std_srvs/srv/trigger.hpp>
+
+#include <controller_manager_msgs/srv/switch_controller.hpp>
 #include <moveit_studio_agent_msgs/msg/fault_status.hpp>
-#include <ur_dashboard_msgs/srv/is_program_running.hpp>
 #include <ur_dashboard_msgs/srv/get_safety_mode.hpp>
+#include <ur_dashboard_msgs/srv/is_program_running.hpp>
 
 namespace moveit_studio::ur_pstop_manager
 {
