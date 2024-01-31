@@ -17,11 +17,8 @@ services:
       args:
         - USER_UID=${STUDIO_USER_UID:-1000}
         - USER_GID=${STUDIO_USER_UID:-1000}
-        - USERNAME=${USERNAME:-studio-user}
+        - USERNAME=${STUDIO_USERNAME:-studio-user}
         - MOVEIT_STUDIO_BASE_IMAGE=picknikciuser/moveit-studio:${STUDIO_DOCKER_TAG:-main}
-    # Set the user workspace folder location.
-    environment:
-      - USER_WS=/home/${USERNAME:-studio-user}/user_overlay_ws
 
   # Starts the MoveIt Pro Agent and the Bridge between the Agent and the Web UI
   agent_bridge:
@@ -99,12 +96,12 @@ services:
     privileged: true
     volumes:
       # Mount the source code, colcon generated artifacts, and ccache
-      - ./src/:/home/${USERNAME:-studio-user}/user_overlay_ws/src:rw
-      - ./build/:/home/${USERNAME:-studio-user}/user_overlay_ws/build:rw
-      - ./install/:/home/${USERNAME:-studio-user}/user_overlay_ws/install:rw
-      - ./log/:/home/${USERNAME:-studio-user}/user_overlay_ws/log:rw
-      - ./.ccache/:/home/${USERNAME:-studio-user}/.ccache:rw
-      - ${HOME}/.ros/log_moveit_pro:/home/${USERNAME:-studio-user}/.ros/log
+      - ./src/:/home/${STUDIO_USERNAME:-studio-user}/user_overlay_ws/src:rw
+      - ./build/:/home/${STUDIO_USERNAME:-studio-user}/user_overlay_ws/build:rw
+      - ./install/:/home/${STUDIO_USERNAME:-studio-user}/user_overlay_ws/install:rw
+      - ./log/:/home/${STUDIO_USERNAME:-studio-user}/user_overlay_ws/log:rw
+      - ./.ccache/:/home/${STUDIO_USERNAME:-studio-user}/.ccache:rw
+      - ${HOME}/.ros/log_moveit_pro:/home/${STUDIO_USERNAME:-studio-user}/.ros/log
       # Allow access to host hardware e.g. RealSense cameras
       - /dev:/dev
     command: sleep infinity
