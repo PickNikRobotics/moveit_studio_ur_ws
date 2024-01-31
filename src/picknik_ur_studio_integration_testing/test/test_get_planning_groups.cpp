@@ -27,10 +27,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #include <chrono>
-#include "rclcpp/rclcpp.hpp"
+
+#include <moveit_studio_agent_msgs/srv/get_planning_groups.hpp>
 
 #include <moveit_studio_agent/test/do_objective_test_fixture.hpp>
-#include <moveit_studio_agent_msgs/srv/get_planning_groups.hpp>
+
+#include "rclcpp/rclcpp.hpp"
 
 namespace moveit_studio::agent::testing
 {
