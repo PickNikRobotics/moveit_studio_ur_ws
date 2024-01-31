@@ -24,7 +24,7 @@ ARG USER_UID
 ARG USER_GID
 
 # Copy source code from the workspace's ROS 2 packages to a workspace inside the container
-ARG USER_WS=/home/${USERNAME}/user_overlay_ws
+ARG USER_WS=/home/${USERNAME}/user_ws
 ENV USER_WS=${USER_WS}
 RUN mkdir -p ${USER_WS}/src ${USER_WS}/build ${USER_WS}/install ${USER_WS}/log
 COPY ./src ${USER_WS}/src
@@ -66,25 +66,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 WORKDIR /opt/overlay_ws
 RUN rm -rf build/serial install/serial
 
-#########################################
-# Target for compiled, deployable image #
-#########################################
-FROM base as user-overlay
-
-ARG USERNAME
-ARG USER_WS=/home/${USERNAME}/user_overlay_ws
-ENV USER_WS=${USER_WS}
-
-# Compile the workspace
-WORKDIR $USER_WS
-# hadolint ignore=SC1091
-RUN --mount=type=cache,target=/home/${USERNAME}/.ccache \
-    . /opt/overlay_ws/install/setup.sh && \
-    colcon build
-
-# Set up the user's .bashrc file and shell.
-# RUN echo "source /moveit_studio_utils/setup_workspaces.sh && set +e" >> /home/${USERNAME}/.bashrc
-CMD ["/usr/bin/bash"]
 
 ###################################################################
 # Target for the developer build which does not compile any code. #
@@ -92,7 +73,7 @@ CMD ["/usr/bin/bash"]
 FROM base as user-overlay-dev
 
 ARG USERNAME
-ARG USER_WS=/home/${USERNAME}/user_overlay_ws
+ARG USER_WS=/home/${USERNAME}/user_ws
 ENV USER_WS=${USER_WS}
 
 # Install any additional packages for development work
@@ -106,5 +87,23 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         nano
 
 # Set up the user's .bashrc file and shell.
-# RUN echo "source /moveit_studio_utils/setup_workspaces.sh && set +e" >> /home/${USERNAME}/.bashrc
+CMD ["/usr/bin/bash"]
+
+#########################################
+# Target for compiled, deployable image #
+#########################################
+FROM base as user-overlay
+
+ARG USERNAME
+ARG USER_WS=/home/${USERNAME}/user_ws
+ENV USER_WS=${USER_WS}
+
+# Compile the workspace
+WORKDIR $USER_WS
+# hadolint ignore=SC1091
+RUN --mount=type=cache,target=/home/${USERNAME}/.ccache \
+    . /opt/overlay_ws/install/setup.sh && \
+    colcon build
+
+# Set up the user's .bashrc file and shell.
 CMD ["/usr/bin/bash"]
