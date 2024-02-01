@@ -10,18 +10,18 @@
       <Control ID="Sequence">
         <SubTree ID="Sample April Tag" _collapsed="true" num_samples="1" tag_id="2" apriltag_config="51mm_apriltag_detection_config.yaml" max_distance="0.02" max_rotation="0.2" avg_pose="{tag_pose}"/>
         <Action ID="TransformPoseFromYaml" input_pose="{tag_pose}" parameter_namespace="ServoReference" pose_parameters="{servo_reference_parameters}" output_pose="{reference_pose}"/>
-        <Action ID="TransformPoseFrame" input_pose="{reference_pose}" target_frame_id="world" output_pose="{target_pose}"/>
+        <Action ID="TransformPoseFrame" input_pose="{reference_pose}" target_frame_id="base_link" output_pose="{target_pose}"/>
       </Control>
-      <Control ID="Parallel" success_count="2" failure_count="1">
+      <Control ID="Parallel" success_count="1" failure_count="1">
         <Decorator ID="KeepRunningUntilFailure">
           <Control ID="Sequence">
             <SubTree ID="Sample April Tag" _collapsed="true" num_samples="1" tag_id="2" apriltag_config="51mm_apriltag_detection_config.yaml" max_distance="0.02" max_rotation="0.2" avg_pose="{tag_pose}"/>
             <Action ID="TransformPoseFromYaml" input_pose="{tag_pose}" parameter_namespace="ServoReference" pose_parameters="{servo_reference_parameters}" output_pose="{reference_pose}"/>
-            <Action ID="TransformPoseFrame" input_pose="{reference_pose}" target_frame_id="world" output_pose="{target_pose}"/>
+            <Action ID="TransformPoseFrame" input_pose="{reference_pose}" target_frame_id="base_link" output_pose="{target_pose}"/>
           </Control>
         </Decorator>
-        <Action ID="AveragePoseStamped" run_continuously="true" num_samples="10" max_distance="0.06" max_rotation="0.4" pose_sample="{target_pose}" avg_pose="{target_pose_avg}"/>
-        <Action ID="ServoTowardsPose" planning_group_name="manipulator" target_pose="{target_pose_avg}" translational_gain="1.0" rotational_gain="1.0" max_translational_vel="0.1" max_rotational_vel="0.1" publish_rate="20"/>
+        <Action ID="AveragePoseStamped" run_continuously="true" num_samples="10" max_distance="0.08" max_rotation="0.4" pose_sample="{target_pose}" avg_pose="{target_pose_avg}"/>
+        <Action ID="ServoTowardsPose" planning_group_name="manipulator" target_pose="{target_pose_avg}" translational_gain="1.0" rotational_gain="1.0" max_translational_vel="0.1" max_rotational_vel="0.1" publish_rate="20" exit_threshold_translation="0.01" exit_threshold_rotation="0.01" exit_threshold_time="0.1"/>
       </Control>
     </Control>
   </BehaviorTree>
