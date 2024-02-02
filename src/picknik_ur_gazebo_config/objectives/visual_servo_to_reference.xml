@@ -4,8 +4,6 @@
   <BehaviorTree ID="Visual Servo To Reference" _description="Move in closed loop to a pose relative to an AR Tag" _favorite="true" _hardcoded="false">
     <Control ID="Sequence">
       <Action ID="LoadObjectiveParameters" config_file_name="visual_servo_reference.yaml" parameters="{servo_reference_parameters}"/>
-      <Action ID="LoadObjectiveParameters" config_file_name="51mm_apriltag_detection_config.yaml" parameters="{tag_parameters}"/>
-      <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>
       <Action ID="ActivateControllers" controller_names="servo_controller"/>
       <Control ID="Sequence">
         <SubTree ID="Sample April Tag" _collapsed="true" num_samples="1" tag_id="2" apriltag_config="51mm_apriltag_detection_config.yaml" max_distance="0.02" max_rotation="0.2" avg_pose="{tag_pose}"/>
