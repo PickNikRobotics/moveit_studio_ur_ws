@@ -1,5 +1,3 @@
-based_on_package: "picknik_ur_base_config"
-
 hardware:
 
   # Be sure to set your robot's IP address.
