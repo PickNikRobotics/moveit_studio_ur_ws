@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Visual Servo To Reference">
   <!-- ////////// -->
-  <BehaviorTree ID="Visual Servo To Reference" _description="Move in closed loop to a pose relative to an AR Tag" _favorite="true" _hardcoded="false">
+  <BehaviorTree ID="Visual Servo To Reference" _description="Move in closed loop to a pose relative to an AprilTag" _favorite="true" _hardcoded="false">
     <Control ID="Sequence">
       <Action ID="LoadObjectiveParameters" config_file_name="visual_servo_reference.yaml" parameters="{servo_reference_parameters}"/>
       <Action ID="ActivateControllers" controller_names="servo_controller"/>
