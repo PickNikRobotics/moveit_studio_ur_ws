@@ -4,6 +4,7 @@
   <BehaviorTree ID="Object Segmentation 3D" _description="Detect objects using a 2D image segmentation model and convert them to 3D masks and graspable objects." _favorite="false" _hardcoded="false">
     <Control ID="Sequence" name="TopLevelSequence">
       <Action ID="ClearSnapshot"/>
+      <Action ID="ResetPlanningSceneObjects" apply_planning_scene_service="/apply_planning_scene"/>
       <Action ID="MoveToWaypoint" waypoint_name="Extended Right" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
       <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>
       <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
@@ -16,7 +17,6 @@
           <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
         </Control>
       </Decorator>
-      <Action ID="ResetPlanningSceneObjects" apply_planning_scene_service="/apply_planning_scene"/>
       <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.01" minimum_face_area="0.000625" face_separation_threshold="0.01" graspable_objects="{graspable_objects}"/>
       <Decorator ID="ForEachGraspableObject" vector_in="{graspable_objects}" out="{object}">
         <Action ID="ModifyObjectInPlanningScene" object="{object}" apply_planning_scene_service="/apply_planning_scene"/>
