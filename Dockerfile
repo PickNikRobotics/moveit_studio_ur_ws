@@ -61,12 +61,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
       --from-paths src \
       --ignore-src
 
-# Remove duplicated serial dependency install files, otherwise there will be a build error.
-# NOTE: This can be removed when MoveIt Pro fully separates core and hardware capabilities.
-WORKDIR /opt/overlay_ws
-RUN rm -rf build/serial install/serial
-
-
 ###################################################################
 # Target for the developer build which does not compile any code. #
 ###################################################################
