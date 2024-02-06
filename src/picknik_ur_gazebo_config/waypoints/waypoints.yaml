@@ -349,7 +349,7 @@
     velocity: []
   name: Monitor View
 - description: ''
-  favorite: true
+  favorite: false
   joint_state:
     effort: []
     header:
