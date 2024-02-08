@@ -16,7 +16,7 @@ SetupMTCGraspAndTwistThenMoveAlongArcPush:
   release_handle_distance: 0.03 # meters
   # How many degrees to rotate the lever handle (use positive value for
   # counter-clockwise rotation and negative value for clockwise rotation).
-  handle_twist_angle: 65.0  # degrees
-  approach_distance: 0.10   # meters
+  handle_twist_angle: 45.0  # degrees
+  approach_distance: 0.02   # meters
   push_open_distance: 0.05  # meters
   use_circular_arc: true
