@@ -1,26 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Open Door Lever Handle ML">
   <!-- ////////// -->
   <BehaviorTree ID="Open Door Lever Handle ML" _description="Attempts to open a door with a lever handle using machine learning." _favorite="false" _hardcoded="true">
     <Control ID="Sequence" name="TopLevelSequence">
       <!-- Load the parameters needed for this Objective -->
-      <Action ID="LoadObjectiveParameters" config_file_name="open_door_lever_handle_MTC_config.yaml" parameters="{parameters}"/>
       <!-- Update the admittance controller and reset the FTS -->
+      <!-- Look at the desired location where objects (door) will be present -->
+      <Action ID="LoadObjectiveParameters" config_file_name="open_door_lever_handle_MTC_config.yaml" parameters="{parameters}"/>
       <SubTree ID="Re-Zero Force-Torque Sensors" _collapsed="true"/>
       <SubTree ID="Update Admittance Controller" _collapsed="true"/>
       <!-- Look at the desired location where objects (door) will be present -->
       <SubTree ID="Move to Waypoint" waypoint_name="Extended Right 2" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
       <SubTree ID="Clear Snapshot" _collapsed="true"/>
       <SubTree ID="Reset Planning Scene" _collapsed="true"/>
-
       <SubTree ID="Detect Door Graspable Object" _collapsed="true" door_object="{door_object}" detection_classes="door"/>
-      <SubTree ID="Detect Lever Handle Graspable Object" _collapsed="true" handle_tip_pose="{handle_tip_pose}" handle_pivot_pose="{handle_pivot_pose}"/> 
+      <SubTree ID="Detect Lever Handle Line Segment" _collapsed="true" handle_tip_pose="{handle_tip_pose}" handle_pivot_pose="{handle_pivot_pose}"/>
       <Action ID="GetDoorHandle" handle_pivot_pose="{handle_pivot_pose}" handle_tip_pose="{handle_tip_pose}" point_cloud="{point_cloud}" minimum_door_handle_depth="0.02" target_output_frame_id="world" target_handle_length="{handle_length}" target_handle_pose="{handle_pose}" target_handle_z_offset="{handle_z_offset}"/>
       <Action ID="GetGraspAndTwistSubframes" grasp_rotation_z_radians="1.5708" target_grasp_pose="{grasp_pose}" grasp_and_twist_subframes="{grasp_and_twist_subframes}"/>
       <Decorator ID="ForEachObjectSubframe" vector_in="{grasp_and_twist_subframes}" out="{subframe}">
         <Action ID="AddSubframeToObject" subframe="{subframe}" graspable_object="{door_object}"/>
-      </Decorator> 
-      <Action ID="ModifyObjectInPlanningScene" object="{door_object}" apply_planning_scene_service="/apply_planning_scene"/>
+      </Decorator>
       <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.0"/>
       <Control ID="Sequence" name="OpenDoorLeverHandleMTC">
         <Action ID="InitializeMTCTask" task_id="open_door_lever_handle_ml" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{open_door_lever_handle_task}"/>

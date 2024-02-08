@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Detect Fixed Handle Graspable Object">
   <!-- ////////// -->
   <BehaviorTree ID="Detect Fixed Handle Graspable Object" _description="Detects a fixed-handle graspable object from a depth image and returns a PoseStamped for the handle centroid.">
@@ -27,8 +27,6 @@
           <Action ID="AlwaysFailure"/>
         </Decorator>
       </Decorator>
-      <!-- Add object to planning scene and return success  -->
-      <Action ID="ModifyObjectInPlanningScene" object="{handle_object}" apply_planning_scene_service="/apply_planning_scene"/>
       <Action ID="ExtractGraspableObjectPose" graspable_object="{handle_object}" pose="{grasp_pose}"/>
       <Action ID="LogMessage" message="Successfully extracted necessary subframes for the detected pull handle." log_level="info"/>
     </Control>

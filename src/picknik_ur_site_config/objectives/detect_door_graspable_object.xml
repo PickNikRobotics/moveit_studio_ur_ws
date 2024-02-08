@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Detect Door Graspable Object">
   <!-- ////////// -->
   <BehaviorTree ID="Detect Door Graspable Object" _description="Detects a door grapsable object from a depth image and gets a GraspableObject.">
@@ -26,8 +26,6 @@
           <Action ID="AlwaysFailure"/>
         </Decorator>
       </Decorator>
-      <!-- Add object to planning scene and return success  -->
-      <Action ID="ModifyObjectInPlanningScene" object="{door_object}" apply_planning_scene_service="/apply_planning_scene"/>
       <Action ID="LogMessage" message="Found a GraspableObject for the door." log_level="info"/>
     </Control>
   </BehaviorTree>
