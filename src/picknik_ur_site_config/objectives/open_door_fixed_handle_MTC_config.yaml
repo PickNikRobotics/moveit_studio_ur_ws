@@ -10,6 +10,8 @@ SetupMTCGraspThenMoveAlongArcPull:
   move_along_arc_controllers: "/joint_trajectory_controller_chained_open_door /admittance_controller_open_door /robotiq_gripper_controller"
 
   approach_distance: 0.02   # meters
+  approach_max_distance: 0.05   # meters
+  approach_min_distance: 0.01   # meters
   translation_distance: 0.0   # meters (0 means only move along arc here, no linear component)
   rotation_distance: 55.0  # Degrees
   use_circular_arc: true
