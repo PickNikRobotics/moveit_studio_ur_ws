@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="April Tag Object Registration">
+  <!-- ////////// -->
+  <BehaviorTree ID="April Tag Object Registration" _description="Estimate the pose of an object using ICP." _favorite="true" _hardcoded="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <!--      <Action ID="TransformPoseFrame" input_pose="{tag_pose}" target_frame_id="world" output_pose="{tag_pose_world}"/>-->
+      <SubTree ID="Sample April Tag" _collapsed="true" num_samples="1" tag_id="1" apriltag_config="apriltag_detection_config.yaml" max_distance="0.02" max_rotation="0.2" avg_pose="{tag_pose}"/>
+      <Action ID="GetLatestTransform" source_frame_id="base" target_frame_id="grasp_link" transform="{transform}"/>
+    </Control>
+  </BehaviorTree>
+</root>
