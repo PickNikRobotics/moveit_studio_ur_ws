@@ -1,9 +1,4 @@
-AllowGripperCollisionWithOctomap:
-  group_name: "gripper"
-  object_name: "<octomap>"
+SetupMTCUpdateGroupCollisionRule:
   allow_collision: true
-
-ForbidGripperCollisionWithOctomap:
-  group_name: "gripper"
-  object_name: "<octomap>"
-  allow_collision: false
+  group_name: gripper
+  object_name: <octomap>

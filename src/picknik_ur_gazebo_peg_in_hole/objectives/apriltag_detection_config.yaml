@@ -1,6 +1,6 @@
 DetectAprilTags:
   apriltag_family_name: 36h11
-  apriltag_size: 0.042
+  apriltag_size: 0.04456
   max_hamming: 0
   n_threads: 1
   quad_decimate: 1

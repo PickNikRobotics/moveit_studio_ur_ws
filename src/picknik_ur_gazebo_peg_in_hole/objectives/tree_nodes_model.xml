@@ -1173,6 +1173,7 @@
       <input_port name="use_all_planners" default="false">Use all available planners in parallel to find a solution.</input_port>
       <input_port name="constraints" default="">Motion planning constraints.</input_port>
     </Action>
+    <SubTree ID="Object Registration"/>
     <Control ID="Parallel">
       <description>
         <p>The ParallelNode executes all its children concurrently, but not in separate threads!</p>
@@ -1304,6 +1305,8 @@
       <input_port name="queue_size" default="1">The queue size for the publisher.</input_port>
       <input_port name="use_best_effort" default="false">Whether the publisher's reliability should be best effort (true) or reliable (false).</input_port>
     </Action>
+    <SubTree ID="Push Button"/>
+    <SubTree ID="Push Button ML"/>
     <Action ID="PushToSolutionQueue">
       <MetadataFields>
         <Metadata subcategory="Task Planning"/>
@@ -1409,18 +1412,23 @@
         <Metadata subcategory="User Input"/>
       </MetadataFields>
       <description>
-        <p>
-                    Retrieves a stamped pose from the MoveIt Studio parameter manager node.
-                </p>
-        <p>
-                    If no parameter is retrieved within the provided "timeout_sec" parameter, this Behavior returns FAILURE.
-                </p>
-        <p>
-                    Leaving the `timeout_sec` input empty makes this Behavior wait indefinitely to retrieve the parameter.
-                </p>
+        <p>Send a request to the <code>/retrieve_pose</code> service to retrieve the pose of a target and set the <code>pose</code> output port to the retrieved stamped pose.</p>
+        <p>Given a target pose, this behavior sends a service request to the <code>/retrieve_pose</code> service which is advertised by the MoveIt Pro Parameter Manager Node.</p>
+        <p>The service type is <code>moveit_studio_agent_msgs::srv::RetrievePose</code>.</p>
+        <p>The <code>pose</code> output port is of type <code>geometry_msgs::msg::PoseStamped</code>.</p>
+        <p>If this Behavior receives a response from the service server indicating that the request succeeded, this Behavior exits with a SUCCESS status code.</p>
+        <p>If any of the following failure states occur, this Behavior will exit with a FAILURE status code:</p>
+        <ul>
+          <li>No service server is available with the specified name.</li>
+          <li>If no pose is retrieved within the provided "timeout_sec" parameter.</li>
+          <li>If there is no pose stored by the MoveIt Studio parameter manager node.</li>
+          <li>The service response is received, but its success field is set to False.</li>
+        </ul>
+        <p>Leaving the <code>timeout_sec</code> input empty makes this Behavior wait indefinitely to retrieve the parameter.</p>
+        <p>This Behavior is derived from the ServiceClientBehaviorBase class defined in the <code>moveit_studio_behavior_interface</code> package.</p>
       </description>
-      <input_port name="timeout_sec" default="0"/>
-      <output_port name="pose" default="{pose}"/>
+      <input_port name="timeout_sec" default="">Number of seconds to wait for a response from the <code>/retrieve_pose</code> service. Leaving this input port empty makes this Behavior wait indefinitely to retrieve the parameter.</input_port>
+      <output_port name="pose" default="{pose}">The retrieved target pose</output_port>
     </Action>
     <Action ID="RetrieveWaypoint">
       <MetadataFields>

@@ -187,7 +187,7 @@
             </mesh>
           </geometry>
         </visual>
-        <pose>-0.8 0 1.031 0 0 3.141592</pose>
+        <pose>-0.6 0.0 1.031 0 0 0.0</pose>
       </link>
       <self_collide>false</self_collide>
     </model>

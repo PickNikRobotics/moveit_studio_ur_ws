@@ -4,8 +4,68 @@
   <BehaviorTree ID="April Tag Object Registration" _description="Estimate the pose of an object using ICP." _favorite="true" _hardcoded="false">
     <Control ID="Sequence" name="TopLevelSequence">
       <!--      <Action ID="TransformPoseFrame" input_pose="{tag_pose}" target_frame_id="world" output_pose="{tag_pose_world}"/>-->
+      <Action ID="ClearSnapshot"/>
+      <SubTree ID="Take Snapshot" _collapsed="true"/>
       <SubTree ID="Sample April Tag" _collapsed="true" num_samples="1" tag_id="1" apriltag_config="apriltag_detection_config.yaml" max_distance="0.02" max_rotation="0.2" avg_pose="{tag_pose}"/>
-      <Action ID="GetLatestTransform" source_frame_id="base" target_frame_id="grasp_link" transform="{transform}"/>
+      <Action ID="TransformPoseFrame" input_pose="{tag_pose}" target_frame_id="world" output_pose="{tag_pose_world}"/>
+      <Control ID="Fallback">
+        <Decorator ID="Timeout" msec="1000">
+          <Action ID="PublishStaticFrame" pose="{tag_pose_world}" child_frame_id="tag_frame" publish_rate="5"/>
+        </Decorator>
+        <Decorator ID="Timeout" msec="1000">
+          <Control ID="Sequence">
+            <Action ID="TransformPose" input_pose="{tag_pose_world}" translation_xyz="-0.021053;0.0;-0.063013" quaternion_xyzw="0.0;0.0;0.0;1.0" output_pose="{object_stamped_pose_estimate}"/>
+            <Action ID="PublishStaticFrame" pose="{object_stamped_pose_estimate}" child_frame_id="object_frame" publish_rate="5"/>
+          </Control>
+        </Decorator>
+        <Control ID="Sequence">
+          <Action ID="LoadPointCloudFromFile" file_path="/home/paul/Downloads/moveit_studio_ws/src/picknik_ur5e_configs/src/moveit_studio_ur_ws/src/picknik_ur_gazebo_peg_in_hole/mesh/peg_hole.stl" frame_id="object_frame" num_sampled_points="10000" random_seed="1234" point_cloud="{model_point_cloud}" scale="1.0" color="255;150;0"/>
+          <Control ID="Fallback">
+            <Decorator ID="Timeout" msec="1000">
+              <Action ID="PublishStaticFrame" pose="{object_stamped_pose_estimate}" child_frame_id="object_frame" publish_rate="5"/>
+            </Decorator>
+            <Action ID="AlwaysSuccess"/>
+          </Control>
+          <Action ID="TransformPointCloudFrame" input_cloud="{model_point_cloud}" target_frame="world" output_cloud="{model_point_cloud}"/>
+          <Action ID="GetSynchronizedCameraTopics" point_cloud_topic_name="/wrist_mounted_camera/depth/color/points" rgb_image_topic_name="/wrist_mounted_camera/color/image_raw" rgb_camera_info_topic_name="/wrist_mounted_camera/color/camera_info" point_cloud="{point_cloud}" rgb_image="{rgb_image}" rgb_camera_info="{rgb_camera_info}"/>
+          <Action ID="TransformPointCloudFrame" input_cloud="{point_cloud}" target_frame="world" output_cloud="{point_cloud}"/>
+          <Action ID="RegisterPointClouds" base_point_cloud="{model_point_cloud}" target_point_cloud="{point_cloud}" max_iterations="300" max_correspondence_distance="0.02" target_pose_in_base_frame="{model_to_real_pose}"/>
+          <Action ID="TransformPointCloud" input_cloud="{model_point_cloud}" transform_pose="{model_to_real_pose}" output_cloud="{aligned_model_cloud}"/>
+          <Control ID="Fallback">
+            <Decorator ID="Timeout" msec="100">
+              <Action ID="PublishStaticFrame" pose="{object_stamped_pose_estimate}" child_frame_id="object_frame" publish_rate="5"/>
+            </Decorator>
+            <Action ID="AlwaysSuccess"/>
+          </Control>
+          <Action ID="SendPointCloudToUI" point_cloud="{aligned_model_cloud}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
+          <Action ID="TransformPoseWithPose" input_pose="{object_stamped_pose_estimate}" transform_pose="{model_to_real_pose}" output_pose="{model_world}"/>
+          <Control ID="Fallback">
+            <Decorator ID="Timeout" msec="1000">
+              <Action ID="PublishStaticFrame" pose="{model_world}" child_frame_id="object_frame_new" publish_rate="5"/>
+            </Decorator>
+            <Action ID="AlwaysSuccess"/>
+          </Control>
+          <Action ID="TransformPoseFrame" input_pose="{model_world}" target_frame_id="object_frame_new" output_pose="{model_object}"/>
+          <Action ID="TransformPose" input_pose="{model_object}" translation_xyz="-0.0355;0.0;0.08" quaternion_xyzw="0.0;0.0;0.0;1.0" output_pose="{hole_object}"/>
+          <Action ID="TransformPoseFrame" input_pose="{hole_object}" target_frame_id="world" output_pose="{hole_object}"/>
+          <Control ID="Fallback">
+            <Decorator ID="Timeout" msec="1000">
+              <Action ID="PublishStaticFrame" pose="{hole_object}" child_frame_id="object_hole" publish_rate="5"/>
+            </Decorator>
+            <Action ID="AlwaysSuccess"/>
+          </Control>
+        </Control>
+      </Control>
+      <Action ID="TransformPose" input_pose="{hole_object}" translation_xyz="0.0;0.0;0.0" quaternion_xyzw="0.0;1.0;0.0;0.0" output_pose="{goal_pose}"/>
+      <Action ID="MoveToPose" target_pose="{goal_pose}" ik_frame="peg_tip_link" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
+      <Action ID="TransformPose" input_pose="{goal_pose}" translation_xyz="0.0;0.0;-0.1" quaternion_xyzw="0.0;1.0;0.0;0.0" output_pose="{goal_pose}"/>
+      <Action ID="InitializeMTCTask" task_id="" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{mtc_task}"/>
+      <Action ID="SetupMTCCurrentState" task="{mtc_task}"/>
+      <Action ID="LoadObjectiveParameters" config_file_name="push_along_axis_config.yaml" parameters="{parameters}"/>
+      <Action ID="SetupMTCMoveAlongFrameAxis" task="{mtc_task}" hand_frame="grasp_link" axis_frame="world" axis_x="0.0" axis_y="0.0" axis_z="-1.0" max_distance="0.2" min_distance="0" planning_group_name="manipulator" velocity_scale="1.0" acceleration_scale="1.0"/>
+      <Action ID="SetupMTCUpdateGroupCollisionRule" parameters="{parameters}" task="{mtc_task}"/>
+      <Action ID="PlanMTCTask" task="{mtc_task}" solution="{mtc_solution}"/>
+      <Action ID="ExecuteMTCTask" solution="{mtc_solution}"/>
     </Control>
   </BehaviorTree>
 </root>
