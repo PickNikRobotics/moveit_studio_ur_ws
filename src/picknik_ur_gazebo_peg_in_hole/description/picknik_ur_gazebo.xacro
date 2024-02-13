@@ -100,25 +100,25 @@
   </joint>
 
 
-  <link name="hole_link">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://picknik_ur_gazebo_peg_in_hole/mesh/peg_hole.dae"/>
-      </geometry>
-    </visual>
+<!--  <link name="hole_link">-->
+<!--    <visual>-->
+<!--      <origin xyz="0 0 0" rpy="0 0 0"/>-->
+<!--      <geometry>-->
+<!--        <mesh filename="package://picknik_ur_gazebo_peg_in_hole/mesh/peg_hole.dae"/>-->
+<!--      </geometry>-->
+<!--    </visual>-->
 <!--    <collision>-->
 <!--      <origin xyz="0 0 0" rpy="0 0 0"/>-->
 <!--      <geometry>-->
 <!--        <mesh filename="package://picknik_ur_gazebo_peg_in_hole/mesh/peg_hole.dae"/>-->
 <!--      </geometry>-->
 <!--    </collision>-->
-  </link>
-  <joint name="hole_link_joint" type="fixed">
-    <parent link="base" />
-    <child link="hole_link" />
-    <origin rpy="0 0 0" xyz="0.8 0 0.00" />
-  </joint>
+<!--  </link>-->
+<!--  <joint name="hole_link_joint" type="fixed">-->
+<!--    <parent link="base" />-->
+<!--    <child link="hole_link" />-->
+<!--    <origin rpy="0 0 0" xyz="0.8 0 0.00" />-->
+<!--  </joint>-->
 
 
 

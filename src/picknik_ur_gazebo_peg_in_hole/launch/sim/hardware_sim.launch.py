@@ -12,6 +12,7 @@
 #
 #    * Neither the name of the PickNik Inc. nor the names of its
 #      contributors may be used to endorse or promote products derived from
+#      contributors may be used to endorse or promote products derived from
 #      this software without specific prior written permission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"

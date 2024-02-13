@@ -89,7 +89,7 @@
     <Action ID="BiasedCoinFlip">
       <description>
         <p>
-                  Simulates flipping a biased coin with the specified probability of success.
+                    Simulates flipping a biased coin with the specified probability of success.
                 </p>
       </description>
       <input_port name="success_probability" default="0.5">The probability that the behavior will return success. Should be in the range [0, 1]</input_port>
@@ -182,7 +182,7 @@
       <input_port name="px" default="0.0">x coordinate of cuboid center in world coordinates (m)</input_port>
       <input_port name="py" default="0.0">y coordinate of cuboid center in world coordinates (m)</input_port>
       <input_port name="pz" default="0.0">z coordinate of cuboid center in world coordinates (m)</input_port>
-      <input_port name="rx" default="0.0">x rot (rool) of cuboid center in world coordinates (rad)</input_port>
+      <input_port name="rx" default="0.0">x rot (roll) of cuboid center in world coordinates (rad)</input_port>
       <input_port name="ry" default="0.0">y rot (pitch) of cuboid center in world coordinates (rad)</input_port>
       <input_port name="rz" default="0.0">z rot (yaw) of cuboid center in world coordinates (rad)</input_port>
       <input_port name="dx" default="0.1">x dimension of cuboid (m)</input_port>
@@ -241,7 +241,7 @@
       </description>
       <input_port name="delay_msec" default="">Sleep for the duration of the delay period and tick the child node.</input_port>
     </Decorator>
-    <Action ID="DetectApriltags">
+    <Action ID="DetectAprilTags">
       <MetadataFields>
         <Metadata subcategory="Perception"/>
       </MetadataFields>
@@ -267,6 +267,7 @@
       <input_port name="waypoint_name" default="{waypoint_name}">Name of the waypoint to edit.</input_port>
       <input_port name="waypoint_operation" default="{waypoint_operation}">Waypoint operation type.</input_port>
     </Action>
+    <SubTree ID="Estimate Object Pose"/>
     <Action ID="ExecuteFollowJointTrajectory">
       <MetadataFields>
         <Metadata subcategory="Motion Planning"/>
@@ -288,7 +289,7 @@
       </MetadataFields>
       <description>
         <p>
-                Takes a shared pointer to an MTC Solution object via an input data port, and executes the lowest-cost trajectory in that Solution using the MTC ExecuteTaskSolution MoveGroup capability's "/execute_task_solution" action server.
+                    Takes a shared pointer to an MTC Solution object via an input data port, and executes the lowest-cost trajectory in that Solution using the MTC ExecuteTaskSolution MoveGroup capability's "/execute_task_solution" action server.
                 </p>
       </description>
       <input_port name="solution" default="{mtc_solution}">MoveIt Task Constructor plan solution.</input_port>
@@ -400,10 +401,10 @@
                     Fits a line segment to the points in a 3D mask, ignoring outliers.
                 </p>
         <p>
-                    The line parameters are estimated with the RANSAC algorithm. The RANSAC iterative process hypothesizes 
-                    line models from random point subsets, selecting the hypothesis that explains the most points in the set. 
-                    A point is considered explained by a line hypothesis (a.k.a. "inlier") if it is closer than a distance 
-                    threshold to it. The output segment is contained in the resulting line, and is the shortest segment 
+                    The line parameters are estimated with the RANSAC algorithm. The RANSAC iterative process hypothesizes
+                    line models from random point subsets, selecting the hypothesis that explains the most points in the set.
+                    A point is considered explained by a line hypothesis (a.k.a. "inlier") if it is closer than a distance
+                    threshold to it. The output segment is contained in the resulting line, and is the shortest segment
                     containing all inlier points.
                 </p>
       </description>
@@ -416,54 +417,147 @@
     </Action>
     <Decorator ID="ForEachCollisionObject">
       <description>
-        <p>
-              Iterate through a vector of moveit_msgs/CollisionObject.
-            </p>
+        <p>Iterate through a vector of <code>moveit_msgs::msg::CollisionObject</code> and set the current element to the output data port.</p>
+        <p>When this Behavior is ticked, it will get the input vector from the input data port and compare the current index against the size of the input vector.</p>
+        <p>If the current index is less than the size of the input vector, set the value of the output data port to the <code>moveit_msgs::msg::CollisionObject</code> value of the vector at that index, tick the child node, and then evaluate the child node's status.</p>
+        <ul>
+          <li>If the child node returns SUCCESS, increment the current index and return RUNNING.</li>
+          <li>If the child node returns RUNNING, return RUNNING.</li>
+          <li>If the child node returns FAILURE, set the current index to 0 and return FAILURE.</li>
+        </ul>
+        <p>If the current index is greater than or equal to the size of the input vector, set the current index to 0 and return SUCCESS.</p>
+        <p>If any of the following failure states occur, this Behavior will exit with a FAILURE status code:</p>
+        <ul>
+          <li>The input vector could not be retrieved from the input data port.</li>
+          <li>The child node returns FAILURE.</li>
+        </ul>
+        <p> Otherwise, returns RUNNING while still in-progress.</p>
       </description>
       <input_port name="vector_in" default="{objects}">Input vector of CollisionObjects.</input_port>
       <output_port name="out" default="{object}">Output set to the current CollisionObject at each iteration.</output_port>
     </Decorator>
     <Decorator ID="ForEachGraspableObject">
       <description>
-        <p>
-              Iterate through a vector of moveit_studio_vision_msgs/GraspableObject.
-            </p>
+        <p>Iterate through a vector of <code>moveit_studio_vision_msgs::msg::GraspableObject</code> and set the current element to the output data port.</p>
+        <p>When this Behavior is ticked, it will get the input vector from the input data port and compare the current index against the size of the input vector.</p>
+        <p>If the current index is less than the size of the input vector, set the value of the output data port to the <code>moveit_studio_vision_msgs::msg::GraspableObject</code> value of the vector at that index, tick the child node, and then evaluate the child node's status.</p>
+        <ul>
+          <li>If the child node returns SUCCESS, increment the current index and return RUNNING.</li>
+          <li>If the child node returns RUNNING, return RUNNING.</li>
+          <li>If the child node returns FAILURE, set the current index to 0 and return FAILURE.</li>
+        </ul>
+        <p>If the current index is greater than or equal to the size of the input vector, set the current index to 0 and return SUCCESS.</p>
+        <p>If any of the following failure states occur, this Behavior will exit with a FAILURE status code:</p>
+        <ul>
+          <li>The input vector could not be retrieved from the input data port.</li>
+          <li>The child node returns FAILURE.</li>
+        </ul>
+        <p> Otherwise, returns RUNNING while still in-progress.</p>
       </description>
       <input_port name="vector_in" default="{objects}">Input vector of GraspableObjects.</input_port>
       <output_port name="out" default="{object}">Output set to the current GraspableObject at each iteration.</output_port>
     </Decorator>
     <Decorator ID="ForEachMask2D">
       <description>
-        <p>
-              Iterate through a vector of image masks.
-            </p>
+        <p>Iterate through a vector of <code>moveit_studio_vision_msgs::msg::Mask2D</code> and set the current element to the output data port.</p>
+        <p>When this Behavior is ticked, it will get the input vector from the input data port and compare the current index against the size of the input vector.</p>
+        <p>If the current index is less than the size of the input vector, set the value of the output data port to the <code>moveit_studio_vision_msgs::msg::Mask2D</code> value of the vector at that index, tick the child node, and then evaluate the child node's status.</p>
+        <ul>
+          <li>If the child node returns SUCCESS, increment the current index and return RUNNING.</li>
+          <li>If the child node returns RUNNING, return RUNNING.</li>
+          <li>If the child node returns FAILURE, set the current index to 0 and return FAILURE.</li>
+        </ul>
+        <p>If the current index is greater than or equal to the size of the input vector, set the current index to 0 and return SUCCESS.</p>
+        <p>If any of the following failure states occur, this Behavior will exit with a FAILURE status code:</p>
+        <ul>
+          <li>The input vector could not be retrieved from the input data port.</li>
+          <li>The child node returns FAILURE.</li>
+        </ul>
+        <p> Otherwise, returns RUNNING while still in-progress.</p>
       </description>
       <input_port name="vector_in" default="{names}">Input vector of Mask2D messages.</input_port>
       <output_port name="out" default="{name}">Output set to the current Mask2D at each iteration.</output_port>
     </Decorator>
     <Decorator ID="ForEachMask3D">
       <description>
-        <p>
-              Iterate through a vector of point cloud masks.
-            </p>
+        <p>Iterate through a vector of <code>moveit_studio_vision_msgs::msg::Mask3D</code> and set the current element to the output data port.</p>
+        <p>When this Behavior is ticked, it will get the input vector from the input data port and compare the current index against the size of the input vector.</p>
+        <p>If the current index is less than the size of the input vector, set the value of the output data port to the <code>moveit_studio_vision_msgs::msg::Mask3D</code> value of the vector at that index, tick the child node, and then evaluate the child node's status.</p>
+        <ul>
+          <li>If the child node returns SUCCESS, increment the current index and return RUNNING.</li>
+          <li>If the child node returns RUNNING, return RUNNING.</li>
+          <li>If the child node returns FAILURE, set the current index to 0 and return FAILURE.</li>
+        </ul>
+        <p>If the current index is greater than or equal to the size of the input vector, set the current index to 0 and return SUCCESS.</p>
+        <p>If any of the following failure states occur, this Behavior will exit with a FAILURE status code:</p>
+        <ul>
+          <li>The input vector could not be retrieved from the input data port.</li>
+          <li>The child node returns FAILURE.</li>
+        </ul>
+        <p> Otherwise, returns RUNNING while still in-progress.</p>
       </description>
       <input_port name="vector_in" default="{names}">Input vector of Mask3D messages.</input_port>
       <output_port name="out" default="{name}">Output set to the current Mask3D at each iteration.</output_port>
     </Decorator>
+    <Decorator ID="ForEachObjectSubframe">
+      <description>
+        <p>Iterate through a vector of <code>moveit_studio_vision_msgs::msg::ObjectSubframe</code> and set the current element to the output data port.</p>
+        <p>When this Behavior is ticked, it will get the input vector from the input data port and compare the current index against the size of the input vector.</p>
+        <p>If the current index is less than the size of the input vector, set the value of the output data port to the <code>moveit_studio_vision_msgs::msg::ObjectSubframe</code> value of the vector at that index, tick the child node, and then evaluate the child node's status.</p>
+        <ul>
+          <li>If the child node returns SUCCESS, increment the current index and return RUNNING.</li>
+          <li>If the child node returns RUNNING, return RUNNING.</li>
+          <li>If the child node returns FAILURE, set the current index to 0 and return FAILURE.</li>
+        </ul>
+        <p>If the current index is greater than or equal to the size of the input vector, set the current index to 0 and return SUCCESS.</p>
+        <p>If any of the following failure states occur, this Behavior will exit with a FAILURE status code:</p>
+        <ul>
+          <li>The input vector could not be retrieved from the input data port.</li>
+          <li>The child node returns FAILURE.</li>
+        </ul>
+        <p> Otherwise, returns RUNNING while still in-progress.</p>
+      </description>
+      <input_port name="vector_in" default="{names}">Input vector of <code>moveit_studio_vision_msgs::msg::ObjectSubframe</code> messages.</input_port>
+      <output_port name="out" default="{name}">Output set to the current <code>moveit_studio_vision_msgs::msg::ObjectSubframe</code> at each iteration.</output_port>
+    </Decorator>
     <Decorator ID="ForEachPoseStamped">
       <description>
-        <p>
-              Iterate through a vector of PoseStamped messages.
-            </p>
+        <p>Iterate through a vector of <code>geometry_msgs::msg::PoseStamped</code> and set the current element to the output data port.</p>
+        <p>When this Behavior is ticked, it will get the input vector from the input data port and compare the current index against the size of the input vector.</p>
+        <p>If the current index is less than the size of the input vector, set the value of the output data port to the <code>geometry_msgs::msg::PoseStamped</code> value of the vector at that index, tick the child node, and then evaluate the child node's status.</p>
+        <ul>
+          <li>If the child node returns SUCCESS, increment the current index and return RUNNING.</li>
+          <li>If the child node returns RUNNING, return RUNNING.</li>
+          <li>If the child node returns FAILURE, set the current index to 0 and return FAILURE.</li>
+        </ul>
+        <p>If the current index is greater than or equal to the size of the input vector, set the current index to 0 and return SUCCESS.</p>
+        <p>If any of the following failure states occur, this Behavior will exit with a FAILURE status code:</p>
+        <ul>
+          <li>The input vector could not be retrieved from the input data port.</li>
+          <li>The child node returns FAILURE.</li>
+        </ul>
+        <p> Otherwise, returns RUNNING while still in-progress.</p>
       </description>
       <input_port name="vector_in" default="{names}">Input vector of PoseStamped messages.</input_port>
       <output_port name="out" default="{name}">Output set to the current PoseStamped at each iteration.</output_port>
     </Decorator>
     <Decorator ID="ForEachString">
       <description>
-        <p>
-              Iterate through a vector of strings.
-            </p>
+        <p>Iterate through a vector of <code>std::string</code> and set the current element to the output data port.</p>
+        <p>When this Behavior is ticked, it will get the input vector from the input data port and compare the current index against the size of the input vector.</p>
+        <p>If the current index is less than the size of the input vector, set the value of the output data port to the <code>std::string</code> value of the vector at that index, tick the child node, and then evaluate the child node's status.</p>
+        <ul>
+          <li>If the child node returns SUCCESS, increment the current index and return RUNNING.</li>
+          <li>If the child node returns RUNNING, return RUNNING.</li>
+          <li>If the child node returns FAILURE, set the current index to 0 and return FAILURE.</li>
+        </ul>
+        <p>If the current index is greater than or equal to the size of the input vector, set the current index to 0 and return SUCCESS.</p>
+        <p>If any of the following failure states occur, this Behavior will exit with a FAILURE status code:</p>
+        <ul>
+          <li>The input vector could not be retrieved from the input data port.</li>
+          <li>The child node returns FAILURE.</li>
+        </ul>
+        <p> Otherwise, returns RUNNING while still in-progress.</p>
       </description>
       <input_port name="vector_in" default="{names}">Input vector of strings, or a semicolon-separated list of strings.</input_port>
       <output_port name="out" default="{name}">Output set to the current string at each iteration.</output_port>
@@ -607,17 +701,17 @@
       <input_port name="point_cloud" default="{point_cloud}">Input point cloud.</input_port>
       <input_port name="masks3d" default="{masks3d}">3D masks selecting subsets of points.</input_port>
       <input_port name="base_frame" default="world">Calculate poses of graspable objects relative
-              to this frame.</input_port>
+                to this frame.</input_port>
       <input_port name="plane_inlier_threshold" default="0.01">Sets the distance threshold in
-              meters used when calculating which points are part of a plane. Higher values tolerate
-              noisy data but result in less precise plane fitting.</input_port>
+                meters used when calculating which points are part of a plane. Higher values tolerate
+                noisy data but result in less precise plane fitting.</input_port>
       <input_port name="minimum_face_area" default="0.000625">Sets the minimum area in meters^2
-              for a face to be considered graspable, which depends on the type of the gripper used by
-              the robot. For vacuum grippers, set this to match the area of the gripper's suction cup.</input_port>
+                for a face to be considered graspable, which depends on the type of the gripper used by
+                the robot. For vacuum grippers, set this to match the area of the gripper's suction cup.</input_port>
       <input_port name="face_separation_threshold" default="0.01">Sets how far apart in meters two coplanar
-              point clusters must be at the least to be split into two planes.</input_port>
+                point clusters must be at the least to be split into two planes.</input_port>
       <output_port name="graspable_objects" default="{graspable_objects}">Vector of graspable objects, represented as
-              moveit_studio_vision_msgs/GraspableObject messages.</output_port>
+                moveit_studio_vision_msgs/GraspableObject messages.</output_port>
     </Action>
     <Action ID="GetImage">
       <MetadataFields>
@@ -645,11 +739,18 @@
       </MetadataFields>
       <description>
         <p>
-          <b>Warning: Currently for internal MoveIt Studio use only!</b>
+          <b>Warning: This Behavior is not intended for use in custom objectives! Currently for internal MoveIt Pro use only.</b>
         </p>
-        <p>
-                    Retrieve an integer parameter value from the Objective Server.
-                </p>
+        <p>Get the value of an <code>int</code> parameter stored in the map in the Objective Server node and make it available on the output port.</p>
+        <p>The map contains parameter overrides which are specified when creating the DoObjectiveSequence goal. Given the parameter name of an <code>int</code> parameter, send a service request to the Objective Server to retrieve user input value for the corresponding parameter.</p>
+        <p>If this Behavior is able to retrieve the <code>int</code> parameter, this Behavior exits with a SUCCESS status code.</p>
+        <p>If any of the following failure states occur, this Behavior will exit with a FAILURE status code:</p>
+        <ul>
+          <li>The Behavior failed to get the parameter name from the input data port.</li>
+          <li>The requested parameter names is not found.</li>
+          <li>The value for the retrieved parameter is not an <code>int</code>.</li>
+        </ul>
+        <p>This Behavior is derived from the GetParameterFromUser class.</p>
       </description>
       <input_port name="parameter_name" default="">Parameter name</input_port>
       <output_port name="parameter_value" default="">Parameter value written to blackboard</output_port>
@@ -663,7 +764,8 @@
                     Gets the latest transform from the robot model root to a frame specified as an input parameter to this behavior.
                 </p>
       </description>
-      <input_port name="parameters" default="{parameters}">Behavior parameters stored in a common configuration file for the objective.</input_port>
+      <input_port name="source_frame_id" default="{source_frame_id}">The source frame name.</input_port>
+      <input_port name="target_frame_id" default="{target_frame_id}">The target frame name.</input_port>
       <output_port name="transform" default="{transform}">Latest transform between the target and source frames.</output_port>
     </Action>
     <Action ID="GetMasks2DAction">
@@ -740,7 +842,7 @@
         <p>Wait for a point cloud message to be published on a specified ROS topic and copy it to an output data port.</p>
         <p>Given the name of a topic where <code>sensor_msgs::msg::PointCloud2</code> messages are being published, this Behavior subscribes to that topic and waits until a new point cloud message is published to the topic.</p>
         <p>When the Behavior's subscriber receives a new point cloud message, this Behavior copies it to an output data port and then finishes with a SUCCESS status.</p>
-        <p>Afterwards, other Behaviors which take <code>sensor_msgs::msg::PointCloud2</code>  messages as inputs can use this point cloud for further processing or analysis.</p>
+        <p>Afterwards, other Behaviors which take <code>sensor_msgs::msg::PointCloud2</code> messages as inputs can use this point cloud for further processing or analysis.</p>
         <p>If any of the following failure states occur, this Behavior will exit with a FAILURE status code:</p>
         <ul>
           <li>No publisher is found on the topic.</li>
@@ -771,11 +873,18 @@
       </MetadataFields>
       <description>
         <p>
-          <b>Warning: Currently for internal MoveIt Studio use only!</b>
+          <b>Warning: This Behavior is not intended for use in custom objectives! Currently for internal MoveIt Pro use only.</b>
         </p>
-        <p>
-                    Retrieve a stamped pose parameter value from the Objective Server.
-                </p>
+        <p>Get the value of an <code>geometry_msgs::msg::PoseStamped</code> parameter stored in the map in the Objective Server node and make it available on the output port.</p>
+        <p>The map contains parameter overrides which are specified when creating the DoObjectiveSequence goal. Given the parameter name of an <code>geometry_msgs::msg::PoseStamped</code> parameter, send a service request to the Objective Server to retrieve user input value for the corresponding parameter.</p>
+        <p>If this Behavior is able to retrieve the <code>geometry_msgs::msg::PoseStamped</code> parameter, this Behavior exits with a SUCCESS status code.</p>
+        <p>If any of the following failure states occur, this Behavior will exit with a FAILURE status code:</p>
+        <ul>
+          <li>The Behavior failed to get the parameter name from the input data port.</li>
+          <li>The requested parameter names is not found.</li>
+          <li>The value for the retrieved parameter is not a <code>geometry_msgs::msg::PoseStamped</code>.</li>
+        </ul>
+        <p>This Behavior is derived from the GetParameterFromUser class.</p>
       </description>
       <input_port name="parameter_name" default="">Parameter name</input_port>
       <output_port name="parameter_value" default="">Parameter value written to blackboard</output_port>
@@ -786,11 +895,18 @@
       </MetadataFields>
       <description>
         <p>
-          <b>Warning: Currently for internal MoveIt Studio use only!</b>
+          <b>Warning: This Behavior is not intended for use in custom objectives! Currently for internal MoveIt Pro use only.</b>
         </p>
-        <p>
-                    Retrieve a string parameter value from the Objective Server.
-                </p>
+        <p>Get the value of an <code>std::string</code> parameter stored in the map in the Objective Server node and make it available on the output port.</p>
+        <p>The map contains parameter overrides which are specified when creating the DoObjectiveSequence goal. Given the parameter name of an <code>std::string</code> parameter, send a service request to the Objective Server to retrieve user input value for the corresponding parameter.</p>
+        <p>If this Behavior is able to retrieve the <code>std::string</code> parameter, this Behavior exits with a SUCCESS status code.</p>
+        <p>If any of the following failure states occur, this Behavior will exit with a FAILURE status code:</p>
+        <ul>
+          <li>The Behavior failed to get the parameter name from the input data port.</li>
+          <li>The requested parameter names is not found.</li>
+          <li>The value for the retrieved parameter is not a <code>std::string</code>.</li>
+        </ul>
+        <p>This Behavior is derived from the GetParameterFromUser class.</p>
       </description>
       <input_port name="parameter_name" default="">Parameter name</input_port>
       <output_port name="parameter_value" default="">Parameter value written to blackboard</output_port>
@@ -1067,6 +1183,7 @@
       <input_port name="success_count" default="">Number of children which need to succeed to trigger a SUCCESS.</input_port>
       <input_port name="failure_count" default="">Number of children which need to fail to trigger a FAILURE.</input_port>
     </Control>
+    <SubTree ID="Pick April Tag Labeled Object"/>
     <SubTree ID="Pick Object">
       <description>
         <p>
@@ -1170,7 +1287,7 @@
                 </p>
         <p>
                     Use the `CreateStampedPose` behavior to create the input pose.
-                 </p>
+                </p>
       </description>
       <input_port name="pose" default="{stamped_pose}">Pose describing the new frame location with respect to an origin frame.</input_port>
       <input_port name="child_frame_id" default="published_frame">The name to give to the new frame.</input_port>
@@ -1237,8 +1354,8 @@
       </MetadataFields>
       <description>
         <p>
-              Finds the pose of a target point cloud relative to the base frame of a base point cloud using the Iterative Closest Point (ICP) algorithm.
-            </p>
+                    Finds the pose of a target point cloud relative to the base frame of a base point cloud using the Iterative Closest Point (ICP) algorithm.
+                </p>
       </description>
       <input_port name="base_point_cloud" default="{point_cloud}">Point cloud to align with the target point cloud.</input_port>
       <input_port name="target_point_cloud" default="{target_point_cloud}">Point cloud to which align the base point cloud.</input_port>
@@ -1270,18 +1387,22 @@
         <Metadata subcategory="User Input"/>
       </MetadataFields>
       <description>
-        <p>
-                    Retrieves a joint state from the MoveIt Studio parameter manager node.
-                </p>
-        <p>
-                    If no parameter is retrieved within the provided "timeout_sec" parameter, this Behavior returns FAILURE.
-                </p>
-        <p>
-                    Leaving the `timeout_sec` input empty makes this Behavior wait indefinitely to retrieve the parameter.
-                </p>
+        <p>Send a request to the <code>/retrieve_joint_state</code> service to retrieve the joint states of the robot and set the <code>joint_state</code> output port to the retrieved joint states.</p>
+        <p>Given the name of the joint, this behavior sends a service request to the <code>/retrieve_joint_state</code> service which is advertised by the MoveIt Pro Parameter Manager Node.</p>
+        <p>The service type is <code>moveit_studio_agent_msgs::srv::RetrieveJointState</code>.</p>
+        <p>The <code>joint_state</code> output port is of type <code>sensor_msgs::msg::JointState</code>.</p>
+        <p>If this Behavior receives a response from the service server indicating that the request succeeded, this Behavior exits with a SUCCESS status code.</p>
+        <p>If any of the following failure states occur, this Behavior will exit with a FAILURE status code:</p>
+        <ul>
+          <li>No service server is available with the specified name.</li>
+          <li>If no parameter is retrieved within the provided "timeout_sec" parameter.</li>
+          <li>The service response is received, but its success field is set to False.</li>
+        </ul>
+        <p>Leaving the <code>timeout_sec</code> input empty makes this Behavior wait indefinitely to retrieve the parameter.</p>
+        <p>This Behavior is derived from the ServiceClientBehaviorBase class defined in the <code>moveit_studio_behavior_interface</code> package.</p>
       </description>
-      <input_port name="timeout_sec" default=""/>
-      <output_port name="joint_state" default="{joint_state}"/>
+      <input_port name="timeout_sec" default="">Number of seconds to wait for a response from the <code>/retrieve_joint_state</code> service.</input_port>
+      <output_port name="joint_state" default="{joint_state}">The retrieved joint states</output_port>
     </Action>
     <Action ID="RetrievePoseParameter">
       <MetadataFields>
@@ -1326,11 +1447,11 @@
           </p>
       </description>
       <input_port name="num_samples" default="1">The number of times to sample the pose.</input_port>
-      <input_port name="tag_id" default="0">The AprilTag ID to detect.</input_port>
+      <input_port name="tag_id" default="1">The AprilTag ID to detect.</input_port>
       <input_port name="apriltag_config" default="apriltag_detection_config.yaml">The configuration file for detecting AprilTags.</input_port>
       <input_port name="max_distance" default="0.02">The maximum distance allow between the average pose and the new sample (Euclidean distance between pose positions).</input_port>
       <input_port name="max_rotation" default="0.2">The maximum angle allow between the average pose and the new sample (shortest angle between two pose quaternions).</input_port>
-      <output_port name="avg_pose" default="{avg_pose}">The calculated average pose.</output_port>
+      <output_port name="avg_pose" default="{tag_pose}">The calculated average pose.</output_port>
     </SubTree>
     <Action ID="SaveCurrentState">
       <MetadataFields>
@@ -1450,13 +1571,13 @@
                     Move the tip towards the Cartesian `target_pose` using the specified gains and velocity limits.
                 </p>
         <p>
-                   This Behavior is intended to be used in a Parallel node.
-                   With every tick, the error between the current tip pose (for `planning_group_name`) and the given `target_pose` is computed.
-                   That error is also the direction along which the tip has to move to decrease the error.
-                   Therefore, with every tick, this Behavior will send a twist to Servo, to move along the direction that points towards the target.
-                   The Cartesian velocity sent to Servo is proportional (with `translational_gain` and `rotational_gain`) to the distance to the target, but capped at the given `max_translational_vel` and `max_rotational_vel` translational and rotational velocities.
-                   Twist messages are published to Servo at the given `publish_rate`.
-                   The Behavior will run indefinitely until cancelled or until the distance to the target falls below the given `exit_threshold_translation` and `exit_threshold_rotation` in the 3D translational and rotational axes, for at least the given `exit_threshold_time` amount of seconds.
+                    This Behavior is intended to be used in a Parallel node.
+                    With every tick, the error between the current tip pose (for `planning_group_name`) and the given `target_pose` is computed.
+                    That error is also the direction along which the tip has to move to decrease the error.
+                    Therefore, with every tick, this Behavior will send a twist to Servo, to move along the direction that points towards the target.
+                    The Cartesian velocity sent to Servo is proportional (with `translational_gain` and `rotational_gain`) to the distance to the target, but capped at the given `max_translational_vel` and `max_rotational_vel` translational and rotational velocities.
+                    Twist messages are published to Servo at the given `publish_rate`.
+                    The Behavior will run indefinitely until cancelled or until the distance to the target falls below the given `exit_threshold_translation` and `exit_threshold_rotation` in the 3D translational and rotational axes, for at least the given `exit_threshold_time` amount of seconds.
                 </p>
       </description>
       <input_port name="planning_group_name" default="manipulator">Name of the planning group to control.</input_port>
@@ -1523,7 +1644,7 @@
       </MetadataFields>
       <description>
         <p>
-                   Given an existing MTC Task object and a sequence of target poses, appends MTC stages to plan a sequence of cartesian motions between the poses.
+                    Given an existing MTC Task object and a sequence of target poses, appends MTC stages to plan a sequence of cartesian motions between the poses.
                 </p>
       </description>
       <input_port name="task" default="{task}">Behavior parameters stored in a common configuration file for the objective.</input_port>
@@ -1936,7 +2057,7 @@
       </description>
       <input_port name="input_pose" default="{input_pose}">Pose to be transformed.</input_port>
       <input_port name="transform_pose" default="{transform_pose}">Pose with the transform to apply to the input pose. The frame ID must match that of the input pose.</input_port>
-      <output_port name="output_pose" default="{output_pose}">Input pose pre-mutiplied by the transform pose. The frame ID and stamp are copied from the input pose.</output_port>
+      <output_port name="output_pose" default="{output_pose}">Input pose pre-multiplied by the transform pose. The frame ID and stamp are copied from the input pose.</output_port>
     </Action>
     <Action ID="UpdateAdmittanceController">
       <MetadataFields>
