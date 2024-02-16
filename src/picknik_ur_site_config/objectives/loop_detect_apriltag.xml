@@ -9,7 +9,7 @@
           <Action ID="LoadObjectiveParameters" config_file_name="51mm_apriltag_detection_config.yaml" parameters="{parameters}"/>
           <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>
           <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
-          <Action ID="DetectApriltags" image="{image}" camera_info="{camera_info}" parameters="{parameters}" detections="{detections}"/>
+          <Action ID="DetectAprilTags" image="{image}" camera_info="{camera_info}" parameters="{parameters}" detections="{detections}"/>
         </Control>
       </Decorator>  
     </Control>
