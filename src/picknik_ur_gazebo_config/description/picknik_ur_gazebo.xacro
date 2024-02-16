@@ -65,7 +65,7 @@
 
   <link name="grasp_link" />
   <joint name="grasp_link_joint" type="fixed">
-    <parent link="gripper_mount_link" />
+    <parent link="robotiq_85_base_link" />
     <child link="grasp_link" />
     <origin xyz="0.0 0.0 0.134" rpy="0.0 0.0 ${pi}" />
   </joint>
