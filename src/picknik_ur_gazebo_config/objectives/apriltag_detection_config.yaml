@@ -1,4 +1,4 @@
-DetectApriltags:
+DetectAprilTags:
   apriltag_family_name: 36h11
   apriltag_size: 0.08
   max_hamming: 0
