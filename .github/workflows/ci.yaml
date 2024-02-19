@@ -22,4 +22,5 @@ jobs:
     needs: setup
     uses: PickNikRobotics/reusable_ci/.github/workflows/workspace_integration_test.yaml@workspace_integration
     with:
-      image_tag: ${{ needs.setup.outputs.image_tag }}
+      image_tag: "${{ needs.setup.outputs.image_tag }}"
+    secrets: inherit
