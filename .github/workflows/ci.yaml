@@ -19,6 +19,7 @@ jobs:
         uses: falti/dotenv-action@v1.0.4
 
   integration-test-in-studio-container:
+    needs: setup
     uses: PickNikRobotics/reusable_ci/.github/workflows/workspace_integration_test.yaml@workspace_integration
     with:
       image_tag: ${{ needs.setup.outputs.image_tag }}
