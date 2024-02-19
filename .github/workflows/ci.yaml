@@ -4,6 +4,11 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'The tag of the image to use for the container'
+        required: false
+        default: ''
   # Run every 6 hours Mon-Fri
   schedule:
     - cron: "0 */6 * * 1-5"
@@ -11,4 +16,6 @@ on:
 jobs:
   integration-test-in-studio-container:
     uses: PickNikRobotics/reusable_ci/.github/workflows/workspace_integration_test.yaml@workspace_integration
+    with:
+      image_tag: ${{ github.event.inputs.image_tag || null }}
     secrets: inherit
