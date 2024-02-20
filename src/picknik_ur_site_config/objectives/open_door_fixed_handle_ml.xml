@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" main_tree_to_execute="Open Door Fixed Handle ML">
   <!-- ////////// -->
-  <BehaviorTree ID="Open Door Fixed Handle ML" _description="Attempts to open a door with a fixed handle (such as cabinet doors) using machine learning." _favorite="true" _hardcoded="true">
+  <BehaviorTree ID="Open Door Fixed Handle ML" _description="Attempts to open a door with a fixed handle (such as cabinet doors) using machine learning." _favorite="false" _hardcoded="true">
     <Control ID="Sequence" name="TopLevelSequence">
       <!-- Load the parameters needed for this Objective -->
       <Action ID="LoadObjectiveParameters" config_file_name="open_door_fixed_handle_MTC_config.yaml" parameters="{parameters}"/>
