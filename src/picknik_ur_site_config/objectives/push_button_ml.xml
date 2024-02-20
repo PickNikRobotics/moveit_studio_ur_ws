@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" main_tree_to_execute="Push Button ML">
-  <BehaviorTree ID="Push Button ML" _description="Move to a waypoint, and then push a button detected by a image segmentation network with the end effector" _favorite="true">
+  <BehaviorTree ID="Push Button ML" _description="Move to a waypoint, and then push a button detected by a image segmentation network with the end effector" _favorite="false">
     <Control ID="Sequence">
       <Action ID="LoadObjectiveParameters" config_file_name="push_along_axis_config.yaml" parameters="{parameters}"/>
       <SubTree ID="Re-Zero Force-Torque Sensors" _collapsed="true"/>
