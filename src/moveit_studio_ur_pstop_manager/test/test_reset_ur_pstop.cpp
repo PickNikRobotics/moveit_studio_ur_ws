@@ -57,6 +57,7 @@ public:
     node_ = std::make_shared<rclcpp::Node>("test_reset_ur_pstop");
     executor_ = std::make_shared<rclcpp::executors::SingleThreadedExecutor>();
 
+    std::this_thread::sleep_for(std::chrono::duration<double>(10.0));
     // Spin up an executor thread.
     executor_thread_ = std::thread([this]() {
       executor_->add_node(node_);
