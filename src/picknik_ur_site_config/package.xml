@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="3">
   <name>picknik_ur_site_config</name>
-  <version>4.0.0</version>
+  <version>4.0.1</version>
 
   <description>Site configuration package for a UR arm that can be simulated with mock hardware</description>
 
