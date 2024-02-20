@@ -8,9 +8,9 @@ services:
     # Extend the installed MoveIt Pro docker compose file.
     # Change this to match your environment, if MoveIt Pro was installed to a different location.
     extends:
-      file: ${HOME}/moveit_studio/docker-compose.yaml
+      file: ${HOME}/moveit_pro/docker-compose.yaml
       service: base
-    image: moveit-studio-overlay
+    image: moveit-pro-overlay
     build:
       context: .
       target: user-overlay
@@ -96,10 +96,10 @@ services:
     privileged: true
     volumes:
       # Mount the source code, colcon generated artifacts, and ccache
-      - ./src/:/home/${STUDIO_USERNAME:-studio-user}/user_overlay_ws/src:rw
-      - ./build/:/home/${STUDIO_USERNAME:-studio-user}/user_overlay_ws/build:rw
-      - ./install/:/home/${STUDIO_USERNAME:-studio-user}/user_overlay_ws/install:rw
-      - ./log/:/home/${STUDIO_USERNAME:-studio-user}/user_overlay_ws/log:rw
+      - ./src/:/home/${STUDIO_USERNAME:-studio-user}/user_ws/src:rw
+      - ./build/:/home/${STUDIO_USERNAME:-studio-user}/user_ws/build:rw
+      - ./install/:/home/${STUDIO_USERNAME:-studio-user}/user_ws/install:rw
+      - ./log/:/home/${STUDIO_USERNAME:-studio-user}/user_ws/log:rw
       - ./.ccache/:/home/${STUDIO_USERNAME:-studio-user}/.ccache:rw
       - ${HOME}/.ros/log_moveit_pro:/home/${STUDIO_USERNAME:-studio-user}/.ros/log
       # Allow access to host hardware e.g. RealSense cameras
