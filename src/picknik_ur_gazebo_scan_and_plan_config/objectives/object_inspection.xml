@@ -11,7 +11,7 @@
         <Control ID="Sequence">
           <Action ID="TransformPoseWithPose" input_pose="{trajectory_pose}" transform_pose="{model_to_real_pose}" output_pose="{target_pose}"/>
           <Action ID="MoveToPose" target_pose="{target_pose}" ik_frame="grasp_link" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
-          <Action ID="GetSynchronizedCameraTopics" point_cloud_topic_name="/wrist_mounted_camera/depth/color/points" rgb_image_topic_name="/wrist_mounted_camera/color/image_raw" rgb_camera_info_topic_name="/wrist_mounted_camera/color/camera_info" point_cloud="{point_cloud}" rgb_image="{rgb_image}" rgb_camera_info="{rgb_camera_info}"/>
+          <Action ID="GetSyncedImageAndPointCloud" point_cloud_topic_name="/wrist_mounted_camera/depth/color/points" rgb_image_topic_name="/wrist_mounted_camera/color/image_raw" rgb_camera_info_topic_name="/wrist_mounted_camera/color/camera_info" point_cloud="{point_cloud}" rgb_image="{rgb_image}" rgb_camera_info="{rgb_camera_info}"/>
           <Action ID="TransformPointCloudFrame" input_cloud="{point_cloud}" target_frame="world" output_cloud="{point_cloud_world}"/>
           <Action ID="AddPointCloudToVector" point_cloud="{point_cloud_world}" point_cloud_vector="{point_cloud_vector}"/>
         </Control>
