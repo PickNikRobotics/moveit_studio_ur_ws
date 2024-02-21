@@ -15,7 +15,7 @@ on:
 
 jobs:
   integration-test-in-studio-container:
-    uses: PickNikRobotics/reusable_ci/.github/workflows/workspace_integration_test.yaml@workspace_integration
+    uses: PickNikRobotics/moveit_pro_ci/.github/workflows/workspace_integration_test.yaml@workspace_integration
     with:
       image_tag: ${{ github.event.inputs.image_tag || null }}
     secrets: inherit
