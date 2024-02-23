@@ -29,8 +29,16 @@
 
         <xacro:ur_to_robotiq prefix="" parent="realsense_camera_adapter_tool0" child="gripper_mount_link" rotation="0"/>
 
+        <xacro:if value="${simulation == 'gazebo'}">
+            <xacro:property name="use_fake_hardware" default="false"/>
+            <xacro:property name="sim_ignition" default="true"/>
+        </xacro:if>
+        <xacro:if value="${not simulation == 'gazebo'}">
+            <xacro:property name="use_fake_hardware" default="(arg use_fake_hardware)"/>
+            <xacro:property name="sim_ignition" default="false"/>
+        </xacro:if>
         <xacro:robotiq_gripper name="RobotiqGripperHardwareInterface" prefix=""
-                               parent="gripper_mount_link" use_fake_hardware="$(arg use_fake_hardware)"
+                               parent="gripper_mount_link" use_fake_hardware="${use_fake_hardware}" sim_ignition="${sim_ignition}"
                                com_port="$(arg tool_device_name)">
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </xacro:robotiq_gripper>
