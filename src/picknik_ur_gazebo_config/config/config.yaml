@@ -61,14 +61,17 @@ hardware:
       # ogre2 (which is the Gazebo default) is also an option if your system supports it.
       - gazebo_renderer: ${GAZEBO_RENDERER:-ogre}
       - kinematics_parameters_file:
+          # Load default_kinematics.yaml from ur_description/config/<ur_type>
           package: "ur_description"
-          path: "config"
+          path: "config/%>> hardware.type <<%/default_kinematics.yaml"
       - physical_parameters_file:
+          # Load physical_parameters.yaml from ur_description/config/<ur_type>
           package: "ur_description"
-          path: "config"
+          path: "config/%>> hardware.type <<%/physical_parameters.yaml"
       - visual_parameters_file:
+          # Load visual_parameters.yaml from ur_description/config/<ur_type>
           package: "ur_description"
-          path: "config"
+          path: "config/%>> hardware.type <<%/visual_parameters.yaml"
 
 # Override MoveIt parameters
 moveit_params:

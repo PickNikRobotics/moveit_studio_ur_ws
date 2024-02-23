@@ -36,17 +36,6 @@
         <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
         <xacro:property name="simulation" default="$(arg simulation)"/>
         <xacro:property name="visual_parameters_file" default="$(arg visual_parameters_file)"/>
-        <xacro:if value="${not visual_parameters_file == ''}">
-            <xacro:property name="visual_parameters_file_full_path" default="$(arg visual_parameters_file)/$(arg name)/visual_parameters.yaml"/>
-        </xacro:if>
-        <xacro:property name="physical_parameters_file" default="$(arg physical_parameters_file)"/>
-        <xacro:if value="${not physical_parameters_file == ''}">
-            <xacro:property name="physical_parameters_file_full_path" default="$(arg physical_parameters_file)/$(arg name)/physical_parameters.yaml"/>
-        </xacro:if>
-        <xacro:property name="kinematics_parameters_file" default="$(arg kinematics_parameters_file)"/>
-        <xacro:if value="${not kinematics_parameters_file == ''}">
-            <xacro:property name="kinematics_parameters_file_full_path" default="$(arg kinematics_parameters_file)/$(arg name)/default_kinematics.yaml"/>
-        </xacro:if>
         <xacro:if value="${simulation == 'gazebo'}">
             <xacro:property name="use_fake_hardware" default="false"/>
         </xacro:if>
@@ -61,9 +50,9 @@
                 tf_prefix=""
                 parent="${parent}"
                 joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
-                kinematics_parameters_file="${kinematics_parameters_file_full_path}"
-                physical_parameters_file="${physical_parameters_file_full_path}"
-                visual_parameters_file="${visual_parameters_file_full_path}"
+                kinematics_parameters_file="$(arg kinematics_parameters_file)"
+                physical_parameters_file="$(arg physical_parameters_file)"
+                visual_parameters_file="$(arg visual_parameters_file)"
                 use_fake_hardware="${use_fake_hardware}"
                 initial_positions="${xacro.load_yaml(initial_positions_file)}"
                 sim_ignition="${simulation == 'gazebo'}"
