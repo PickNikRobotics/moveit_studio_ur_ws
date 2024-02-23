@@ -17,7 +17,6 @@
         <xacro:arg name="tool_voltage" default="0"/>
         <xacro:arg name="tool_device_name" default="/dev/ttyUSB0"/>
         <xacro:arg name="simulation" default=""/>
-        <xacro:arg name="gazebo_renderer" default=""/>
 
         <xacro:if value="$(arg has_tool_changer)">
             <xacro:property name="camera_adapter_parent" value="tool_changer_tool0"/>
