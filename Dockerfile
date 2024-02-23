@@ -71,6 +71,7 @@ RUN colcon mixin add default \
     colcon metadata update
 COPY colcon-defaults.yaml /home/${USERNAME}/.colcon/defaults.yaml
 
+# hadolint ignore=DL3002
 USER root
 
 ###################################################################
