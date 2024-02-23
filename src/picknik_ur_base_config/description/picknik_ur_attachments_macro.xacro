@@ -23,7 +23,7 @@
         <xacro:ur_realsense_camera_adapter prefix="" parent="${ur_realsense_camera_adapter_parent}" child_tool="realsense_camera_adapter_tool0" child_camera="d415_mount_link" rotation="0"/>
 
         <xacro:property name="simulation" default="$(arg simulation)"/>
-        <xacro:realsense_d415 parent="d415_mount_link" name="wrist_mounted_camera" use_mesh="${simulation == 'gazebo'}">
+        <xacro:realsense_d415 parent="d415_mount_link" name="wrist_mounted_camera" use_mesh="${not simulation == 'gazebo'}">
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </xacro:realsense_d415>
 
