@@ -9,7 +9,7 @@
 
         <!-- tool changer-->
         <xacro:if value="$(arg has_tool_changer)">
-            <xacro:mtc_ur_tool_changer prefix="" parent="${parent}" child="${child}" rotation="0"/>
+            <xacro:mtc_ur_tool_changer prefix="" parent="${parent}" child="tool_changer_tool0" rotation="0"/>
             <xacro:property name="ur_realsense_camera_adapter_parent" value="tool_changer_tool0" />
         </xacro:if>
         <xacro:unless value="$(arg has_tool_changer)">
