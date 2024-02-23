@@ -40,7 +40,7 @@
             <xacro:property name="use_fake_hardware" default="false"/>
         </xacro:if>
         <xacro:if value="${not simulation == 'gazebo'}">
-            <xacro:property name="use_fake_hardware" default="(arg use_fake_hardware)"/>
+            <xacro:property name="use_fake_hardware" default="$(arg use_fake_hardware)"/>
         </xacro:if>
 
         <link name="${parent}"/>
