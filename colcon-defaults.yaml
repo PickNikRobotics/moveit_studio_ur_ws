@@ -1,0 +1,16 @@
+# Contains colcon default settings for user overlay containers.
+build:
+  mixin:
+    # Enable ccache support
+    - ccache
+    # Multithreaded linker to speed up linking step during compilation
+    - lld
+    - compile-commands
+    # Debug info and build testing for dev workflows
+    - rel-with-deb-info
+    - build-testing-on
+  symlink-install: true
+test:
+  event-handlers:
+    - console_direct+
+    - desktop_notification+
