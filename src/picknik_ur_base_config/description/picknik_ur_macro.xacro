@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
     <xacro:macro name="picknik_ur" params="parent child initial_positions_file">
-
         <!-- parameters -->
         <xacro:arg name="use_fake_hardware" default="false"/>
         <xacro:arg name="external_camera" default="false"/>
@@ -12,12 +11,12 @@
         <xacro:arg name="kinematics_parameters_file" default=""/>
         <xacro:arg name="physical_parameters_file" default=""/>
         <xacro:arg name="visual_parameters_file" default=""/>
-
         <xacro:arg name="headless_mode" default="false"/>
         <xacro:arg name="robot_ip" default="0.0.0.0"/>
         <xacro:arg name="use_tool_communication" default="false"/>
         <xacro:arg name="tool_voltage" default="0"/>
         <xacro:arg name="tool_device_name" default="/dev/ttyUSB0"/>
+        <xacro:arg name="simulation" default=""/>
 
         <xacro:if value="$(arg has_tool_changer)">
             <xacro:property name="camera_adapter_parent" value="tool_changer_tool0"/>
@@ -35,6 +34,7 @@
 
         <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
         <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
+        <xacro:property name="simulation" default="$(arg simulation)"/>
 
         <link name="${parent}"/>
         <!-- arm -->
@@ -48,6 +48,7 @@
                 visual_parameters_file="$(arg visual_parameters_file)"
                 use_fake_hardware="$(arg use_fake_hardware)"
                 initial_positions="${xacro.load_yaml(initial_positions_file)}"
+                sim_ignition="${simulation == 'gazebo'}"
                 headless_mode="$(arg headless_mode)"
                 robot_ip="$(arg robot_ip)"
                 use_tool_communication="$(arg use_tool_communication)"

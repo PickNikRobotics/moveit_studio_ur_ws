@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- wrist_3_link/forearm_link have a radius 0f 0.0375m. Actual offset from surface is (radius - attached_link's radius). -->
+  <!-- UR Drivers check for a 2.5cm  distance between tool_flange/wrist_3 and forearm links. -->
+  <xacro:macro name="environment" params="parent">
+    <!-- parameters -->
+    <xacro:arg name="gazebo_renderer" default="ogre"/>
+    <xacro:property name="gazebo_renderer" default="$(arg gazebo_renderer)"/>
+
+    <!-- Import environment macros -->
+    <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
+    <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/visual/cube_visual.urdf.xacro" />
+    <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro" />
+
+    <!-- Environment -->
+    <link name="environment">
+      <!-- Table -->
+      <xacro:cube_collision_and_visual length="1.5" width="1.0" height="0.25">
+        <origin rpy="0 0 0" xyz="0 0 ${-0.25/2}" />
+        <color rgba="0 0 1 0" />
+      </xacro:cube_collision_and_visual>
+    </link>
+
+    <joint name="base_to_environment" type="fixed">
+      <parent link="base" />
+      <child link="environment" />
+      <origin rpy="0 0 0" xyz="0 0 0" />
+    </joint>
+
+    <!-- External camera -->
+    <link name="external_camera_link" />
+    <joint name="external_camera_joint" type="fixed">
+      <parent link="${parent}" />
+      <child link="external_camera_link" />
+      <origin xyz="1.1 -1.1 1.3" rpy="0.0 0.4 2.4" />
+    </joint>
+
+    <xacro:realsense_d435 parent="external_camera_link" name="scene_camera" visible="false" simulate_depth="true">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:realsense_d435>
+
+    <!-- Additional Camera -->
+    <xacro:if value="$(arg use_extra_camera)">
+      <link name="extra_scene_camera_link" />
+      <joint name="extra_scene_camera_joint" type="fixed">
+        <parent link="${parent}" />
+        <child link="extra_scene_camera_link" />
+        <origin xyz="-0.3 0.3 0.5" rpy="0.0 0.0 -3.14" />
+      </joint>
+      <xacro:realsense_d435 parent="extra_scene_camera_link" name="extra_camera" visible="false" simulate_depth="false">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </xacro:realsense_d435>
+    </xacro:if>
+
+    <!-- Force/Torque Sensor -->
+    <link name="robot/wrist_3_joint/force_torque_sensor" />
+    <joint name="wrist_to_fts" type="fixed">
+      <parent link="wrist_3_link" />
+      <child link="robot/wrist_3_joint/force_torque_sensor" />
+      <origin rpy="0 0 0" xyz="0 0 0" />
+    </joint>
+    <gazebo reference="wrist_3_joint">
+      <sensor name="tcp_fts_sensor" type="force_torque">
+        <always_on>1</always_on>
+        <update_rate>50</update_rate>
+        <visualize>0</visualize>
+        <topic>tcp_fts_sensor/ft_data</topic>
+        <pose>0 0 0 0 0 0</pose>
+        <force_torque>
+          <frame>child</frame>
+          <measure_direction>parent_to_child</measure_direction>
+          <force>
+            <x>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0</stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0</stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0</stddev>
+              </noise>
+            </z>
+          </force>
+          <torque>
+            <x>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0</stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0</stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0</mean>
+                <stddev>0</stddev>
+              </noise>
+            </z>
+          </torque>
+        </force_torque>
+      </sensor>
+    </gazebo>
+
+    <!-- Gazebo Plugins -->
+    <gazebo>
+      <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+        <parameters>$(find picknik_ur_gazebo_config)/config/control/picknik_ur5e.ros2_control.yaml</parameters>
+        <ros>
+          <remapping>/servo_controller/commands:=/robot_controllers/commands</remapping>
+          <remapping>/servo_controller/joint_trajectory:=/robot_controllers/joint_trajectory</remapping>
+        </ros>
+      </plugin>
+    </gazebo>
+
+    <gazebo>
+      <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
+        <render_engine>${gazebo_renderer}</render_engine>
+      </plugin>
+    </gazebo>
+
+  </xacro:macro>
+</robot>
