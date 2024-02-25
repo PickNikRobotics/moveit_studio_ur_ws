@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   # Run every 6 hours Mon-Fri
   schedule:
-    - cron: "* */6 * * 1-5"
+    - cron: "0 */6 * * 1-5"
 
 jobs:
   setup:
