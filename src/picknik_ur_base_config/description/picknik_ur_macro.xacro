@@ -18,13 +18,6 @@
         <xacro:arg name="tool_device_name" default="/dev/ttyUSB0"/>
         <xacro:arg name="simulation" default=""/>
 
-        <xacro:if value="$(arg has_tool_changer)">
-            <xacro:property name="camera_adapter_parent" value="tool_changer_tool0"/>
-        </xacro:if>
-        <xacro:unless value="$(arg has_tool_changer)">
-            <xacro:property name="camera_adapter_parent" value="tool0"/>
-        </xacro:unless>
-
         <!-- Import macros for main hardware components -->
         <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
         <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro"/>

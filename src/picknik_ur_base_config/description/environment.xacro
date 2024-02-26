@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  <!-- wrist_3_link/forearm_link have a radius 0f 0.0375m. Actual offset from surface is (radius - attached_link's radius). -->
-  <!-- UR Drivers check for a 2.5cm  distance between tool_flange/wrist_3 and forearm links. -->
   <xacro:macro name="environment" params="parent">
     <!-- Import environment macros -->
     <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />

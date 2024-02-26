@@ -35,4 +35,82 @@
   <!-- Environment: contains scene geometry and external sensors, e.g. cameras -->
   <xacro:environment parent="world"/>
 
+  <!-- Gazebo Force/Torque Sensor -->
+  <link name="robot/wrist_3_joint/force_torque_sensor" />
+  <joint name="wrist_to_fts" type="fixed">
+    <parent link="wrist_3_link" />
+    <child link="robot/wrist_3_joint/force_torque_sensor" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  <gazebo reference="wrist_3_joint">
+    <sensor name="tcp_fts_sensor" type="force_torque">
+      <always_on>1</always_on>
+      <update_rate>50</update_rate>
+      <visualize>0</visualize>
+      <topic>tcp_fts_sensor/ft_data</topic>
+      <pose>0 0 0 0 0 0</pose>
+      <force_torque>
+        <frame>child</frame>
+        <measure_direction>parent_to_child</measure_direction>
+        <force>
+          <x>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </x>
+          <y>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </y>
+          <z>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </z>
+        </force>
+        <torque>
+          <x>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </x>
+          <y>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </y>
+          <z>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </z>
+        </torque>
+      </force_torque>
+    </sensor>
+  </gazebo>
+
+  <!-- Gazebo Plugins -->
+  <gazebo>
+    <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+      <parameters>$(find picknik_ur_gazebo_config)/config/control/picknik_ur5e.ros2_control.yaml</parameters>
+      <ros>
+        <remapping>/servo_controller/commands:=/robot_controllers/commands</remapping>
+        <remapping>/servo_controller/joint_trajectory:=/robot_controllers/joint_trajectory</remapping>
+      </ros>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
+      <render_engine>${gazebo_renderer}</render_engine>
+    </plugin>
+  </gazebo>
+
 </robot>
