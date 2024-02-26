@@ -1,5 +1,7 @@
 # Contains colcon default settings for user overlay containers.
 build:
+  # Enable this for bidirectional syncing from the UI
+  symlink-install: true
   mixin:
     # Enable ccache support
     - ccache
@@ -9,7 +11,6 @@ build:
     # Debug info and build testing for dev workflows
     - rel-with-deb-info
     - build-testing-on
-  symlink-install: true
 test:
   event-handlers:
     - console_direct+
