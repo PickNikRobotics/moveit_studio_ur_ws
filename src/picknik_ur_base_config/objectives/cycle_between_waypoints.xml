@@ -3,8 +3,8 @@
     <BehaviorTree ID="Cycle Between Waypoints" _description="Cycles between two waypoints until failure">
         <Decorator ID="KeepRunningUntilFailure">
             <Control ID="Sequence">
-                <Action ID="MoveToWaypoint" waypoint_name="Right Corner" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
-                <Action ID="MoveToWaypoint" waypoint_name="Place" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
+                <SubTree ID="Move to Named Pose" waypoint_name="Right Corner" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
+                <SubTree ID="Move to Named Pose" waypoint_name="Place" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
             </Control>
         </Decorator>
     </BehaviorTree>
