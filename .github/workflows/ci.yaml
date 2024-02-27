@@ -72,7 +72,7 @@ jobs:
           . /opt/underlay_ws/install/setup.sh
           . /opt/overlay_ws/install/setup.sh
           . ./install/setup.sh
-          colcon test --executor sequential
+          colcon test
       - if: always()
         run: |
           colcon test-result --verbose
