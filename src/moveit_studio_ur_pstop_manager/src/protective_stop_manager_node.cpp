@@ -39,7 +39,7 @@ constexpr auto kStopProgramService = "/dashboard_client/stop";
 constexpr auto kRecoveryServiceName = "recover_from_protective_stop";
 constexpr auto kSafetyModeService = "/dashboard_client/get_safety_mode";
 constexpr auto kFaultStatusTopic = "~/robot_fault_status";
-constexpr auto kServiceCallTimeout = std::chrono::duration<double>(1.0);
+constexpr auto kServiceCallTimeout = std::chrono::seconds(3.0);
 
 constexpr auto kParameterControllersDefaultActive = "controllers_default_active";
 constexpr auto kParameterControllersDefaultNotActive = "controllers_default_not_active";
