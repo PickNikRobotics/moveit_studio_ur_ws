@@ -22,6 +22,7 @@
       - 2.0648023306748278
       - -0.3257925328124284
     velocity: []
+  joint_group_names: [manipulator]
   name: Look at Object
 - description: ''
   favorite: false
@@ -47,6 +48,7 @@
       - 1.64
       - 0
     velocity: []
+  joint_group_names: [manipulator]
   name: Right Corner
 - description: ''
   favorite: true
@@ -72,6 +74,7 @@
       - 1.65
       - 0
     velocity: []
+  joint_group_names: [manipulator]
   name: Home
 - description: ''
   favorite: false
@@ -97,6 +100,7 @@
       - 1.64
       - 0
     velocity: []
+  joint_group_names: [manipulator]
   name: Left Corner
 - description: ''
   favorite: false
@@ -122,4 +126,5 @@
       - 1.67
       - 0
     velocity: []
+  joint_group_names: [manipulator]
   name: Forward Down
