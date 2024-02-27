@@ -76,7 +76,7 @@ def generate_test_description():
             ),
         ),
         launch_arguments={
-            "ur_type": "ur5",
+            "ur_type": "ur5e",
             "robot_ip": "yyy.yyy.yyy.yyy",
             "use_fake_hardware": "true",
             "launch_rviz": "false",
