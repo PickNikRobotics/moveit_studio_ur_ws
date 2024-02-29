@@ -1,210 +1,35 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
-  <!-- parameters -->
-  <xacro:arg name="use_fake_hardware" default="false" />
-  <xacro:arg name="external_camera" default="false" />
-  <xacro:arg name="has_tool_changer" default="true" />
-  <xacro:arg name="use_pinch_links" default="true" />
-  <xacro:arg name="name" default="" />
-  <xacro:arg name="joint_limits_parameters_file" default="" />
-  <xacro:arg name="kinematics_parameters_file" default="" />
-  <xacro:arg name="physical_parameters_file" default="" />
-  <xacro:arg name="visual_parameters_file" default="" />
+    <!-- parameters -->
+    <xacro:arg name="use_fake_hardware" default="false"/>
+    <xacro:arg name="external_camera" default="false"/>
+    <xacro:arg name="has_tool_changer" default="true"/>
+    <xacro:arg name="use_pinch_links" default="true"/>
+    <xacro:arg name="name" default=""/>
+    <xacro:arg name="joint_limits_parameters_file" default=""/>
+    <xacro:arg name="kinematics_parameters_file" default=""/>
+    <xacro:arg name="physical_parameters_file" default=""/>
+    <xacro:arg name="visual_parameters_file" default=""/>
+    <xacro:arg name="headless_mode" default="false"/>
+    <xacro:arg name="robot_ip" default="0.0.0.0"/>
+    <xacro:arg name="use_tool_communication" default="false"/>
+    <xacro:arg name="tool_voltage" default="0"/>
+    <xacro:arg name="tool_device_name" default="/dev/ttyUSB0"/>
+    <xacro:arg name="initial_positions_file" default="$(find picknik_ur_mock_hw_config)/config/initial_positions.yaml"/>
+    <xacro:arg name="environment_xacro" default="$(find picknik_ur_mock_hw_config)/description/environment.xacro"/>
 
-  <xacro:arg name="headless_mode" default="false" />
-  <xacro:arg name="robot_ip" default="0.0.0.0" />
+    <!-- Import UR and environment macros -->
+    <xacro:include filename="$(find picknik_ur_base_config)/description/picknik_ur_macro.xacro"/>
+    <xacro:include filename="$(find picknik_ur_base_config)/description/picknik_ur_attachments_macro.xacro"/>
+    <xacro:include filename="$(arg environment_xacro)"/>
 
-  <xacro:if value="$(arg has_tool_changer)">
-    <xacro:property name="camera_adapter_parent" value="tool_changer_tool0" />
-  </xacro:if>
-  <xacro:unless value="$(arg has_tool_changer)">
-    <xacro:property name="camera_adapter_parent" value="tool0" />
-  </xacro:unless>
+    <!-- Robot: contains robot description from the world frame to the tool frame -->
+    <xacro:picknik_ur parent="world"  child="tool0" initial_positions_file="$(arg initial_positions_file)" />
 
-  <!-- Import macros for main hardware components -->
-  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro" />
-  <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro" />
-  <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro" />
-  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/mtc_ur_tool_changer/mtc_ur_tool_changer.urdf.xacro" />
-  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur_camera_adapter.urdf.xacro" />
-  <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro" />
-  <xacro:include filename="$(find picknik_ur_base_config)/description/pinch_links.xacro" />
+    <!-- Gripper and UR adapter and realsense camera -->
+    <xacro:picknik_ur_attachments parent="tool0" child="grasp_link" has_tool_changer="$(arg has_tool_changer)"/>
 
-  <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
-  <xacro:arg name="initial_positions_file" default="$(find picknik_ur_mock_hw_config)/config/initial_positions.yaml"/>
-  <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
+    <!-- Environment: contains scene geometry and external sensors, e.g. cameras -->
+    <xacro:environment parent="world"/>
 
-  <link name="world" />
-  <!-- arm -->
-  <xacro:ur_robot
-    name="$(arg name)"
-    tf_prefix=""
-    parent="world"
-    joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
-    kinematics_parameters_file="$(arg kinematics_parameters_file)"
-    physical_parameters_file="$(arg physical_parameters_file)"
-    visual_parameters_file="$(arg visual_parameters_file)"
-    use_fake_hardware="$(arg use_fake_hardware)"
-    initial_positions="${xacro.load_yaml(initial_positions_file)}"
-    headless_mode="$(arg headless_mode)"
-    robot_ip="$(arg robot_ip)"
-    script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
-    output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
-    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
-    <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
-  </xacro:ur_robot>
-
-  <xacro:if value="$(arg has_tool_changer)">
-    <!-- tool changer-->
-    <xacro:mtc_ur_tool_changer prefix="" connected_to="tool0" rotation="0" />
-  </xacro:if>
-
-  <!-- pinch geometry for moveit motion planning. see https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver/issues/611 -->
-  <xacro:if value="$(arg use_pinch_links)">
-    <xacro:forearm_pinch_link />
-    <xacro:wrist_3_pinch_link />
-  </xacro:if>
-
-  <!-- wrist camera adapter and camera-->
-  <xacro:ur_realsense_camera_adapter prefix="" connected_to="${camera_adapter_parent}" rotation="0" />
-
-  <xacro:realsense_d415 parent="d415_mount_link" name="wrist_mounted_camera">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:realsense_d415>
-
-  <!-- Gripper and UR adapter-->
-  <xacro:ur_to_robotiq prefix="" connected_to="realsense_camera_adapter_tool0" rotation="0" />
-
-  <xacro:robotiq_gripper name="RobotiqGripperHardwareInterface" prefix="" 
-    parent="gripper_mount_link" use_fake_hardware="$(arg use_fake_hardware)" com_port="/dev/ttyUSB0">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:robotiq_gripper>
-
-  <link name="grasp_link" />
-  <joint name="grasp_link_joint" type="fixed">
-    <parent link="robotiq_85_base_link" />
-    <child link="grasp_link" />
-    <origin xyz="0.0 0.0 0.134" rpy="0.0 0.0 ${pi}" />
-  </joint>
-
-  <!-- CNC machine -->
-  <link name="cnc_machine">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/cnc.dae" scale="1 1 1"/>
-      </geometry>
-    </visual> 
-    <!-- CNC base collision -->
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/cnc-collision.dae" scale="1 1 1"/>
-      </geometry>
-    </collision>
-  </link>
-
-  <joint name="cnc_machine_joint" type="fixed">
-    <parent link="world" />
-    <child link="cnc_machine" />
-    <origin xyz="-0.1 -1.25 -0.8" rpy="0 0 3.14"  />
-  </joint>
-
-  <!-- Robot base -->
-  <link name="robot_base">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/base.dae" scale="1 1 1"/>
-      </geometry>
-    </visual> 
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/base.dae" scale="1 1 1"/>
-      </geometry>
-    </collision>
-  </link>
-
-  <joint name="robot_base_joint" type="fixed">
-    <parent link="world" />
-    <child link="robot_base" />
-    <origin xyz="0 0 -0.8" rpy="0 0 3.14"  />
-  </joint>
-
-  <!-- Hexagonal tables -->
-  <link name="left_hexagonal_table">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/table.dae" scale="1 1 1"/>
-      </geometry>
-    </visual> 
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/table-collision.dae" scale="1 1 1"/>
-      </geometry>
-    </collision>
-  </link>
-
-  <joint name="left_hexagonal_table_joint" type="fixed">
-    <parent link="world" />
-    <child link="left_hexagonal_table" />
-    <origin xyz="0.8 0 -0.8" rpy="0 0 3.14"  />
-  </joint>
-
-  <link name="right_hexagonal_table">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/table.dae" scale="1 1 1"/>
-      </geometry>
-    </visual> 
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/table-collision.dae" scale="1 1 1"/>
-      </geometry>
-    </collision>
-  </link>
-
-  <joint name="right_hexagonal_table_joint" type="fixed">
-    <parent link="world" />
-    <child link="right_hexagonal_table" />
-    <origin xyz="-0.8 0 -0.8" rpy="0 0 3.14"  />
-  </joint>
-
-  <!-- Cylinder items -->
-  <link name="left_cylinder_item">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/cylinder-item.dae" scale="1 1 1"/>
-      </geometry>
-    </visual> 
-    <!-- No collision geometry so the gripper can overlap with the object. -->
-  </link>
-
-  <joint name="left_cylinder_item_joint" type="fixed">
-    <parent link="world" />
-    <child link="left_cylinder_item" />
-    <origin xyz="0.73 0.06 -0.30" rpy="0 0 3.14"  />
-  </joint>
-
-  <link name="right_cylinder_item">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="file://$(find picknik_ur_mock_hw_config)/meshes/cylinder-item.dae" scale="1 1 1"/>
-      </geometry>
-    </visual> 
-    <!-- No collision geometry so the gripper can overlap with the object. -->
-  </link>
-
-  <joint name="right_cylinder_item_joint" type="fixed">
-    <parent link="world" />
-    <child link="right_cylinder_item" />
-    <origin xyz="-0.73 0.06 -0.30" rpy="0 0 3.14"  />
-  </joint>
 </robot>
