@@ -1,5 +1,7 @@
 - description: ''
   favorite: true
+  joint_group_names:
+    - manipulator
   joint_state:
     effort: []
     header:
@@ -25,6 +27,8 @@
   name: Grasp Right
 - description: ''
   favorite: false
+  joint_group_names:
+    - manipulator
   joint_state:
     effort: []
     header:
@@ -50,6 +54,8 @@
   name: Gripper Down
 - description: ''
   favorite: true
+  joint_group_names:
+    - manipulator
   joint_state:
     effort: []
     header:
@@ -75,6 +81,8 @@
   name: Forward Down
 - description: ''
   favorite: true
+  joint_group_names:
+    - manipulator
   joint_state:
     effort: []
     header:
@@ -100,6 +108,8 @@
   name: Grasp Left
 - description: ''
   favorite: false
+  joint_group_names:
+    - manipulator
   joint_state:
     effort: []
     header:
@@ -125,6 +135,8 @@
   name: Wrist 2 Min
 - description: ''
   favorite: true
+  joint_group_names:
+    - manipulator
   joint_state:
     effort: []
     header:
@@ -150,6 +162,8 @@
   name: Look at Right Table
 - description: ''
   favorite: true
+  joint_group_names:
+    - manipulator
   joint_state:
     effort: []
     header:
@@ -175,6 +189,8 @@
   name: Home
 - description: ''
   favorite: true
+  joint_group_names:
+    - manipulator
   joint_state:
     effort: []
     header:
@@ -200,6 +216,8 @@
   name: Look at Left Table
 - description: ''
   favorite: true
+  joint_group_names:
+    - manipulator
   joint_state:
     effort: []
     header:
@@ -225,6 +243,8 @@
   name: Look at Machine
 - description: ''
   favorite: false
+  joint_group_names:
+    - manipulator
   joint_state:
     effort: []
     header:
@@ -250,6 +270,8 @@
   name: Wrist 2 Max
 - description: ''
   favorite: true
+  joint_group_names:
+    - manipulator
   joint_state:
     effort: []
     header:

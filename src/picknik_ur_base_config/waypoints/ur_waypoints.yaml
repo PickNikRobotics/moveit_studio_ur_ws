@@ -1,7 +1,8 @@
 - name: Grab
   description: ""
   favorite: true
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
@@ -14,7 +15,8 @@
     effort: []
 - name: Look at Table
   favorite: true
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
@@ -27,7 +29,8 @@
     effort: []
 - name: Look at Pick and Place Zone
   favorite: true
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
@@ -40,7 +43,8 @@
     effort: []
 - name: Forward Down
   favorite: true
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
@@ -53,7 +57,8 @@
     effort: []
 - name: Right Corner
   favorite: true
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
@@ -66,7 +71,8 @@
     effort: []
 - name: Left Corner
   favorite: true
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
@@ -79,7 +85,8 @@
     effort: []
 - name: Home
   favorite: true
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
@@ -91,7 +98,8 @@
     velocity: []
     effort: []
 - name: Place
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
@@ -103,7 +111,8 @@
     velocity: []
     effort: []
 - name: Right Wall
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
@@ -115,7 +124,8 @@
     velocity: []
     effort: []
 - name: Left Wall
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
@@ -127,7 +137,8 @@
     velocity: []
     effort: []
 - name: Left Shelf
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
@@ -139,7 +150,8 @@
     velocity: []
     effort: []
 - name: Right Shelf
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
@@ -151,7 +163,8 @@
     velocity: []
     effort: []
 - name: Drop
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
@@ -163,7 +176,8 @@
     velocity: []
     effort: []
 - name: Place Left
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
@@ -175,7 +189,8 @@
     velocity: []
     effort: []
 - name: Place Right
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
@@ -187,7 +202,8 @@
     velocity: []
     effort: []
 - name: Place Block
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
@@ -199,7 +215,8 @@
     velocity: []
     effort: []
 - name: Pick Block
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
@@ -211,7 +228,8 @@
     velocity: []
     effort: []
 - name: Wrist 2 Min
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
@@ -223,7 +241,8 @@
     velocity: []
     effort: []
 - name: Wrist 2 Max
-  joint_group_names: ["manipulator"]
+  joint_group_names:
+    - manipulator
   joint_state:
     header:
       frame_id: world
