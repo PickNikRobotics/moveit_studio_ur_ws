@@ -107,6 +107,7 @@
     </plugin>
   </gazebo>
 
+  <xacro:property name="gazebo_renderer" default="$(arg gazebo_renderer)"/>
   <gazebo>
     <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
       <render_engine>${gazebo_renderer}</render_engine>

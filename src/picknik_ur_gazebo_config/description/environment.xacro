@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:macro name="environment" params="parent">
-    <!-- parameters -->
-    <xacro:arg name="gazebo_renderer" default="ogre"/>
-    <xacro:property name="gazebo_renderer" default="$(arg gazebo_renderer)"/>
-
     <!-- Import environment macros -->
     <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
     <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/visual/cube_visual.urdf.xacro" />
