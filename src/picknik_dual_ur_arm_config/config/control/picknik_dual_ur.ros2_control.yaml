@@ -32,7 +32,7 @@ left_io_and_status_controller:
 
 right_io_and_status_controller:
   ros__parameters:
-    tf_prefix: "left_"
+    tf_prefix: "right_"
 
 left_joint_trajectory_controller:
   ros__parameters:
