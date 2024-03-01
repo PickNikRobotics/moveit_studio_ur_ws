@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro" />
+  <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur_camera_adapter.urdf.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/mtc_ur_tool_changer/mtc_ur_tool_changer.urdf.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro" />
+
   <!-- Defines a reusable macro for UR arm attachments, including wrist camera and gripper. -->
-  <xacro:macro name="picknik_ur_attachments" params="prefix:='' has_tool_changer use_pinch_links use_fake_hardware gripper_com_port">
+  <xacro:macro name="picknik_ur_attachments" params="prefix:='' has_tool_changer parent use_pinch_links use_fake_hardware gripper_com_port">
     <!-- Create a property that adds an underscore to the prefix, if one is used. -->
     <xacro:property name="prefix_" value='${prefix + "_" if prefix else ""}' />
 
     <xacro:if value="${has_tool_changer}">
     <!-- tool changer-->
-    <xacro:mtc_ur_tool_changer prefix="${prefix_}" connected_to="${prefix_}tool0" rotation="0" />
+    <xacro:mtc_ur_tool_changer prefix="${prefix_}" parent="${parent}" child="${prefix_}tool_changer_tool0" rotation="0" />
     </xacro:if>
 
     <!-- pinch geometry for moveit motion planning. see https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver/issues/611 -->
@@ -17,14 +24,14 @@
     </xacro:if>
 
     <!-- wrist camera adapter and camera-->
-    <xacro:ur_realsense_camera_adapter prefix="${prefix_}" connected_to="${prefix_}${camera_adapter_parent}" rotation="0" />
+    <xacro:ur_realsense_camera_adapter prefix="${prefix_}" parent="${prefix_}${camera_adapter_parent}" child_tool="${prefix_}realsense_camera_adapter_tool0" child_camera="${prefix_}d415_mount_link" rotation="0" />
 
     <xacro:realsense_d415 parent="${prefix_}d415_mount_link" name="${prefix_}wrist_mounted_camera">
       <origin xyz="0 0 0" rpy="0 0 0" />
     </xacro:realsense_d415>
 
     <!-- Gripper and UR adapter-->
-    <xacro:ur_to_robotiq prefix="${prefix_}" connected_to="${prefix_}realsense_camera_adapter_tool0" rotation="0" />
+    <xacro:ur_to_robotiq prefix="${prefix_}" parent="${prefix_}realsense_camera_adapter_tool0" child="${prefix_}gripper_mount_link"  rotation="0" />
 
     <xacro:robotiq_gripper name="${prefix_}RobotiqGripperHardwareInterface" prefix="${prefix_}" 
       parent="${prefix_}gripper_mount_link" use_fake_hardware="${use_fake_hardware}" com_port="${gripper_com_port}">
