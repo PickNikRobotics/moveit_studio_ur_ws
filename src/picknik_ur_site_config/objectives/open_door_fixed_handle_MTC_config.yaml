@@ -5,6 +5,7 @@ SetupMTCGraspThenMoveAlongArcPull:
   ik_frame_name: "grasp_link"
   end_effector_closed_pose_name: "close"
   end_effector_open_pose_name: "open"
+  #ui_grasp_link: "grasp_link"
 
   # List of controllers to use during the stages that interact with the door.
   move_along_arc_controllers: "/joint_trajectory_controller_chained_open_door /admittance_controller_open_door /robotiq_gripper_controller"
@@ -15,3 +16,31 @@ SetupMTCGraspThenMoveAlongArcPull:
   translation_distance: 0.0   # meters (0 means only move along arc here, no linear component)
   rotation_distance: 55.0  # Degrees
   use_circular_arc: true
+
+
+  # Grasp data configs
+  grasp_data:
+    # See https://ros-planning.github.io/moveit_tutorials/_images/finger_gripper_explanation.jpg for description of the following parameters
+    # Note: these parameters are copied from Robotiq gripper without tweaking
+    # min/max values of the grasp depth range in meter.
+    # This should fit to the distance from finger tip to inner palm or the suction cup stroke
+    grasp_min_depth: 0.01 # minimum amount fingers must overlap object
+    grasp_max_depth: 0.035 # Maximum distance from tip of end effector inwards that an object can be for a grasp
+
+    # Maximum allowed finger width for a grasp.
+    # This value should be considerably smaller than max_finger_width
+    # to allow padded collision checks
+    max_grasp_width: 0.1
+
+    # The transform from the arm IK link to the grasp point to align it with the following convention.
+    #
+    # z-axis pointing toward object to grasp
+    # x-axis perpendicular to movement of grippers
+    # y-axis parallel to movement of grippers
+    eef_mount_to_tcp_transform:
+      x: 0.0
+      y: 0.0
+      z: -0.02
+      roll: 0.0
+      pitch: 0.0
+      yaw: 1.57
