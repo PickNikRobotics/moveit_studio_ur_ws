@@ -28,7 +28,10 @@
               <SubTree ID="Move to Joint State"/>
             </Decorator>
             <!-- Cartesian and joint jogging -->
-            <Action ID="TeleoperateTwist" controller_name="servo_controller" _while="teleop_mode == 2"/>
+            <Control ID="Sequence" _while="teleop_mode == 2">
+              <Action ID="SwitchUIPrimaryView" primary_view_name="/wrist_mounted_camera/color/image_raw"/>
+              <Action ID="TeleoperateTwist" controller_name="servo_controller"/>
+            </Control>
             <Action ID="TeleoperateJointJog" controller_name="servo_controller" _while="teleop_mode == 1"/>
           </Control>
         </Decorator>
