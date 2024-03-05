@@ -4,7 +4,7 @@
     <Control ID="Sequence">
       <Action ID="LoadObjectiveParameters" config_file_name="push_along_axis_config.yaml" parameters="{parameters}"/>
       <SubTree ID="Re-Zero Force-Torque Sensors" _collapsed="true"/>
-      <Action ID="MoveToWaypoint" waypoint_name="Hinge View" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
+      <Action ID="MoveToWaypoint" waypoint_name="Hinge View" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" />
       <SubTree ID="Clear Snapshot" _collapsed="true"/>
       <SubTree ID="Reset Planning Scene" _collapsed="true"/>
       <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>
@@ -60,7 +60,7 @@
       <Action ID="SetupMTCUpdateGroupCollisionRule" name="AllowGripperCollisionWithOctomap" parameters="{parameters}" task="{retreat_task}"/>
       <Action ID="SetupMTCCartesianMoveToJointState" joint_state="{pre_approach_robot_state}" planning_group_name="manipulator" task="{retreat_task}"/>
       <Action ID="SetupMTCUpdateGroupCollisionRule" name="ForbidGripperCollisionWithOctomap" parameters="{parameters}" task="{retreat_task}"/>
-      <Action ID="SetupMTCMoveToJointState" joint_state="{initial_robot_state}" planning_group_name="manipulator" task="{retreat_task}" use_all_planners="false" constraints=""/>
+      <Action ID="SetupMTCMoveToJointState" joint_state="{initial_robot_state}" planning_group_name="manipulator" task="{retreat_task}" use_all_planners="false" />
       <Action ID="PlanMTCTask" solution="{return_to_initial_waypoint_solution}" task="{retreat_task}"/>
       <Action ID="ExecuteMTCTask" solution="{return_to_initial_waypoint_solution}"/>
     </Control>
