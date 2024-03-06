@@ -57,7 +57,7 @@
                 script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
                 output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
                 input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="0 0 0" rpy="0 0 1.57"/>
         </xacro:ur_robot>
 
         <xacro:unless value="$(arg has_tool_changer)">
