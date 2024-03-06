@@ -15,8 +15,10 @@
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>moveit_studio_agent</test_depend>
   <test_depend>moveit_studio_test_utils</test_depend>
+  <test_depend>moveit_studio_ur_pstop_manager</test_depend>
   <test_depend>rclcpp</test_depend>
   <test_depend>ros_testing</test_depend>
+  <test_depend>std_srvs</test_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
