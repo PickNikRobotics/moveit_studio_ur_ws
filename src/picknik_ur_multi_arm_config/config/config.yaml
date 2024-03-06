@@ -34,7 +34,7 @@ hardware:
   # Specify additional launch files for running the robot with real hardware.
   # [Optional, defaults to a blank launch file if not specified]
   robot_driver_persist_launch_file:
-    package: "picknik_ur_dual_arm_config"
+    package: "picknik_ur_multi_arm_config"
     path: "launch/robot_drivers_to_persist.launch.py"
   hardware_launch_file:
     package: "moveit_studio_agent"
@@ -44,7 +44,7 @@ hardware:
   # Used when hardware.simulated is True.
   # [Optional, defaults to a blank launch file if not specified]
   simulated_robot_driver_persist_launch_file:
-    package: "picknik_ur_dual_arm_config"
+    package: "picknik_ur_multi_arm_config"
     path: "launch/sim/robot_drivers_to_persist_sim.launch.py"
   simulated_hardware_launch_file:
     package: "moveit_studio_agent"
@@ -53,7 +53,7 @@ hardware:
   # Configuration details for cameras and scene planning.
   # [Required]
   camera_config_file:
-    package: "picknik_ur_dual_arm_config"
+    package: "picknik_ur_multi_arm_config"
     path: "config/cameras.yaml"
 
   # Parameters used to configure the robot description through XACRO.
@@ -61,10 +61,10 @@ hardware:
   # [Required]
   robot_description:
     urdf:
-      package: "picknik_ur_dual_arm_config"
+      package: "picknik_ur_multi_arm_config"
       path: "description/dual_arm_ur.xacro"
     srdf:
-      package: "picknik_ur_dual_arm_config"
+      package: "picknik_ur_multi_arm_config"
       path: "config/moveit/dual_arm_ur.srdf"
     # Specify any additional parameters required for the URDF.
     # Many of these are specific to the UR descriptions packages, and can be customized as needed.
@@ -78,7 +78,7 @@ hardware:
       - headless_mode: "true"
       - robot_ip: "%>> hardware.ip"
       - joint_limits_parameters_file:
-          package: "picknik_ur_dual_arm_config"
+          package: "picknik_ur_multi_arm_config"
           path: "config/moveit/joint_limits.yaml"
       # The following files are loaded based on the ur_description package layout.
       # To use parameters from a different package, place them in a config/ROBOT_NAME/ directory,
@@ -111,31 +111,31 @@ moveit_params:
   joint_group_name: "dual_arm_manipulator"
 
   ompl_planning:
-    package: "picknik_ur_dual_arm_config"
+    package: "picknik_ur_multi_arm_config"
     path: "config/moveit/ompl_planning.yaml"
   pilz_planning:
-    package: "picknik_ur_dual_arm_config"
+    package: "picknik_ur_multi_arm_config"
     path: "config/moveit/pilz_industrial_motion_planner_planning.yaml"
   stomp_planning:
-    package: "picknik_ur_dual_arm_config"
+    package: "picknik_ur_multi_arm_config"
     path: "config/moveit/stomp_planning.yaml"
   kinematics:
-    package: "picknik_ur_dual_arm_config"
+    package: "picknik_ur_multi_arm_config"
     path: "config/moveit/trac_ik_kinematics_distance.yaml"
   servo:
-    package: "picknik_ur_dual_arm_config"
+    package: "picknik_ur_multi_arm_config"
     path: "config/moveit/right_ur_servo.yaml"
   sensors_3d:
-    package: "picknik_ur_dual_arm_config"
+    package: "picknik_ur_multi_arm_config"
     path: "config/moveit/sensors_3d.yaml"
   servo_kinematics:
-    package: "picknik_ur_dual_arm_config"
+    package: "picknik_ur_multi_arm_config"
     path: "config/moveit/trac_ik_kinematics_speed.yaml"
   joint_limits:
-    package: "picknik_ur_dual_arm_config"
+    package: "picknik_ur_multi_arm_config"
     path: "config/moveit/dual_arm_joint_limits.yaml"
   pilz_cartesian_limits:
-    package: "picknik_ur_dual_arm_config"
+    package: "picknik_ur_multi_arm_config"
     path: "config/moveit/pilz_cartesian_limits.yaml"
 
   publish:
@@ -162,7 +162,7 @@ ui_params:
 # [Required, if using ros2_control]
 ros2_control:
   config:
-    package: "picknik_ur_dual_arm_config"
+    package: "picknik_ur_multi_arm_config"
     path: "config/control/picknik_dual_ur.ros2_control.yaml"
   # MoveIt Pro will load and activate these controllers at start up to ensure they are available.
   # If not specified, it is up to the user to ensure the appropriate controllers are active and available
@@ -214,10 +214,10 @@ objectives:
   # [Required]
   objective_library_paths:
     core:
-      package_name: "picknik_ur_dual_arm_config"
+      package_name: "picknik_ur_multi_arm_config"
       relative_path: "objectives"
   # Specify the location of the saved waypoints file.
   # [Required]
   waypoints_file:
-    package_name: "picknik_ur_dual_arm_config"
+    package_name: "picknik_ur_multi_arm_config"
     relative_path: "waypoints/ur_waypoints.yaml"

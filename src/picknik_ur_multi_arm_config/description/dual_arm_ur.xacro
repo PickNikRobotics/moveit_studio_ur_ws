@@ -23,12 +23,12 @@
 
   <!-- Import macros for main hardware components -->
   <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro" />
-  <xacro:include filename="$(find picknik_ur_dual_arm_config)/description/pinch_links.xacro" />
-  <xacro:include filename="$(find picknik_ur_dual_arm_config)/description/picknik_ur_attachments.xacro" />
+  <xacro:include filename="$(find picknik_ur_multi_arm_config)/description/pinch_links.xacro" />
+  <xacro:include filename="$(find picknik_ur_multi_arm_config)/description/picknik_ur_attachments.xacro" />
   <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro" />
 
   <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
-  <xacro:arg name="initial_positions_file" default="$(find picknik_ur_dual_arm_config)/config/initial_positions.yaml"/>
+  <xacro:arg name="initial_positions_file" default="$(find picknik_ur_multi_arm_config)/config/initial_positions.yaml"/>
   <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
   
   <!-- Import environment macros -->

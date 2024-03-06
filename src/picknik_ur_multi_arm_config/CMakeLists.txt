@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(picknik_ur_dual_arm_config)
+project(picknik_ur_multi_arm_config)
 
 find_package(ament_cmake REQUIRED)
 
