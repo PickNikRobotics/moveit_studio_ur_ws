@@ -1,5 +1,10 @@
 <?xml version="1.0"?>
 <root BTCPP_format="4" main_tree_to_execute="Move to Joint State">
+    <TreeNodesModel>
+        <SubTree ID="Move to Joint State">
+            <input_port name="target_joint_state" default="{target_joint_state_in}"/>
+        </SubTree>
+    </TreeNodesModel>
     <BehaviorTree ID="Move to Joint State" _description="Move to a specified joint state">
         <Control ID="Fallback" name="root">
             <Control ID="Sequence">

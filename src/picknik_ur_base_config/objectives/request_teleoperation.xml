@@ -9,34 +9,34 @@
         <Decorator ID="KeepRunningUntilFailure">
           <Control ID="Sequence">
             <!-- Closing and opening the gripper -->
+            <!-- Joint sliders interpolate to joint state -->
+            <!-- Interactive markers move to pose -->
+            <!-- Waypoint buttons move to joint state -->
+            <!-- Cartesian and joint jogging -->
             <Decorator ID="ForceSuccess" _skipIf="teleop_mode != 7">
               <SubTree ID="Close Gripper"/>
             </Decorator>
             <Decorator ID="ForceSuccess" _skipIf="teleop_mode != 6">
-              <SubTree ID="Open Gripper"/>
+              <SubTree ID="Open Gripper" new_field="data"/>
             </Decorator>
-            <!-- Joint sliders interpolate to joint state -->
             <Decorator ID="ForceSuccess" _while="teleop_mode == 5">
               <Control ID="Sequence">
                 <Action ID="SwitchUIPrimaryView" primary_view_name="Visualization"/>
                 <SubTree ID="Interpolate to Joint State"/>
               </Control>
             </Decorator>
-            <!-- Interactive markers move to pose -->
             <Decorator ID="ForceSuccess" _while="teleop_mode == 4">
               <Control ID="Sequence">
                 <Action ID="SwitchUIPrimaryView" primary_view_name="Visualization"/>
                 <SubTree ID="Move to Pose"/>
               </Control>
             </Decorator>
-            <!-- Waypoint buttons move to joint state -->
             <Decorator ID="ForceSuccess" _while="teleop_mode == 3">
               <Control ID="Sequence">
                 <Action ID="SwitchUIPrimaryView" primary_view_name="Visualization"/>
-                <SubTree ID="Move to Joint State"/>
+                <SubTree ID="Move to Joint State" _collapsed="false"/>
               </Control>
             </Decorator>
-            <!-- Cartesian and joint jogging -->
             <Control ID="Sequence" _while="teleop_mode == 2">
               <Action ID="SwitchUIPrimaryView" primary_view_name="/wrist_mounted_camera/color/image_raw"/>
               <Action ID="TeleoperateTwist" controller_name="servo_controller"/>
