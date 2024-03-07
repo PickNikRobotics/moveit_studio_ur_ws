@@ -3,7 +3,7 @@
   <!-- ////////// -->
   <BehaviorTree ID="Object Segmentation 2D" _description="Detect objects using a 2D image segmentation model." _favorite="false" _hardcoded="false">
     <Control ID="Sequence" name="TopLevelSequence">
-      <Action ID="MoveToWaypoint" waypoint_name="Extended Right" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" />
+      <SubTree ID="Move to Named Pose" waypoint_name="Extended Right" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
       <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
       <Action ID="GetMasks2DAction" image="{image}" action_name="/get_masks_2d_maskrcnn" valid_classes="" min_confidence="0.8" max_nms_iou="0.8" min_relative_area="0" max_relative_area="1" timeout_sec="-1" masks2d="{masks2d}"/>
     </Control>

@@ -5,7 +5,7 @@
     <Control ID="Sequence" name="TopLevelSequence">
       <Action ID="ClearSnapshot"/>
       <Action ID="ResetPlanningSceneObjects" apply_planning_scene_service="/apply_planning_scene"/>
-      <Action ID="MoveToWaypoint" waypoint_name="Extended Right" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" />
+      <SubTree ID="Move to Named Pose" waypoint_name="Extended Right" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
       <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>
       <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
       <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
