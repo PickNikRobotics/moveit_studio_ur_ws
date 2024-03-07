@@ -11,14 +11,16 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <depend>ign_ros2_control</depend>
+  <depend>moveit_ros_perception</depend>
+  <depend>picknik_accessories</depend>
+  <depend>ros_gz</depend>
   <exec_depend>admittance_controller</exec_depend>
   <exec_depend>kinematics_interface_kdl</exec_depend>
   <exec_depend>moveit_planners_stomp</exec_depend>
-  <exec_depend>moveit_ros_perception</exec_depend>
   <exec_depend>moveit_studio_agent</exec_depend>
   <exec_depend>moveit_studio_behavior</exec_depend>
   <exec_depend>moveit_studio_ur_pstop_manager</exec_depend>
-  <exec_depend>picknik_accessories</exec_depend>
   <exec_depend>realsense2_description</exec_depend>
   <exec_depend>robotiq_description</exec_depend>
   <exec_depend>robotiq_controllers</exec_depend>
@@ -34,6 +36,21 @@
   <test_depend>ament_cmake_lint_cmake</test_depend>
   <test_depend>picknik_ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
+
+
+  <depend>joint_state_publisher_gui</depend>
+  <depend>launch</depend>
+  <depend>launch_ros</depend>
+  <depend>robot_state_publisher</depend>
+  <depend>rviz2</depend>
+  <depend>urdf</depend>
+  <depend>xacro</depend>
+
+  <depend>ros2_control</depend>
+  <depend>ros2_controllers</depend>
+
+  <depend>gripper_controllers</depend>
+  <depend>joint_state_broadcaster</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

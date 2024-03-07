@@ -1,12 +1,12 @@
 controller_manager:
   ros__parameters:
-    update_rate: 600  # Hz
+    update_rate: 200  # Hz
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
-    left_io_and_status_controller:
-      type: ur_controllers/GPIOController
-    right_io_and_status_controller:
-      type: ur_controllers/GPIOController
+    # left_io_and_status_controller:
+    #   type: ur_controllers/GPIOController
+    # right_io_and_status_controller:
+    #   type: ur_controllers/GPIOController
     left_joint_trajectory_controller:
       type: joint_trajectory_controller/JointTrajectoryController
     right_joint_trajectory_controller:
@@ -15,12 +15,12 @@ controller_manager:
       type: joint_trajectory_controller/JointTrajectoryController
     left_robotiq_gripper_controller:
       type: position_controllers/GripperActionController
-    left_robotiq_activation_controller:
-      type: robotiq_controllers/RobotiqActivationController
+    # left_robotiq_activation_controller:
+    #   type: robotiq_controllers/RobotiqActivationController
     right_robotiq_gripper_controller:
       type: position_controllers/GripperActionController
-    right_robotiq_activation_controller:
-      type: robotiq_controllers/RobotiqActivationController
+    # right_robotiq_activation_controller:
+    #   type: robotiq_controllers/RobotiqActivationController
     left_streaming_controller:
       type: position_controllers/JointGroupPositionController
     right_streaming_controller:

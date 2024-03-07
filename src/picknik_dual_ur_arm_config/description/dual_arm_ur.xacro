@@ -10,6 +10,7 @@
   <xacro:arg name="kinematics_parameters_file" default="" />
   <xacro:arg name="physical_parameters_file" default="" />
   <xacro:arg name="visual_parameters_file" default="" />
+  <xacro:arg name="gazebo_renderer" default="ogre"/>
 
   <xacro:arg name="headless_mode" default="false" />
   <xacro:arg name="robot_ip" default="0.0.0.0" />
@@ -23,9 +24,14 @@
 
   <!-- Import macros for main hardware components -->
   <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro" />
-  <xacro:include filename="$(find picknik_ur_dual_arm_config)/description/pinch_links.xacro" />
-  <xacro:include filename="$(find picknik_ur_dual_arm_config)/description/picknik_ur_attachments.xacro" />
+  <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro" />
+  <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/mtc_ur_tool_changer/mtc_ur_tool_changer.urdf.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur_camera_adapter.urdf.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro" />
   <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro" />
+  <xacro:include filename="$(find picknik_ur_dual_arm_config)/description/pinch_links.xacro" />
+  <!-- <xacro:include filename="$(find picknik_ur_dual_arm_config)/description/picknik_ur_attachments.xacro" /> -->
 
   <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
   <xacro:arg name="initial_positions_file" default="$(find picknik_ur_dual_arm_config)/config/initial_positions.yaml"/>
@@ -33,13 +39,18 @@
   
   <!-- Import environment macros -->
   <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
-  <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/visual/cube_visual.urdf.xacro" />
+
+  <!-- Bring in realsense materials only once -->
+  <xacro:include filename="$(find realsense2_description)/urdf/_materials.urdf.xacro" />
+  <xacro:property name="realsense_materials_defined" value="true"/>
+  <xacro:property name="gazebo_renderer" default="$(arg gazebo_renderer)"/>
+
 
   <link name="world" />
 
   <!-- FIRST ROBOT -->
   <!-- arm -->
-  <xacro:ur_robot
+  <!-- <xacro:ur_robot
     name="left_$(arg name)"
     tf_prefix="left_"
     parent="world"
@@ -55,45 +66,88 @@
     output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
     input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
     <origin xyz="0.0 -0.5 0" rpy="0 0 0" />
-  </xacro:ur_robot>
-
-  <xacro:picknik_ur_attachments
-    prefix="left"
-    parent="left_tool0"
-    has_tool_changer="$(arg has_tool_changer)"
-    use_pinch_links="$(arg use_pinch_links)"
-    use_fake_hardware="$(arg use_fake_hardware)"
-    gripper_com_port="$/dev/ttyUSB0"
-  />
-
-  <!-- SECOND ROBOT -->
+  </xacro:ur_robot> -->
   <!-- arm -->
   <xacro:ur_robot
-    name="right_$(arg name)"
+    name="$(arg name)"
+    tf_prefix="left_"
+    parent="world"
+    joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
+    kinematics_parameters_file="$(arg kinematics_parameters_file)"
+    physical_parameters_file="$(arg physical_parameters_file)"
+    visual_parameters_file="$(arg visual_parameters_file)"
+    sim_ignition="true"
+    initial_positions="${xacro.load_yaml(initial_positions_file)}">
+    <origin xyz="0 0.5 0" rpy="0 0 0" /> <!-- position robot in the world -->
+  </xacro:ur_robot>
+
+  <!-- tool changer-->
+  <xacro:mtc_ur_tool_changer prefix="left_" connected_to="left_tool0" rotation="0" />
+
+  <!-- wrist camera adapter and camera-->
+  <xacro:ur_realsense_camera_adapter prefix="left_" connected_to="left_tool_changer_tool0" rotation="0" />
+  <!-- TODO: With ogre renderer and use_mesh="true",
+  the camera image will be obstructed by the mesh-->
+  <xacro:realsense_d415 parent="left_d415_mount_link" name="left_wrist_mounted_camera" use_mesh="${gazebo_renderer == 'ogre2'}">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:realsense_d415>
+
+  <!-- Gripper and UR adapter-->
+  <xacro:ur_to_robotiq prefix="left_" connected_to="left_realsense_camera_adapter_tool0" rotation="0" />
+
+  <xacro:robotiq_gripper name="RobotiqGripperHardwareInterface" prefix="left_" parent="left_gripper_mount_link" sim_ignition="true">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:robotiq_gripper>
+
+  <link name="left_grasp_link" />
+  <joint name="left_grasp_link_joint" type="fixed">
+    <parent link="left_gripper_mount_link" />
+    <child link="left_grasp_link" />
+    <origin xyz="0.0 0.0 0.134" rpy="0.0 0.0 ${pi}" />
+  </joint>
+
+
+
+  <!-- SECOND ROBOT -->
+
+  <!-- arm -->
+  <xacro:ur_robot
+    name="$(arg name)"
     tf_prefix="right_"
     parent="world"
     joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
     kinematics_parameters_file="$(arg kinematics_parameters_file)"
     physical_parameters_file="$(arg physical_parameters_file)"
     visual_parameters_file="$(arg visual_parameters_file)"
-    use_fake_hardware="$(arg use_fake_hardware)"
-    initial_positions="${xacro.load_yaml(initial_positions_file)}"
-    headless_mode="$(arg headless_mode)"
-    robot_ip="$(arg robot_ip)"
-    script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
-    output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
-    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
-    <origin xyz="0 0.5 0" rpy="0 0 0" />
+    sim_ignition="true"
+    initial_positions="${xacro.load_yaml(initial_positions_file)}">
+    <origin xyz="0 -0.5 0" rpy="0 0 0" /> <!-- position robot in the world -->
   </xacro:ur_robot>
 
-  <xacro:picknik_ur_attachments
-    prefix="right"
-    parent="right_tool0"
-    has_tool_changer="$(arg has_tool_changer)"
-    use_pinch_links="$(arg use_pinch_links)"
-    use_fake_hardware="$(arg use_fake_hardware)"
-    gripper_com_port="$/dev/ttyUSB0"
-  />
+  <!-- tool changer-->
+  <xacro:mtc_ur_tool_changer prefix="right_" connected_to="right_tool0" rotation="0" />
+
+  <!-- wrist camera adapter and camera-->
+  <xacro:ur_realsense_camera_adapter prefix="right_" connected_to="right_tool_changer_tool0" rotation="0" />
+  <!-- TODO: With ogre renderer and use_mesh="true",
+  the camera image will be obstructed by the mesh-->
+  <xacro:realsense_d415 parent="right_d415_mount_link" name="right_wrist_mounted_camera" use_mesh="${gazebo_renderer == 'ogre2'}">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:realsense_d415>
+
+  <!-- Gripper and UR adapter-->
+  <xacro:ur_to_robotiq prefix="right_" connected_to="right_realsense_camera_adapter_tool0" rotation="0" />
+
+  <xacro:robotiq_gripper name="RobotiqGripperHardwareInterface" prefix="right_" parent="right_gripper_mount_link" sim_ignition="true">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:robotiq_gripper>
+
+  <link name="right_grasp_link" />
+  <joint name="right_grasp_link_joint" type="fixed">
+    <parent link="right_gripper_mount_link" />
+    <child link="right_grasp_link" />
+    <origin xyz="0.0 0.0 0.134" rpy="0.0 0.0 ${pi}" />
+  </joint>
 
   <!-- ENVIRONMENT -->
   <link name="environment">
@@ -128,4 +182,88 @@
   <xacro:realsense_d435 parent="external_camera_link" name="scene_camera" visible="false">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:realsense_d435>
+
+  <xacro:forearm_pinch_link prefix="right" />
+  <xacro:wrist_3_pinch_link prefix="right" />
+  <xacro:forearm_pinch_link prefix="left" />
+  <xacro:wrist_3_pinch_link prefix="left" />
+
+
+  <!-- Force/Torque Sensor -->
+  <link name="left_robot/wrist_3_joint/force_torque_sensor" />
+  <joint name="left_wrist_to_fts" type="fixed">
+    <parent link="left_wrist_3_link" />
+    <child link="left_robot/wrist_3_joint/force_torque_sensor" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  <gazebo reference="left_wrist_3_joint">
+    <sensor name="left_tcp_fts_sensor" type="force_torque">
+      <always_on>1</always_on>
+      <update_rate>50</update_rate>
+      <visualize>0</visualize>
+      <topic>left_tcp_fts_sensor/ft_data</topic>
+      <pose>0 0 0 0 0 0</pose>
+      <force_torque>
+        <frame>child</frame>
+        <measure_direction>parent_to_child</measure_direction>
+        <force>
+          <x>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </x>
+          <y>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </y>
+          <z>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </z>
+        </force>
+        <torque>
+          <x>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </x>
+          <y>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </y>
+          <z>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </z>
+        </torque>
+      </force_torque>
+    </sensor>
+  </gazebo>
+
+  <!-- Gazebo Plugins -->
+  <gazebo>
+    <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+      <parameters>$(find picknik_ur_dual_arm_config)/config/control/picknik_dual_ur.ros2_control.yaml</parameters>
+      <ros>
+        <remapping>/left_servo_controller/commands:=/left_robot_controllers/commands</remapping>
+        <remapping>/left_servo_controller/joint_trajectory:=/left_robot_controllers/joint_trajectory</remapping>
+      </ros>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
+      <render_engine>${gazebo_renderer}</render_engine>
+    </plugin>
+  </gazebo>
 </robot>

@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="picknik_ur_attachments" params="prefix:='' parent child has_tool_changer">
+    <!-- parameters -->
+    <xacro:arg name="simulation" default=""/>
 
-  <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro" />
-  <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro" />
-  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur_camera_adapter.urdf.xacro" />
-  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/mtc_ur_tool_changer/mtc_ur_tool_changer.urdf.xacro" />
-  <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro" />
-
-  <!-- Defines a reusable macro for UR arm attachments, including wrist camera and gripper. -->
-  <xacro:macro name="picknik_ur_attachments" params="prefix:='' has_tool_changer parent use_pinch_links use_fake_hardware gripper_com_port">
-    <!-- Create a property that adds an underscore to the prefix, if one is used. -->
+    <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur_camera_adapter.urdf.xacro"/>
+    <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro"/>
+    <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro" />
+    <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro" />
+    <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/mtc_ur_tool_changer/mtc_ur_tool_changer.urdf.xacro"/>
     <xacro:property name="prefix_" value='${prefix + "_" if prefix else ""}' />
-
-    <xacro:if value="${has_tool_changer}">
     <!-- tool changer-->
-    <xacro:mtc_ur_tool_changer prefix="${prefix_}" parent="${parent}" child="${prefix_}tool_changer_tool0" rotation="0" />
+    <xacro:if value="$(arg has_tool_changer)">
+      <xacro:mtc_ur_tool_changer prefix="${prefix_}" parent="${parent}" child="${prefix_}tool_changer_tool0" rotation="0" />
+      <xacro:property name="${prefix_}ur_realsense_camera_adapter_parent" value="${prefix_}tool_changer_tool0" />
     </xacro:if>
-
-    <!-- pinch geometry for moveit motion planning. see https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver/issues/611 -->
-    <xacro:if value="${use_pinch_links}">
-      <xacro:forearm_pinch_link prefix="${prefix}"/>
-      <xacro:wrist_3_pinch_link prefix="${prefix}"/>
-    </xacro:if>
+    <xacro:unless value="$(arg has_tool_changer)">
+      <xacro:property name="${prefix_}ur_realsense_camera_adapter_parent" value="${prefix_}${parent}" />
+    </xacro:unless>
 
     <!-- wrist camera adapter and camera-->
     <xacro:ur_realsense_camera_adapter prefix="${prefix_}" parent="${prefix_}${camera_adapter_parent}" child_tool="${prefix_}realsense_camera_adapter_tool0" child_camera="${prefix_}d415_mount_link" rotation="0" />
 
+    <xacro:property name="simulation" default="$(arg simulation)"/>
     <xacro:realsense_d415 parent="${prefix_}d415_mount_link" name="${prefix_}wrist_mounted_camera">
       <origin xyz="0 0 0" rpy="0 0 0" />
     </xacro:realsense_d415>
@@ -33,16 +30,26 @@
     <!-- Gripper and UR adapter-->
     <xacro:ur_to_robotiq prefix="${prefix_}" parent="${prefix_}realsense_camera_adapter_tool0" child="${prefix_}gripper_mount_link"  rotation="0" />
 
+    <xacro:if value="${simulation == 'gazebo'}">
+      <xacro:property name="use_fake_hardware" default="false"/>
+      <xacro:property name="sim_ignition" default="true"/>
+    </xacro:if>
+    <xacro:if value="${not simulation == 'gazebo'}">
+      <xacro:property name="use_fake_hardware" default="$(arg use_fake_hardware)"/>
+      <xacro:property name="sim_ignition" default="false"/>
+    </xacro:if>
     <xacro:robotiq_gripper name="${prefix_}RobotiqGripperHardwareInterface" prefix="${prefix_}" 
-      parent="${prefix_}gripper_mount_link" use_fake_hardware="${use_fake_hardware}" com_port="${gripper_com_port}">
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      parent="${prefix_}gripper_mount_link" use_fake_hardware="${use_fake_hardware}" sim_ignition="${sim_ignition}"
+                               com_port="/dev/ttyUSB0">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
     </xacro:robotiq_gripper> 
 
-    <link name="${prefix_}grasp_link" />
-    <joint name="${prefix_}grasp_link_joint" type="fixed">
-      <parent link="${prefix_}robotiq_85_base_link" />
-      <child link="${prefix_}grasp_link" />
-      <origin xyz="0.0 0.0 0.134" rpy="0.0 0.0 ${pi}" />
+    <!-- This link aligns the axes of the grasp frame to our required convention for motion planning tasks. -->
+    <link name="${child}"/>
+    <joint name="${child}_joint" type="fixed">
+      <parent link="${prefix_}robotiq_85_base_link"/>
+      <child link="${child}"/>
+      <origin xyz="0.0 0.0 0.134" rpy="0.0 0.0 ${pi}"/>
     </joint>
   </xacro:macro>
 </robot>

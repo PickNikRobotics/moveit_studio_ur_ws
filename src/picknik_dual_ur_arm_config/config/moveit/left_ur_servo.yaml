@@ -18,15 +18,16 @@ scale:
 override_velocity_scaling_factor: 0.5
 
 ## Properties of outgoing commands
-publish_period: 0.002  # 1/Nominal publish rate [seconds]
+publish_period: 0.01  # 1/Nominal publish rate [seconds]
+max_expected_latency: 0.1 # delay between sending a command and the robot executing it [seconds]
 
 # What type of topic does your robot driver expect?
 # Currently supported are std_msgs/Float64MultiArray or trajectory_msgs/JointTrajectory
-command_out_type: std_msgs/Float64MultiArray
+command_out_type: trajectory_msgs/JointTrajectory
 
 # What to publish? Can save some bandwidth as most robots only require positions or velocities
 publish_joint_positions: true
-publish_joint_velocities: false
+publish_joint_velocities: true
 publish_joint_accelerations: false
 
 ## Plugins for smoothing outgoing commands
@@ -36,6 +37,7 @@ low_pass_filter_coeff: 1.5  # Larger --> trust the filtered data more, trust the
 
 ## MoveIt properties
 move_group_name: manipulator_left # Often 'manipulator' or 'arm'
+acceleration_filter_planning_group_name: manipulator_left  # Often 'manipulator' or 'arm'
 is_primary_planning_scene_monitor: false  # The MoveGroup node maintains the planning scene, so Servo needs to get its world info from there.
 
 ## Stopping behaviour

@@ -1,5 +1,13 @@
 # Baseline hardware configuration parameters for MoveIt Pro.
 # [Required]
+
+# Optional parameters that can be read in your launch files for specific functionality
+optional_feature_params:
+  gazebo_world_name: "space_station_blocks_world.sdf"
+  gazebo_gui: False
+  gazebo_verbose: True
+
+
 hardware:
   # Used by the ur_description package to set kinematics and geometry for a specific robot type.
   # You can change this to another UR model but you must update any configuration affected by the different arm size.
@@ -11,11 +19,13 @@ hardware:
   # Override-able by setting the $MOCK_HARDWARE environment variable to 'True'.
   # This allows users to switch between mock and real hardware using the same configuration.
   # [Required]
-  simulated: ${MOCK_HARDWARE:-true}
+  simulated: True
+
+  
 
   # If the MoveIt Pro Agent should launch the ros2 controller node.
   # [Optional, default=True]
-  launch_control_node: True
+  launch_control_node: False
 
   # If the MoveIt Pro Agent should launch the robot state publisher.
   # This should be false if you are launching the robot state publisher as part of drivers.
@@ -25,7 +35,7 @@ hardware:
   # If the MoveIt Pro Agent should launch cameras when simulated.
   # This must be False when using mock hardware, since there are no cameras simulated.
   # [Optional, default=True]
-  launch_cameras_when_simulated: False
+  launch_cameras_when_simulated: True
 
   # The robot's IP address.
   # [Required]
@@ -47,8 +57,8 @@ hardware:
     package: "picknik_ur_dual_arm_config"
     path: "launch/sim/robot_drivers_to_persist_sim.launch.py"
   simulated_hardware_launch_file:
-    package: "moveit_studio_agent"
-    path: "launch/blank.launch.py"
+    package: "picknik_ur_dual_arm_config"
+    path: "launch/sim/hardware_sim.launch.py"
 
   # Configuration details for cameras and scene planning.
   # [Required]
@@ -172,12 +182,12 @@ ros2_control:
     - "joint_state_broadcaster"
     - "left_streaming_controller"
     - "right_streaming_controller"
-    - "left_io_and_status_controller"
-    - "right_io_and_status_controller"
-    - "left_robotiq_activation_controller"
-    - "left_robotiq_gripper_controller"
-    - "right_robotiq_activation_controller"
-    - "right_robotiq_gripper_controller"
+    # - "left_io_and_status_controller"
+    # - "right_io_and_status_controller"
+    # - "left_robotiq_activation_controller"
+    # - "left_robotiq_gripper_controller"
+    # - "right_robotiq_activation_controller"
+    # - "right_robotiq_gripper_controller"
   # Load but do not start these controllers so they can be activated later if needed.
   # [Optional, default=[]]
   controllers_inactive_at_startup:
@@ -185,17 +195,17 @@ ros2_control:
     - "right_joint_trajectory_controller"
     - "dual_arm_joint_trajectory_controller"
   # Any controllers here will not be spawned by MoveIt Pro.
-  # [Optional, default=[]]
-  controllers_not_managed: []
-  # Optionally configure remapping rules to let multiple controllers receive commands on the same topic.
-  # [Optional, default=[]]
-  controller_shared_topics: []
+  # # [Optional, default=[]]
+  # controllers_not_managed: []
+  # # Optionally configure remapping rules to let multiple controllers receive commands on the same topic.
+  # # [Optional, default=[]]
+  # controller_shared_topics: []
 
 # Octomap manager configuration parameters
 octomap_manager:
   # Input point cloud topic name. The *output* point cloud topic published by
   # the Octomap manager node is defined in sensors_3d.yaml.
-  input_point_cloud_topic: "/wrist_mounted_camera/depth/color/points"
+  input_point_cloud_topic: "/left_wrist_mounted_camera/depth/color/points"
 
 # Configuration for loading behaviors and objectives.
 # [Required]
