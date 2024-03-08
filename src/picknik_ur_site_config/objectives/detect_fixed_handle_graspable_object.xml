@@ -29,7 +29,7 @@
       </Decorator>
       <Action ID="ExtractGraspableObjectPose" graspable_object="{handle_object}" pose="{grasp_pose}"/>
       <Action ID="LogMessage" message="Successfully extracted necessary subframes for the detected pull handle." log_level="info"/>
-      <!--<Action ID="ModifyObjectInPlanningScene" object="{handle_object}" apply_planning_scene_service="/apply_planning_scene"/>-->
+      <Action ID="ModifyObjectInPlanningScene" object="{handle_object}" apply_planning_scene_service="/apply_planning_scene"/>
     </Control>
   </BehaviorTree>
 </root>

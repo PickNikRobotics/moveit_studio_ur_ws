@@ -28,10 +28,6 @@
           <Action ID="AlwaysFailure"/>
         </Decorator>
       </Decorator>
-      <Decorator ID="ForceSuccess">
-        <Action ID="LogMessage" message="Found a GraspableObject for the door." log_level="info"/>
-        <!--<Action ID="ModifyObjectInPlanningScene" object="{door_object}" apply_planning_scene_service="/apply_planning_scene"/>-->
-      </Decorator>
     </Control>
   </BehaviorTree>
 </root>
