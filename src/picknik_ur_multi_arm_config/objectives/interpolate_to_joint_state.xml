@@ -3,7 +3,7 @@
     <BehaviorTree ID="Interpolate to Joint State" _description="Move to a specified joint state using joint interpolation">
         <Control ID="Fallback" name="root">
             <Control ID="Sequence">
-                <Action ID="RetrieveJointStateParameter" timeout_sec="" joint_state="{target_joint_state}"/>
+                <Action ID="RetrieveJointStateParameter" timeout_sec="-1" joint_state="{target_joint_state}"/>
                 <Action ID="InitializeMTCTask" task_id="interpolate_to_joint_state" controller_names="/dual_arm_joint_trajectory_controller" task="{interpolate_to_waypoint_task}"/>
                 <Action ID="SetupMTCCurrentState" task="{interpolate_to_waypoint_task}"/>
                 <Action ID="SetupMTCInterpolateToJointState" joint_state="{target_joint_state}" name="SetupMTCInterpolateToJointState_First" planning_group_name="dual_arm_manipulator" task="{interpolate_to_waypoint_task}"/>

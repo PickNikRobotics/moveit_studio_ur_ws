@@ -3,7 +3,7 @@
     <BehaviorTree ID="Move to Joint State" _description="Move to a specified joint state">
         <Control ID="Fallback" name="root">
             <Control ID="Sequence">
-                <Action ID="RetrieveJointStateParameter" timeout_sec="-1" joint_state="{target_joint_state}"/>
+                <Action ID="RetrieveJointStateParameter" timeout_sec="1.0" joint_state="{target_joint_state}"/>
                 <Action ID="InitializeMTCTask" task_id="move_to_joint_state" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{move_to_waypoint_task}"/>
                 <Action ID="SetupMTCCurrentState" task="{move_to_waypoint_task}"/>
                 <Action ID="SetupMTCMoveToJointState" joint_state="{target_joint_state}" name="SetupMTCMoveToJointState_First" planning_group_name="manipulator" task="{move_to_waypoint_task}" use_all_planners="false" />
