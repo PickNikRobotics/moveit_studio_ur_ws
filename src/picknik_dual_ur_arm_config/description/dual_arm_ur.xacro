@@ -60,7 +60,7 @@
     visual_parameters_file="$(arg visual_parameters_file)"
     sim_ignition="true"
     initial_positions="${xacro.load_yaml(initial_positions_file)}">
-    <origin xyz="0 0.5 0" rpy="0 0 0" /> <!-- position robot in the world -->
+    <origin xyz="0 -0.5 0" rpy="0 0 0" /> <!-- position robot in the world -->
   </xacro:ur_robot>
 
   <!-- tool changer-->
@@ -103,7 +103,7 @@
     visual_parameters_file="$(arg visual_parameters_file)"
     sim_ignition="true"
     initial_positions="${xacro.load_yaml(initial_positions_file)}">
-    <origin xyz="0 -0.5 0" rpy="0 0 0" /> <!-- position robot in the world -->
+    <origin xyz="0 0.5 0" rpy="0 0 0" /> <!-- position robot in the world -->
   </xacro:ur_robot>
 
   <!-- tool changer-->
