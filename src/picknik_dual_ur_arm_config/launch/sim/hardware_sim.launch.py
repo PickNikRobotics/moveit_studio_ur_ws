@@ -165,6 +165,22 @@ def generate_launch_description():
         output="both",
     )
 
+    scene_camera_pointcloud_ignition_bridge = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        name="scene_camera_pointcloud_ignition_bridge",
+        arguments=[
+            "/scene_mounted_camera/points@sensor_msgs/msg/PointCloud2[ignition.msgs.PointCloudPacked",
+        ],
+        remappings=[
+            (
+                "/scene_mounted_camera/points",
+                "/scene_mounted_camera/depth/color/points",
+            ),
+        ],
+        output="both",
+    )
+
     # For the wrist mounted camera, enable RGB and depth topics.
     left_wrist_image_rgb_ignition_bridge = Node(
         package="ros_gz_image",
@@ -224,6 +240,64 @@ def generate_launch_description():
         output="both",
     )
 
+    right_wrist_image_rgb_ignition_bridge = Node(
+        package="ros_gz_image",
+        executable="image_bridge",
+        name="right_wrist_image_rgb_ignition_bridge",
+        arguments=[
+            "/right_wrist_mounted_camera/image",
+        ],
+        remappings=[
+            ("/right_wrist_mounted_camera/image", "/right_wrist_mounted_camera/color/image_raw"),
+        ],
+        output="both",
+    )
+    right_wrist_image_depth_ignition_bridge = Node(
+        package="ros_gz_image",
+        executable="image_bridge",
+        name="right_wrist_image_depth_ignition_bridge",
+        arguments=[
+            "/right_wrist_mounted_camera/depth_image",
+        ],
+        remappings=[
+            (
+                "/right_wrist_mounted_camera/depth_image",
+                "/right_wrist_mounted_camera/depth/image_rect_raw",
+            ),
+        ],
+        output="both",
+    )
+    right_wrist_camera_pointcloud_ignition_bridge = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        name="right_wrist_camera_pointcloud_ignition_bridge",
+        arguments=[
+            "/right_wrist_mounted_camera/points@sensor_msgs/msg/PointCloud2[ignition.msgs.PointCloudPacked",
+        ],
+        remappings=[
+            (
+                "/right_wrist_mounted_camera/points",
+                "/right_wrist_mounted_camera/depth/color/points",
+            ),
+        ],
+        output="both",
+    )
+    right_wrist_camera_info_ignition_bridge = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        name="right_wrist_camera_info_ignition_bridge",
+        arguments=[
+            "/right_wrist_mounted_camera/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo",
+        ],
+        remappings=[
+            (
+                "/right_wrist_mounted_camera/camera_info",
+                "/right_wrist_mounted_camera/color/camera_info",
+            ),
+        ],
+        output="both",
+    )
+
     #######################
     # Force Torque Sensor #
     #######################
@@ -256,10 +330,15 @@ def generate_launch_description():
             scene_image_rgb_ignition_bridge,
             scene_image_depth_ignition_bridge,
             scene_camera_info_ignition_bridge,
+            scene_camera_pointcloud_ignition_bridge,
             left_wrist_image_rgb_ignition_bridge,
             left_wrist_camera_info_ignition_bridge,
             left_wrist_image_depth_ignition_bridge,
             left_wrist_camera_pointcloud_ignition_bridge,
+            right_wrist_image_rgb_ignition_bridge,
+            right_wrist_camera_info_ignition_bridge,
+            right_wrist_image_depth_ignition_bridge,
+            right_wrist_camera_pointcloud_ignition_bridge,
             clock_bridge,
             fts_bridge,
             gazebo,
