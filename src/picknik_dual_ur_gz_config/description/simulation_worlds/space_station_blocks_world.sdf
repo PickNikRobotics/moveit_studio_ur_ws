@@ -1,0 +1,441 @@
+<sdf version="1.6">
+  <world name="space_station_apriltag_world">
+    <!-- Sim must be faster than the controller rate or there will be an error -->
+    <physics name="sim_time" type="ignored">
+      <max_step_size>0.005</max_step_size>
+      <real_time_update_rate>0.005</real_time_update_rate>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin
+            filename="ignition-gazebo-physics-system"
+            name="ignition::gazebo::systems::Physics">
+    </plugin>
+    <plugin
+            filename="ignition-gazebo-user-commands-system"
+            name="ignition::gazebo::systems::UserCommands">
+    </plugin>
+    <plugin
+            filename="ignition-gazebo-scene-broadcaster-system"
+            name="ignition::gazebo::systems::SceneBroadcaster">
+    </plugin>
+    <plugin
+            filename="ignition-gazebo-contact-system"
+            name="ignition::gazebo::systems::Contact">
+    </plugin>
+    <!-- FT Plugin -->
+    <plugin
+            filename="ignition-gazebo-forcetorque-system"
+            name="ignition::gazebo::systems::ForceTorque">
+    </plugin>
+
+    <scene>
+      <ambient>0.0 0.0 0.0 1.0</ambient>
+      <shadows>0</shadows>
+    </scene>
+
+    <light type="directional" name="right-light">
+      <cast_shadows>false</cast_shadows>
+      <pose>0 0 100 0 0 0</pose>
+      <diffuse>0.6 0.6 0.6 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.5 -1.0</direction>
+    </light>
+    <light type="directional" name="left-light">
+      <cast_shadows>false</cast_shadows>
+      <pose>0 0 100 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 -0.5 -1.0</direction>
+    </light>
+    <light type="directional" name="bottom-light">
+      <cast_shadows>false</cast_shadows>
+      <pose>0 0 -100 0 0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.5 0.5 0.5 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>0.0 0.0 1.0</direction>
+    </light>
+    <light type="directional" name="front-right-light">
+      <cast_shadows>false</cast_shadows>
+      <pose>100 75 1.5 0 0 0</pose>
+      <diffuse>0.4 0.4 0.4 1</diffuse>
+      <specular>0.4 0.4 0.4 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-1.0 -0.75 0.0</direction>
+    </light>
+    <light type="directional" name="front-left-light">
+      <cast_shadows>false</cast_shadows>
+      <pose>100 -75 1.5 0 0 0</pose>
+      <diffuse>0.4 0.4 0.4</diffuse>
+      <specular>0.4 0.4 0.4 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-1.0 0.75 0.0</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name='space_station'>
+      <static>true</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>package://picknik_accessories/descriptions/furniture/space_station/space_booth.dae</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>package://picknik_accessories/descriptions/furniture/space_station/space_booth.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <pose>-1 0 0 0 0 0</pose>
+      </link>
+      <self_collide>false</self_collide>
+    </model>
+
+    <!-- Table -->
+    <model name="table">
+      <static>true</static>
+      <pose>0 0 1 0 0 0</pose>
+      <link name="table_link">
+        <collision name="box_collision">
+          <geometry>
+            <box>
+              <size>1.5 1.0 0.05</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu1>0.6</mu1>
+                <mu2>0.6</mu2>
+              </ode>
+            </friction>
+            <contact>
+              <ode>
+                <kp>1e+5</kp>
+                <kd>1</kd>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <minDepth>0.001</minDepth>
+              </ode>
+            </contact>
+          </surface>
+        </collision>
+
+        <visual name="table_visual">
+          <geometry>
+            <box>
+              <size>1.5 1.0 0.05</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.93 0.89 0.75 1.0</ambient>
+            <emissive>0.93 0.89 0.75 1.0</emissive>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Pickable boxes -->
+    <model name="box_red">
+      <pose>-0.6 -0.3 1.1 0 0 0</pose>
+      <link name="box_link">
+        <inertial>
+          <inertia>
+            <ixx>0.0001875</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.0001875</iyy>
+            <iyz>0</iyz>
+            <izz>0.0001875</izz>
+          </inertia>
+          <mass>0.2</mass>
+        </inertial>
+        <collision name="box_collision">
+          <geometry>
+            <box>
+              <size>0.05 0.05 0.05</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu1>1000000.0</mu1>
+                <mu2>1000000.0</mu2>
+              </ode>
+            </friction>
+            <contact>
+              <ode>
+                <kp>1e+5</kp>
+                <kd>1</kd>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <minDepth>0.002</minDepth>
+                <maxVel>0</maxVel>
+              </ode>
+            </contact>
+          </surface>
+        </collision>
+
+        <visual name="box_visual">
+          <geometry>
+            <box>
+              <size>0.05 0.05 0.05</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 0 0 1</ambient>
+            <diffuse>1 0 0 1</diffuse>
+            <specular>1 0 0 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="box_green">
+      <pose>-0.6 0.0 1.1 0 0 0</pose>
+      <link name="box_link">
+        <inertial>
+          <inertia>
+            <ixx>0.0001875</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.0001875</iyy>
+            <iyz>0</iyz>
+            <izz>0.0001875</izz>
+          </inertia>
+          <mass>0.2</mass>
+        </inertial>
+        <collision name="box_collision">
+          <geometry>
+            <box>
+              <size>0.05 0.05 0.05</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu1>1000000.0</mu1>
+                <mu2>1000000.0</mu2>
+              </ode>
+            </friction>
+            <contact>
+              <ode>
+                <kp>1e+5</kp>
+                <kd>1</kd>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <minDepth>0.002</minDepth>
+                <maxVel>0</maxVel>
+              </ode>
+            </contact>
+          </surface>
+        </collision>
+
+        <visual name="box_visual">
+          <geometry>
+            <box>
+              <size>0.05 0.05 0.05</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 1 0 1</ambient>
+            <diffuse>0 1 0 1</diffuse>
+            <specular>0 1 0 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="box_blue">
+      <pose>-0.6 0.3 1.1 0 0 0</pose>
+      <link name="box_link">
+        <inertial>
+          <inertia>
+            <ixx>0.0001875</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.0001875</iyy>
+            <iyz>0</iyz>
+            <izz>0.0001875</izz>
+          </inertia>
+          <mass>0.2</mass>
+        </inertial>
+        <collision name="box_collision">
+          <geometry>
+            <box>
+              <size>0.05 0.05 0.05</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu1>1000000.0</mu1>
+                <mu2>1000000.0</mu2>
+              </ode>
+            </friction>
+            <contact>
+              <ode>
+                <kp>1e+5</kp>
+                <kd>1</kd>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <minDepth>0.002</minDepth>
+                <maxVel>0</maxVel>
+              </ode>
+            </contact>
+          </surface>
+        </collision>
+
+        <visual name="box_visual">
+          <geometry>
+            <box>
+              <size>0.05 0.05 0.05</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0 0 1 1</ambient>
+            <diffuse>0 0 1 1</diffuse>
+            <specular>0 0 1 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- AprilTags -->
+    <model name="apriltag_01">
+      <pose>-0.5 -0.3 1.03 0 0 0</pose>
+      <link name="apriltag">
+        <visual name="apriltag_visual">
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://picknik_ur_gazebo_config/description/apriltags/tag36_11_00001.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <inertial>
+          <inertia>
+            <ixx>0.0001</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.0001</iyy>
+            <iyz>0</iyz>
+            <izz>0.0001</izz>
+          </inertia>
+          <mass>0.01</mass>
+        </inertial>
+      </link>
+      <static>1</static>
+    </model>
+
+    <model name="apriltag_02">
+      <pose>-0.5 0.0 1.03 0 0 0</pose>
+      <link name="apriltag">
+        <visual name="apriltag_visual">
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://picknik_ur_gazebo_config/description/apriltags/tag36_11_00002.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <inertial>
+          <inertia>
+            <ixx>0.0001</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.0001</iyy>
+            <iyz>0</iyz>
+            <izz>0.0001</izz>
+          </inertia>
+          <mass>0.01</mass>
+        </inertial>
+      </link>
+      <static>1</static>
+    </model>
+
+    <model name="apriltag_03">
+      <pose>-0.5 0.3 1.03 0 0 0</pose>
+      <link name="apriltag">
+        <visual name="apriltag_visual">
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://picknik_ur_gazebo_config/description/apriltags/tag36_11_00003.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <inertial>
+          <inertia>
+            <ixx>0.0001</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.0001</iyy>
+            <iyz>0</iyz>
+            <izz>0.0001</izz>
+          </inertia>
+          <mass>0.01</mass>
+        </inertial>
+      </link>
+      <static>1</static>
+    </model>
+
+  </world>
+</sdf>
