@@ -37,7 +37,7 @@
 
   <link name="world" />
 
-  <!-- FIRST ROBOT -->
+  <!-- LEFT ROBOT -->
   <!-- arm -->
   <xacro:ur_robot
     name="left_$(arg name)"
@@ -66,7 +66,7 @@
     gripper_com_port="$/dev/ttyUSB0"
   />
 
-  <!-- SECOND ROBOT -->
+  <!-- RIGHT ROBOT -->
   <!-- arm -->
   <xacro:ur_robot
     name="right_$(arg name)"
