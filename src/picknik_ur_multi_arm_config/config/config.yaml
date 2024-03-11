@@ -78,7 +78,7 @@ hardware:
       - headless_mode: "true"
       - robot_ip: "%>> hardware.ip"
       - joint_limits_parameters_file:
-          package: "picknik_ur_multi_arm_config"
+          package: "picknik_ur_base_config"
           path: "config/moveit/joint_limits.yaml"
       # The following files are loaded based on the ur_description package layout.
       # To use parameters from a different package, place them in a config/ROBOT_NAME/ directory,
@@ -114,10 +114,10 @@ moveit_params:
     package: "picknik_ur_multi_arm_config"
     path: "config/moveit/ompl_planning.yaml"
   pilz_planning:
-    package: "picknik_ur_multi_arm_config"
+    package: "picknik_ur_base_config"
     path: "config/moveit/pilz_industrial_motion_planner_planning.yaml"
   stomp_planning:
-    package: "picknik_ur_multi_arm_config"
+    package: "picknik_ur_base_config"
     path: "config/moveit/stomp_planning.yaml"
   kinematics:
     package: "picknik_ur_multi_arm_config"
@@ -126,7 +126,7 @@ moveit_params:
     package: "picknik_ur_multi_arm_config"
     path: "config/moveit/right_ur_servo.yaml"
   sensors_3d:
-    package: "picknik_ur_multi_arm_config"
+    package: "picknik_ur_base_config"
     path: "config/moveit/sensors_3d.yaml"
   servo_kinematics:
     package: "picknik_ur_multi_arm_config"
@@ -135,7 +135,7 @@ moveit_params:
     package: "picknik_ur_multi_arm_config"
     path: "config/moveit/dual_arm_joint_limits.yaml"
   pilz_cartesian_limits:
-    package: "picknik_ur_multi_arm_config"
+    package: "picknik_ur_base_config"
     path: "config/moveit/pilz_cartesian_limits.yaml"
 
   publish:
@@ -170,8 +170,8 @@ ros2_control:
   # [Optional, default=[]]
   controllers_active_at_startup:
     - "joint_state_broadcaster"
-    - "left_streaming_controller"
-    - "right_streaming_controller"
+    - "left_servo_controller"
+    - "right_servo_controller"
     - "left_io_and_status_controller"
     - "right_io_and_status_controller"
     - "left_robotiq_activation_controller"

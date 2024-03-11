@@ -20,10 +20,10 @@ controller_manager:
     right_robotiq_gripper_controller:
       type: position_controllers/GripperActionController
     right_robotiq_activation_controller:
-      type: robotiq_controllers/RobotiqActivationController
-    left_streaming_controller:
-      type: position_controllers/JointGroupPositionController
-    right_streaming_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    left_servo_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    right_servo_controller:
       type: position_controllers/JointGroupPositionController
 
 left_io_and_status_controller:
@@ -178,7 +178,7 @@ dual_arm_joint_trajectory_controller:
       right_wrist_3_joint:
         goal: 0.05
 
-left_streaming_controller:
+left_servo_controller:
   ros__parameters:
     joints:
       - left_shoulder_pan_joint
@@ -191,8 +191,27 @@ left_streaming_controller:
       - position
     state_interfaces:
       - position
+      - velocity
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.0
+      goal_time: 0.0
+      shoulder_pan_joint:
+        goal: 0.05
+      shoulder_lift_joint:
+        goal: 0.05
+      elbow_joint:
+        goal: 0.05
+      wrist_1_joint:
+        goal: 0.05
+      wrist_2_joint:
+        goal: 0.05
+      wrist_3_joint:
+        goal: 0.05
 
-right_streaming_controller:
+right_servo_controller:
   ros__parameters:
     joints:
       - right_shoulder_pan_joint
@@ -205,6 +224,25 @@ right_streaming_controller:
       - position
     state_interfaces:
       - position
+      - velocity
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.0
+      goal_time: 0.0
+      shoulder_pan_joint:
+        goal: 0.05
+      shoulder_lift_joint:
+        goal: 0.05
+      elbow_joint:
+        goal: 0.05
+      wrist_1_joint:
+        goal: 0.05
+      wrist_2_joint:
+        goal: 0.05
+      wrist_3_joint:
+        goal: 0.05
 
 left_robotiq_gripper_controller:
   ros__parameters:
