@@ -10,9 +10,11 @@
   <xacro:arg name="kinematics_parameters_file" default="" />
   <xacro:arg name="physical_parameters_file" default="" />
   <xacro:arg name="visual_parameters_file" default="" />
-
   <xacro:arg name="headless_mode" default="false" />
   <xacro:arg name="robot_ip" default="0.0.0.0" />
+  <xacro:arg name="use_tool_communication" default="false"/>
+  <xacro:arg name="tool_voltage" default="0"/>
+  <xacro:arg name="tool_device_name" default="/dev/ttyUSB0"/>
 
   <xacro:if value="$(arg has_tool_changer)">
     <xacro:property name="camera_adapter_parent" value="tool_changer_tool0" />
@@ -24,7 +26,7 @@
   <!-- Import macros for main hardware components -->
   <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro" />
   <xacro:include filename="$(find picknik_ur_multi_arm_config)/description/pinch_links.xacro" />
-  <xacro:include filename="$(find picknik_ur_multi_arm_config)/description/picknik_ur_attachments.xacro" />
+  <xacro:include filename="$(find picknik_ur_base_config)/description/picknik_ur_attachments_macro.xacro" />
   <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro" />
 
   <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
@@ -60,10 +62,8 @@
   <xacro:picknik_ur_attachments
     prefix="left"
     parent="left_tool0"
+    child="left_grasp_link"
     has_tool_changer="$(arg has_tool_changer)"
-    use_pinch_links="$(arg use_pinch_links)"
-    use_fake_hardware="$(arg use_fake_hardware)"
-    gripper_com_port="$/dev/ttyUSB0"
   />
 
   <!-- RIGHT ROBOT -->
@@ -89,10 +89,8 @@
   <xacro:picknik_ur_attachments
     prefix="right"
     parent="right_tool0"
+    child="right_grasp_link"
     has_tool_changer="$(arg has_tool_changer)"
-    use_pinch_links="$(arg use_pinch_links)"
-    use_fake_hardware="$(arg use_fake_hardware)"
-    gripper_com_port="$/dev/ttyUSB0"
   />
 
   <!-- ENVIRONMENT -->

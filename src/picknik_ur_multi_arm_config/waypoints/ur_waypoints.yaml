@@ -1,5 +1,56 @@
 - description: 'Both arms are in a down position'
   favorite: true
+  joint_group_names:
+  - dual_arm_manipulator
+  - gripper
+  - gripper_left
+  - manipulator_left
+  - manipulator_right
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - left_shoulder_pan_joint
+      - left_shoulder_lift_joint
+      - left_elbow_joint
+      - left_wrist_1_joint
+      - left_wrist_2_joint
+      - left_wrist_3_joint
+      - right_shoulder_pan_joint
+      - right_shoulder_lift_joint
+      - right_elbow_joint
+      - right_wrist_1_joint
+      - right_wrist_2_joint
+      - right_wrist_3_joint
+      - right_robotiq_85_left_knuckle_joint
+      - left_robotiq_85_left_knuckle_joint
+    position:
+      - 5.12061324901879e-05
+      - -1.4100637137602083
+      - -0.6999914125130512
+      - -2.1199174221931956
+      - 1.6699393665105104
+      - -4.32235198095441e-06
+      - 3.109852643683551e-05
+      - -1.410057083617756
+      - -0.7000249972289894
+      - -2.1200145056689625
+      - 1.669979084378574
+      - 1.3941351324319836e-05
+      - 0
+      - 0.7929
+    velocity: []
+  name: Home
+- description: Both arms are in a down position
+  favorite: true
+  joint_group_names:
+    - dual_arm_manipulator
+    - manipulator_left
+    - manipulator_right
   joint_state:
     effort: []
     header:
@@ -34,46 +85,4 @@
       - 1.6699516917224972
       - -4.144793883897364e-05
     velocity: []
-  joint_group_names: [dual_arm_manipulator, manipulator_left, manipulator_right]
   name: Arms Down
-- description: ''
-  favorite: true
-  joint_state:
-    effort: []
-    header:
-      frame_id: world
-      stamp:
-        nanosec: 0
-        sec: 0
-    name:
-      - left_shoulder_pan_joint
-      - left_shoulder_lift_joint
-      - left_elbow_joint
-      - left_wrist_1_joint
-      - left_wrist_2_joint
-      - left_wrist_3_joint
-      - right_shoulder_pan_jointsp
-      - right_shoulder_lift_joint
-      - right_elbow_joint
-      - right_wrist_1_joint
-      - right_wrist_2_joint
-      - right_wrist_3_joint
-    position:
-      - 0
-      - -1.41
-      - -0.7
-      - -2.12
-      - 1.67
-      - 0
-      - 0
-      - -1.41
-      - -0.7
-      - -2.12
-      - 1.67
-      - 0
-    velocity: []
-  joint_group_names:
-    - dual_arm_manipulator
-    - manipulator_left
-    - manipulator_right
-  name: Home
