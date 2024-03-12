@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(picknik_ur_dual_gz_config)
+project(picknik_dual_ur_gz_config)
 
 find_package(ament_cmake REQUIRED)
 

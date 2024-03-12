@@ -28,16 +28,16 @@
   <!-- Import macros for main hardware components -->
   <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro" />
 
-  <xacro:include filename="$(find picknik_ur_dual_gz_config)/description/picknik_ur_attachments.xacro"/>
+  <xacro:include filename="$(find picknik_dual_ur_gz_config)/description/picknik_ur_attachments.xacro"/>
   <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro"/>
   <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro"/>
   <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro"/>
-  <xacro:include filename="$(find picknik_ur_dual_gz_config)/description/pinch_links.xacro" />
+  <xacro:include filename="$(find picknik_dual_ur_gz_config)/description/pinch_links.xacro" />
 
   <!-- Initial positions for simulations (Mock Hardware and Gazebo) NOTE: UR doesnt add prefix here-->
-  <xacro:arg name="initial_positions_left" default="$(find picknik_ur_dual_gz_config)/config/initial_positions_left.yaml"/>
+  <xacro:arg name="initial_positions_left" default="$(find picknik_dual_ur_gz_config)/config/initial_positions_left.yaml"/>
   <xacro:property name="initial_positions_left" default="$(arg initial_positions_left)"/>
-  <xacro:arg name="initial_positions_right" default="$(find picknik_ur_dual_gz_config)/config/initial_positions_right.yaml"/>
+  <xacro:arg name="initial_positions_right" default="$(find picknik_dual_ur_gz_config)/config/initial_positions_right.yaml"/>
   <xacro:property name="initial_positions_right" default="$(arg initial_positions_right)"/>
   
   <!-- Import environment macros -->
@@ -197,7 +197,7 @@
   <!-- Gazebo Plugins -->
   <gazebo>
     <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
-      <parameters>$(find picknik_ur_dual_gz_config)/config/control/picknik_dual_ur.ros2_control.yaml</parameters>
+      <parameters>$(find picknik_dual_ur_gz_config)/config/control/picknik_dual_ur.ros2_control.yaml</parameters>
       <ros>
         <remapping>/left_servo_controller/commands:=/left_robot_controllers/commands</remapping>
         <remapping>/left_servo_controller/joint_trajectory:=/left_robot_controllers/joint_trajectory</remapping>

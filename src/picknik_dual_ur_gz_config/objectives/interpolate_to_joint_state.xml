@@ -4,7 +4,7 @@
     <Control ID="Fallback" name="root">
       <Control ID="Sequence">
         <Action ID="RetrieveJointStateParameter" timeout_sec="-1" joint_state="{target_joint_state}"/>
-        <Action ID="InitializeMTCTask" task_id="interpolate_to_joint_state" controller_names="/dual_arm_joint_trajectory_controller /left_robotiq_gripper_controller/gripper_cmd /right_robotiq_gripper_controller/gripper_cmd" task="{interpolate_to_waypoint_task}"/>
+        <Action ID="InitializeMTCTask" task_id="interpolate_to_joint_state" controller_names="/dual_arm_joint_trajectory_controller /left_robotiq_gripper_controller /right_robotiq_gripper_controller" task="{interpolate_to_waypoint_task}"/>
         <Action ID="SetupMTCCurrentState" task="{interpolate_to_waypoint_task}"/>
         <Action ID="SetupMTCInterpolateToJointState" joint_state="{target_joint_state}" name="SetupMTCInterpolateToJointState_First" planning_group_name="manipulator_right" task="{interpolate_to_waypoint_task}"/>
         <Action ID="PlanMTCTask" solution="{interpolate_to_waypoint_solution}" task="{interpolate_to_waypoint_task}"/>

@@ -4,7 +4,7 @@
         <Control ID="Fallback" name="root">
             <Control ID="Sequence">
                 <Action ID="RetrievePoseParameter" timeout_sec="-1" pose="{target_pose}"/>
-                <Action ID="InitializeMTCTask" task_id="move_to_pose" controller_names="/dual_arm_joint_trajectory_controller /left_robotiq_gripper_controller/gripper_cmd /right_robotiq_gripper_controller/gripper_cmd" task="{move_to_pose_task}"/>
+                <Action ID="InitializeMTCTask" task_id="move_to_pose" controller_names="/dual_arm_joint_trajectory_controller /left_robotiq_gripper_controller /right_robotiq_gripper_controller" task="{move_to_pose_task}"/>
                 <Action ID="SetupMTCCurrentState" task="{move_to_pose_task}"/>
                 <Action ID="SetupMTCMoveToPose" ik_frame="right_grasp_link" planning_group_name="manipulator_right" target_pose="{target_pose}" task="{move_to_pose_task}" use_all_planners="false"/>
                 <Action ID="PlanMTCTask" solution="{move_to_pose_solution}" task="{move_to_pose_task}"/>

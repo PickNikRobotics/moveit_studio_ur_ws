@@ -63,7 +63,7 @@ def generate_simulation_description(context, *args, **settings):
 
     # Create a Gazebo world file that swaps out package:// paths with absolute path.
     original_world_file = get_ros_path(
-        settings.get("gazebo_world_package_name", "picknik_ur_dual_gz_config"),
+        settings.get("gazebo_world_package_name", "picknik_dual_ur_gz_config"),
         world_path,
     )
     modified_world_file = os.path.join(
@@ -190,7 +190,10 @@ def generate_launch_description():
             "/left_wrist_mounted_camera/image",
         ],
         remappings=[
-            ("/left_wrist_mounted_camera/image", "/left_wrist_mounted_camera/color/image_raw"),
+            (
+                "/left_wrist_mounted_camera/image",
+                "/left_wrist_mounted_camera/color/image_raw",
+            ),
         ],
         output="both",
     )
@@ -248,7 +251,10 @@ def generate_launch_description():
             "/right_wrist_mounted_camera/image",
         ],
         remappings=[
-            ("/right_wrist_mounted_camera/image", "/right_wrist_mounted_camera/color/image_raw"),
+            (
+                "/right_wrist_mounted_camera/image",
+                "/right_wrist_mounted_camera/color/image_raw",
+            ),
         ],
         output="both",
     )

@@ -1,4 +1,4 @@
-# picknik_ur_dual_gz_config
+# picknik_dual_ur_gz_config
 
 A MoveIt Pro example configuration package for using multiple UR5e arms using gazebo ignition.
 

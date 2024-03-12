@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="3">
-  <name>picknik_ur_dual_gz_config</name>
+  <name>picknik_dual_ur_gz_config</name>
   <version>4.0.1</version>
 
   <description>Experimental configuration package for dual UR arms.</description>

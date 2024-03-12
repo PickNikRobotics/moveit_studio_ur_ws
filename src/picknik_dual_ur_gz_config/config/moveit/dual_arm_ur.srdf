@@ -15,10 +15,10 @@
     <group name="manipulator_right">
         <chain base_link="right_base_link" tip_link="right_grasp_link"/>
     </group>
-    <!-- <group name="dual_arm_manipulator">
+    <group name="dual_arm_manipulator">
         <group name="manipulator_left" />
         <group name="manipulator_right" />
-    </group> -->
+    </group>
     <group name="gripper">
         <chain base_link="left_robotiq_85_base_link" tip_link="left_grasp_link"/>
     </group>
