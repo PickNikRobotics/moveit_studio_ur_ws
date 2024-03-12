@@ -39,7 +39,7 @@
       <xacro:property name="sim_ignition" default="false"/>
     </xacro:if>
     <xacro:robotiq_gripper name="${prefix_}RobotiqGripperHardwareInterface" prefix="${prefix_}" 
-      parent="${prefix_}gripper_mount_link" use_fake_hardware="${use_fake_hardware}" sim_ignition="${sim_ignition}"
+      parent="${prefix_}gripper_mount_link" use_fake_hardware="${use_fake_hardware}" sim_ignition="true"
                                com_port="$(arg tool_device_name)">
       <origin xyz="0 0 0" rpy="0 0 0"/>
     </xacro:robotiq_gripper> 

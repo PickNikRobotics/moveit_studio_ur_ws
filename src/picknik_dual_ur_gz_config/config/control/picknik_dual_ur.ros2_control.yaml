@@ -15,21 +15,29 @@ controller_manager:
       type: joint_trajectory_controller/JointTrajectoryController
     left_robotiq_gripper_controller:
       type: position_controllers/GripperActionController
-    left_robotiq_activation_controller:
-      type: robotiq_controllers/RobotiqActivationController
+    # left_robotiq_activation_controller:
+    #   type: robotiq_controllers/RobotiqActivationController
     right_robotiq_gripper_controller:
       type: position_controllers/GripperActionController
-    right_robotiq_activation_controller:
-      type: robotiq_controllers/RobotiqActivationController    
+    # right_robotiq_activation_controller:
+    #   type: robotiq_controllers/RobotiqActivationController    
     left_servo_controller:
       type: joint_trajectory_controller/JointTrajectoryController
     right_servo_controller:
       type: joint_trajectory_controller/JointTrajectoryController
-    left_streaming_controller:
-      type: position_controllers/JointGroupPositionController
-    right_streaming_controller:
-      type: position_controllers/JointGroupPositionController
+    # left_streaming_controller:
+    #   type: position_controllers/JointGroupPositionController
+    # right_streaming_controller:
+    #   type: position_controllers/JointGroupPositionController
 
+# left_robotiq_activation_controller:
+#   ros__parameters:
+#     default: true
+
+
+# right_robotiq_activation_controller:
+#   ros__parameters:
+#     default: true
 
 # left_joint_trajectory_controller:
 #   ros__parameters:
@@ -175,19 +183,19 @@ dual_arm_joint_trajectory_controller:
       right_wrist_3_joint:
         goal: 0.05
 
-left_streaming_controller:
-  ros__parameters:
-    joints:
-      - left_shoulder_pan_joint
-      - left_shoulder_lift_joint
-      - left_elbow_joint
-      - left_wrist_1_joint
-      - left_wrist_2_joint
-      - left_wrist_3_joint
-    command_interfaces:
-      - position
-    state_interfaces:
-      - position
+# left_streaming_controller:
+#   ros__parameters:
+#     joints:
+#       - left_shoulder_pan_joint
+#       - left_shoulder_lift_joint
+#       - left_elbow_joint
+#       - left_wrist_1_joint
+#       - left_wrist_2_joint
+#       - left_wrist_3_joint
+#     command_interfaces:
+#       - position
+#     state_interfaces:
+#       - position
 
 left_servo_controller:
   ros__parameters:
@@ -269,19 +277,19 @@ right_servo_controller:
       right_wrist_3_joint:
         goal: 0.05
 
-right_streaming_controller:
-  ros__parameters:
-    joints:
-      - right_shoulder_pan_joint
-      - right_shoulder_lift_joint
-      - right_elbow_joint
-      - right_wrist_1_joint
-      - right_wrist_2_joint
-      - right_wrist_3_joint
-    command_interfaces:
-      - position
-    state_interfaces:
-      - position
+# right_streaming_controller:
+#   ros__parameters:
+#     joints:
+#       - right_shoulder_pan_joint
+#       - right_shoulder_lift_joint
+#       - right_elbow_joint
+#       - right_wrist_1_joint
+#       - right_wrist_2_joint
+#       - right_wrist_3_joint
+#     command_interfaces:
+#       - position
+#     state_interfaces:
+#       - position
 
 left_robotiq_gripper_controller:
   ros__parameters:

@@ -68,6 +68,14 @@ gripper_left:
     - TRRTkConfigDefault
     - PRMkConfigDefault
     - PRMstarkConfigDefault
+gripper:
+  planner_configs:
+    - RRTkConfigDefault
+    - RRTConnectkConfigDefault
+    - RRTstarkConfigDefault
+    - TRRTkConfigDefault
+    - PRMkConfigDefault
+    - PRMstarkConfigDefault
 
 manipulator_right:
   default_planner_config: RRTConnectkConfigDefault

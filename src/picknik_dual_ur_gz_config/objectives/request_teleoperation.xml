@@ -10,10 +10,10 @@
           <Control ID="Sequence">
             <!-- Closing and opening the gripper -->
             <Decorator ID="ForceSuccess" _skipIf="teleop_mode != 7">
-              <SubTree ID="Close Gripper"/>
+              <SubTree ID="Close Left Gripper"/>
             </Decorator>
             <Decorator ID="ForceSuccess" _skipIf="teleop_mode != 6">
-              <SubTree ID="Open Gripper"/>
+              <SubTree ID="Open Left Gripper"/>
             </Decorator>
             <!-- Joint sliders interpolate to joint state -->
             <Decorator ID="ForceSuccess" _while="teleop_mode == 5">
@@ -39,11 +39,11 @@
             <!-- Cartesian and joint jogging -->
             <Control ID="Sequence" _while="teleop_mode == 2">
               <Action ID="SwitchUIPrimaryView" primary_view_name="Visualization"/>
-              <Action ID="TeleoperateTwist" controller_name="right_streaming_controller"/>
+              <Action ID="TeleoperateTwist" controller_name="right_servo_controller"/>
             </Control>
             <Control ID="Sequence" _while="teleop_mode == 1">
               <Action ID="SwitchUIPrimaryView" primary_view_name="Visualization"/>
-            <Action ID="TeleoperateJointJog" controller_name="right_streaming_controller"/>
+            <Action ID="TeleoperateJointJog" controller_name="right_servo_controller"/>
             </Control>
           </Control>
         </Decorator>

@@ -87,7 +87,7 @@ hardware:
       - robot_ip: "%>> hardware.ip"
       - joint_limits_parameters_file:
           package: "picknik_ur_dual_gz_config"
-          path: "config/moveit/joint_limits.yaml"
+          path: "config/moveit/dual_arm_joint_limits.yaml"
       # The following files are loaded based on the ur_description package layout.
       # To use parameters from a different package, place them in a config/ROBOT_NAME/ directory,
       # replace ROBOT_NAME with the value used for hardware.type in this file.
@@ -116,7 +116,7 @@ ros_global_params:
 # [Required]
 moveit_params:
   # Used by the Waypoint Manager to save joint states from this joint group.
-  joint_group_name: "dual_arm_manipulator"
+  joint_group_name: "manipulator_left"
 
   ompl_planning:
     package: "picknik_ur_dual_gz_config"
@@ -132,7 +132,7 @@ moveit_params:
     path: "config/moveit/trac_ik_kinematics_distance.yaml"
   servo:
     package: "picknik_ur_dual_gz_config"
-    path: "config/moveit/right_ur_servo.yaml"
+    path: "config/moveit/left_ur_servo.yaml"
   sensors_3d:
     package: "picknik_ur_dual_gz_config"
     path: "config/moveit/sensors_3d.yaml"
@@ -178,13 +178,15 @@ ros2_control:
   # [Optional, default=[]]
   controllers_active_at_startup:
     - "joint_state_broadcaster"
-    - "left_streaming_controller"
-    - "right_streaming_controller"
+    # - "left_streaming_controller"
+    # - "right_streaming_controller"
+    - "left_servo_controller"
+    - "right_servo_controller"
     # - "left_io_and_status_controller"
     # - "right_io_and_status_controller"
-    - "left_robotiq_activation_controller"
+    # - "left_robotiq_activation_controller"
     - "left_robotiq_gripper_controller"
-    - "right_robotiq_activation_controller"
+    # - "right_robotiq_activation_controller"
     - "right_robotiq_gripper_controller"
   # Load but do not start these controllers so they can be activated later if needed.
   # [Optional, default=[]]

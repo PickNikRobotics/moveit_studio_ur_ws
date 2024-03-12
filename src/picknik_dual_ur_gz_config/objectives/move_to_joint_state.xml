@@ -3,11 +3,11 @@
     <BehaviorTree ID="Move to Joint State" _description="Move to a specified joint state">
         <Control ID="Fallback" name="root">
             <Control ID="Sequence">
-                <Action ID="RetrieveJointStateParameter" timeout_sec="-1" joint_state="{target_joint_state}"/>
+                <Action ID="RetrieveJointStateParameter" timeout_sec="1.0" joint_state="{target_joint_state}"/>
                 <!-- todo wrock robotiq -->
                 <Action ID="InitializeMTCTask" task_id="move_to_joint_state" controller_names="/dual_arm_joint_trajectory_controller /left_robotiq_gripper_controller/gripper_cmd /right_robotiq_gripper_controller/gripper_cmd" task="{move_to_waypoint_task}"/>
                 <Action ID="SetupMTCCurrentState" task="{move_to_waypoint_task}"/>
-                <Action ID="SetupMTCMoveToJointState" joint_state="{target_joint_state}" name="SetupMTCMoveToJointState_First" planning_group_name="dual_arm_manipulator" task="{move_to_waypoint_task}" use_all_planners="false" constraints=""/>
+                <Action ID="SetupMTCMoveToJointState" joint_state="{target_joint_state}" name="SetupMTCMoveToJointState_First" planning_group_name="manipulator_right" task="{move_to_waypoint_task}" use_all_planners="false" />
                 <Action ID="PlanMTCTask" solution="{move_to_waypoint_solution}" task="{move_to_waypoint_task}"/>
                 <Action ID="ExecuteMTCTask" solution="{move_to_waypoint_solution}"/>
                 <Action ID="PublishEmpty" topic="/studio_ui/motion_ended" queue_size="1" use_best_effort="false"/>

@@ -34,9 +34,11 @@
   <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro"/>
   <xacro:include filename="$(find picknik_ur_dual_gz_config)/description/pinch_links.xacro" />
 
-  <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
-  <xacro:arg name="initial_positions_file" default="$(find picknik_ur_dual_gz_config)/config/initial_positions.yaml"/>
-  <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
+  <!-- Initial positions for simulations (Mock Hardware and Gazebo) NOTE: UR doesnt add prefix here-->
+  <xacro:arg name="initial_positions_left" default="$(find picknik_ur_dual_gz_config)/config/initial_positions_left.yaml"/>
+  <xacro:property name="initial_positions_left" default="$(arg initial_positions_left)"/>
+  <xacro:arg name="initial_positions_right" default="$(find picknik_ur_dual_gz_config)/config/initial_positions_right.yaml"/>
+  <xacro:property name="initial_positions_right" default="$(arg initial_positions_right)"/>
   
   <!-- Import environment macros -->
   <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
@@ -60,7 +62,7 @@
     physical_parameters_file="$(arg physical_parameters_file)"
     visual_parameters_file="$(arg visual_parameters_file)"
     sim_ignition="true"
-    initial_positions="${xacro.load_yaml(initial_positions_file)}">
+    initial_positions="${xacro.load_yaml(initial_positions_left)}">
     <origin xyz="0 -0.5 0" rpy="0 0 0" /> <!-- position robot in the world -->
   </xacro:ur_robot>
 
@@ -85,7 +87,7 @@
                 use_tool_communication="$(arg use_tool_communication)"
                 tool_voltage="$(arg tool_voltage)"
                 tool_device_name="$(arg tool_device_name)"
-    initial_positions="${xacro.load_yaml(initial_positions_file)}">
+    initial_positions="${xacro.load_yaml(initial_positions_right)}">
     <origin xyz="0 0.5 0" rpy="0 0 0" /> <!-- position robot in the world -->
   </xacro:ur_robot>
 

@@ -20,9 +20,9 @@
         </Control>
         <Control ID="Sequence">
           <!--Move both arms down-->
-          <SubTree ID="Move to Named Pose" waypoint_name="Arms Down" joint_group_name="dual_arm_manipulator" _collapsed="true"/>
+          <SubTree ID="Move to Named Pose" waypoint_name="Arms Down" joint_group_name="manipulator_right" _collapsed="true"/>
           <!--Move both arms home-->
-          <SubTree ID="Move to Named Pose" waypoint_name="Home" joint_group_name="dual_arm_manipulator" _collapsed="true"/>
+          <SubTree ID="Move to Named Pose" waypoint_name="Home" joint_group_name="manipulator_right" _collapsed="true"/>
         </Control>
       </Control>
     </Decorator>
