@@ -3,7 +3,7 @@
   <name>picknik_ur_multi_arm_config</name>
   <version>5.0.0</version>
 
-  <description>Experimental configuration package for dual UR arms.</description>
+  <description>Example configuration package for multiple UR arms.</description>
 
   <maintainer email="studio.maintainers@picknik.ai">MoveIt Pro Maintainer</maintainer>
 

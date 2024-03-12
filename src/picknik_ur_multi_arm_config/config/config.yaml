@@ -34,7 +34,7 @@ hardware:
   # Specify additional launch files for running the robot with real hardware.
   # [Optional, defaults to a blank launch file if not specified]
   robot_driver_persist_launch_file:
-    package: "picknik_ur_multi_arm_config"
+    package: "picknik_ur_base_config"
     path: "launch/robot_drivers_to_persist.launch.py"
   hardware_launch_file:
     package: "moveit_studio_agent"
@@ -44,7 +44,7 @@ hardware:
   # Used when hardware.simulated is True.
   # [Optional, defaults to a blank launch file if not specified]
   simulated_robot_driver_persist_launch_file:
-    package: "picknik_ur_multi_arm_config"
+    package: "picknik_ur_base_config"
     path: "launch/sim/robot_drivers_to_persist_sim.launch.py"
   simulated_hardware_launch_file:
     package: "moveit_studio_agent"
@@ -95,6 +95,10 @@ hardware:
       # Load visual_parameters.yaml from ur_description/config/<ur_type>
           package: "ur_description"
           path: "config/%>> hardware.type <<%/visual_parameters.yaml"
+  # Set advanced camera settings to improve point cloud accuracy
+  json_file_path:
+    package: "picknik_ur_base_config"
+    path: "config/realsense_config_high_accuracy.json"
 
 # Sets ROS global params for launch.
 # [Optional]
