@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-    <xacro:macro name="picknik_ur" params="parent child initial_positions_file">
+    <xacro:macro name="picknik_ur" params="parent child initial_positions_file *origin">
         <!-- parameters -->
         <xacro:arg name="use_fake_hardware" default="false"/>
         <xacro:arg name="external_camera" default="false"/>
@@ -57,7 +57,7 @@
                 script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
                 output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
                 input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <xacro:insert_block name="origin" />
         </xacro:ur_robot>
 
         <xacro:unless value="$(arg has_tool_changer)">
