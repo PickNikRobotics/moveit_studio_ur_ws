@@ -11,6 +11,8 @@ build:
     # Debug info and build testing for dev workflows
     - rel-with-deb-info
     - build-testing-on
+    - coverage-gcc
+    - coverage-pytest
 test:
   event-handlers:
     - console_direct+
