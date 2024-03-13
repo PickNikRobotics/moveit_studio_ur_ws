@@ -1,7 +1,7 @@
 find_package(rclcpp REQUIRED)
 find_package(ament_cmake_gtest REQUIRED)
 find_package(moveit_studio_agent REQUIRED)
-find_package(moveit_studio_test_utils REQUIRED)
+find_package(moveit_studio_common REQUIRED)
 find_package(ros_testing REQUIRED)
 
 # Integration test for ObjectiveServerNode running with other Agent nodes using real Behaviors
