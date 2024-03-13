@@ -74,8 +74,8 @@
 
         <!-- pinch geometry for moveit motion planning. see https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver/issues/611 -->
         <xacro:if value="$(arg use_pinch_links)">
-            <xacro:forearm_pinch_link/>
-            <xacro:wrist_3_pinch_link/>
+            <xacro:forearm_pinch_link prefix="${prefix}"/>
+            <xacro:wrist_3_pinch_link prefix="${prefix}"/>
         </xacro:if>
 
     </xacro:macro>
