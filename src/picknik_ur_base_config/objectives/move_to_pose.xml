@@ -4,7 +4,7 @@
         <Control ID="Fallback" name="root">
             <Control ID="Sequence">
                 <Action ID="RetrievePoseParameter" timeout_sec="-1" pose="{target_pose}"/>
-                <Action ID="InitializeMTCTask" task_id="move_to_pose" controller_names="/joint_trajectory_controller" task="{move_to_pose_task}"/>
+                <Action ID="InitializeMTCTask" task_id="move_to_pose" controller_names="{controller_names}" task="{move_to_pose_task}"/>
                 <Action ID="SetupMTCCurrentState" task="{move_to_pose_task}"/>
                 <Action ID="SetupMTCMoveToPose" ik_frame="grasp_link" planning_group_name="manipulator" target_pose="{target_pose}" task="{move_to_pose_task}" use_all_planners="false"/>
                 <Action ID="PlanMTCTask" solution="{move_to_pose_solution}" task="{move_to_pose_task}"/>
