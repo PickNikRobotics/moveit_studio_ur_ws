@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<root BTCPP_format="4" main_tree_to_execute="Close Left Gripper">
-    <BehaviorTree ID="Close Left Gripper" _description="Close the left gripper">
+<root BTCPP_format="4" main_tree_to_execute="Close Second Gripper">
+    <BehaviorTree ID="Close Second Gripper" _description="Close the second gripper">
         <Control ID="Sequence" name="root">
-            <Action ID="MoveGripperAction" gripper_command_action_name="/left_robotiq_gripper_controller/gripper_cmd" position="0.7929"/>
+            <Action ID="MoveGripperAction" gripper_command_action_name="/snd_robotiq_gripper_controller/gripper_cmd" position="0.7929"/>
         </Control>
     </BehaviorTree>
 </root>

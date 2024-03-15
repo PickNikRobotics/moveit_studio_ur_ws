@@ -39,11 +39,11 @@
             <!-- Cartesian and joint jogging -->
             <Control ID="Sequence" _while="teleop_mode == 2">
               <Action ID="SwitchUIPrimaryView" primary_view_name="/wrist_mounted_camera/color/image_raw"/>
-              <Action ID="TeleoperateTwist" controller_name="right_servo_controller"/>
+              <Action ID="TeleoperateTwist" controller_name="servo_controller"/>
             </Control>
             <Control ID="Sequence" _while="teleop_mode == 1">
               <Action ID="SwitchUIPrimaryView" primary_view_name="Visualization"/>
-              <Action ID="TeleoperateJointJog" controller_name="right_servo_controller"/>
+              <Action ID="TeleoperateJointJog" controller_name="servo_controller"/>
             </Control>
           </Control>
         </Decorator>

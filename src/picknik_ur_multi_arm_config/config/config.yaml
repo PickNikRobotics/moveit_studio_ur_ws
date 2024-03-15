@@ -70,7 +70,7 @@ hardware:
     # Many of these are specific to the UR descriptions packages, and can be customized as needed.
     # [Optional]
     urdf_params:
-      - name: "dual_arm_ur"
+      - name: "multi_arm_ur"
       - prefix: ""
       - use_fake_hardware: "%>> hardware.simulated"
       - use_pinch_links: "true"
@@ -112,7 +112,7 @@ ros_global_params:
 # [Required]
 moveit_params:
   # Used by the Waypoint Manager to save joint states from this joint group.
-  joint_group_name: "dual_arm_manipulator"
+  joint_group_name: "multi_arm_manipulator"
 
   ompl_planning:
     package: "picknik_ur_multi_arm_config"
@@ -128,7 +128,7 @@ moveit_params:
     path: "config/moveit/trac_ik_kinematics_distance.yaml"
   servo:
     package: "picknik_ur_multi_arm_config"
-    path: "config/moveit/right_ur_servo.yaml"
+    path: "config/moveit/multi_ur_servo.yaml"
   sensors_3d:
     package: "picknik_ur_base_config"
     path: "config/moveit/sensors_3d.yaml"
@@ -160,7 +160,7 @@ ui_params:
   # By default, MoveIt Pro uses a frame called "grasp_link" for tool grasp pose rendering
   # and planning.
   # [Required]
-  servo_endpoint_frame_id: "right_grasp_link"
+  servo_endpoint_frame_id: "fst_grasp_link"
 
 # Configuration for launching ros2_control processes.
 # [Required, if using ros2_control]
@@ -174,20 +174,26 @@ ros2_control:
   # [Optional, default=[]]
   controllers_active_at_startup:
     - "joint_state_broadcaster"
-    - "left_servo_controller"
-    - "right_servo_controller"
-    - "left_io_and_status_controller"
-    - "right_io_and_status_controller"
-    - "left_robotiq_activation_controller"
-    - "left_robotiq_gripper_controller"
-    - "right_robotiq_activation_controller"
-    - "right_robotiq_gripper_controller"
+    - "fst_servo_controller"
+    - "snd_servo_controller"
+    - "trd_servo_controller"
+    - "fth_servo_controller"
+    - "fst_io_and_status_controller"
+    - "snd_io_and_status_controller"
+    - "trd_io_and_status_controller"
+    - "fth_io_and_status_controller"
+    - "fst_robotiq_activation_controller"
+    - "snd_robotiq_activation_controller"
+    - "trd_robotiq_activation_controller"
+    - "fth_robotiq_activation_controller"
+    - "fst_robotiq_gripper_controller"
+    - "snd_robotiq_gripper_controller"
+    - "trd_robotiq_gripper_controller"
+    - "fth_robotiq_gripper_controller"
   # Load but do not start these controllers so they can be activated later if needed.
   # [Optional, default=[]]
   controllers_inactive_at_startup:
-    - "left_joint_trajectory_controller"
-    - "right_joint_trajectory_controller"
-    - "dual_arm_joint_trajectory_controller"
+    - "multi_arm_joint_trajectory_controller"
   # Any controllers here will not be spawned by MoveIt Pro.
   # [Optional, default=[]]
   controllers_not_managed: []
