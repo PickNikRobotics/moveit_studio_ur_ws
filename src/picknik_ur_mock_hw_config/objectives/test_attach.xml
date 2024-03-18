@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Test Attach">
+  <!--//////////-->
+  <BehaviorTree ID="Test Attach" _description="" _favorite="true" _hardcoded="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="CreateStampedPose" stamped_pose="{stamped_pose}" orientation_xyzw="0;0;0;1" position_xyz="0;-0.5;0.5" reference_frame="world"/>
+      <Action ID="CreateGraspableObject" cuboid_object="{cuboid_object}" generate_side_faces="true" generate_top_face="true" dy="0.200000" dx="0.200000" generate_front_face="true" object_id="object" dz="0.200000" pose="{stamped_pose}"/>
+      <Action ID="ModifyObjectInPlanningScene" object="{cuboid_object}" apply_planning_scene_service="/apply_planning_scene"/>
+      <Action ID="InitializeMTCTask" task="{mtc_task}" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task_id=""/>
+      <Action ID="SetupMTCCurrentState" task="{mtc_task}"/>
+      <Action ID="SetupMTCAttachObject" task="{mtc_task}" frame_id="grasp_link" object="{cuboid_object}"/>
+      <Action ID="PlanMTCTask" solution="{mtc_solution}" task="{mtc_task}"/>
+      <Action ID="ExecuteMTCTask" solution="{mtc_solution}"/>
+    </Control>
+  </BehaviorTree>
+</root>
