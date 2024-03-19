@@ -9,12 +9,16 @@
             <SubTree ID="Update Admittance Controller" _collapsed="true"/>
 
             <!-- Get Poses from User -->
-            <Action ID="GetPoseFromUser" parameter_name="process_door_selection.hinge_axis_pose_end" parameter_value="{hinge_axis_pose_end}" />
-            <Action ID="GetPoseFromUser" parameter_name="process_door_selection.hinge_axis_pose_start" parameter_value="{hinge_axis_pose_start}" />
-            <Action ID="GetPoseFromUser" parameter_name="process_door_selection.grasp_pose" parameter_value="{grasp_pose}" />
+            <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
+            <Action ID="GetPointsFromUser" view_name="/wrist_mounted_camera/color/image_raw" point_names="grasp_pose" point_prompts="Select Door Handle" pixel_coords="{grasp_pixel_coords}"/>
+            <Action ID="GetPoseFromPixelCoords" point_cloud="{point_cloud}" pixel_coords="{grasp_pixel_coords}" downsample_fraction="0.1" neighbor_radius="0.1" output_poses="{grasp_poses}"/>
+            <Action ID="GetPointsFromUser" view_name="/wrist_mounted_camera/color/image_raw" point_names="hinge_axis_start;hinge_axis_end" point_prompts="Select Start Point of Door Hinge;Select End Point of Door Hinge" pixel_coords="{hinge_pixel_coords}"/>
+            <Action ID="GetPoseFromPixelCoords" point_cloud="{point_cloud}" pixel_coords="{hinge_pixel_coords}" downsample_fraction="0.1" neighbor_radius="0.1" output_poses="{hinge_poses}"/>
 
             <!-- Set up Subframes for MTC -->
-            <Action ID="GetMoveAlongArcSubframes" target_grasp_pose="{grasp_pose}" hinge_axis_pose_end="{hinge_axis_pose_end}" hinge_axis_pose_start="{hinge_axis_pose_start}" move_along_arc_subframes="{move_along_arc_subframes}" />
+            <Decorator ID="ForEachPoseStamped" vector_in="{grasp_poses}" out="{grasp_pose}">
+                <Action ID="GetMoveAlongArcSubframes" target_grasp_pose="{grasp_pose}" hinge_axis_poses="{hinge_poses}" move_along_arc_subframes="{move_along_arc_subframes}" />
+            </Decorator>
             <Action ID="CreateGraspableObject" px="0.0" py="0.0" pz="0.0" rx="0.0" ry="0.0" rz="0.0" dx="0.1" dy="0.1" dz="0.1" frame_id="world" object_id="cabinet_door" generate_top_face="true" generate_front_face="true" generate_side_faces="true" cuboid_object="{door_object}"/>
             <!-- Add the subframes to the Object-->
             <Decorator ID="ForEachObjectSubframe" vector_in="{move_along_arc_subframes}" out="{subframe}">
