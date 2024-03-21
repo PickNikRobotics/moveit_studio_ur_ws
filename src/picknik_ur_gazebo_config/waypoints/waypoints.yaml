@@ -22,6 +22,7 @@
       - 1.588292220374199
       - -0.045145903387218154
     velocity: []
+  joint_group_names: [manipulator]
   name: Place Right
 - description: ''
   favorite: true
@@ -47,6 +48,7 @@
       - 1.65
       - 0
     velocity: []
+  joint_group_names: [manipulator]
   name: Home
 - description: ''
   favorite: false
@@ -72,6 +74,7 @@
       - 1.64
       - 0
     velocity: []
+  joint_group_names: [manipulator]
   name: Left Corner
 - description: ''
   favorite: false
@@ -97,6 +100,7 @@
       - 1.64
       - 0
     velocity: []
+  joint_group_names: [manipulator]
   name: Right Corner
 - description: ''
   favorite: false
@@ -122,6 +126,7 @@
       - 1.67
       - 0
     velocity: []
+  joint_group_names: [manipulator]
   name: Forward Down
 - description: ''
   favorite: true
@@ -147,6 +152,7 @@
       - 1.67
       - 0
     velocity: []
+  joint_group_names: [manipulator]
   name: Look at Table
 - description: ''
   favorite: false
@@ -172,6 +178,7 @@
       - 1.67
       - 0
     velocity: []
+  joint_group_names: [manipulator]
   name: Look at Pick and Place Zone
 - description: ''
   favorite: false
@@ -197,6 +204,7 @@
       - 1.5697229551505079
       - 0.4674808859060223
     velocity: []
+  joint_group_names: [manipulator]
   name: Place Left
 - description: ''
   favorite: true
@@ -222,6 +230,7 @@
       - 1.6471325765469933
       - -0.1093947632696369
     velocity: []
+  joint_group_names: [manipulator]
   name: Place
 - description: ''
   favorite: true
@@ -247,6 +256,7 @@
       - 1.5029559069893608
       - 0.6922835016976157
     velocity: []
+  joint_group_names: [manipulator]
   name: Pick
 - description: ''
   favorite: false
@@ -272,6 +282,7 @@
       - -3.141592653589793
       - 2.282092208042741e-05
     velocity: []
+  joint_group_names: [manipulator]
   name: Wrist 2 Min
 - description: ''
   favorite: false
@@ -297,6 +308,7 @@
       - 3.141592653589793
       - 2.282092208042741e-05
     velocity: []
+  joint_group_names: [manipulator]
   name: Wrist 2 Max
 - description: Move here and run Take Snapshot again!
   favorite: true
@@ -322,6 +334,7 @@
       - 1.385168665644486
       - 0.06380173312555455
     velocity: []
+  joint_group_names: [manipulator]
   name: Right Wall
 - description: ''
   favorite: true
@@ -347,6 +360,7 @@
       - 1.6501763241696035
       - 3.878003640148636e-05
     velocity: []
+  joint_group_names: [manipulator]
   name: Monitor View
 - description: ''
   favorite: false
@@ -372,6 +386,7 @@
       - -0.133798126833976
       - 1.809151380399623
     velocity: []
+  joint_group_names: [manipulator]
   name: Extended Right
 - description: ''
   favorite: false
@@ -397,6 +412,7 @@
       - -0.13498686942518082
       - 1.3589808032170339
     velocity: []
+  joint_group_names: [manipulator]
   name: Extended Right 2
 - description: ''
   favorite: false
@@ -422,4 +438,5 @@
       - 1.1063101202873569
       - 0.21460700974263816
     velocity: []
+  joint_group_names: [manipulator]
   name: Hinge View

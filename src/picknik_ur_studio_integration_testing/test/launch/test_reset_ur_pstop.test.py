@@ -76,7 +76,7 @@ def generate_test_description():
             ),
         ),
         launch_arguments={
-            "ur_type": "ur5",
+            "ur_type": "ur5e",
             "robot_ip": "yyy.yyy.yyy.yyy",
             "use_fake_hardware": "true",
             "launch_rviz": "false",
@@ -93,7 +93,7 @@ def generate_test_description():
                 description="Binary directory of package "
                 "containing test executables",
             ),
-            TimerAction(period=1.0, actions=[reset_ur_pstop_gtest]),
+            TimerAction(period=10.0, actions=[reset_ur_pstop_gtest]),
             launch_testing.actions.ReadyToTest(),
         ]
     ), {

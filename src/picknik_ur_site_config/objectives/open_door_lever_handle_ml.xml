@@ -9,7 +9,7 @@
       <SubTree ID="Re-Zero Force-Torque Sensors" _collapsed="true"/>
       <SubTree ID="Update Admittance Controller" _collapsed="true"/>
       <!-- Look at the desired location where objects (door) will be present -->
-      <Action ID="MoveToWaypoint" waypoint_name="Extended Right 2" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
+      <SubTree ID="Move to Waypoint" waypoint_name="Extended Right 2" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
       <SubTree ID="Clear Snapshot" _collapsed="true"/>
       <SubTree ID="Reset Planning Scene" _collapsed="true"/>
 

@@ -1,116 +1,43 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
   <!-- parameters -->
-  <xacro:arg name="name" default="" />
-  <xacro:arg name="joint_limits_parameters_file" default="" />
-  <xacro:arg name="kinematics_parameters_file" default="" />
-  <xacro:arg name="physical_parameters_file" default="" />
-  <xacro:arg name="visual_parameters_file" default="" />
-  <xacro:arg name="use_extra_camera" default="false"/>
-  <xacro:arg name="gazebo_renderer" default="ogre"/>
-
-  <!-- Import macros for main hardware components -->
-  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro" />
-  <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro" />
-  <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro" />
-  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/mtc_ur_tool_changer/mtc_ur_tool_changer.urdf.xacro" />
-  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur_camera_adapter.urdf.xacro" />
-  <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro" />
-  <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro" />
-
-  <!-- Import environment macros -->
-  <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
-
-  <!-- initial position for simulations (Fake Hardware and Gazebo) -->
+  <xacro:arg name="use_fake_hardware" default="false"/>
+  <xacro:arg name="external_camera" default="false"/>
+  <xacro:arg name="has_tool_changer" default="true"/>
+  <xacro:arg name="use_pinch_links" default="true"/>
+  <xacro:arg name="name" default=""/>
+  <xacro:arg name="joint_limits_parameters_file" default=""/>
+  <xacro:arg name="kinematics_parameters_file" default=""/>
+  <xacro:arg name="physical_parameters_file" default=""/>
+  <xacro:arg name="visual_parameters_file" default=""/>
+  <xacro:arg name="headless_mode" default="false"/>
+  <xacro:arg name="robot_ip" default="0.0.0.0"/>
+  <xacro:arg name="use_tool_communication" default="false"/>
+  <xacro:arg name="tool_voltage" default="0"/>
+  <xacro:arg name="tool_device_name" default="/dev/ttyUSB0"/>
   <xacro:arg name="initial_positions_file" default="$(find picknik_ur_base_config)/config/initial_positions.yaml"/>
+  <xacro:arg name="environment_xacro" default="$(find picknik_ur_gazebo_config)/description/environment.xacro"/>
+  <xacro:arg name="simulation" default="gazebo"/>
+  <xacro:arg name="gazebo_renderer" default="ogre"/>
+  <xacro:arg name="use_extra_camera" default="false"/>
 
-  <!-- convert to properties to use substitution in function -->
-  <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
-  <xacro:property name="gazebo_renderer" default="$(arg gazebo_renderer)"/>
+  <!-- Import UR and environment macros -->
+  <xacro:include filename="$(find picknik_ur_base_config)/description/picknik_ur_macro.xacro"/>
+  <xacro:include filename="$(find picknik_ur_base_config)/description/picknik_ur_attachments_macro.xacro"/>
+  <xacro:include filename="$(arg environment_xacro)"/>
 
-  <!-- create link fixed to the "world" -->
-  <link name="world" />
-
-  <!-- arm -->
-  <xacro:ur_robot
-    name="$(arg name)"
-    tf_prefix=""
-    parent="world"
-    joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
-    kinematics_parameters_file="$(arg kinematics_parameters_file)/$(arg name)/default_kinematics.yaml"
-    physical_parameters_file="$(arg physical_parameters_file)/$(arg name)/physical_parameters.yaml"
-    visual_parameters_file="$(arg visual_parameters_file)/$(arg name)/visual_parameters.yaml"
-    sim_ignition="true"
-    initial_positions="${xacro.load_yaml(initial_positions_file)}">
-    <origin xyz="0 0 0" rpy="0 0 0" /> <!-- position robot in the world -->
-  </xacro:ur_robot>
-
-  <!-- tool changer-->
-  <xacro:mtc_ur_tool_changer prefix="" connected_to="tool0" rotation="0" />
-
-  <!-- wrist camera adapter and camera-->
-  <xacro:ur_realsense_camera_adapter prefix="" connected_to="tool_changer_tool0" rotation="0" />
-  <!-- TODO: With ogre renderer and use_mesh="true",
-  the camera image will be obstructed by the mesh-->
-  <xacro:realsense_d415 parent="d415_mount_link" name="wrist_mounted_camera" use_mesh="${gazebo_renderer == 'ogre2'}">
+  <!-- Robot: contains robot description from the world frame to the tool frame -->
+  <xacro:picknik_ur parent="world"  child="tool0" initial_positions_file="$(arg initial_positions_file)">
     <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:realsense_d415>
+  </xacro:picknik_ur>
 
-  <!-- Gripper and UR adapter-->
-  <xacro:ur_to_robotiq prefix="" connected_to="realsense_camera_adapter_tool0" rotation="0" />
+  <!-- Gripper and UR adapter and realsense camera -->
+  <xacro:picknik_ur_attachments parent="tool0" child="grasp_link" has_tool_changer="$(arg has_tool_changer)"/>
 
-  <xacro:robotiq_gripper name="RobotiqGripperHardwareInterface" prefix="" parent="gripper_mount_link" sim_ignition="true">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:robotiq_gripper>
+  <!-- Environment: contains scene geometry and external sensors, e.g. cameras -->
+  <xacro:environment parent="world"/>
 
-  <link name="grasp_link" />
-  <joint name="grasp_link_joint" type="fixed">
-    <parent link="robotiq_85_base_link" />
-    <child link="grasp_link" />
-    <origin xyz="0.0 0.0 0.134" rpy="0.0 0.0 ${pi}" />
-  </joint>
-
-  <!-- Environment -->
-  <link name="environment">
-    <!-- Table -->
-    <xacro:cube_collision_and_visual length="1.5" width="1.0" height="0.25">
-      <origin rpy="0 0 0" xyz="0 0 ${-0.25/2}" />
-      <color rgba="0 0 1 0" />
-    </xacro:cube_collision_and_visual>
-  </link>
-
-  <joint name="base_to_environment" type="fixed">
-    <parent link="base" />
-    <child link="environment" />
-    <origin rpy="0 0 0" xyz="0 0 0" />
-  </joint>
-
-  <!-- External camera -->
-  <link name="external_camera_link" />
-  <joint name="external_camera_joint" type="fixed">
-    <parent link="world" />
-    <child link="external_camera_link" />
-    <origin xyz="1.1 -1.1 1.3" rpy="0.0 0.4 2.4" />
-  </joint>
-
-  <xacro:realsense_d435 parent="external_camera_link" name="scene_camera" visible="false" simulate_depth="true">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:realsense_d435>
-
-  <!-- Additional Camera -->
-  <xacro:if value="$(arg use_extra_camera)">
-    <link name="extra_scene_camera_link" />
-    <joint name="extra_scene_camera_joint" type="fixed">
-      <parent link="world" />
-      <child link="extra_scene_camera_link" />
-      <origin xyz="-0.3 0.3 0.5" rpy="0.0 0.0 -3.14" />
-    </joint>
-    <xacro:realsense_d435 parent="extra_scene_camera_link" name="extra_camera" visible="false" simulate_depth="false">
-      <origin xyz="0 0 0" rpy="0 0 0" />
-    </xacro:realsense_d435>
-  </xacro:if>
-
-  <!-- Force/Torque Sensor -->
+  <!-- Gazebo Force/Torque Sensor -->
   <link name="robot/wrist_3_joint/force_torque_sensor" />
   <joint name="wrist_to_fts" type="fixed">
     <parent link="wrist_3_link" />
@@ -182,6 +109,7 @@
     </plugin>
   </gazebo>
 
+  <xacro:property name="gazebo_renderer" default="$(arg gazebo_renderer)"/>
   <gazebo>
     <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
       <render_engine>${gazebo_renderer}</render_engine>

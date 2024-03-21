@@ -9,7 +9,7 @@
       <SubTree ID="Re-Zero Force-Torque Sensors" _collapsed="true"/>
       <SubTree ID="Update Admittance Controller" _collapsed="true"/>
       <!-- Look at the desired location where objects (door) will be present -->
-      <Action ID="MoveToWaypoint" waypoint_name="Extended Right" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
+      <SubTree ID="Move to Waypoint" waypoint_name="Extended Right" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
       <SubTree ID="Clear Snapshot" _collapsed="true"/>
       <SubTree ID="Reset Planning Scene" _collapsed="true"/>
       <SubTree ID="Detect Door Graspable Object" _collapsed="true" door_object="{door_object}" detection_classes="space booth cabinet door"/>
@@ -18,16 +18,16 @@
       <Control ID="Fallback">
         <SubTree ID="Detect Fixed Handle Graspable Object" _collapsed="true" grasp_pose="{grasp_pose}"/>
         <Control ID="Sequence">
-          <Action ID="MoveToWaypoint" waypoint_name="Extended Right 2" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
+          <SubTree ID="Move to Waypoint" waypoint_name="Extended Right 2" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
           <SubTree ID="Detect Fixed Handle Graspable Object" _collapsed="true" grasp_pose="{grasp_pose}"/>
         </Control>
         <Control ID="Sequence">
-          <Action ID="MoveToWaypoint" waypoint_name="Extended Right" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
+          <SubTree ID="Move to Waypoint" waypoint_name="Extended Right" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
           <SubTree ID="Detect Fixed Handle Graspable Object" _collapsed="true" grasp_pose="{grasp_pose}"/>
         </Control>
       </Control>
       <!-- Get the masks for the hinge subframes of the door GraspableObject -->
-      <Action ID="MoveToWaypoint" waypoint_name="Hinge View" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints=""/>
+      <SubTree ID="Move to Waypoint" waypoint_name="Hinge View" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
       <SubTree ID="Detect Hinge Line Segment" _collapsed="true" line_segment_start_point="{line_segment_start_point}" line_segment_end_point="{line_segment_end_point}"/>
       <!-- Helper behavior to convert poses into subframes that adhere to the expected axis convention -->
       <Action ID="GetMoveAlongArcSubframes" target_grasp_pose="{grasp_pose}" hinge_axis_pose_start="{line_segment_start_point}" hinge_axis_pose_end="{line_segment_end_point}" move_along_arc_subframes="{move_along_arc_subframes}"/>

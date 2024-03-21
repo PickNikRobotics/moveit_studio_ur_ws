@@ -219,6 +219,9 @@ objectives:
     # Add additional plugin loaders as needed.
     core:
       - "moveit_studio::behaviors::CoreBehaviorsLoader"
+      - "moveit_studio::behaviors::MTCCoreBehaviorsLoader"
+      - "moveit_studio::behaviors::ServoBehaviorsLoader"
+      - "moveit_studio::behaviors::VisionBehaviorsLoader"
   # Specify source folder for objectives
   # [Required]
   objective_library_paths:
