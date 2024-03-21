@@ -39,11 +39,11 @@
 
   <link name="world" />
 
-  <!-- LEFT ROBOT -->
+  <!-- FIRST ROBOT -->
   <!-- arm -->
   <xacro:ur_robot
-    name="left_$(arg name)"
-    tf_prefix="left_"
+    name="fst_$(arg name)"
+    tf_prefix="fst_"
     parent="world"
     joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
     kinematics_parameters_file="$(arg kinematics_parameters_file)"
@@ -56,26 +56,27 @@
     script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
     output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
     input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
-    <origin xyz="0.0 -0.5 0" rpy="0 0 0" />
+    <origin xyz="0.0 -0.6 0" rpy="0 0 0" />
   </xacro:ur_robot>
 
   <xacro:if value="$(arg use_pinch_links)">
-      <xacro:forearm_pinch_link  prefix="right"/>
-      <xacro:wrist_3_pinch_link  prefix="right"/>
+    <xacro:forearm_pinch_link  prefix="fst"/>
+    <xacro:wrist_3_pinch_link  prefix="fst"/>
   </xacro:if>
 
+
   <xacro:picknik_ur_attachments
-    prefix="left"
-    parent="left_tool0"
-    child="left_grasp_link"
+    prefix="fst"
+    parent="fst_tool0"
+    child="fst_grasp_link"
     has_tool_changer="$(arg has_tool_changer)"
   />
 
-  <!-- RIGHT ROBOT -->
+  <!-- SECOND ROBOT -->
   <!-- arm -->
   <xacro:ur_robot
-    name="right_$(arg name)"
-    tf_prefix="right_"
+    name="snd_$(arg name)"
+    tf_prefix="snd_"
     parent="world"
     joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
     kinematics_parameters_file="$(arg kinematics_parameters_file)"
@@ -88,18 +89,82 @@
     script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
     output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
     input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
-    <origin xyz="0 0.5 0" rpy="0 0 0" />
+    <origin xyz="0 -0.2 0" rpy="0 0 0" />
   </xacro:ur_robot>
 
   <xacro:if value="$(arg use_pinch_links)">
-    <xacro:forearm_pinch_link  prefix="left"/>
-    <xacro:wrist_3_pinch_link  prefix="left"/>
+      <xacro:forearm_pinch_link  prefix="snd"/>
+      <xacro:wrist_3_pinch_link  prefix="snd"/>
   </xacro:if>
 
   <xacro:picknik_ur_attachments
-    prefix="right"
-    parent="right_tool0"
-    child="right_grasp_link"
+    prefix="snd"
+    parent="snd_tool0"
+    child="snd_grasp_link"
+    has_tool_changer="$(arg has_tool_changer)"
+  />
+
+  <!-- THIRD ROBOT -->
+  <!-- arm -->
+  <xacro:ur_robot
+    name="trd_$(arg name)"
+    tf_prefix="trd_"
+    parent="world"
+    joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
+    kinematics_parameters_file="$(arg kinematics_parameters_file)"
+    physical_parameters_file="$(arg physical_parameters_file)"
+    visual_parameters_file="$(arg visual_parameters_file)"
+    use_fake_hardware="$(arg use_fake_hardware)"
+    initial_positions="${xacro.load_yaml(initial_positions_file)}"
+    headless_mode="$(arg headless_mode)"
+    robot_ip="$(arg robot_ip)"
+    script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
+    output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
+    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
+    <origin xyz="0 0.2 0" rpy="0 0 0" />
+  </xacro:ur_robot>
+
+  <xacro:if value="$(arg use_pinch_links)">
+      <xacro:forearm_pinch_link  prefix="trd"/>
+      <xacro:wrist_3_pinch_link  prefix="trd"/>
+  </xacro:if>
+
+  <xacro:picknik_ur_attachments
+    prefix="trd"
+    parent="trd_tool0"
+    child="trd_grasp_link"
+    has_tool_changer="$(arg has_tool_changer)"
+  />
+
+  <!-- FOURTH ROBOT -->
+  <!-- arm -->
+  <xacro:ur_robot
+    name="fth_$(arg name)"
+    tf_prefix="fth_"
+    parent="world"
+    joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
+    kinematics_parameters_file="$(arg kinematics_parameters_file)"
+    physical_parameters_file="$(arg physical_parameters_file)"
+    visual_parameters_file="$(arg visual_parameters_file)"
+    use_fake_hardware="$(arg use_fake_hardware)"
+    initial_positions="${xacro.load_yaml(initial_positions_file)}"
+    headless_mode="$(arg headless_mode)"
+    robot_ip="$(arg robot_ip)"
+    script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
+    output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
+    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
+    <origin xyz="0 0.6 0" rpy="0 0 0" />
+  </xacro:ur_robot>
+
+  <xacro:if value="$(arg use_pinch_links)">
+      <xacro:forearm_pinch_link  prefix="fth"/>
+      <xacro:wrist_3_pinch_link  prefix="fth"/>
+  </xacro:if>
+
+  <xacro:picknik_ur_attachments
+    prefix="fth"
+    parent="fth_tool0"
+    child="fth_grasp_link"
     has_tool_changer="$(arg has_tool_changer)"
   />
 

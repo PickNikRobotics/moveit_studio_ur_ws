@@ -1,10 +1,22 @@
-manipulator_left:
+fst_manipulator:
   kinematics_solver: trac_ik_kinematics_plugin/TRAC_IKKinematicsPlugin
   kinematics_solver_timeout: 0.005
   kinematics_solver_attempts: 3
   epsilon: 0.0001
   solve_type: "Speed"
-manipulator_right:
+snd_manipulator:
+  kinematics_solver: trac_ik_kinematics_plugin/TRAC_IKKinematicsPlugin
+  kinematics_solver_timeout: 0.005
+  kinematics_solver_attempts: 3
+  epsilon: 0.0001
+  solve_type: "Speed"
+trd_manipulator:
+  kinematics_solver: trac_ik_kinematics_plugin/TRAC_IKKinematicsPlugin
+  kinematics_solver_timeout: 0.005
+  kinematics_solver_attempts: 3
+  epsilon: 0.0001
+  solve_type: "Speed"
+fth_manipulator:
   kinematics_solver: trac_ik_kinematics_plugin/TRAC_IKKinematicsPlugin
   kinematics_solver_timeout: 0.005
   kinematics_solver_attempts: 3

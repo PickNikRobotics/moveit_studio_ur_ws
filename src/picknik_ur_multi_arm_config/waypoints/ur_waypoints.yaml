@@ -1,11 +1,12 @@
 - description: 'Both arms are in a down position'
   favorite: true
   joint_group_names:
+  - multi_arm_manipulator
   - dual_arm_manipulator
-  - gripper
-  - gripper_left
-  - manipulator_left
-  - manipulator_right
+  - fst_manipulator
+  - snd_manipulator
+  - trd_manipulator
+  - fth_manipulator
   joint_state:
     effort: []
     header:
@@ -14,20 +15,30 @@
         nanosec: 0
         sec: 0
     name:
-      - left_shoulder_pan_joint
-      - left_shoulder_lift_joint
-      - left_elbow_joint
-      - left_wrist_1_joint
-      - left_wrist_2_joint
-      - left_wrist_3_joint
-      - right_shoulder_pan_joint
-      - right_shoulder_lift_joint
-      - right_elbow_joint
-      - right_wrist_1_joint
-      - right_wrist_2_joint
-      - right_wrist_3_joint
-      - right_robotiq_85_left_knuckle_joint
-      - left_robotiq_85_left_knuckle_joint
+      - fst_shoulder_pan_joint
+      - fst_shoulder_lift_joint
+      - fst_elbow_joint
+      - fst_wrist_1_joint
+      - fst_wrist_2_joint
+      - fst_wrist_3_joint
+      - snd_shoulder_pan_joint
+      - snd_shoulder_lift_joint
+      - snd_elbow_joint
+      - snd_wrist_1_joint
+      - snd_wrist_2_joint
+      - snd_wrist_3_joint
+      - trd_shoulder_pan_joint
+      - trd_shoulder_lift_joint
+      - trd_elbow_joint
+      - trd_wrist_1_joint
+      - trd_wrist_2_joint
+      - trd_wrist_3_joint
+      - fth_shoulder_pan_joint
+      - fth_shoulder_lift_joint
+      - fth_elbow_joint
+      - fth_wrist_1_joint
+      - fth_wrist_2_joint
+      - fth_wrist_3_joint
     position:
       - 5.12061324901879e-05
       - -1.4100637137602083
@@ -41,16 +52,29 @@
       - -2.1200145056689625
       - 1.669979084378574
       - 1.3941351324319836e-05
-      - 0
-      - 0.7929
+      - 5.12061324901879e-05
+      - -1.4100637137602083
+      - -0.6999914125130512
+      - -2.1199174221931956
+      - 1.6699393665105104
+      - -4.32235198095441e-06
+      - 3.109852643683551e-05
+      - -1.410057083617756
+      - -0.7000249972289894
+      - -2.1200145056689625
+      - 1.669979084378574
+      - 1.3941351324319836e-05
     velocity: []
   name: Home
 - description: Both arms are in a down position
   favorite: true
   joint_group_names:
+    - multi_arm_manipulator
     - dual_arm_manipulator
-    - manipulator_left
-    - manipulator_right
+    - fst_manipulator
+    - snd_manipulator
+    - trd_manipulator
+    - fth_manipulator
   joint_state:
     effort: []
     header:
@@ -59,19 +83,43 @@
         nanosec: 0
         sec: 0
     name:
-      - left_shoulder_pan_joint
-      - left_shoulder_lift_joint
-      - left_elbow_joint
-      - left_wrist_1_joint
-      - left_wrist_2_joint
-      - left_wrist_3_joint
-      - right_shoulder_pan_joint
-      - right_shoulder_lift_joint
-      - right_elbow_joint
-      - right_wrist_1_joint
-      - right_wrist_2_joint
-      - right_wrist_3_joint
+      - fst_shoulder_pan_joint
+      - fst_shoulder_lift_joint
+      - fst_elbow_joint
+      - fst_wrist_1_joint
+      - fst_wrist_2_joint
+      - fst_wrist_3_joint
+      - snd_shoulder_pan_joint
+      - snd_shoulder_lift_joint
+      - snd_elbow_joint
+      - snd_wrist_1_joint
+      - snd_wrist_2_joint
+      - snd_wrist_3_joint
+      - trd_shoulder_pan_joint
+      - trd_shoulder_lift_joint
+      - trd_elbow_joint
+      - trd_wrist_1_joint
+      - trd_wrist_2_joint
+      - trd_wrist_3_joint
+      - fth_shoulder_pan_joint
+      - fth_shoulder_lift_joint
+      - fth_elbow_joint
+      - fth_wrist_1_joint
+      - fth_wrist_2_joint
+      - fth_wrist_3_joint
     position:
+      - 8.581502470187843e-05
+      - -1.5136764603659916
+      - -1.799275792510518
+      - -1.5993562600093492
+      - 1.6699146867751609
+      - -1.3363372068852196e-06
+      - -6.064204568974674e-05
+      - -1.5136764603659916
+      - -1.71359599286716
+      - -1.6564761264382546
+      - 1.6699516917224972
+      - -4.144793883897364e-05
       - 8.581502470187843e-05
       - -1.5136764603659916
       - -1.799275792510518
