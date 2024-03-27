@@ -19,6 +19,8 @@ controller_manager:
       type: admittance_controller/AdmittanceController
     joint_trajectory_controller_chained_open_door:
       type: joint_trajectory_controller/JointTrajectoryController
+    joint_trajectory_admittance_controller:
+      type: moveit_pro_controllers/JointTrajectoryAdmittanceController
 
 io_and_status_controller:
   ros__parameters:
@@ -258,3 +260,18 @@ admittance_controller_open_door:
 
     # general settings
     enable_parameter_update_without_reactivation: true
+
+joint_trajectory_admittance_controller:
+  ros__parameters:
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    base_frame: base_link
+    tip_frame: grasp_link
+    sensor_frame: grasp_link
+    ee_frame: grasp_link
+    ft_sensor_name: tcp_fts_sensor
