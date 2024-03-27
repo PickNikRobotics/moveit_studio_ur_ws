@@ -272,6 +272,6 @@ joint_trajectory_admittance_controller:
       - wrist_3_joint
     base_frame: base_link
     tip_frame: grasp_link
-    sensor_frame: grasp_link
+    sensor_frame: tool0
     ee_frame: grasp_link
     ft_sensor_name: tcp_fts_sensor
