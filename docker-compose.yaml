@@ -6,7 +6,7 @@ services:
     # Extend the installed MoveIt Pro docker compose file.
     # Change this to match your environment, if MoveIt Pro was installed to a different location.
     extends:
-      file: ${HOME}/moveit_pro/docker-compose.yaml
+      file: /opt/moveit_pro/docker-compose.yaml
       service: base
     image: moveit-pro-overlay
     build:
