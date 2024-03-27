@@ -1,7 +1,5 @@
 # Docker Compose file for user overlays of the MoveIt Pro images.
 
-version: "3.9"
-
 services:
   # Sets common properties for other services. Should not be instantiated directly.
   base:
