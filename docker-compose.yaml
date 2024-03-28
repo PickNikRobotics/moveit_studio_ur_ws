@@ -18,6 +18,26 @@ services:
         - USERNAME=${STUDIO_USERNAME:-studio-user}
         - MOVEIT_STUDIO_BASE_IMAGE=picknikciuser/moveit-studio:${STUDIO_DOCKER_TAG:-main}
 
+  # Builds the user workspace. If STUDIO_HOST_USER_WORKSPACE is empty, this service will do nothing.
+  workspace_builder:
+    extends: base
+    profiles:
+      - build_and_test
+      - utils
+    command: bash -c "source /moveit_studio_utils/build_user_ws.sh"
+
+  # Executes tests for the user workspace. If STUDIO_HOST_USER_WORKSPACE is empty, this service will do nothing.
+  workspace_test:
+    container_name: "moveit_studio_workspace_test"
+    extends: base
+    depends_on:
+      workspace_builder:
+        condition: service_completed_successfully
+    profiles:
+      - build_and_test
+      - utils
+    command: bash -c "source /moveit_studio_utils/test_user_ws.sh"
+
   # Starts the MoveIt Pro Agent and the Bridge between the Agent and the Web UI
   agent_bridge:
     extends: base
