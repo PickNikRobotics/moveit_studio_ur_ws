@@ -9,8 +9,15 @@
             <Control ID="Sequence">
                 <Action ID="InitializeMTCTask" task_id="close_cabinet_door" controller_names="/joint_trajectory_controller" task="{close_cabinet_door_task}"/>
                 <Action ID="SetupMTCCurrentState" task="{close_cabinet_door_task}"/>
-                <Action ID="GetPoseFromUser" parameter_name="close_cabinet_door.target_pose" parameter_value="{target_pose}" />
-                <Action ID="SetupMTCMoveToPose" ik_frame="grasp_link" planning_group_name="manipulator" target_pose="{target_pose}" task="{close_cabinet_door_task}" use_all_planners="false"/>
+                <Action ID="GetPointsFromUser" view_name="/wrist_mounted_camera/color/image_raw" point_names="target_pose" point_prompts="Click on the door you want to close" pixel_coords="{pixel_coords}"/>
+                <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
+                <Action ID="GetPoseFromPixelCoords" point_cloud="{point_cloud}" pixel_coords="{pixel_coords}" downsample_fraction="0.1" neighbor_radius="0.1" output_poses="{output_poses}"/>
+                <Decorator ID="ForEachPoseStamped" vector_in="{output_poses}" out="{pose}">
+                    <Control ID="Sequence">
+                        <Action ID="TransformPose" output_pose="{target_pose}" quaternion_xyzw="0.7071;0.7071;0;0" translation_xyz="0;0;0.1" input_pose="{pose}"/>
+                        <Action ID="SetupMTCMoveToPose" ik_frame="grasp_link" planning_group_name="manipulator" target_pose="{target_pose}" task="{close_cabinet_door_task}" use_all_planners="false"/>
+                    </Control>
+                </Decorator>
                 <Action ID="SetupMTCUpdateGroupCollisionRule" name="AllowGripperCollisionWithOctomap" parameters="{parameters}" task="{close_cabinet_door_task}" />
                 <Action ID="SetupMTCMoveAlongFrameAxis" task="{close_cabinet_door_task}" hand_frame="grasp_link" axis_frame="grasp_link" axis_x="0.0" axis_y="0.0" axis_z="1.0" max_distance="1.5" min_distance="0.05" planning_group_name="manipulator" velocity_scale="0.05" acceleration_scale="0.05" />                
                 <Action ID="SetupMTCUpdateGroupCollisionRule" name="ForbidGripperCollisionWithOctomap" parameters="{parameters}" task="{close_cabinet_door_task}" />
