@@ -3,178 +3,178 @@ controller_manager:
     update_rate: 600  # Hz
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
-    fst_io_and_status_controller:
+    first_io_and_status_controller:
       type: ur_controllers/GPIOController
-    snd_io_and_status_controller:
+    second_io_and_status_controller:
       type: ur_controllers/GPIOController
-    trd_io_and_status_controller:
+    third_io_and_status_controller:
       type: ur_controllers/GPIOController
-    fth_io_and_status_controller:
+    fourth_io_and_status_controller:
       type: ur_controllers/GPIOController
     multi_arm_joint_trajectory_controller:
       type: joint_trajectory_controller/JointTrajectoryController
-    fst_robotiq_gripper_controller:
+    first_robotiq_gripper_controller:
       type: position_controllers/GripperActionController
-    fst_robotiq_activation_controller:
+    first_robotiq_activation_controller:
       type: robotiq_controllers/RobotiqActivationController
-    snd_robotiq_gripper_controller:
+    second_robotiq_gripper_controller:
       type: position_controllers/GripperActionController
-    snd_robotiq_activation_controller:
+    second_robotiq_activation_controller:
       type: joint_trajectory_controller/JointTrajectoryController
-    trd_robotiq_gripper_controller:
+    third_robotiq_gripper_controller:
       type: position_controllers/GripperActionController
-    trd_robotiq_activation_controller:
+    third_robotiq_activation_controller:
       type: joint_trajectory_controller/JointTrajectoryController
-    fth_robotiq_gripper_controller:
+    fourth_robotiq_gripper_controller:
       type: position_controllers/GripperActionController
-    fth_robotiq_activation_controller:
+    fourth_robotiq_activation_controller:
       type: joint_trajectory_controller/JointTrajectoryController
-    fst_servo_controller:
+    first_servo_controller:
       type: joint_trajectory_controller/JointTrajectoryController
-    snd_servo_controller:
+    second_servo_controller:
       type: position_controllers/JointGroupPositionController
-    trd_servo_controller:
+    third_servo_controller:
       type: joint_trajectory_controller/JointTrajectoryController
-    fth_servo_controller:
+    fourth_servo_controller:
       type: position_controllers/JointGroupPositionController
 
-fst_io_and_status_controller:
+first_io_and_status_controller:
   ros__parameters:
-    tf_prefix: "fst_"
+    tf_prefix: "first_"
 
-snd_io_and_status_controller:
+second_io_and_status_controller:
   ros__parameters:
-    tf_prefix: "snd_"
+    tf_prefix: "second_"
 
-trd_io_and_status_controller:
+third_io_and_status_controller:
   ros__parameters:
-    tf_prefix: "trd_"
+    tf_prefix: "third_"
 
-fth_io_and_status_controller:
+fourth_io_and_status_controller:
   ros__parameters:
-    tf_prefix: "fth_"
+    tf_prefix: "fourth_"
 
 multi_arm_joint_trajectory_controller:
   ros__parameters:
     joints:
-      - fst_shoulder_pan_joint
-      - fst_shoulder_lift_joint
-      - fst_elbow_joint
-      - fst_wrist_1_joint
-      - fst_wrist_2_joint
-      - fst_wrist_3_joint
-      - snd_shoulder_pan_joint
-      - snd_shoulder_lift_joint
-      - snd_elbow_joint
-      - snd_wrist_1_joint
-      - snd_wrist_2_joint
-      - snd_wrist_3_joint
-      - trd_shoulder_pan_joint
-      - trd_shoulder_lift_joint
-      - trd_elbow_joint
-      - trd_wrist_1_joint
-      - trd_wrist_2_joint
-      - trd_wrist_3_joint
-      - fth_shoulder_pan_joint
-      - fth_shoulder_lift_joint
-      - fth_elbow_joint
-      - fth_wrist_1_joint
-      - fth_wrist_2_joint
-      - fth_wrist_3_joint
+      - first_shoulder_pan_joint
+      - first_shoulder_lift_joint
+      - first_elbow_joint
+      - first_wrist_1_joint
+      - first_wrist_2_joint
+      - first_wrist_3_joint
+      - second_shoulder_pan_joint
+      - second_shoulder_lift_joint
+      - second_elbow_joint
+      - second_wrist_1_joint
+      - second_wrist_2_joint
+      - second_wrist_3_joint
+      - third_shoulder_pan_joint
+      - third_shoulder_lift_joint
+      - third_elbow_joint
+      - third_wrist_1_joint
+      - third_wrist_2_joint
+      - third_wrist_3_joint
+      - fourth_shoulder_pan_joint
+      - fourth_shoulder_lift_joint
+      - fourth_elbow_joint
+      - fourth_wrist_1_joint
+      - fourth_wrist_2_joint
+      - fourth_wrist_3_joint
     command_interfaces:
       - position
     state_interfaces:
       - position
       - velocity
     command_joints:
-      - fst_shoulder_pan_joint
-      - fst_shoulder_lift_joint
-      - fst_elbow_joint
-      - fst_wrist_1_joint
-      - fst_wrist_2_joint
-      - fst_wrist_3_joint
-      - snd_shoulder_pan_joint
-      - snd_shoulder_lift_joint
-      - snd_elbow_joint
-      - snd_wrist_1_joint
-      - snd_wrist_2_joint
-      - snd_wrist_3_joint
-      - trd_shoulder_pan_joint
-      - trd_shoulder_lift_joint
-      - trd_elbow_joint
-      - trd_wrist_1_joint
-      - trd_wrist_2_joint
-      - trd_wrist_3_joint
-      - fth_shoulder_pan_joint
-      - fth_shoulder_lift_joint
-      - fth_elbow_joint
-      - fth_wrist_1_joint
-      - fth_wrist_2_joint
-      - fth_wrist_3_joint
+      - first_shoulder_pan_joint
+      - first_shoulder_lift_joint
+      - first_elbow_joint
+      - first_wrist_1_joint
+      - first_wrist_2_joint
+      - first_wrist_3_joint
+      - second_shoulder_pan_joint
+      - second_shoulder_lift_joint
+      - second_elbow_joint
+      - second_wrist_1_joint
+      - second_wrist_2_joint
+      - second_wrist_3_joint
+      - third_shoulder_pan_joint
+      - third_shoulder_lift_joint
+      - third_elbow_joint
+      - third_wrist_1_joint
+      - third_wrist_2_joint
+      - third_wrist_3_joint
+      - fourth_shoulder_pan_joint
+      - fourth_shoulder_lift_joint
+      - fourth_elbow_joint
+      - fourth_wrist_1_joint
+      - fourth_wrist_2_joint
+      - fourth_wrist_3_joint
     state_publish_rate: 100.0
     action_monitor_rate: 20.0
     allow_partial_joints_goal: true
     constraints:
       stopped_velocity_tolerance: 0.0
       goal_time: 0.0
-      fst_shoulder_pan_joint:
+      first_shoulder_pan_joint:
         goal: 0.05
-      fst_shoulder_lift_joint:
+      first_shoulder_lift_joint:
         goal: 0.05
-      fst_elbow_joint:
+      first_elbow_joint:
         goal: 0.05
-      fst_wrist_1_joint:
+      first_wrist_1_joint:
         goal: 0.05
-      fst_wrist_2_joint:
+      first_wrist_2_joint:
         goal: 0.05
-      fst_wrist_3_joint:
+      first_wrist_3_joint:
         goal: 0.05
-      snd_shoulder_pan_joint:
+      second_shoulder_pan_joint:
         goal: 0.05
-      snd_shoulder_lift_joint:
+      second_shoulder_lift_joint:
         goal: 0.05
-      snd_elbow_joint:
+      second_elbow_joint:
         goal: 0.05
-      snd_wrist_1_joint:
+      second_wrist_1_joint:
         goal: 0.05
-      snd_wrist_2_joint:
+      second_wrist_2_joint:
         goal: 0.05
-      snd_wrist_3_joint:
+      second_wrist_3_joint:
         goal: 0.05
-      trd_shoulder_pan_joint:
+      third_shoulder_pan_joint:
         goal: 0.05
-      trd_shoulder_lift_joint:
+      third_shoulder_lift_joint:
         goal: 0.05
-      trd_elbow_joint:
+      third_elbow_joint:
         goal: 0.05
-      trd_wrist_1_joint:
+      third_wrist_1_joint:
         goal: 0.05
-      trd_wrist_2_joint:
+      third_wrist_2_joint:
         goal: 0.05
-      trd_wrist_3_joint:
+      third_wrist_3_joint:
         goal: 0.05
-      fth_shoulder_pan_joint:
+      fourth_shoulder_pan_joint:
         goal: 0.05
-      fth_shoulder_lift_joint:
+      fourth_shoulder_lift_joint:
         goal: 0.05
-      fth_elbow_joint:
+      fourth_elbow_joint:
         goal: 0.05
-      fth_wrist_1_joint:
+      fourth_wrist_1_joint:
         goal: 0.05
-      fth_wrist_2_joint:
+      fourth_wrist_2_joint:
         goal: 0.05
-      fth_wrist_3_joint:
+      fourth_wrist_3_joint:
         goal: 0.05
 
-fst_servo_controller:
+first_servo_controller:
   ros__parameters:
     joints:
-      - fst_shoulder_pan_joint
-      - fst_shoulder_lift_joint
-      - fst_elbow_joint
-      - fst_wrist_1_joint
-      - fst_wrist_2_joint
-      - fst_wrist_3_joint
+      - first_shoulder_pan_joint
+      - first_shoulder_lift_joint
+      - first_elbow_joint
+      - first_wrist_1_joint
+      - first_wrist_2_joint
+      - first_wrist_3_joint
     command_interfaces:
       - position
     state_interfaces:
@@ -199,15 +199,15 @@ fst_servo_controller:
       wrist_3_joint:
         goal: 0.05
 
-snd_servo_controller:
+second_servo_controller:
   ros__parameters:
     joints:
-      - snd_shoulder_pan_joint
-      - snd_shoulder_lift_joint
-      - snd_elbow_joint
-      - snd_wrist_1_joint
-      - snd_wrist_2_joint
-      - snd_wrist_3_joint
+      - second_shoulder_pan_joint
+      - second_shoulder_lift_joint
+      - second_elbow_joint
+      - second_wrist_1_joint
+      - second_wrist_2_joint
+      - second_wrist_3_joint
     command_interfaces:
       - position
     state_interfaces:
@@ -232,15 +232,15 @@ snd_servo_controller:
       wrist_3_joint:
         goal: 0.05
 
-trd_servo_controller:
+third_servo_controller:
   ros__parameters:
     joints:
-      - trd_shoulder_pan_joint
-      - trd_shoulder_lift_joint
-      - trd_elbow_joint
-      - trd_wrist_1_joint
-      - trd_wrist_2_joint
-      - trd_wrist_3_joint
+      - third_shoulder_pan_joint
+      - third_shoulder_lift_joint
+      - third_elbow_joint
+      - third_wrist_1_joint
+      - third_wrist_2_joint
+      - third_wrist_3_joint
     command_interfaces:
       - position
     state_interfaces:
@@ -265,15 +265,15 @@ trd_servo_controller:
       wrist_3_joint:
         goal: 0.05
 
-fth_servo_controller:
+fourth_servo_controller:
   ros__parameters:
     joints:
-      - fth_shoulder_pan_joint
-      - fth_shoulder_lift_joint
-      - fth_elbow_joint
-      - fth_wrist_1_joint
-      - fth_wrist_2_joint
-      - fth_wrist_3_joint
+      - fourth_shoulder_pan_joint
+      - fourth_shoulder_lift_joint
+      - fourth_elbow_joint
+      - fourth_wrist_1_joint
+      - fourth_wrist_2_joint
+      - fourth_wrist_3_joint
     command_interfaces:
       - position
     state_interfaces:
@@ -298,42 +298,42 @@ fth_servo_controller:
       wrist_3_joint:
         goal: 0.05
 
-fst_robotiq_gripper_controller:
+first_robotiq_gripper_controller:
   ros__parameters:
     default: true
-    joint: fst_robotiq_85_left_knuckle_joint
+    joint: first_robotiq_85_left_knuckle_joint
     allow_stalling: true
 
-fst_robotiq_activation_controller:
+first_robotiq_activation_controller:
   ros__parameters:
     default: true
 
-snd_robotiq_gripper_controller:
+second_robotiq_gripper_controller:
   ros__parameters:
     default: true
-    joint: snd_robotiq_85_left_knuckle_joint
+    joint: second_robotiq_85_left_knuckle_joint
     allow_stalling: true
 
-snd_robotiq_activation_controller:
+second_robotiq_activation_controller:
   ros__parameters:
     default: true
 
-trd_robotiq_gripper_controller:
+third_robotiq_gripper_controller:
   ros__parameters:
     default: true
-    joint: trd_robotiq_85_left_knuckle_joint
+    joint: third_robotiq_85_left_knuckle_joint
     allow_stalling: true
 
-trd_robotiq_activation_controller:
+third_robotiq_activation_controller:
   ros__parameters:
     default: true
 
-fth_robotiq_gripper_controller:
+fourth_robotiq_gripper_controller:
   ros__parameters:
     default: true
-    joint: fth_robotiq_85_left_knuckle_joint
+    joint: fourth_robotiq_85_left_knuckle_joint
     allow_stalling: true
 
-fth_robotiq_activation_controller:
+fourth_robotiq_activation_controller:
   ros__parameters:
     default: true

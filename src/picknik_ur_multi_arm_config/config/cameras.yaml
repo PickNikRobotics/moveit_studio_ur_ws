@@ -23,8 +23,8 @@
       registered_info: "/scene_camera/color/camera_info"
       registered_image: "/scene_camera/depth/image_rect_raw"
 
-- fst_wrist_mounted_camera:
-    camera_name: "fst_wrist_mounted_camera"
+- first_wrist_mounted_camera:
+    camera_name: "first_wrist_mounted_camera"
     type: "sim"
     use: True
     serial_no: "0"
@@ -35,18 +35,18 @@
     enable_pointcloud: True
 
     # information about the topics the camera publishes the raw image and info
-    rgb_info: "/fst_wrist_mounted_camera/color/camera_info"
-    rgb_image: "/fst_wrist_mounted_camera/color/image_raw"
+    rgb_info: "/first_wrist_mounted_camera/color/camera_info"
+    rgb_image: "/first_wrist_mounted_camera/color/image_raw"
 
     # By adding registered_rgb_depth_pair, This camera can be used for "Set Transform From Click"
     registered_rgb_depth_pair:
-      depth_info: "/fst_wrist_mounted_camera/depth/camera_info"
-      depth_image: "/fst_wrist_mounted_camera/depth/image_rect_raw"
-      registered_info: "/fst_wrist_mounted_camera/depth_registered/camera_info"
-      registered_image: "/fst_wrist_mounted_camera/depth_registered/image_rect"
+      depth_info: "/first_wrist_mounted_camera/depth/camera_info"
+      depth_image: "/first_wrist_mounted_camera/depth/image_rect_raw"
+      registered_info: "/first_wrist_mounted_camera/depth_registered/camera_info"
+      registered_image: "/first_wrist_mounted_camera/depth_registered/image_rect"
 
-- snd_wrist_mounted_camera:
-    camera_name: "snd_wrist_mounted_camera"
+- second_wrist_mounted_camera:
+    camera_name: "second_wrist_mounted_camera"
     type: "sim"
     use: True
     serial_no: "0"
@@ -57,18 +57,18 @@
     enable_pointcloud: True
 
     # information about the topics the camera publishes the raw image and info
-    rgb_info: "/snd_wrist_mounted_camera/color/camera_info"
-    rgb_image: "/snd_wrist_mounted_camera/color/image_raw"
+    rgb_info: "/second_wrist_mounted_camera/color/camera_info"
+    rgb_image: "/second_wrist_mounted_camera/color/image_raw"
 
     # By adding registered_rgb_depth_pair, This camera can be used for "Set Transform From Click"
     registered_rgb_depth_pair:
-      depth_info: "/snd_wrist_mounted_camera/depth/camera_info"
-      depth_image: "/snd_wrist_mounted_camera/depth/image_rect_raw"
-      registered_info: "/snd_wrist_mounted_camera/depth_registered/camera_info"
-      registered_image: "/snd_wrist_mounted_camera/depth_registered/image_rect"
+      depth_info: "/second_wrist_mounted_camera/depth/camera_info"
+      depth_image: "/second_wrist_mounted_camera/depth/image_rect_raw"
+      registered_info: "/second_wrist_mounted_camera/depth_registered/camera_info"
+      registered_image: "/second_wrist_mounted_camera/depth_registered/image_rect"
 
-- trd_wrist_mounted_camera:
-    camera_name: "trd_wrist_mounted_camera"
+- third_wrist_mounted_camera:
+    camera_name: "third_wrist_mounted_camera"
     type: "sim"
     use: True
     serial_no: "0"
@@ -79,18 +79,18 @@
     enable_pointcloud: True
 
     # information about the topics the camera publishes the raw image and info
-    rgb_info: "/trd_wrist_mounted_camera/color/camera_info"
-    rgb_image: "/trd_wrist_mounted_camera/color/image_raw"
+    rgb_info: "/third_wrist_mounted_camera/color/camera_info"
+    rgb_image: "/third_wrist_mounted_camera/color/image_raw"
 
     # By adding registered_rgb_depth_pair, This camera can be used for "Set Transform From Click"
     registered_rgb_depth_pair:
-      depth_info: "/trd_wrist_mounted_camera/depth/camera_info"
-      depth_image: "/trd_wrist_mounted_camera/depth/image_rect_raw"
-      registered_info: "/trd_wrist_mounted_camera/depth_registered/camera_info"
-      registered_image: "/trd_wrist_mounted_camera/depth_registered/image_rect"
+      depth_info: "/third_wrist_mounted_camera/depth/camera_info"
+      depth_image: "/third_wrist_mounted_camera/depth/image_rect_raw"
+      registered_info: "/third_wrist_mounted_camera/depth_registered/camera_info"
+      registered_image: "/third_wrist_mounted_camera/depth_registered/image_rect"
 
-- fth_wrist_mounted_camera:
-    camera_name: "fth_wrist_mounted_camera"
+- fourth_wrist_mounted_camera:
+    camera_name: "fourth_wrist_mounted_camera"
     type: "sim"
     use: True
     serial_no: "0"
@@ -101,12 +101,12 @@
     enable_pointcloud: True
 
     # information about the topics the camera publishes the raw image and info
-    rgb_info: "/fth_wrist_mounted_camera/color/camera_info"
-    rgb_image: "/fth_wrist_mounted_camera/color/image_raw"
+    rgb_info: "/fourth_wrist_mounted_camera/color/camera_info"
+    rgb_image: "/fourth_wrist_mounted_camera/color/image_raw"
 
     # By adding registered_rgb_depth_pair, This camera can be used for "Set Transform From Click"
     registered_rgb_depth_pair:
-      depth_info: "/fth_wrist_mounted_camera/depth/camera_info"
-      depth_image: "/fth_wrist_mounted_camera/depth/image_rect_raw"
-      registered_info: "/fth_wrist_mounted_camera/depth_registered/camera_info"
-      registered_image: "/fth_wrist_mounted_camera/depth_registered/image_rect"
+      depth_info: "/fourth_wrist_mounted_camera/depth/camera_info"
+      depth_image: "/fourth_wrist_mounted_camera/depth/image_rect_raw"
+      registered_info: "/fourth_wrist_mounted_camera/depth_registered/camera_info"
+      registered_image: "/fourth_wrist_mounted_camera/depth_registered/image_rect"

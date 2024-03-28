@@ -10,7 +10,7 @@
 #
 # NOTE: Acceleration limits are not publicly available so we have picked a reasonable upper limit
 joint_limits:
-  fst_shoulder_pan_joint:
+  first_shoulder_pan_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -20,7 +20,7 @@ joint_limits:
     max_position: !degrees  180.0
     max_velocity: !degrees  30.0
     min_position: !degrees -180.0
-  fst_shoulder_lift_joint:
+  first_shoulder_lift_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -30,7 +30,7 @@ joint_limits:
     max_position: !degrees  90.0
     max_velocity: !degrees  30.0
     min_position: !degrees -270.0
-  fst_elbow_joint:
+  first_elbow_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -50,7 +50,7 @@ joint_limits:
     max_position: !degrees  180.0
     max_velocity: !degrees  30.0
     min_position: !degrees -180.0
-  fst_wrist_1_joint:
+  first_wrist_1_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -60,7 +60,7 @@ joint_limits:
     max_position: !degrees  180.0
     max_velocity: !degrees  60.0
     min_position: !degrees -180.0
-  fst_wrist_2_joint:
+  first_wrist_2_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -70,7 +70,7 @@ joint_limits:
     max_position: !degrees  180.0
     max_velocity: !degrees  60.0
     min_position: !degrees -180.0
-  fst_wrist_3_joint:
+  first_wrist_3_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -80,13 +80,13 @@ joint_limits:
     max_position: !degrees  360.0
     max_velocity: !degrees  60.0
     min_position: !degrees -360.0
-  fst_robotiq_85_left_knuckle_joint:
+  first_robotiq_85_left_knuckle_joint:
     has_velocity_limits: true
     max_velocity: 0.5
     has_acceleration_limits: true
     max_acceleration: 1.0
 
-  snd_shoulder_pan_joint:
+  second_shoulder_pan_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -96,7 +96,7 @@ joint_limits:
     max_position: !degrees  180.0
     max_velocity: !degrees  30.0
     min_position: !degrees -180.0
-  snd_shoulder_lift_joint:
+  second_shoulder_lift_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -106,7 +106,7 @@ joint_limits:
     max_position: !degrees  90.0
     max_velocity: !degrees  30.0
     min_position: !degrees -270.0
-  snd_elbow_joint:
+  second_elbow_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -126,7 +126,7 @@ joint_limits:
     max_position: !degrees  180.0
     max_velocity: !degrees  30.0
     min_position: !degrees -180.0
-  snd_wrist_1_joint:
+  second_wrist_1_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -136,7 +136,7 @@ joint_limits:
     max_position: !degrees  180.0
     max_velocity: !degrees  60.0
     min_position: !degrees -180.0
-  snd_wrist_2_joint:
+  second_wrist_2_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -146,7 +146,7 @@ joint_limits:
     max_position: !degrees  180.0
     max_velocity: !degrees  60.0
     min_position: !degrees -180.0
-  snd_wrist_3_joint:
+  second_wrist_3_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -156,13 +156,13 @@ joint_limits:
     max_position: !degrees  360.0
     max_velocity: !degrees  60.0
     min_position: !degrees -360.0
-  snd_robotiq_85_left_knuckle_joint:
+  second_robotiq_85_left_knuckle_joint:
     has_velocity_limits: true
     max_velocity: 0.5
     has_acceleration_limits: true
     max_acceleration: 1.0
 
-  trd_shoulder_pan_joint:
+  third_shoulder_pan_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -172,7 +172,7 @@ joint_limits:
     max_position: !degrees  180.0
     max_velocity: !degrees  30.0
     min_position: !degrees -180.0
-  trd_shoulder_lift_joint:
+  third_shoulder_lift_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -182,7 +182,7 @@ joint_limits:
     max_position: !degrees  90.0
     max_velocity: !degrees  30.0
     min_position: !degrees -270.0
-  trd_elbow_joint:
+  third_elbow_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -202,7 +202,7 @@ joint_limits:
     max_position: !degrees  180.0
     max_velocity: !degrees  30.0
     min_position: !degrees -180.0
-  trd_wrist_1_joint:
+  third_wrist_1_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -212,7 +212,7 @@ joint_limits:
     max_position: !degrees  180.0
     max_velocity: !degrees  60.0
     min_position: !degrees -180.0
-  trd_wrist_2_joint:
+  third_wrist_2_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -222,7 +222,7 @@ joint_limits:
     max_position: !degrees  180.0
     max_velocity: !degrees  60.0
     min_position: !degrees -180.0
-  trd_wrist_3_joint:
+  third_wrist_3_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -232,13 +232,13 @@ joint_limits:
     max_position: !degrees  360.0
     max_velocity: !degrees  60.0
     min_position: !degrees -360.0
-  trd_robotiq_85_left_knuckle_joint:
+  third_robotiq_85_left_knuckle_joint:
     has_velocity_limits: true
     max_velocity: 0.5
     has_acceleration_limits: true
     max_acceleration: 1.0
 
-  fth_shoulder_pan_joint:
+  fourth_shoulder_pan_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -248,7 +248,7 @@ joint_limits:
     max_position: !degrees  180.0
     max_velocity: !degrees  30.0
     min_position: !degrees -180.0
-  fth_shoulder_lift_joint:
+  fourth_shoulder_lift_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -258,7 +258,7 @@ joint_limits:
     max_position: !degrees  90.0
     max_velocity: !degrees  30.0
     min_position: !degrees -270.0
-  fth_elbow_joint:
+  fourth_elbow_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -278,7 +278,7 @@ joint_limits:
     max_position: !degrees  180.0
     max_velocity: !degrees  30.0
     min_position: !degrees -180.0
-  fth_wrist_1_joint:
+  fourth_wrist_1_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -288,7 +288,7 @@ joint_limits:
     max_position: !degrees  180.0
     max_velocity: !degrees  60.0
     min_position: !degrees -180.0
-  fth_wrist_2_joint:
+  fourth_wrist_2_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -298,7 +298,7 @@ joint_limits:
     max_position: !degrees  180.0
     max_velocity: !degrees  60.0
     min_position: !degrees -180.0
-  fth_wrist_3_joint:
+  fourth_wrist_3_joint:
     has_acceleration_limits: true
     has_effort_limits: true
     has_position_limits: true
@@ -308,7 +308,7 @@ joint_limits:
     max_position: !degrees  360.0
     max_velocity: !degrees  60.0
     min_position: !degrees -360.0
-  fth_robotiq_85_left_knuckle_joint:
+  fourth_robotiq_85_left_knuckle_joint:
     has_velocity_limits: true
     max_velocity: 0.5
     has_acceleration_limits: true

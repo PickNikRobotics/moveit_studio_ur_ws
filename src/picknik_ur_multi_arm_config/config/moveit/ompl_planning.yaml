@@ -48,7 +48,7 @@ planner_configs:
   PRMstarkConfigDefault:
     type: geometric::PRMstar
 
-fst_manipulator:
+first_manipulator:
   default_planner_config: RRTConnectkConfigDefault
   planner_configs:
     - APSConfigDefault
@@ -60,7 +60,7 @@ fst_manipulator:
     - PRMstarkConfigDefault
   enforce_constrained_state_space: true
   longest_valid_segment_fraction: 0.01
-fst_gripper:
+first_gripper:
   planner_configs:
     - RRTkConfigDefault
     - RRTConnectkConfigDefault
@@ -69,7 +69,7 @@ fst_gripper:
     - PRMkConfigDefault
     - PRMstarkConfigDefault
 
-snd_manipulator:
+second_manipulator:
   default_planner_config: RRTConnectkConfigDefault
   planner_configs:
     - APSConfigDefault
@@ -81,7 +81,7 @@ snd_manipulator:
     - PRMstarkConfigDefault
   enforce_constrained_state_space: true
   longest_valid_segment_fraction: 0.01
-snd_gripper:
+second_gripper:
   planner_configs:
     - RRTkConfigDefault
     - RRTConnectkConfigDefault
@@ -90,7 +90,7 @@ snd_gripper:
     - PRMkConfigDefault
     - PRMstarkConfigDefault
 
-trd_manipulator:
+third_manipulator:
   default_planner_config: RRTConnectkConfigDefault
   planner_configs:
     - APSConfigDefault
@@ -102,7 +102,7 @@ trd_manipulator:
     - PRMstarkConfigDefault
   enforce_constrained_state_space: true
   longest_valid_segment_fraction: 0.01
-trd_gripper:
+third_gripper:
   planner_configs:
     - RRTkConfigDefault
     - RRTConnectkConfigDefault
@@ -111,7 +111,7 @@ trd_gripper:
     - PRMkConfigDefault
     - PRMstarkConfigDefault
 
-fth_manipulator:
+fourth_manipulator:
   default_planner_config: RRTConnectkConfigDefault
   planner_configs:
     - APSConfigDefault
@@ -123,7 +123,7 @@ fth_manipulator:
     - PRMstarkConfigDefault
   enforce_constrained_state_space: true
   longest_valid_segment_fraction: 0.01
-fth_gripper:
+fourth_gripper:
   planner_configs:
     - RRTkConfigDefault
     - RRTConnectkConfigDefault

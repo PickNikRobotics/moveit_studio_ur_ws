@@ -3,7 +3,7 @@
     <!-- ////////// -->
     <BehaviorTree ID="Open Right Gripper" _description="Open the first gripper">
         <Control ID="Sequence" name="root">
-            <Action ID="MoveGripperAction" gripper_command_action_name="/fst_robotiq_gripper_controller/gripper_cmd" position="0.0"/>
+            <Action ID="MoveGripperAction" gripper_command_action_name="/first_robotiq_gripper_controller/gripper_cmd" position="0.0"/>
         </Control>
     </BehaviorTree>
 </root>
