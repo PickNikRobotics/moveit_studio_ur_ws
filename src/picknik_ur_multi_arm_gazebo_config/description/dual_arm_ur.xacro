@@ -1,0 +1,230 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
+  <!-- parameters -->
+  <xacro:arg name="use_fake_hardware" default="false" />
+  <xacro:arg name="external_camera" default="false" />
+  <xacro:arg name="has_tool_changer" default="true" />
+  <xacro:arg name="use_pinch_links" default="true" />
+  <xacro:arg name="name" default="" />
+  <xacro:arg name="joint_limits_parameters_file" default="" />
+  <xacro:arg name="kinematics_parameters_file" default="" />
+  <xacro:arg name="physical_parameters_file" default="" />
+  <xacro:arg name="visual_parameters_file" default="" />
+<xacro:arg name="gazebo_renderer" default="ogre"/>
+
+  <xacro:arg name="headless_mode" default="false" />
+  <xacro:arg name="robot_ip" default="0.0.0.0" />
+  <xacro:arg name="use_tool_communication" default="false"/>
+  <xacro:arg name="tool_voltage" default="0"/>
+  <xacro:arg name="tool_device_name" default="/dev/ttyUSB0"/>
+
+  <xacro:if value="$(arg has_tool_changer)">
+    <xacro:property name="camera_adapter_parent" value="tool_changer_tool0" />
+  </xacro:if>
+  <xacro:unless value="$(arg has_tool_changer)">
+    <xacro:property name="camera_adapter_parent" value="tool0" />
+  </xacro:unless>
+
+  <!-- Import macros for main hardware components -->
+  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro" />
+  <xacro:include filename="$(find picknik_ur_base_config)/description/pinch_links.xacro" />
+  <xacro:include filename="$(find picknik_ur_base_config)/description/picknik_ur_attachments_macro.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro" />
+
+  <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
+  <xacro:arg name="initial_positions_file" default="$(find picknik_ur_multi_arm_config)/config/initial_positions.yaml"/>
+  <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
+  
+  <!-- Import environment macros -->
+  <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/visual/cube_visual.urdf.xacro" />
+  <!-- Bring in realsense materials only once -->
+  <xacro:include filename="$(find realsense2_description)/urdf/_materials.urdf.xacro" />
+  <xacro:property name="realsense_materials_defined" value="true"/>
+  <xacro:property name="gazebo_renderer" default="$(arg gazebo_renderer)"/>
+
+  <link name="world" />
+
+  <!-- LEFT ROBOT -->
+  <!-- arm -->
+  <xacro:ur_robot
+    name="left_$(arg name)"
+    tf_prefix="left_"
+    parent="world"
+    joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
+    kinematics_parameters_file="$(arg kinematics_parameters_file)"
+    physical_parameters_file="$(arg physical_parameters_file)"
+    visual_parameters_file="$(arg visual_parameters_file)"
+    use_fake_hardware="$(arg use_fake_hardware)"
+    sim_ignition="true"
+    initial_positions="${xacro.load_yaml(initial_positions_file)}"
+    headless_mode="$(arg headless_mode)"
+    robot_ip="$(arg robot_ip)"
+    script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
+    output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
+    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
+    <origin xyz="0.0 -0.5 0" rpy="0 0 0" />
+  </xacro:ur_robot>
+
+  <xacro:if value="$(arg use_pinch_links)">
+      <xacro:forearm_pinch_link  prefix="right"/>
+      <xacro:wrist_3_pinch_link  prefix="right"/>
+  </xacro:if>
+
+  <xacro:picknik_ur_attachments
+    prefix="left"
+    parent="left_tool0"
+    child="left_grasp_link"
+    has_tool_changer="$(arg has_tool_changer)"
+  />
+
+  <!-- RIGHT ROBOT -->
+  <!-- arm -->
+  <xacro:ur_robot
+    name="right_$(arg name)"
+    tf_prefix="right_"
+    parent="world"
+    joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
+    kinematics_parameters_file="$(arg kinematics_parameters_file)"
+    physical_parameters_file="$(arg physical_parameters_file)"
+    visual_parameters_file="$(arg visual_parameters_file)"
+    use_fake_hardware="$(arg use_fake_hardware)"
+    initial_positions="${xacro.load_yaml(initial_positions_file)}"
+    headless_mode="$(arg headless_mode)"
+    robot_ip="$(arg robot_ip)"
+    sim_ignition="true"
+    script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
+    output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
+    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
+    <origin xyz="0 0.5 0" rpy="0 0 0" />
+  </xacro:ur_robot>
+
+  <xacro:if value="$(arg use_pinch_links)">
+    <xacro:forearm_pinch_link  prefix="left"/>
+    <xacro:wrist_3_pinch_link  prefix="left"/>
+  </xacro:if>
+
+  <xacro:picknik_ur_attachments
+    prefix="right"
+    parent="right_tool0"
+    child="right_grasp_link"
+    has_tool_changer="$(arg has_tool_changer)"
+  />
+
+  <!-- ENVIRONMENT -->
+  <link name="environment">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://picknik_accessories/descriptions/furniture/generic_table/wood_block.dae" scale="0.25 0.25 0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://picknik_accessories/descriptions/furniture/generic_table/wood_block.dae" scale="0.25 0.25 0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="table_joint" type="fixed">
+    <parent link="world" />
+    <child link="environment" />
+    <origin rpy="0 0 0" xyz="0 0 -0.05" />
+  </joint>
+
+  <!-- External Camera -->
+  <link name="external_camera_link" />
+  <joint name="external_camera_joint" type="fixed">
+    <parent link="world" />
+    <child link="external_camera_link" />
+    <origin xyz="1.1 -1.1 1.3" rpy="0.0 0.4 2.4" />
+  </joint>
+
+  <xacro:realsense_d435 parent="external_camera_link" name="scene_camera" visible="false" simulate_depth="true">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:realsense_d435>
+
+
+  <!-- Force/Torque Sensor -->
+  <link name="left_robot/wrist_3_joint/force_torque_sensor" />
+  <joint name="left_wrist_to_fts" type="fixed">
+    <parent link="left_wrist_3_link" />
+    <child link="left_robot/wrist_3_joint/force_torque_sensor" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  <gazebo reference="left_wrist_3_joint">
+    <sensor name="left_tcp_fts_sensor" type="force_torque">
+      <always_on>1</always_on>
+      <update_rate>50</update_rate>
+      <visualize>0</visualize>
+      <topic>left_tcp_fts_sensor/ft_data</topic>
+      <pose>0 0 0 0 0 0</pose>
+      <force_torque>
+        <frame>child</frame>
+        <measure_direction>parent_to_child</measure_direction>
+        <force>
+          <x>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </x>
+          <y>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </y>
+          <z>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </z>
+        </force>
+        <torque>
+          <x>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </x>
+          <y>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </y>
+          <z>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </z>
+        </torque>
+      </force_torque>
+    </sensor>
+  </gazebo>
+
+  <!-- Gazebo Plugins -->
+  <gazebo>
+    <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+      <parameters>$(find picknik_ur_multi_arm_gazebo_config)/config/control/picknik_dual_ur.ros2_control.yaml</parameters>
+      <ros>
+        <remapping>/left_servo_controller/commands:=/left_robot_controllers/commands</remapping>
+        <remapping>/left_servo_controller/joint_trajectory:=/left_robot_controllers/joint_trajectory</remapping>
+        <remapping>/right_servo_controller/commands:=/right_robot_controllers/commands</remapping>
+        <remapping>/right_servo_controller/joint_trajectory:=/right_robot_controllers/joint_trajectory</remapping>
+        <remapping>/servo_controller/commands:=/robot_controllers/commands</remapping>
+        <remapping>/servo_controller/joint_trajectory:=/robot_controllers/joint_trajectory</remapping>
+      </ros>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
+      <render_engine>${gazebo_renderer}</render_engine>
+    </plugin>
+  </gazebo>
+</robot>
