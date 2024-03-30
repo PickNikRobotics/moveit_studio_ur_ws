@@ -165,8 +165,6 @@ joint_limits:
 
 # UR robots use hard coded values that ignore prefixes
 
-
-
   shoulder_pan_joint:
     has_acceleration_limits: true
     has_effort_limits: true

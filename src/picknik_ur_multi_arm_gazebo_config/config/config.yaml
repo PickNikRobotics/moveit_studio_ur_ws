@@ -11,10 +11,6 @@ optional_feature_params:
   gazebo_gui: False
   gazebo_verbose: True
 
-# Enable simulation time so nodes are synced with the Gazebo block.
-ros_global_params:
-  use_sim_time: True
-
 hardware:
   # Used by the ur_description package to set kinematics and geometry for a specific robot type.
   # You can change this to another UR model but you must update any configuration affected by the different arm size
@@ -105,8 +101,6 @@ octomap_manager:
   # Input point cloud topic name. The *output* point cloud topic published by
   # the Octomap manager node is defined in sensors_3d.yaml.
   input_point_cloud_topic: "/left_wrist_mounted_camera/depth/color/points"
-
-
 
 # This configures what controllers gets run at startup
 ros2_control:
