@@ -9,19 +9,21 @@ SetupMTCGraspThenMoveAlongArcPull:
   # List of controllers to use during the stages that interact with the door.
   move_along_arc_controllers: "/joint_trajectory_controller_chained_open_door /admittance_controller_open_door /robotiq_gripper_controller"
 
-  #approach_distance: 0.02   # meters
-  approach_max_distance: 0.05   # meters
-  approach_min_distance: 0.01   # meters
-  translation_distance: 0.02   # meters (0 means only move along arc here, no linear component)
+  approach_min_distance: 0.10   # meters
+  approach_max_distance: 1.00   # meters
+  translation_distance: 0.0   # meters (0 means only move along arc here, no linear component)
   rotation_distance: 55.0  # Degrees
   use_circular_arc: true
+  
+  # Grasp candidate configs
+  grasp_candidate_config:
+    generate_x_axis_grasps: true
+    generate_y_axis_grasps: true
+    generate_z_axis_grasps: true
 
-  # Grasp Candidate Configs (currently for a non-vacuum gripper)
-  generate_x_axis_grasps: true
-  generate_y_axis_grasps: true
-  generate_z_axis_grasps: true
-  samples_per_quadrant: 2
-
+    # Number of samples to generate for each quadrant of the cuboid.
+    samples_per_quadrant: 3
+  
   # Grasp data configs
   grasp_data:
     # See https://ros-planning.github.io/moveit_tutorials/_images/finger_gripper_explanation.jpg for description of the following parameters
