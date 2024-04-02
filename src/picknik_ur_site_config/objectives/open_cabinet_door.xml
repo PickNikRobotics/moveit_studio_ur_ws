@@ -29,9 +29,17 @@
       <Control ID="Sequence" name="OpenDoorFixedHandleMTC">
         <Action ID="InitializeMTCTask" task_id="open_door_fixed_handle_user" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{open_door_fixed_handle_task}"/>
         <Action ID="SetupMTCCurrentState" task="{open_door_fixed_handle_task}"/>
-        <Action ID="LoadObjectiveParameters" config_file_name="pick_place_object_config.yaml" parameters="{approach_parameters}"/>
-        <Action ID="SetupMTCApproachGrasp" task="{open_door_fixed_handle_task}" monitored_stage="{monitored_stage}" target_object="{handle_object}" parameters="{approach_parameters}"/>
+        <!--Open Gripper-->
+        <Action ID="SetupMTCMoveToNamedState" task="{open_door_fixed_handle_task}" planning_group_name="gripper" goal_state_name="open" use_all_planners="false"/>
+        <!--Approach Grasp Point-->
+        <Action ID="SetupMTCApproachGrasp" task="{open_door_fixed_handle_task}" monitored_stage="{monitored_stage}" target_object="{handle_object}" parameters="{parameters}"/>
+        <!--Generate Cuboid Grasps at Handle-->
+        <Action ID="SetupMTCGenerateCuboidGrasps" parameters="{parameters}" target_object="{handle_object}" monitored_stage="{monitored_stage}" task="{open_door_fixed_handle_task}"/>
+        <!--Close Gripper around handle? todo: break out of MoveAlongArcPull and handle collisions.-->
+        <!--<Action ID="SetupMTCMoveToNamedState" task="{open_door_fixed_handle_task}" planning_group_name="gripper" goal_state_name="close" use_all_planners="false"/>-->
+        <!--Close gripper (here for now due to collisions) and Move Along Arc-->
         <Action ID="SetupMTCGraspThenMoveAlongArcPull" graspable_object="{handle_object}" parameters="{parameters}" task="{open_door_fixed_handle_task}" monitored_stage="{monitored_stage}"/>
+        <!--End of MTC task setup, now plan-->
         <Action ID="PlanMTCTask" solution="{open_door_fixed_handle_solution}" task="{open_door_fixed_handle_task}"/>
         <SubTree ID="Wait for Trajectory Approval if User Available" solution="{open_door_fixed_handle_solution}" _collapsed="false"/>
         <!--Whether task execution succeeds or fails, reset the controllers to disable admittance control.-->
