@@ -38,7 +38,7 @@
         <!--Close Gripper around handle? todo: break out of MoveAlongArcPull and handle collisions.-->
         <!--<Action ID="SetupMTCMoveToNamedState" task="{open_door_fixed_handle_task}" planning_group_name="gripper" goal_state_name="close" use_all_planners="false"/>-->
         <!--Close gripper (here for now due to collisions) and Move Along Arc-->
-        <Action ID="SetupMTCGraspThenMoveAlongArcPull" graspable_object="{handle_object}" parameters="{parameters}" task="{open_door_fixed_handle_task}" monitored_stage="{monitored_stage}"/>
+        <Action ID="SetupMTCGraspThenMoveAlongArcPull" graspable_object="{handle_object}" parameters="{parameters}" task="{open_door_fixed_handle_task}"/>
         <!--End of MTC task setup, now plan-->
         <Action ID="PlanMTCTask" solution="{open_door_fixed_handle_solution}" task="{open_door_fixed_handle_task}"/>
         <SubTree ID="Wait for Trajectory Approval if User Available" solution="{open_door_fixed_handle_solution}" _collapsed="false"/>
