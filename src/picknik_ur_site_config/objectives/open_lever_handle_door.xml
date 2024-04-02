@@ -5,10 +5,10 @@
       <Action ID="LoadObjectiveParameters" config_file_name="open_door_lever_handle_MTC_config.yaml" parameters="{parameters}"/>
       <SubTree ID="Re-Zero Force-Torque Sensors" _collapsed="true"/>
       <SubTree ID="Update Admittance Controller" _collapsed="true"/>
-      <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
+      <Action ID="GetPointCloud" topic_name="/camera/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
       <Action ID="PublishPointCloud" point_cloud="{point_cloud}" point_cloud_topic="studio_vision_debug_snapshot"/>
-      <Action ID="GetPointsFromUser" view_name="/wrist_mounted_camera/color/image_raw" point_names="handle_pivot; handle_tip" point_prompts="Click on center of axis of handle;Click on end of handle" pixel_coords="{pixel_coords}"/>
-      <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
+      <Action ID="GetPointsFromUser" view_name="/camera/wrist_mounted_camera/color/image_raw" point_names="handle_pivot; handle_tip" point_prompts="Click on center of axis of handle;Click on end of handle" pixel_coords="{pixel_coords}"/>
+      <Action ID="GetPointCloud" topic_name="/camera/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
       <Action ID="GetPoseFromPixelCoords" point_cloud="{point_cloud}" pixel_coords="{pixel_coords}" downsample_fraction="0.1" neighbor_radius="0.1" output_poses="{handle_poses}"/>
       <Action ID="GetDoorHandle" handle_poses="{handle_poses}" point_cloud="{point_cloud}" minimum_door_handle_depth="0.02" target_output_frame_id="world" target_handle_length="{handle_length}" target_handle_pose="{handle_pose}" target_handle_z_offset="{handle_z_offset}"/>
       <!-- Set up Subframes for MTC -->
