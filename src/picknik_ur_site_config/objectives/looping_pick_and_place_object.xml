@@ -29,7 +29,7 @@
                                             <Action ID="ResetPlanningSceneObjects" apply_planning_scene_service="apply_planning_scene"/>
                                             
                                             <!-- Get the latest point cloud from the target topic-->
-                                            <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
+                                            <Action ID="GetPointCloud" topic_name="/camera/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
                                             
                                             <!-- Detect all cuboids in that point cloud-->
                                             <Action ID="FindSingularCuboids" point_cloud="{point_cloud}" parameters="{parameters}" detected_shapes="{cuboids}"/>

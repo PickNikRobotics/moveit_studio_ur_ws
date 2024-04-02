@@ -18,7 +18,7 @@
                             <!-- Remove any objects which might remain in the planning scene from previous pick attempts -->
                             <Action ID="ResetPlanningSceneObjects" apply_planning_scene_service="apply_planning_scene"/>
                             <!-- Get the latest point cloud from the target topic-->
-                            <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
+                            <Action ID="GetPointCloud" topic_name="/camera/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
                             <!-- Publish point cloud for display by UI -->
                             <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures" point_cloud_uuid=""/>
                             <!-- Detect all cuboids in that point cloud-->
@@ -63,7 +63,7 @@
 
                                         <!-- THEN -->
                                         <Control ID="Sequence">
-                                            <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
+                                            <Action ID="GetPointCloud" topic_name="/camera/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" />
                                             <Action ID="FindSingularCuboids" parameters="{parameters}" point_cloud="{point_cloud}" detected_shapes="{cuboids}"/>
                                             <Action ID="GetPoseFromUser" parameter_name="pick_place_object.grasp_pose" parameter_value="{grasp_pose}" />
                                             <Action ID="GetClosestObjectToPose" objects="{cuboids}" pose="{grasp_pose}" distance_threshold="0.3" closest_object="{new_cuboid_object}"/>

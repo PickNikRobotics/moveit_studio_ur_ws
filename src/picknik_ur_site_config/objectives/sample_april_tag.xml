@@ -5,10 +5,10 @@
       <Decorator ID="Repeat" num_cycles="{num_samples}" name="SamplePose">
         <Control ID="Sequence">
         <Action ID="LoadObjectiveParameters" config_file_name="{apriltag_config}" parameters="{parameters}"/>
-        <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>         
+        <Action ID="GetCameraInfo" topic_name="/camera/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>         
         <Decorator ID="RetryUntilSuccessful" num_attempts="5">
           <Control ID="Sequence">                      
-            <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
+            <Action ID="GetImage" topic_name="/camera/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
             <Action ID="DetectAprilTags" image="{image}" camera_info="{camera_info}" parameters="{parameters}" detections="{detections}"/>
             <Action ID="GetDetectionPose" detections="{detections}" target_id="{tag_id}" target_label="" detection_pose="{detection_pose}"/>
           </Control>
