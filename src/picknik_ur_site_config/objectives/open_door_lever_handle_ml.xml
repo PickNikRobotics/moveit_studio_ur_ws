@@ -13,8 +13,8 @@
       <SubTree ID="Clear Snapshot" _collapsed="true"/>
       <SubTree ID="Reset Planning Scene" _collapsed="true"/>
       <SubTree ID="Detect Door Graspable Object" _collapsed="true" door_object="{door_object}" detection_classes="door"/>
-      <SubTree ID="Detect Lever Handle Line Segment" _collapsed="true" handle_tip_pose="{handle_tip_pose}" handle_pivot_pose="{handle_pivot_pose}"/>
-      <Action ID="GetDoorHandle" handle_pivot_pose="{handle_pivot_pose}" handle_tip_pose="{handle_tip_pose}" point_cloud="{point_cloud}" minimum_door_handle_depth="0.02" target_output_frame_id="world" target_handle_length="{handle_length}" target_handle_pose="{handle_pose}" target_handle_z_offset="{handle_z_offset}"/>
+      <SubTree ID="Detect Lever Handle Line Segment" _collapsed="true" handle_poses="{handle_poses}"/>
+      <Action ID="GetDoorHandle" handle_poses="{handle_poses}" point_cloud="{point_cloud}" minimum_door_handle_depth="0.02" target_output_frame_id="world" target_handle_length="{handle_length}" target_handle_pose="{handle_pose}" target_handle_z_offset="{handle_z_offset}"/>
       <Action ID="GetGraspAndTwistSubframes" grasp_rotation_z_radians="1.5708" target_grasp_pose="{grasp_pose}" grasp_and_twist_subframes="{grasp_and_twist_subframes}"/>
       <Decorator ID="ForEachObjectSubframe" vector_in="{grasp_and_twist_subframes}" out="{subframe}">
         <Action ID="AddSubframeToObject" subframe="{subframe}" graspable_object="{door_object}"/>

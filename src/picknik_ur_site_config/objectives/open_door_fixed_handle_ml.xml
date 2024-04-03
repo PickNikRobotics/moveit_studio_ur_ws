@@ -28,9 +28,9 @@
       </Control>
       <!-- Get the masks for the hinge subframes of the door GraspableObject -->
       <SubTree ID="Move to Waypoint" waypoint_name="Hinge View" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
-      <SubTree ID="Detect Hinge Line Segment" _collapsed="true" line_segment_start_point="{line_segment_start_point}" line_segment_end_point="{line_segment_end_point}"/>
+      <SubTree ID="Detect Hinge Line Segment" _collapsed="true" line_segment_poses="{line_segment_poses}"
       <!-- Helper behavior to convert poses into subframes that adhere to the expected axis convention -->
-      <Action ID="GetMoveAlongArcSubframes" target_grasp_pose="{grasp_pose}" hinge_axis_pose_start="{line_segment_start_point}" hinge_axis_pose_end="{line_segment_end_point}" move_along_arc_subframes="{move_along_arc_subframes}"/>
+      <Action ID="GetMoveAlongArcSubframes" target_grasp_pose="{grasp_pose}" hinge_axis_poses="{line_segment_poses}" move_along_arc_subframes="{move_along_arc_subframes}"/>
       <!-- Add the subframes to the Object-->
       <Decorator ID="ForEachObjectSubframe" vector_in="{move_along_arc_subframes}" out="{subframe}">
         <Action ID="AddSubframeToObject" subframe="{subframe}" graspable_object="{door_object}"/>
