@@ -27,10 +27,6 @@
         <group name="third_manipulator"/>
         <group name="fourth_manipulator"/>
     </group>
-    <group name="multi_arm_manipulator">
-        <group name="second_manipulator"/>
-        <group name="fourth_manipulator"/>
-    </group>
     <group name="gripper">
         <link name="first_robotiq_85_base_link"/>
         <link name="first_robotiq_85_left_inner_knuckle_link"/>

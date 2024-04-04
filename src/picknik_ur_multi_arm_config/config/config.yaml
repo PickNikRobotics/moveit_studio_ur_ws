@@ -112,7 +112,7 @@ ros_global_params:
 # [Required]
 moveit_params:
   # Used by the Waypoint Manager to save joint states from this joint group.
-  joint_group_name: "multi_arm_manipulator"
+  joint_group_name: "first_manipulator"
 
   ompl_planning:
     package: "picknik_ur_multi_arm_config"
@@ -178,6 +178,7 @@ ros2_control:
     - "second_servo_controller"
     - "third_servo_controller"
     - "fourth_servo_controller"
+    - "servo_controller"
     - "first_io_and_status_controller"
     - "second_io_and_status_controller"
     - "third_io_and_status_controller"
