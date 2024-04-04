@@ -4,8 +4,6 @@
 
 - scene_camera:
     camera_name: "scene_camera"
-    type: "sim"
-    use: True
     serial_no: "0"
     device_type: "D415"
     framerate: 6
@@ -24,8 +22,6 @@
       registered_image: "/scene_camera/depth/image_rect_raw"
 - wrist_mounted_camera:
     camera_name: "wrist_mounted_camera"
-    type: "sim"
-    use: True
     serial_no: "0"
     device_type: "D415"
     framerate: 6

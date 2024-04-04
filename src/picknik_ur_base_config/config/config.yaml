@@ -28,11 +28,6 @@ hardware:
   # [Optional, default=True]
   launch_robot_state_publisher: True
 
-  # If the MoveIt Pro Agent should launch cameras when simulated.
-  # This must be False when using mock hardware, since there are no cameras simulated.
-  # [Optional, default=True]
-  launch_cameras_when_simulated: False
-
   # The robot's IP address.
   # [Required]
   ip: "0.0.0.0"
