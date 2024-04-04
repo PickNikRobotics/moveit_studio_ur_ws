@@ -3,8 +3,8 @@
   <BehaviorTree ID="Open Lever Handle Door" _description="Open a lever handle door by turning the handle and pushing the door" _favorite="false">
     <Control ID="Sequence" name="Setup">
       <Action ID="LoadObjectiveParameters" config_file_name="open_door_lever_handle_MTC_config.yaml" parameters="{parameters}"/>
-      <!--<SubTree ID="Re-Zero Force-Torque Sensors" _collapsed="true"/>-->
-      <!--<SubTree ID="Update Admittance Controller" _collapsed="true"/>-->
+      <!--      <SubTree ID="Re-Zero Force-Torque Sensors" _collapsed="true"/>-->
+      <!--      <SubTree ID="Update Admittance Controller" _collapsed="true"/>-->
       <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" timeout_sec="5.000000"/>
       <Action ID="PublishPointCloud" point_cloud="{point_cloud}" point_cloud_topic="studio_vision_debug_snapshot"/>
       <Action ID="GetPointsFromUser" view_name="/wrist_mounted_camera/color/image_raw" point_names="handle_pivot; handle_tip" point_prompts="Click on center of axis of handle;Click on end of handle" pixel_coords="{pixel_coords}"/>
@@ -13,7 +13,7 @@
       <Action ID="GetDoorHandle" handle_poses="{handle_poses}" point_cloud="{point_cloud}" minimum_door_handle_depth="0.02" target_output_frame_id="world" target_handle_length="{handle_length}" target_handle_pose="{handle_pose}" target_handle_z_offset="{handle_z_offset}"/>
       <!--Set up Subframes for MTC-->
       <Action ID="GetGraspAndTwistSubframes" grasp_rotation_z_radians="1.5708" target_grasp_pose="{handle_pose}" grasp_and_twist_subframes="{grasp_and_twist_subframes}"/>
-      <Action ID="CreateGraspableObject" dx="0.1" dy="0.1" dz="0.1" object_id="lever_door" generate_top_face="true" generate_front_face="true" generate_side_faces="true" cuboid_object="{door_object}" pose="{pose}"/>
+      <Action ID="CreateGraspableObject" cuboid_object="{door_object}" generate_side_faces="true" generate_top_face="true" dy="0.100000" dx="0.100000" generate_front_face="true" object_id="lever_door" dz="0.100000" pose="{handle_pose}"/>
       <!--Add the subframes to the Object-->
       <Decorator ID="ForEachObjectSubframe" vector_in="{grasp_and_twist_subframes}" out="{subframe}">
         <Action ID="AddSubframeToObject" subframe="{subframe}" graspable_object="{door_object}"/>
