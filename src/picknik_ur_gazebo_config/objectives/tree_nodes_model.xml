@@ -1,25 +1,1343 @@
 <root>
   <TreeNodesModel>
-    <SubTree ID="Sample April Tag">
-        <description>
-          <p>
-              Samples the pose of an AprilTag and returns the average measurement.
-          </p>
-        </description>
-        <input_port name="num_samples" default="1">The number of times to sample the pose.</input_port>
-        <input_port name="tag_id" default="0">The AprilTag ID to detect.</input_port>
-        <input_port name="apriltag_config" default="apriltag_detection_config.yaml">The configuration file for detecting AprilTags.</input_port>
-        <input_port name="max_distance" default="0.02">The maximum distance allow between the average pose and the new sample (Euclidean distance between pose positions).</input_port>
-        <input_port name="max_rotation" default="0.2">The maximum angle allow between the average pose and the new sample (shortest angle between two pose quaternions).</input_port>
-        <output_port name="avg_pose" default="{avg_pose}">The calculated average pose.</output_port>
-    </SubTree>
-    <SubTree ID="Pick Object">
-        <description>
-          <p>
-              Picks an object at the specified grasp pose.
-          </p>
-        </description>
-        <input_port name="grasp_pose" default="{grasp_pose}">The desired grasp pose.</input_port>
-    </SubTree>
+    <Action ID="ActivateControllers">
+      <input_port name="controller_names" type="std::string" default="">The controller to activate.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;Send a request to the &lt;code&gt;/ensure_controller_is_active&lt;/code&gt; service to activate one or more controllers.&lt;/p&gt;                 &lt;p&gt;This service is advertised by a node from MoveIt Pro's EnsureControllersAreActive MoveGroup plugin. This Behavior won't work correctly unless that specific node is up and running.&lt;/p&gt;                 &lt;p&gt;The service type is &lt;code&gt;moveit_studio_agent_msgs::srv::SetStringArray&lt;/code&gt;.&lt;/p&gt;                 &lt;p&gt;Given a string of controller names delimited by spaces (for example, &lt;code&gt;&quot;first_controller second_controller&quot;&lt;/code&gt;), this Behavior sends the request to the &lt;code&gt;/ensure_controller_is_active&lt;/code&gt; service to activate the controllers with those names.&lt;/p&gt;                 &lt;p&gt;If this Behavior receives a response from the service indicating that the request succeeded, this Behavior exits with a SUCCESS status code.&lt;/p&gt;                 &lt;p&gt;If any of the following failure states occur, this Behavior will exit with a FAILURE status code:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;If no input is passed in.&lt;/li&gt;                     &lt;li&gt;An invalid controller name is passed in.&lt;/li&gt;                     &lt;li&gt;The service response is received, but its success field is set to False.&lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;This Behavior is derived from the ServiceClientBehaviorBase class defined in the &lt;code&gt;moveit_studio_behavior_interface&lt;/code&gt; package.&lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="AddPointCloudToVector">
+      <inout_port name="point_cloud_vector" type="std::vector&lt;sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{point_cloud_vector}">Vector of point clouds. It is created if it does not exist.</inout_port>
+      <input_port name="point_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud}">Point cloud to add to the vector.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Adds a point cloud to a vector of point clouds in the blackboard.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="AddPoseStampedToVector">
+      <inout_port name="pose_stamped_vector" type="std::vector&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{pose_stamped_vector}">Sequence of Cartesian poses to which the input pose is added.</inout_port>
+      <input_port name="input_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{input_pose}">Pose to be added.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Adds a Cartesian pose to a sequence of Cartesian poses and stores the sequence to the blackboard.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="AddSubframeToObject">
+      <inout_port name="graspable_object" type="moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;" default="{graspable_object}">GraspableObject message to be annotated with a subframe.</inout_port>
+      <input_port name="subframe" type="moveit_studio_vision_msgs::msg::ObjectSubframe_&lt;std::allocator&lt;void&gt; &gt;" default="{subframe}">An ObjectSubframe message to add to the Object.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Accepts a GraspableObject message and a Subframe message via input data ports.                     Returns the GraspableObject with the new ObjectSubframe added to the Subframes section.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="AdjustPoseWithIMarker">
+      <output_port name="adjusted_poses" type="std::vector&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{adjusted_poses}">The returned adjusted poses, as a vector of &lt;code&gt;geometry_msgs/PoseStamped&lt;/code&gt; messages.</output_port>
+      <input_port name="initial_poses" type="std::vector&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{initial_poses}">The initial poses of the IMarkers for the user to interact with.</input_port>
+      <input_port name="prompts" type="std::vector&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::allocator&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; &gt; &gt;" default="">The prompts to display for each pose. Must be the same size as the list of initial poses.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="                 &lt;p&gt;                     Requests a user to manually adjust a collection of poses using interactive markers in the UI. The UI  will have a service server running that spawns interactive markers at the initial poses for users to adjust. These IMarkers will spawn one at a time.                  &lt;/p&gt;                 &lt;p&gt;                     The input list of prompts must be the same length as the input list of initial poses.                 &lt;/p&gt;                 &lt;p&gt;                     The output is a list of adjusted stamped poses.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="AlwaysFailure">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;Return FAILURE.&lt;/p&gt;                 "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="AlwaysSuccess">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;Return SUCCESS.&lt;/p&gt;                 "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="AppendOrientationConstraint">
+      <inout_port name="constraints" type="std::shared_ptr&lt;moveit_msgs::msg::Constraints_&lt;std::allocator&lt;void&gt; &gt; &gt;" default="{constraints}">The moveit_msgs/Constraints message that will have an orientation constraint appended to it.</inout_port>
+      <input_port name="config_file_name" type="std::string" default="">Configuration file name containing the orientation constraint parameters.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Motion Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Appends a moveit_msgs/OrientationConstraint to an existing moveit_msgs/Constraints.                     The orientation constraint parameters are defined from an input yaml file.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="AveragePoseStamped">
+      <output_port name="avg_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{avg_pose}">The current average pose.</output_port>
+      <input_port name="pose_sample" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{pose_sample}">Pose to add to the average estimate.</input_port>
+      <input_port name="max_distance" type="double" default="0.020000">Max allowed distance (in Meters) this sample can be from current average.</input_port>
+      <input_port name="max_rotation" type="double" default="0.200000">Max allowed rotation (in Radians) this sample can be from current average.</input_port>
+      <input_port name="num_samples" type="int" default="10">Number of pose samples to average.</input_port>
+      <input_port name="run_continuously" type="bool" default="false">If true, runs continuously using a rolling window, otherwise terminates after the specified number of samples.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Calculates the running average of incoming Pose Stamped ROS messages.                     It can be configured to terminate after a finite number of samples or continuously calculate the average using a rolling window of a fixed size denoted by `num_samples`.                     If the current sample exceeds &quot;max_distance&quot; or &quot;max_rotation&quot; (specified as input ports) from the current average pose the behavior will return FAILURE.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="BiasedCoinFlip">
+      <input_port name="success_probability" type="double" default="0.500000">The probability that the behavior will return success. Should be in the range [0, 1]</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Simulates flipping a biased coin with the specified probability of success.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="BreakpointSubscriber">
+      <input_port name="breakpoint_topic" type="std::string" default="/studio_breakpoint">Topic the breakpoint listens to. Can be used to continue executing or halting the program to the breakpoint.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Subscribes to a topic that can be used for pausing an Objective during execution to allow introspection. This Behavior will listen on the configured topic for a True/False message which will cause it to continue or abort from a breakpoint that is included in an Objective.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="CalculatePoseOffset">
+      <output_port name="source_to_destination_pose" type="geometry_msgs::msg::Pose_&lt;std::allocator&lt;void&gt; &gt;" default="{source_to_destination_pose}">The transform between the two poses.</output_port>
+      <input_port name="destination_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="">The pose we would like to measure to.</input_port>
+      <input_port name="source_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{source_pose}">The pose we would like to measure from.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Calculates the offset transform from source_pose to destination_pose.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="CalibratePoseAction">
+      <output_port name="calibrated_poses" type="std::vector&lt;geometry_msgs::msg::TransformStamped_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;geometry_msgs::msg::TransformStamped_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{calibrated_poses}">Returned calibration poses from the action server</output_port>
+      <input_port name="calibration_frame_id" type="std::string" default="world">Name of the calibration frame</input_port>
+      <input_port name="base_frame" type="std::string" default="world">Name of the base frame</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Calls a robot_calibration_msgs::action::CalibratePose action server and outputs the results on the calibrated_poses port.                     For now this behavior only supports sending a single frame for calibration.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="CallTriggerService">
+      <input_port name="service_name" type="std::string" default="/trigger">Name of the service to send a request to.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;Send a request to a &lt;code&gt;std_srvs::srv::Trigger&lt;/code&gt; service server and wait until the server sends a response.&lt;/p&gt;                 &lt;p&gt;Given the name of a service server which advertises a service with type &lt;code&gt;std_srvs::srv::Trigger&lt;/code&gt;, this Behavior composes a &lt;code&gt;std_srvs::srv::Trigger::Request&lt;/code&gt; message, sends the request to the server, and waits for the server to return a service response message.&lt;/p&gt;                 &lt;p&gt;If this Behavior receives a response from the service server indicating that the request succeeded, this Behavior exits with a SUCCESS status code.&lt;/p&gt;                 &lt;p&gt;If any of the following failure states occur, this Behavior will exit with a FAILURE status code:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;No service server is available with the specified name.&lt;/li&gt;                     &lt;li&gt;The service server does not return a response before a 3-second timeout duration has elapsed.&lt;/li&gt;                     &lt;li&gt;The service response is received, but its success field is set to False.&lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;This Behavior is derived from the ServiceClientBehaviorBase class defined in the &lt;code&gt;moveit_studio_behavior_interface&lt;/code&gt; package.&lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="CheckCuboidSimilarity">
+      <input_port name="orientation_threshold" type="double" default="3.140000">Threshold for magnitude of difference in centroid orientation.</input_port>
+      <input_port name="distance_threshold" type="double" default="0.020000">Threshold for magnitude difference in centroid position.</input_port>
+      <input_port name="base_frame" type="std::string" default="world">Fixed frame to use when comparing object poses.</input_port>
+      <input_port name="reference_cuboid" type="moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;" default="{object}">Cuboid object to use as a reference for comparison.</input_port>
+      <input_port name="input_cuboid" type="moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;" default="{object}">Cuboid object to evaluate.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Check if an input object is similar to another object. Succeeds if the objects are similar within the provided criteria and fails if they are not similar.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="ClearSnapshot">
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Clears the existing Octomap and Pointcloud snapshots.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="CreateGraspableObject">
+      <output_port name="cuboid_object" type="moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;" default="{cuboid_object}">Generated moveit_studio_vision_msgs/GraspableObject message.</output_port>
+      <input_port name="generate_side_faces" type="bool" default="true">If true, generates side faces (+/-y directions)</input_port>
+      <input_port name="generate_top_face" type="bool" default="true">If true, generates a top face (+z direction)</input_port>
+      <input_port name="dy" type="double" default="0.100000">y dimension of cuboid (m)</input_port>
+      <input_port name="dx" type="double" default="0.100000">x dimension of cuboid (m)</input_port>
+      <input_port name="generate_front_face" type="bool" default="true">If true, generates a front face (+x direction)</input_port>
+      <input_port name="object_id" type="std::string" default="object">the object's string identifier</input_port>
+      <input_port name="dz" type="double" default="0.100000">z dimension of cuboid (m)</input_port>
+      <input_port name="pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{pose}">PoseStamped of the Graspable Object in the desired frame.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Motion Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Creates a collision object (a cuboid) and adds it to the planning scene.                     The cuboid will be centered at the specified PoseStamped with the same frame.                     The cuboid will have width of dx, length of dy, and height of dz.                 &lt;/p&gt;                 &lt;p&gt;                     Returns the generated cuboid graspable object on the output port.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="CreateJointState">
+      <output_port name="joint_state_msg" type="sensor_msgs::msg::JointState_&lt;std::allocator&lt;void&gt; &gt;" default="{joint_state_msg}">The sensor_msgs/JointState message.</output_port>
+      <input_port name="velocities" type="std::vector&lt;double, std::allocator&lt;double&gt; &gt;" default="">The joint velocities for those joints included in 'joint_names'.</input_port>
+      <input_port name="positions" type="std::vector&lt;double, std::allocator&lt;double&gt; &gt;" default="">The joint positions for those joints included in 'joint_names'.</input_port>
+      <input_port name="efforts" type="std::vector&lt;double, std::allocator&lt;double&gt; &gt;" default="">The joint efforts for those joints included in 'joint_names'.</input_port>
+      <input_port name="joint_names" type="std::vector&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::allocator&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; &gt; &gt;" default="">The joint names the message will refer to.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Creates a sensor_msgs/JointState message and writes it to the blackboard.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="CreateStampedPose">
+      <output_port name="stamped_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{stamped_pose}">The geometry_msgs/PoseStamped message.</output_port>
+      <input_port name="orientation_xyzw" type="std::vector&lt;double, std::allocator&lt;double&gt; &gt;" default="">The x, y, z, and w values of the quaternion.</input_port>
+      <input_port name="position_xyz" type="std::vector&lt;double, std::allocator&lt;double&gt; &gt;" default="">The x, y, z values of the position.</input_port>
+      <input_port name="reference_frame" type="std::string" default="world">The reference frame of the geometry_msgs/PoseStamped message.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Creates a geometry_msgs/PoseStamped message and writes it to the blackboard.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="CropPointsInBox">
+      <output_port name="point_cloud_cropped" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud_cropped}">Point cloud containing the points which are within the region of interest.</output_port>
+      <input_port name="crop_box_size" type="std::vector&lt;double, std::allocator&lt;double&gt; &gt;" default="">The X, Y, and Z dimensions of the region of interest.</input_port>
+      <input_port name="crop_box_centroid_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{pose}">The pose of the centroid of the region of interest.</input_port>
+      <input_port name="point_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud}">Input point cloud.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Given a point cloud and a box-shaped region of interest, create a new point cloud which contains only the points that are inside the region of interest.                 &lt;/p&gt;                 &lt;p&gt;                     The dimensions and size of the region of interest are defined relative to its centroid.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Decorator ID="Delay">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;Sleep for a given duration of time and then tick the child node.&lt;/p&gt;                 "/>
+      </MetadataFields>
+      <input_port name="delay_msec" default="">Sleep for the duration of the delay period and tick the child node.</input_port>
+    </Decorator>
+    <Action ID="DetectAprilTags">
+      <output_port name="detections" type="moveit_studio_vision_msgs::msg::ObjectDetectionArray_&lt;std::allocator&lt;void&gt; &gt;" default="{detections}">Output message containing a list of AprilTag detections.</output_port>
+      <input_port name="parameters" type="YAML::Node" default="">AprilTag detection parameters stored in a common configuration file for the objective.</input_port>
+      <input_port name="camera_info" type="sensor_msgs::msg::CameraInfo_&lt;std::allocator&lt;void&gt; &gt;" default="{camera_info}">Input camera parameters message.</input_port>
+      <input_port name="image" type="sensor_msgs::msg::Image_&lt;std::allocator&lt;void&gt; &gt;" default="{image}">Input image message.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Detects AprilTag markers from an image.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="DoTeleoperateAction">
+      <output_port name="current_teleop_mode" type="int"/>
+      <input_port name="initial_teleop_mode" type="int"/>
+      <input_port name="user_interaction_prompt" type="std::string"/>
+      <input_port name="enable_user_interaction" type="bool"/>
+      <MetadataFields>
+        <Metadata description="Enables teleoperation mode, allowing the user to manually control the robot."/>
+      </MetadataFields>
+    </Action>
+    <Action ID="EditWaypoint">
+      <input_port name="waypoint_operation" type="std::string" default="{waypoint_operation}">Waypoint operation type.</input_port>
+      <input_port name="waypoint_name" type="std::string" default="{waypoint_name}">Name of the waypoint to edit.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="                 &lt;p&gt;                     Uses the &lt;code&gt;/edit_waypoints service&lt;/code&gt; to save the robot's current state as a new named waypoint or erase an existing waypoint. The name of the waypoint to save or delete is set through the &quot;waypoint_name&quot; behavior parameter. The operation to perform on the waypoint is set through the &quot;waypoint_operation&quot; behavior parameter, which must be set to either &quot;save&quot; or &quot;erase&quot;.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="ExecuteFollowJointTrajectory">
+      <input_port name="goal_position_tolerance" type="double" default="0.000000">Error (in radians) to accept at the goal, applied to all joints.</input_port>
+      <input_port name="goal_time_tolerance" type="double" default="0.000000">Time error (in seconds) to accept at the goal.</input_port>
+      <input_port name="joint_trajectory_msg" type="trajectory_msgs::msg::JointTrajectory_&lt;std::allocator&lt;void&gt; &gt;" default="{joint_trajectory_msg}">JointTrajectory ROS message.</input_port>
+      <input_port name="execute_follow_joint_trajectory_action_name" type="std::string" default="/joint_trajectory_controller/follow_joint_trajectory">Execute joint trajectory action topic name.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Motion Planning"/>
+        <Metadata description="                 &lt;p&gt;Execute a given joint trajectory by sending a request to an action server.&lt;/p&gt;                 &lt;p&gt;The corresponding joint trajectory controller needs to be active, which can be done with the &lt;code&gt;ActivateControllers&lt;/code&gt; Behavior.&lt;/p&gt;                 &lt;p&gt;Given the name of an action server advertising an action with type &lt;code&gt;control_msgs::action::FollowJointTrajectory&lt;/code&gt; and a &lt;code&gt;trajectory_msgs::msg::JointTrajectory&lt;/code&gt; message, this Behavior composes a &lt;code&gt;FollowJointTrajectory::Request&lt;/code&gt; message using the joint trajectory message. It sends the action request to the server and waits for the server to return the action result.&lt;/p&gt;                 &lt;p&gt;If the server completes the action successfully, this Behavior succeeds.&lt;/p&gt;                 &lt;p&gt;If any of the following failure states occur, this Behavior will exit with a FAILURE status code:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;No action server is available with the specified name.&lt;/li&gt;                     &lt;li&gt;The joint trajectory message has no data.&lt;/li&gt;                     &lt;li&gt;The given position or time tolerances are invalid (negative).&lt;/li&gt;                     &lt;li&gt;The action result is received, but its contents indicate that the action server failed execute the solution.&lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;This Behavior is derived from the ActionClientBehaviorBase class defined in the &lt;code&gt;moveit_studio_behavior_interface&lt;/code&gt; package.&lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="ExecuteMTCTask">
+      <input_port name="solution" type="moveit_task_constructor_msgs::msg::Solution_&lt;std::allocator&lt;void&gt; &gt;" default="{mtc_solution}">MoveIt Task Constructor plan solution.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;Execute the lowest-cost trajectory in a given MTC Solution by sending a request to an action server named &lt;code&gt;execute_task_solution&lt;/code&gt;.&lt;/p&gt;                 &lt;p&gt;This Behavior composes an &lt;code&gt;ExecuteTaskSolution::Request&lt;/code&gt; message using the &lt;code&gt;moveit_task_constructor_msgs::msg::Solution&lt;/code&gt; supplied through the input data port. It sends the action request to the MTC ExecuteTaskSolution MoveGroup capability's &lt;code&gt;/execute_task_solution&lt;/code&gt; action server and waits for the server to return the action result.&lt;/p&gt;                 &lt;p&gt;If the server completes the action successfully, this Behavior succeeds.&lt;/p&gt;                 &lt;p&gt;If any of the following failure states occur, this Behavior will exit with a FAILURE status code:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;No action server named &lt;code&gt;execute_task_solution&lt;/code&gt; is available.&lt;/li&gt;                     &lt;li&gt;The Behavior failed to get the solution from the input data port.&lt;/li&gt;                     &lt;li&gt;The action result is received, but its contents indicate that the action server failed execute the solution.&lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;This Behavior is derived from the ActionClientBehaviorBase class defined in the &lt;code&gt;moveit_studio_behavior_interface&lt;/code&gt; package.&lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="ExecuteTrajectoryWithAdmittance">
+      <input_port name="selected_axes" type="std::vector&lt;int, std::allocator&lt;int&gt; &gt;" default="1;1;1;1;1;1">Selection of Cartesian axes to control with admittance</input_port>
+      <input_port name="stiffness" type="std::vector&lt;double, std::allocator&lt;double&gt; &gt;" default="80;80;80;80;80;80">Stiffness for the admittance spring-mass-damper model for each Cartesian space axis.</input_port>
+      <input_port name="damping" type="std::vector&lt;double, std::allocator&lt;double&gt; &gt;" default="40;40;40;40;40;40">Damping for the admittance spring-mass-damper model for each Cartesian space axis.</input_port>
+      <input_port name="mass" type="std::vector&lt;double, std::allocator&lt;double&gt; &gt;" default="4;4;4;4;4;4">Mass for the admittance spring-mass-damper model in Cartesian space.</input_port>
+      <input_port name="path_position_tolerance" type="double" default="0.010000">Error (in radians) to accept along the path, applied to all joints.</input_port>
+      <input_port name="goal_position_tolerance" type="double" default="0.001000">Error (in radians) to accept at the goal, applied to all joints.</input_port>
+      <input_port name="joint_trajectory_msg" type="trajectory_msgs::msg::JointTrajectory_&lt;std::allocator&lt;void&gt; &gt;" default="{joint_trajectory_msg}">JointTrajectory ROS message.</input_port>
+      <input_port name="controller_action_name" type="std::string" default="/joint_trajectory_admittance_controller/follow_joint_trajectory">The controller action topic name.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Motion Planning"/>
+        <Metadata description="     &lt;p&gt;Execute a given joint trajectory by sending a request to a Joint Trajectory With Admittance controller (JTAC).&lt;/p&gt;     &lt;p&gt;The corresponding JTAC needs to be active, which can be done with the &lt;code&gt;ActivateControllers&lt;/code&gt; Behavior.&lt;/p&gt;     &lt;p&gt;Given the name of an action server advertising an action with type &lt;code&gt;moveit_pro_controllers_msgs::action::FollowJointTrajectoryWithAdmittance&lt;/code&gt; and a &lt;code&gt;trajectory_msgs::msg::JointTrajectory&lt;/code&gt; message, this Behavior composes a &lt;code&gt;FollowJointTrajectoryWithAdmittance::Request&lt;/code&gt; message using the joint trajectory message. It sends the action request to the server and waits for the server to return the action result.&lt;/p&gt;     &lt;p&gt;If the server completes the action successfully, this Behavior succeeds.&lt;/p&gt;     &lt;p&gt;If any of the following failure states occur, this Behavior will exit with a FAILURE status code:&lt;/p&gt;     &lt;ul&gt;         &lt;li&gt;No action server is available with the specified name.&lt;/li&gt;         &lt;li&gt;The given arguments are invalid, e.g. empty trajectory, invalid tolerances, etc.&lt;/li&gt;         &lt;li&gt;The action result is received, but its contents indicate that the action server failed execute the solution.&lt;/li&gt;     &lt;/ul&gt;     &lt;p&gt;This Behavior is derived from the ActionClientBehaviorBase class defined in the &lt;code&gt;moveit_studio_behavior_interface&lt;/code&gt; package.&lt;/p&gt; "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="ExtractGraspableObjectPose">
+      <output_port name="pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{pose_stamped}">A `geometry_msgs:::msg::PoseStamped` extracted from the Object's Pose and Header.</output_port>
+      <input_port name="graspable_object" type="moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;" default="{graspable_object}">GraspableObject message to be converted to a PoseStamped.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Accepts a GraspableObject message via an input data port.                     Returns the GraspableObject's Pose and Header as a PoseStamped.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Control ID="Fallback">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;The FallbackNode is used to try different strategies, until one succeeds. If any child returns RUNNING, previous children will NOT be ticked again.&lt;/p&gt;                     &lt;ul&gt;                         &lt;li&gt;If all the children return FAILURE, this node returns FAILURE.&lt;/li&gt;                         &lt;li&gt;If a child returns RUNNING, this node returns RUNNING.&lt;/li&gt;                         &lt;li&gt;If a child returns SUCCESS, stop the loop and return SUCCESS.&lt;/li&gt;                     &lt;/ul&gt;                 "/>
+      </MetadataFields>
+    </Control>
+    <Action ID="FindMaskedObjects">
+      <input_port name="minimum_face_area" type="double" default="0.000625">Sets the minimum area in meters^2 for a face to be considered graspable, which depends on the type of the gripper used by the robot. For vacuum grippers, set this to match the area of the gripper's suction cup.</input_port>
+      <input_port name="plane_inlier_threshold" type="double" default="0.010000">Sets the distance threshold in meters used when calculating which points are part of a plane. Higher values tolerate noisy data but result in less precise plane fitting.</input_port>
+      <input_port name="base_frame" type="std::string" default="world">Calculate poses of detected objects relative to this frame.</input_port>
+      <output_port name="detected_shapes" type="std::vector&lt;moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{detected_shapes}">Vector of detected objects, represented as moveit_studio_vision_msgs/GraspableObject messages.</output_port>
+      <input_port name="masks2d" type="std::vector&lt;moveit_studio_vision_msgs::msg::Mask2D_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_studio_vision_msgs::msg::Mask2D_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{masks2d}">2D masks corresponding to regions of interest in the point cloud.</input_port>
+      <input_port name="camera_info" type="sensor_msgs::msg::CameraInfo_&lt;std::allocator&lt;void&gt; &gt;" default="{camera_info}">Camera information for the image which was used to generate the masks.</input_port>
+      <input_port name="face_separation_threshold" type="double" default="0.010000">Sets how far apart in meters a cluster of points must be from other clusters which are within the same plane to be considered a separate face.</input_port>
+      <input_port name="point_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud}">Point cloud used as input for finding objects.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Given a point cloud and one or more image masks, create an object corresponding to each masked region.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="FindSingularCuboids">
+      <output_port name="detected_shapes" type="std::vector&lt;moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{detected_shapes}">Will contain a vector of detected cuboids represented as &lt;code&gt;moveit_studio_vision_msgs::msg::GraspableObject&lt;/code&gt; messages after the Behavior has succeeded.</output_port>
+      <input_port name="point_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud}">Input &lt;code&gt;sensor_msgs::msg::PointCloud2&lt;/code&gt;.</input_port>
+      <input_port name="parameters" type="YAML::Node" default="">YAML::Node containing configuration parameters loaded by the LoadObjectiveParameters Behavior.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;Analyze a point cloud and create GraspableObjects for objects found in the cloud. Assume that all objects are cuboids and that all objects are resting on the same flat surface.&lt;/p&gt;                 &lt;p&gt;The inputs to this Behavior are a &lt;code&gt;sensor_msgs::msg::PointCloud2&lt;/code&gt; message, which can be created using the GetPointCloud Behavior, and a &lt;code&gt;YAML::Node&lt;/code&gt; which contains configuration parameters that control how the point cloud will be processed and which must be generated by the LoadObjectiveParameters Behavior.&lt;/p&gt;                 &lt;p&gt;The output from this Behavior is a vector of &lt;code&gt;moveit_studio_vision_msgs::msg::GraspableObject&lt;/code&gt; messages. These messages can be used as an input by several other Behaviors:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;The ForEachGraspableObject Behavior can iterate through the vector of objects and run a child sequence on each individual object in the vector.&lt;/li&gt;                     &lt;li&gt;Many Behaviors use GraspableObjects as an input for motion planning, including:                         &lt;ul style=&quot;list-style-type:circle;&quot;&gt;                             &lt;li&gt;SetupMTCGenerateCuboidGrasps&lt;/li&gt;                             &lt;li&gt;SetupMTCGenerateVacuumGrasps&lt;/li&gt;                             &lt;li&gt;SetupMTCApproachGrasp&lt;/li&gt;                             &lt;li&gt;SetupMTCRetractFromGrasp&lt;/li&gt;                             &lt;li&gt;SetupMTCAttachObject&lt;/li&gt;                             &lt;li&gt;SetupMTCDetachObject&lt;/li&gt;                             &lt;li&gt;SetupMTCUpdateObjectCollisionRule&lt;/li&gt;                         &lt;/ul&gt;                     &lt;/li&gt;                     &lt;li&gt;Several Behaviors can perform other operations on GraspableObjects, including:                         &lt;ul style=&quot;list-style-type:circle;&quot;&gt;                             &lt;li&gt;AddSubframeToObject&lt;/li&gt;                             &lt;li&gt;ExtractGraspableObjectPose&lt;/li&gt;                         &lt;/ul&gt;                     &lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;This Behavior uses the following sequence of operations:&lt;/p&gt;                 &lt;ol&gt;                     &lt;li&gt;Perform a TF lookup to get the transform from the base frame to the point cloud's frame.&lt;/li&gt;                     &lt;li&gt;Crop points within the region specified in the input config options. The crop region is defined relative to the world base frame.&lt;/li&gt;                     &lt;li&gt;Filter the points to remove the ones with all-zero and NaN coordinates.&lt;/li&gt;                     &lt;li&gt;Find the largest plane in the cloud. This plane will be used as the supporting surface.&lt;/li&gt;                     &lt;li&gt;Perform Euclidean clustering on the points which are not part of this plane to create a list of clusters of points which are all separated from each other by a minimum distance threshold. Each cluster represents a separate object.&lt;/li&gt;                     &lt;li&gt;For each cluster:                         &lt;ol type=&quot;a&quot;&gt;                             &lt;li&gt;Project the cluster onto the plane.&lt;/li&gt;                             &lt;li&gt;Find the minimal oriented bounding box around these points relative to the plane.&lt;/li&gt;                             &lt;li&gt;Find the height of the cluster relative to the plane.&lt;/li&gt;                             &lt;li&gt;Use the bounding box and height to create a GraspableObject that defines a cuboid enclosing the points.&lt;/li&gt;                         &lt;/ol&gt;                     &lt;/li&gt;                 &lt;/ol&gt;                 &lt;p&gt;This Behavior makes several key assumptions about the environment:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;The input point cloud must include a large flat surface, such as a tabletop or floor.&lt;/li&gt;                     &lt;li&gt;The cropping and filtering steps are expected to remove all points which are far away from that surface, so that all remaining clusters of points can be assumed to represent objects which are supported by that surface.&lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;If this Behavior completes all analysis steps successfully, it will output a vector of GraspableObjects to the output data port and exit with a SUCCESS status code.&lt;/p&gt;                 &lt;p&gt;After the GraspableObjects are written to the output port, this Behavior publishes a &lt;code&gt;visualization_msgs::msg::MarkerArray&lt;/code&gt; message onto the &lt;code&gt;&quot;/visual_markers&quot;&lt;/code&gt; topic. This message can be used by RViz to display the objects which were detected in the point cloud.&lt;/p&gt;                 &lt;p&gt;If any of the following failure states occur, this Behavior will exit with a FAILURE status code:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;The TF lookup to find the transform from the base frame to the point cloud frame does not succeed.&lt;/li&gt;                     &lt;li&gt;After cropping the point cloud to the region of interest and filtering the point cloud to remove NaN and all-zero points, the point cloud is empty.&lt;/li&gt;                     &lt;li&gt;No large flat surface is found within the point cloud.&lt;/li&gt;                     &lt;li&gt;No cuboids are be found in the point cloud after the supporting plane is removed.&lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;This Behavior requires that following parameters are provided as YAML data through its &lt;code&gt;parameters&lt;/code&gt; input data port:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;&lt;code&gt;plane_model_threshold&lt;/code&gt;: Distance in meters used to determine if points are part of the large flat surface. Using a large value allows fitting the plane model for the surface to noisy points, but prevents small objects from being detected.&lt;/li&gt;                     &lt;li&gt;&lt;code&gt;cluster_distance_threshold&lt;/code&gt;: Distance in meters used when deciding if nearby clusters of points are part of the same object or separate objects.&lt;/li&gt;                     &lt;li&gt;&lt;code&gt;base_frame&lt;/code&gt;: The frame ID of a fixed frame which will be used as the origin of the crop box.&lt;/li&gt;                     &lt;li&gt;&lt;code&gt;crop_box_origin_x&lt;/code&gt;: X-coordinate of the minimum corner of the crop box relative to the base frame in meters.&lt;/li&gt;                     &lt;li&gt;&lt;code&gt;crop_box_origin_y&lt;/code&gt;: Y-coordinate of the minimum corner of the crop box relative to the base frame in meters.&lt;/li&gt;                     &lt;li&gt;&lt;code&gt;crop_box_origin_z&lt;/code&gt;: Z-coordinate of the minimum corner of the crop box relative to the base frame in meters.&lt;/li&gt;                     &lt;li&gt;&lt;code&gt;crop_box_size_x&lt;/code&gt;: X-dimension of the crop box in meters.&lt;/li&gt;                     &lt;li&gt;&lt;code&gt;crop_box_size_y&lt;/code&gt;: Y-dimension of the crop box in meters.&lt;/li&gt;                     &lt;li&gt;&lt;code&gt;crop_box_size_z&lt;/code&gt;: Z-dimension of the crop box in meters.&lt;/li&gt;                 &lt;/ul&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="FitLineSegmentToMask3D">
+      <output_port name="line_segment_end_point" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{line_segment_end_point}">A geometry_msgs::msg::PoseStamped at the end point of the line segment. Its Z axis is colinear to segment.</output_port>
+      <output_port name="line_segment_start_point" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{line_segment_start_point}">A geometry_msgs::msg::PoseStamped at the starting point of the line segment. Its Z axis is colinear to segment.</output_port>
+      <input_port name="max_distance_from_line_for_inlier" type="double" default="0.010000">The maximum distance in meters that the points should be from a line hypothesis to be considered inliers.</input_port>
+      <input_port name="base_frame" type="std::string" default="world">The line endpoints will be in this frame.</input_port>
+      <input_port name="mask3d" type="moveit_studio_vision_msgs::msg::Mask3D_&lt;std::allocator&lt;void&gt; &gt;" default="{mask3d}">3D mask selecting subset of points of the input cloud.</input_port>
+      <input_port name="point_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud}">Input point cloud.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Fits a line segment to the points in a 3D mask, ignoring outliers.                 &lt;/p&gt;                 &lt;p&gt;                     The line parameters are estimated with the RANSAC algorithm. The RANSAC iterative process hypothesizes                     line models from random point subsets, selecting the hypothesis that explains the most points in the set.                     A point is considered explained by a line hypothesis (a.k.a. &quot;inlier&quot;) if it is closer than a distance                     threshold to it. The output segment is contained in the resulting line, and is the shortest segment                     containing all inlier points.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Decorator ID="ForEachCollisionObject">
+      <output_port name="out" type="moveit_msgs::msg::CollisionObject_&lt;std::allocator&lt;void&gt; &gt;" default="{object}">Output set to the current CollisionObject at each iteration.</output_port>
+      <input_port name="vector_in" type="std::vector&lt;moveit_msgs::msg::CollisionObject_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_msgs::msg::CollisionObject_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{objects}">Input vector of CollisionObjects.</input_port>
+      <MetadataFields>
+        <Metadata description=" &lt;p&gt;   Iterate through a vector of moveit_msgs/CollisionObject. &lt;/p&gt;"/>
+      </MetadataFields>
+    </Decorator>
+    <Decorator ID="ForEachGraspableObject">
+      <output_port name="out" type="moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;" default="{object}">Output set to the current GraspableObject at each iteration.</output_port>
+      <input_port name="vector_in" type="std::vector&lt;moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{objects}">Input vector of GraspableObjects.</input_port>
+      <MetadataFields>
+        <Metadata description=" &lt;p&gt;   Iterate through a vector of moveit_studio_vision_msgs/GraspableObject. &lt;/p&gt;"/>
+      </MetadataFields>
+    </Decorator>
+    <Decorator ID="ForEachMask2D">
+      <output_port name="out" type="moveit_studio_vision_msgs::msg::Mask2D_&lt;std::allocator&lt;void&gt; &gt;" default="{name}">Output set to the current Mask2D at each iteration.</output_port>
+      <input_port name="vector_in" type="std::vector&lt;moveit_studio_vision_msgs::msg::Mask2D_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_studio_vision_msgs::msg::Mask2D_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{names}">Input vector of Mask2D messages.</input_port>
+      <MetadataFields>
+        <Metadata description=" &lt;p&gt;   Iterate through a vector of moveit_studio_vision_msgs/Mask2D. &lt;/p&gt;"/>
+      </MetadataFields>
+    </Decorator>
+    <Decorator ID="ForEachMask3D">
+      <output_port name="out" type="moveit_studio_vision_msgs::msg::Mask3D_&lt;std::allocator&lt;void&gt; &gt;" default="{name}">Output set to the current Mask3D at each iteration.</output_port>
+      <input_port name="vector_in" type="std::vector&lt;moveit_studio_vision_msgs::msg::Mask3D_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_studio_vision_msgs::msg::Mask3D_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{names}">Input vector of Mask3D messages.</input_port>
+      <MetadataFields>
+        <Metadata description=" &lt;p&gt;   Iterate through a vector of moveit_studio_vision_msgs/Mask3D. &lt;/p&gt;"/>
+      </MetadataFields>
+    </Decorator>
+    <Decorator ID="ForEachObjectSubframe">
+      <output_port name="out" type="moveit_studio_vision_msgs::msg::ObjectSubframe_&lt;std::allocator&lt;void&gt; &gt;" default="{object}">Output set to the current ObjectSubframe at each iteration.</output_port>
+      <input_port name="vector_in" type="std::vector&lt;moveit_studio_vision_msgs::msg::ObjectSubframe_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_studio_vision_msgs::msg::ObjectSubframe_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{objects}">Input vector of ObjectSubframes.</input_port>
+      <MetadataFields>
+        <Metadata description=" &lt;p&gt;   Iterate through a vector of moveit_studio_vision_msgs/ObjectSubframe. &lt;/p&gt;"/>
+      </MetadataFields>
+    </Decorator>
+    <Decorator ID="ForEachPoseStamped">
+      <output_port name="out" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{pose}">Output set to the current PoseStamped at each iteration.</output_port>
+      <input_port name="vector_in" type="std::vector&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{poses}">Input vector of PoseStamped messages.</input_port>
+      <MetadataFields>
+        <Metadata description=" &lt;p&gt;   Iterate through a vector of geometry_msgs/PoseStamped. &lt;/p&gt;"/>
+      </MetadataFields>
+    </Decorator>
+    <Decorator ID="ForEachString">
+      <output_port name="out" type="std::string" default="{name}">Output set to the current string at each iteration.</output_port>
+      <input_port name="vector_in" type="std::vector&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::allocator&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; &gt; &gt;" default="{names}">Input vector of strings, or a semicolon-separated list of strings.</input_port>
+      <MetadataFields>
+        <Metadata description=" &lt;p&gt;   Iterate through a vector of std::string. &lt;/p&gt;"/>
+      </MetadataFields>
+    </Decorator>
+    <Action ID="ForceExceedsThreshold">
+      <input_port name="minimum_consecutive_wrench_values" type="unsigned long" default="20">The minimum number of consecutive wrench measurements as a std::size_t which must exceed the force threshold before this Behavior will transition from RUNNING to SUCCESS.</input_port>
+      <input_port name="wrench_frame_name" type="std::string" default="tool0">A string defining a frame ID. This is the expected parent frame of the wrench measurements.</input_port>
+      <input_port name="hand_frame_name" type="std::string" default="grasp_link">A string defining a frame ID. The wrench measurements will be transformed into this frame before comparing them to the threshold.</input_port>
+      <input_port name="force_threshold" type="double" default="30.000000">A double representing the force threshold in newtons.</input_port>
+      <input_port name="wrench_topic_name" type="std::string" default="/force_torque_sensor_broadcaster/wrench">The name of a topic advertised by a geometry_msgs::msg::WrenchStamped publisher.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Motion Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Monitors a wrench topic and returns SUCCESS when ticked if the magnitude of the force components has exceeded a specified threshold for some number of consecutive observations.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Decorator ID="ForceFailure">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;If the child returns RUNNING, this node returns RUNNING too.&lt;/p&gt;                     &lt;p&gt;Otherwise, it returns always FAILURE.&lt;/p&gt;                 "/>
+      </MetadataFields>
+    </Decorator>
+    <Decorator ID="ForceSuccess">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;If the child returns RUNNING, this node returns RUNNING too.&lt;/p&gt;                     &lt;p&gt;Otherwise, it returns always SUCCESS.&lt;/p&gt;                 "/>
+      </MetadataFields>
+    </Decorator>
+    <Action ID="GenerateObjectsInBox">
+      <input_port name="generate_side_faces" type="bool" default="false">Optionally, generate side faces for all GraspableObjects.</input_port>
+      <input_port name="generate_top_face" type="bool" default="false">Optionally, generate top faces for all GraspableObjects.</input_port>
+      <output_port name="objects" type="std::vector&lt;moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{objects}">The generated objects provided as vector of GraspableObject messages.</output_port>
+      <input_port name="generate_front_face" type="bool" default="false">Optionally, generate front faces for all GraspableObjects.</input_port>
+      <input_port name="object_id" type="std::string" default="object">An optional prefix string used for all object IDs.</input_port>
+      <input_port name="object_count" type="unsigned long" default="{object_count}">The number of objects attempted to be generated per tick.</input_port>
+      <input_port name="object_dimensions" type="std::vector&lt;double, std::allocator&lt;double&gt; &gt;" default="{object_dimensions}">The x/y/z dimensions of the object in meters provided as double vector.</input_port>
+      <input_port name="box_dimensions" type="std::vector&lt;double, std::allocator&lt;double&gt; &gt;" default="{box_dimensions}">The x/y/z dimensions of the box in meters provided as double vector.</input_port>
+      <input_port name="box_centroid_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{box_centroid_pose}">The stamped centroid pose of the bounding box.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Randomly positions cuboid graspable objects inside a bounding box for mocking perception.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetCameraInfo">
+      <output_port name="message_out" type="sensor_msgs::msg::CameraInfo_&lt;std::allocator&lt;void&gt; &gt;" default="{camera_info}">Captured camera information in sensor_msgs::msg::CameraInfo format.</output_port>
+      <input_port name="timeout_sec" type="double" default="5.000000">Maximum duration in seconds to wait for camera information to be published before failing.</input_port>
+      <input_port name="topic_name" type="std::string" default="/wrist_mounted_camera/color/camera_info">Camera information topic the behavior subscribes to.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;Wait for a &lt;code&gt;sensor_msgs::msg::CameraInfo&lt;/code&gt; message to be published on a specified ROS topic for 5 seconds and copy it to an output data port.&lt;/p&gt;                 &lt;p&gt;Given the name of a topic where &lt;code&gt;sensor_msgs::msg::CameraInfo&lt;/code&gt; messages are being published, this Behavior subscribes to that topic and waits until a new message is published to the topic.&lt;/p&gt;                 &lt;p&gt;When the Behavior's subscriber receives a new message, this Behavior copies it to an output data port and then finishes with a SUCCESS status.&lt;/p&gt;                 &lt;p&gt;Afterwards, other Behaviors which take &lt;code&gt;sensor_msgs::msg::Image&lt;/code&gt; messages as inputs can use this message for further processing or analysis.&lt;/p&gt;                 &lt;p&gt;If any of the following failure states occur, this Behavior will exit with a FAILURE status code:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;No publisher is found on the topic.&lt;/li&gt;                     &lt;li&gt;Creating a subscription on the topic does not succeed.&lt;/li&gt;                     &lt;li&gt;A publisher was found on the topic, but no message is published on the topic before a 5-second timeout duration has passed.&lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;This Behavior is derived from the GetMessageFromTopic class defined in the &lt;code&gt;moveit_studio_behavior_interface&lt;/code&gt; package.&lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetClosestObjectToPose">
+      <output_port name="closest_object" type="moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;" default="{object}">The object that is closest to the pose.</output_port>
+      <input_port name="distance_threshold" type="double" default="0.100000">Search for objects within this distance in meters relative to the pose.</input_port>
+      <input_port name="pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{pose}">The geometry_msgs/PoseStamped used as the point of reference.</input_port>
+      <input_port name="objects" type="std::vector&lt;moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{objects}">Vector of moveit_msgs/CollisionObjects.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Given a collection of CollisionObjects, find the one closest to the provided pose.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetCurrentPlanningScene">
+      <output_port name="planning_scene_msg" type="moveit_msgs::msg::PlanningScene_&lt;std::allocator&lt;void&gt; &gt;" default="{planning_scene}">Planning scene message.</output_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Get the current planning scene.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetDetectionPose">
+      <output_port name="detection_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{detection_pose}">Stamped pose of the first detection that matches the target ID and/or label.</output_port>
+      <input_port name="target_label" type="std::string" default="">Target label (empty denotes any label).</input_port>
+      <input_port name="target_id" type="int" default="-1">Target detection ID (-1 denotes any ID).</input_port>
+      <input_port name="detections" type="moveit_studio_vision_msgs::msg::ObjectDetectionArray_&lt;std::allocator&lt;void&gt; &gt;" default="{detections}">Input message containing a list of AprilTag detections.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Gets the stamped pose of an object detection given a label or ID, if one exists.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetDoorHandle">
+      <output_port name="target_handle_z_offset" type="double" default="{handle_z_offset}">The door handle height.</output_port>
+      <output_port name="target_handle_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{handle_pose}">Pose of the door handle.</output_port>
+      <input_port name="handle_poses" type="std::vector&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{handle_poses}">Poses of the door handle pivot and tip points.</input_port>
+      <input_port name="point_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud}">Point cloud used as input for finding the door handle.</input_port>
+      <input_port name="target_output_frame_id" type="std::string" default="world">The desired frame ID of the output handle pose message.</input_port>
+      <output_port name="target_handle_length" type="double" default="{handle_length}">Length of the door handle in meters.</output_port>
+      <input_port name="minimum_door_handle_depth" type="double" default="0.030000">The minimum depth (in meters) that a door handle must be sticking out from the door surface.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Calculates the pose, length, and width of a door handle. By convention, the z-axis of &quot;target_handle_pose&quot; is aligned with the handle's axis of rotation, and the x-axis points along the handle toward the door hinge.                 &lt;/p&gt;                 &lt;p&gt;                     By convention, the z-axis of target_handle_pose is aligned with the handle's axis of rotation, and the x-axis points along the handle toward the door hinge.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetGraspAndTwistSubframes">
+      <output_port name="grasp_and_twist_subframes" type="std::vector&lt;moveit_studio_vision_msgs::msg::ObjectSubframe_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_studio_vision_msgs::msg::ObjectSubframe_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{grasp_and_twist_subframes}">Subframes containing a handle grasp pose, and a subframe each for the screw motion origin and axis.</output_port>
+      <input_port name="grasp_rotation_z_radians" type="double" default="1.570800">Rotation to apply to the target grasp pose around its z-axis.</input_port>
+      <input_port name="target_grasp_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{process_selection.grasp_pose}">Drawer handle grasp pose.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="                 &lt;p&gt;                     Given an input PoseStamped representing a grasp pose selected on an object, output three Subframes that define a screw motion to twist the grasp pose like a handle.                 &lt;/p&gt;                 &lt;p&gt;                     Assumes that the z-axis of the grasp pose matches the normal vector of the front face of the grasp point.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetGraspableObjectsFromMasks3D">
+      <output_port name="graspable_objects" type="std::vector&lt;moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{graspable_objects}">Vector of graspable objects, represented as moveit_studio_vision_msgs/GraspableObject messages.</output_port>
+      <input_port name="plane_inlier_threshold" type="double" default="0.010000">Sets the distance threshold in meters used when calculating which points are part of a plane. Higher values tolerate noisy data but result in less precise plane fitting.</input_port>
+      <input_port name="base_frame" type="std::string" default="world">Calculate poses of graspable objects relative to this frame.</input_port>
+      <input_port name="minimum_face_area" type="double" default="0.000625">Sets the minimum area in meters^2 for a face to be considered graspable, which depends on the type of the gripper used by the robot. For vacuum grippers, set this to match the area of the gripper's suction cup.</input_port>
+      <input_port name="masks3d" type="std::vector&lt;moveit_studio_vision_msgs::msg::Mask3D_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_studio_vision_msgs::msg::Mask3D_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{masks3d}">3D masks selecting subsets of points.</input_port>
+      <input_port name="face_separation_threshold" type="double" default="0.010000">Sets how far apart in meters two coplanar point clusters must be at the least to be split into two planes.</input_port>
+      <input_port name="point_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud}">Input point cloud.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Outputs a graspable object for each point cloud fragment represented by a 3D mask.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetImage">
+      <output_port name="message_out" type="sensor_msgs::msg::Image_&lt;std::allocator&lt;void&gt; &gt;" default="{image}">Will contain the output &lt;code&gt;sensor_msgs::msg::Image&lt;/code&gt; message after this Behavior has finished successfully.</output_port>
+      <input_port name="timeout_sec" type="double" default="5.000000">Maximum duration in seconds to wait for image message to be published before failing.</input_port>
+      <input_port name="topic_name" type="std::string" default="/wrist_mounted_camera/color/image_raw">Image topic the behavior subscribes to.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;Wait for an image message to be published on a specified ROS topic and copy it to an output data port.&lt;/p&gt;                 &lt;p&gt;Given the name of a topic where &lt;code&gt;sensor_msgs::msg::Image&lt;/code&gt; messages are being published, this Behavior subscribes to that topic and waits until a new message is published to the topic.&lt;/p&gt;                 &lt;p&gt;When the Behavior's subscriber receives a new message, this Behavior copies it to an output data port and then finishes with a SUCCESS status.&lt;/p&gt;                 &lt;p&gt;Afterwards, other Behaviors which take &lt;code&gt;sensor_msgs::msg::Image&lt;/code&gt; messages as inputs can use this message for further processing or analysis.&lt;/p&gt;                 &lt;p&gt;If any of the following failure states occur, this Behavior will exit with a FAILURE status code:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;No publisher is found on the topic.&lt;/li&gt;                     &lt;li&gt;Creating a subscription on the topic does not succeed.&lt;/li&gt;                     &lt;li&gt;A publisher was found on the topic, but no message is published on the topic before a 5-second timeout duration has passed.&lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;This Behavior is derived from the GetMessageFromTopic class defined in the &lt;code&gt;moveit_studio_behavior_interface&lt;/code&gt; package.&lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetIntFromUser">
+      <output_port name="parameter_value" type="int">Parameter value written to blackboard</output_port>
+      <input_port name="parameter_name" type="std::string" default="">Parameter name</input_port>
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="                 &lt;p&gt;                     &lt;b&gt;Warning: This Behavior is not intended for use in custom objectives! Currently for internal MoveIt Pro use only.&lt;/b&gt;                 &lt;/p&gt;                 &lt;p&gt;Get the value of an &lt;code&gt;int&lt;/code&gt; parameter stored in the map in the Objective Server node and make it available on the output port.&lt;/p&gt;                 &lt;p&gt;The map contains parameter overrides which are specified when creating the DoObjectiveSequence goal. Given the parameter name of an &lt;code&gt;int&lt;/code&gt; parameter, send a service request to the Objective Server to retrieve user input value for the corresponding parameter.&lt;/p&gt;                 &lt;p&gt;If this Behavior is able to retrieve the &lt;code&gt;int&lt;/code&gt; parameter, this Behavior exits with a SUCCESS status code.&lt;/p&gt;                 &lt;p&gt;If any of the following failure states occur, this Behavior will exit with a FAILURE status code:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;The Behavior failed to get the parameter name from the input data port.&lt;/li&gt;                     &lt;li&gt;The requested parameter names is not found.&lt;/li&gt;                     &lt;li&gt;The value for the retrieved parameter is not an &lt;code&gt;int&lt;/code&gt;.&lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;This Behavior is derived from the GetParameterFromUser class.&lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetLatestTransform">
+      <input_port name="source_frame_id" type="std::string" default="{source_frame_id}">The source frame name.</input_port>
+      <output_port name="transform" type="geometry_msgs::msg::TransformStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{transform}">Latest transform between the target and source frames.</output_port>
+      <input_port name="target_frame_id" type="std::string" default="{target_frame_id}">The target frame name.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Motion Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Gets the latest transform from the robot model root to a frame specified as an input parameter to this behavior.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetMasks2DAction">
+      <output_port name="masks2d" type="std::vector&lt;moveit_studio_vision_msgs::msg::Mask2D_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_studio_vision_msgs::msg::Mask2D_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{masks2d}">Will contain the output vector of Mask2D messages after this Behavior has finished successfully.</output_port>
+      <input_port name="timeout_sec" type="double" default="-1.000000">Timeout to get a result in seconds. A value of -1 means no timeout.</input_port>
+      <input_port name="min_relative_area" type="double" default="0.000000">Minimum area (inclusive) of the bounding box of a mask, relative to the image area, to be returned. Between 0 (no mask) and 1 (image area).</input_port>
+      <input_port name="max_nms_iou" type="double" default="0.800000">Maximum Intersection Over Union (IOU) of a mask with any other mask to be considered a separate object. Between 0 (no overlap) and 1 (full overlap).</input_port>
+      <input_port name="min_confidence" type="double" default="0.800000">Minimum predicted confidence of a mask to be returned. Between 0 (no confidence) and 1 (full confidence).</input_port>
+      <input_port name="valid_classes" type="std::vector&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::allocator&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; &gt; &gt;" default="">Only masks for objects of these classes are returned. If empty, all masks are returned regardless of class.</input_port>
+      <input_port name="max_relative_area" type="double" default="1.000000">Maximum area (inclusive) of the bounding box of a mask, relative to the image area, to be returned. Between 0 (no mask) and 1 (image area).</input_port>
+      <input_port name="action_name" type="std::string" default="{masks2d_action_name}">The name of the action to process the image.</input_port>
+      <input_port name="image" type="sensor_msgs::msg::Image_&lt;std::allocator&lt;void&gt; &gt;" default="{image}">Image to process in sensor_msgs::msg::Image format.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;Create image masks corresponding to labeled regions in a 2D image by sending a request to an action server.&lt;/p&gt;                 &lt;p&gt;Given an action server advertising an action with type &lt;code&gt;moveit_studio_vision_msgs::action::GetMasks2D&lt;/code&gt;, a &lt;code&gt;sensor_msgs::msg::Image&lt;/code&gt; message, and several functional settings supplied through input data ports, this Behavior composes a &lt;code&gt;GetMasks2D::Request&lt;/code&gt; message using the image message and the settings. It sends the action request to the server and waits for the server to return the action result.&lt;/p&gt;                 &lt;p&gt;If the server completes the action successfully, this Behavior copies the vector of &lt;code&gt;moveit_studio_vision_msgs::msg::Mask2D&lt;/code&gt; messages from the action result into an output data port, and then succeeds.&lt;/p&gt;                 &lt;p&gt;Other Behaviors that have an input port that is a vector of &lt;code&gt;moveit_studio_vision_msgs::msg::Mask2D&lt;/code&gt; messages can use the masks created by this Behavior as an input. Examples include:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;FindMaskedObjects&lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;If any of the following failure states occur, this Behavior will exit with a FAILURE status code:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;No action server is available with the specified name.&lt;/li&gt;                     &lt;li&gt;The Behavior's action client fails to send the action goal to the action server.&lt;/li&gt;                     &lt;li&gt;The action server does not return an action result before the specified timeout duration has elapsed.&lt;/li&gt;                     &lt;li&gt;The action result is received, but its contents indicate that the action server failed to perform the image mask segmentation process.&lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;This Behavior is derived from the ActionClientBehaviorBase class defined in the &lt;code&gt;moveit_studio_behavior_interface&lt;/code&gt; package.&lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetMasks3DFromMasks2D">
+      <output_port name="masks3d" type="std::vector&lt;moveit_studio_vision_msgs::msg::Mask3D_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_studio_vision_msgs::msg::Mask3D_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{masks3d}">Point cloud masks, represented as moveit_studio_vision_msgs/Mask3D messages.</output_port>
+      <input_port name="camera_info" type="sensor_msgs::msg::CameraInfo_&lt;std::allocator&lt;void&gt; &gt;" default="{camera_info}">Information of the camera used to capture the image of the scene where the 2D masks were segmented.</input_port>
+      <input_port name="masks2d" type="std::vector&lt;moveit_studio_vision_msgs::msg::Mask2D_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_studio_vision_msgs::msg::Mask2D_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{masks2d}">2D masks from an image of the scene.</input_port>
+      <input_port name="point_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud}">Scene point cloud.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Given a point cloud of a scene and 2D masks from an image of the scene, output a point cloud mask for each image mask.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetMeshNormalPoses">
+      <input_port name="discretization_step_size" type="double" default="0.050000">The step size, in meters, for discretizing the mesh. Must be a positive or zero value.</input_port>
+      <output_port name="mesh_normal_poses" type="std::vector&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{mesh_normal_poses}">A vector of &lt;code&gt;geometry_msgs::msg::PoseStamped&lt;/code&gt; representing the output normal poses for reachability analysis.</output_port>
+      <input_port name="link_name" type="std::string">The name of the link in the robot model from which to extract normal poses.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Reachability"/>
+        <Metadata description="                 &lt;p&gt;Given the name of a link in the robot model that has a visual mesh, calculate the surface normals of the mesh and set them to an output data port.&lt;/p&gt;                 &lt;p&gt;The base frame of each mesh normal pose will be the origin frame of the robot link.&lt;/p&gt;                 &lt;p&gt;If calculation of mesh normals succeeds, this Behavior sets the normals to an output data port as a vector of &lt;code&gt;geometry_msgs::msg::PoseStamped&lt;/code&gt; ROS messages and finally exits with a SUCCESS status code.&lt;/p&gt;                 &lt;p&gt;If any of the following failure states occur, this Behavior will exit with a FAILURE status code:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;The provided link name does not correspond to a link in the robot model.&lt;/li&gt;                     &lt;li&gt;The robot model link does not have a visual mesh resource file.&lt;/li&gt;                     &lt;li&gt;The discretization step size is negative.&lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;This Behavior is derived from the AsyncBehaviorBase class defined in the &lt;code&gt;moveit_studio_behavior_interface&lt;/code&gt; package.&lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetMoveAlongArcSubframes">
+      <output_port name="move_along_arc_subframes" type="std::vector&lt;moveit_studio_vision_msgs::msg::ObjectSubframe_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_studio_vision_msgs::msg::ObjectSubframe_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{move_along_arc_subframes}">Subframes representing the ordered screw (hinge) origin and axis, along with a grasp subframe.</output_port>
+      <input_port name="hinge_axis_poses" type="std::vector&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{hinge_axis_poses}">Poses marking the start and end of the hinge axis.</input_port>
+      <input_port name="target_grasp_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{target_grasp_pose}">Pose representing the grasp point.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="                 &lt;p&gt;                     Given a PoseStamped for a grasp pose, and 2 PoseStampeds for the axis of the arc, calculates the subframes needed for a MoveAlongArc where the arc radius is the distance between the grasp point and the arc (hinge) axis.                 &lt;/p&gt;                 &lt;p&gt;                     Assumes that the z-axis of the two poses on the hinge axis are oriented facing into the surface of the object.                 &lt;/p&gt;                 &lt;p&gt;                     The direction of the door relative to the surface normal is determined by calculating the vector cross product of the vector from the hinge origin pose to the grasp pose and the vector from the hinge origin pose to the hinge axis pose, and then calculating the dot product of the resulting vector and the z-axis of the hinge origin pose. If the dot product is positive, the hinge origin and hinge axis poses are correctly ordered. If the dot product is negative, the hinge origin and hinge axis poses need to be reversed for positive door rotation to open the door towards the viewpoint.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetPointCloud">
+      <output_port name="message_out" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud}">Will contain the output sensor_msgs::msg::PointCloud2 message after this Behavior has finished successfully.</output_port>
+      <input_port name="timeout_sec" type="double" default="5.000000">Maximum duration in seconds to wait for point cloud to be published before failing.</input_port>
+      <input_port name="topic_name" type="std::string" default="/wrist_mounted_camera/depth/color/points">The name of the topic which this Behavior will subscribe to and monitor for sensor_msgs::msg::PointCloud2 messages.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;Wait for a point cloud message to be published on a specified ROS topic and copy it to an output data port.&lt;/p&gt;                 &lt;p&gt;Given the name of a topic where &lt;code&gt;sensor_msgs::msg::PointCloud2&lt;/code&gt; messages are being published, this Behavior subscribes to that topic and waits until a new point cloud message is published to the topic.&lt;/p&gt;                 &lt;p&gt;When the Behavior's subscriber receives a new point cloud message, this Behavior copies it to an output data port and then finishes with a SUCCESS status.&lt;/p&gt;                 &lt;p&gt;Afterwards, other Behaviors which take &lt;code&gt;sensor_msgs::msg::PointCloud2&lt;/code&gt; messages as inputs can use this point cloud for further processing or analysis.&lt;/p&gt;                 &lt;p&gt;If any of the following failure states occur, this Behavior will exit with a FAILURE status code:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;No publisher is found on the topic.&lt;/li&gt;                     &lt;li&gt;Creating a subscription on the topic does not succeed.&lt;/li&gt;                     &lt;li&gt;A publisher was found on the topic, but no message is published on the topic before a 5-second timeout duration has passed.&lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;This Behavior is derived from the GetMessageFromTopic class defined in the &lt;code&gt;moveit_studio_behavior_interface&lt;/code&gt; package.&lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetPointCloudFromMask3D">
+      <output_port name="point_cloud_fragment" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud_fragment}">Point cloud fragment with only the points selected by the mask.</output_port>
+      <input_port name="mask3d" type="moveit_studio_vision_msgs::msg::Mask3D_&lt;std::allocator&lt;void&gt; &gt;" default="{mask3d}">3D mask selecting which points to copy from the point cloud to the output.</input_port>
+      <input_port name="point_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud}">Input point cloud.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Returns a point cloud with the points selected by a 3D mask.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetPointsFromUser">
+      <output_port name="pixel_coords" type="std::vector&lt;geometry_msgs::msg::PointStamped_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;geometry_msgs::msg::PointStamped_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{pixel_coords}">The returned points, as a vector of &lt;code&gt;geometry_msgs/PointStamped&lt;/code&gt; messages.</output_port>
+      <input_port name="point_prompts" type="std::vector&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::allocator&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; &gt; &gt;" default="">The prompts to display for each point. Can either be a vector the same size as the point names, or a 1-element vector with a prompt to be displayed for all points.</input_port>
+      <input_port name="point_names" type="std::vector&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::allocator&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; &gt; &gt;" default="">The names of the points to request.</input_port>
+      <input_port name="view_name" type="std::string" default="/wrist_mounted_camera/color/image_raw">Name of the UI view to switch to.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="                 &lt;p&gt;                     Requests a set of named points from the user by switching the view and displaying a sequence of prompts in the UI.                 &lt;/p&gt;                 &lt;p&gt;                     The list of point prompts can either contain a single element, meaning the same prompt is displayed for each requested point, or it can be the same size as the list of point names, meaning a different prompt is displayed for each point.                 &lt;/p&gt;                 &lt;p&gt;                     The output is a list of stamped points, whose X and Y coordinates are normalized pixel coordinates in the range [0..1].                 &lt;/p&gt;                 &lt;p&gt;                     The requested name of each point is contained in the frame ID of its header.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetPoseFromPixelCoords">
+      <output_port name="output_poses" type="std::vector&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{output_poses}">The output stamped poses, as a vector of &lt;code&gt;geometry_msgs/PoseStamped&lt;/code&gt; messages.</output_port>
+      <input_port name="neighbor_radius" type="double" default="0.100000">The radius, in meters, used to measure planarity around the target point cloud.</input_port>
+      <input_port name="pixel_coords" type="std::vector&lt;geometry_msgs::msg::PointStamped_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;geometry_msgs::msg::PointStamped_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{pixel_coords}">A vector of the pixel XY coordinates of the target point, normalized in the range [0..1] based on the image height and width, as a vector of &lt;code&gt;geometry_msgs/PointStamped&lt;/code&gt; messages.</input_port>
+      <input_port name="downsample_fraction" type="double" default="0.100000">The fraction of points, in the range [0..1], used to downsample the input point cloud.</input_port>
+      <input_port name="point_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud}">The input ordered point cloud.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Given an ordered point cloud and a vector of normalized pixel XY coordinates, outputs a vector of stamped poses corresponding to points normal to the selected coordinates.                 &lt;/p&gt;                 &lt;/p&gt;                 &lt;p&gt;                     This assumes that the pixel XY coordinates are normalized, i.e., have values in the range [0..1] relative to the image's height and width.                 &lt;/p&gt;                 &lt;p&gt;                     Additionally, the output poses always align the Z axis with the normal of the plane by using the smallest eigenvalue of a planar patch with radius `neighbor_radius` around each selected point.                 &lt;/p&gt;                 &lt;p&gt;                     These Z axes point towards the origin of the point cloud frame.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetPoseFromUser">
+      <output_port name="parameter_value" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;">Parameter value written to blackboard</output_port>
+      <input_port name="parameter_name" type="std::string">Parameter name</input_port>
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="                 &lt;p&gt;                     &lt;b&gt;Warning: This Behavior is not intended for use in custom objectives! Currently for internal MoveIt Pro use only.&lt;/b&gt;                 &lt;/p&gt;                 &lt;p&gt;Get the value of an &lt;code&gt;geometry_msgs::msg::PoseStamped&lt;/code&gt; parameter stored in the map in the Objective Server node and make it available on the output port.&lt;/p&gt;                 &lt;p&gt;The map contains parameter overrides which are specified when creating the DoObjectiveSequence goal. Given the parameter name of an &lt;code&gt;geometry_msgs::msg::PoseStamped&lt;/code&gt; parameter, send a service request to the Objective Server to retrieve user input value for the corresponding parameter.&lt;/p&gt;                 &lt;p&gt;If this Behavior is able to retrieve the &lt;code&gt;geometry_msgs::msg::PoseStamped&lt;/code&gt; parameter, this Behavior exits with a SUCCESS status code.&lt;/p&gt;                 &lt;p&gt;If any of the following failure states occur, this Behavior will exit with a FAILURE status code:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;The Behavior failed to get the parameter name from the input data port.&lt;/li&gt;                     &lt;li&gt;The requested parameter names is not found.&lt;/li&gt;                     &lt;li&gt;The value for the retrieved parameter is not a &lt;code&gt;geometry_msgs::msg::PoseStamped&lt;/code&gt;.&lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;This Behavior is derived from the GetParameterFromUser class.&lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetStringFromUser">
+      <output_port name="parameter_value" type="std::string">Parameter value written to blackboard</output_port>
+      <input_port name="parameter_name" type="std::string">Parameter name</input_port>
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="                 &lt;p&gt;                     &lt;b&gt;Warning: This Behavior is not intended for use in custom objectives! Currently for internal MoveIt Pro use only.&lt;/b&gt;                 &lt;/p&gt;                 &lt;p&gt;Get the value of an &lt;code&gt;std::string&lt;/code&gt; parameter stored in the map in the Objective Server node and make it available on the output port.&lt;/p&gt;                 &lt;p&gt;The map contains parameter overrides which are specified when creating the DoObjectiveSequence goal. Given the parameter name of an &lt;code&gt;std::string&lt;/code&gt; parameter, send a service request to the Objective Server to retrieve user input value for the corresponding parameter.&lt;/p&gt;                 &lt;p&gt;If this Behavior is able to retrieve the &lt;code&gt;std::string&lt;/code&gt; parameter, this Behavior exits with a SUCCESS status code.&lt;/p&gt;                 &lt;p&gt;If any of the following failure states occur, this Behavior will exit with a FAILURE status code:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;The Behavior failed to get the parameter name from the input data port.&lt;/li&gt;                     &lt;li&gt;The requested parameter names is not found.&lt;/li&gt;                     &lt;li&gt;The value for the retrieved parameter is not a &lt;code&gt;std::string&lt;/code&gt;.&lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;This Behavior is derived from the GetParameterFromUser class.&lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="GetSynchronizedCameraTopics">
+      <output_port name="rgb_camera_info" type="sensor_msgs::msg::CameraInfo_&lt;std::allocator&lt;void&gt; &gt;" default="{rgb_camera_info}">RGB camera information time-synchronized with all other outputs, as a sensor_msgs::msg::CameraInfo message.</output_port>
+      <output_port name="rgb_image" type="sensor_msgs::msg::Image_&lt;std::allocator&lt;void&gt; &gt;" default="{rgb_image}">RGB image time-synchronized with all other outputs, as a sensor_msgs::msg::Image message.</output_port>
+      <output_port name="point_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud}">Point cloud time-synchronized with all other outputs, as a sensor_msgs::msg::PointCloud2 message.</output_port>
+      <input_port name="rgb_camera_info_topic_name" type="std::string" default="/wrist_mounted_camera/color/camera_info">RGB camera info topic the behavior subscribes to.</input_port>
+      <input_port name="rgb_image_topic_name" type="std::string" default="/wrist_mounted_camera/color/image_raw">RGB image topic the behavior subscribes to.</input_port>
+      <input_port name="point_cloud_topic_name" type="std::string" default="/wrist_mounted_camera/depth/color/points">Point cloud topic the behavior subscribes to.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Time-synchronizes multiple topics from the camera system and exposes them on output ports.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Control ID="IfThenElse">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;The first child is the &quot;statement&quot; of the if.&lt;/p&gt;                     &lt;p&gt;If that return SUCCESS, then the second child is executed.&lt;/p&gt;                     &lt;p&gt;Instead, if it returned FAILURE, the third child is executed.&lt;/p&gt;                     &lt;p&gt;If you have only 2 children, this node will return FAILURE whenever the statement returns FAILURE.&lt;/p&gt;                     &lt;p&gt;This is equivalent to add AlwaysFailure as 3rd child.&lt;/p&gt;                 "/>
+      </MetadataFields>
+    </Control>
+    <Action ID="InitializeMTCTask">
+      <output_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</output_port>
+      <input_port name="controller_names" type="std::string" default="/joint_trajectory_controller /robotiq_gripper_controller">List of controller names to use for executing an MTC trajectory.</input_port>
+      <input_port name="task_id" type="std::string" default="">Task ID for MTC Task</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Creates a shared pointer to a new MTC Task object, populates it with global settings (for example, the names of controllers to enable by default when executing trajectories planned by this task), and sets it as an output data port.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="InitializeMotionConstraints">
+      <output_port name="constraints" type="std::shared_ptr&lt;moveit_msgs::msg::Constraints_&lt;std::allocator&lt;void&gt; &gt; &gt;" default="{constraints}">Shared pointer to the constraints message</output_port>
+      <input_port name="constraints_name" type="std::string" default="">The name of the constraints message</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Motion Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Creates a shared pointer to a new &lt;code&gt;moveit_msgs/Constraints&lt;/code&gt; message.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Decorator ID="Inverter">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;Tick the child once and return SUCCESS if the child failed or FAILURE if the child succeeded.&lt;/p&gt;                     &lt;p&gt;If the child returns RUNNING, this node returns RUNNING too.&lt;/p&gt;                 "/>
+      </MetadataFields>
+    </Decorator>
+    <Action ID="IsConstraintSatisfied">
+      <input_port name="parameters" type="YAML::Node" default="">Behavior parameters stored in a common configuration file for the objective.</input_port>
+      <input_port name="object" type="moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;" default="{object}">The constraint is satisfied if the camera has an unobstructed view of this object.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Check if the robot's current state satisfies a kinematic visibility constraint.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="IsUserAvailable">
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="                 &lt;p&gt;                     Checks for the presence of a user interface by checking if the &quot;/trajectory_bridge&quot; ROS node exists.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Decorator ID="KeepRunningUntilFailure">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;Tick the child until it returns FAILURE.&lt;/p&gt;                 "/>
+      </MetadataFields>
+    </Decorator>
+    <Action ID="LoadImageFromFile">
+      <output_port name="image" type="sensor_msgs::msg::Image_&lt;std::allocator&lt;void&gt; &gt;" default="{image}">Output image message.</output_port>
+      <input_port name="frame_id" type="std::string" default="camera">Frame ID to set for the loaded image.</input_port>
+      <input_port name="file_path" type="std::string">Path to the image file to load.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Loads an image from a file, converts it to a ROS sensor_msgs/Image message, and writes it to an output data port.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="LoadJointTrajectoryFromYaml">
+      <output_port name="output" type="trajectory_msgs::msg::JointTrajectory_&lt;std::allocator&lt;void&gt; &gt;" default="{joint_trajectory_msg}">JointTrajectory ROS message.</output_port>
+      <input_port name="file_path" type="std::string" default="joint_trajectory.yaml">The YAML file containing the joint trajectory data.</input_port>
+      <MetadataFields>
+        <Metadata description="&lt;p&gt;Accepts a joint trajectory YAML file name, parses the file, and outputs a JointTrajectory ROS message object created from the file contents.&lt;/p&gt;"/>
+      </MetadataFields>
+    </Action>
+    <Action ID="LoadObjectiveParameters">
+      <output_port name="parameters" type="YAML::Node" default="{parameters}">Behavior parameters stored in a common configuration file for the Objective.</output_port>
+      <input_port name="config_file_name" type="std::string" default="">Name of the objective configuration file.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Loads the configuration parameters for a given Objective. The configuration file name is given as an input port parameters to this Behavior. The parameters are loaded once per Objective execution. To reload the parameter from the file, just execute the Objective again.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="LoadPointCloudFromFile">
+      <input_port name="color" type="std::vector&lt;int, std::allocator&lt;int&gt; &gt;" default="">Optional RGB color, in the format R;G;B, for recoloring the point cloud.</input_port>
+      <input_port name="num_sampled_points" type="unsigned long" default="10000">Number of points to sample, if reading from an .stl file.</input_port>
+      <input_port name="scale" type="float" default="1.000000">Mesh scaling factor, if reading from an .stl file.</input_port>
+      <output_port name="point_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud}">Output point cloud message.</output_port>
+      <input_port name="random_seed" type="unsigned long">Optional seed to use for random number generation, if reading from an .stl file.</input_port>
+      <input_port name="frame_id" type="std::string" default="world">Frame ID to set for the loaded point cloud.</input_port>
+      <input_port name="file_path" type="std::string" default="">Path to the .PCD or .STL file to load.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Loads a point cloud from a .pcd or .stl file, converts it to a ROS &lt;code&gt;sensor_msgs/PointCloud2&lt;/code&gt; message, and writes it to an output data port.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="LoadPoseStampedFromYaml">
+      <output_port name="output" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{pose_stamped_msg}">A PoseStamped message.</output_port>
+      <input_port name="file_path" type="std::string">Path to the YAML file to load, containing a PoseStamped message.</input_port>
+      <MetadataFields>
+        <Metadata description="&lt;p&gt;Loads a PoseStamped message from a YAML file.&lt;/p&gt;"/>
+      </MetadataFields>
+    </Action>
+    <Action ID="LoadPoseStampedVectorFromYaml">
+      <output_port name="output" type="std::vector&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{pose_stamped_msgs}">A vector of PoseStamped messages.</output_port>
+      <input_port name="file_path" type="std::string">Path to the yaml file to load, containing a PoseStamped message.</input_port>
+      <MetadataFields>
+        <Metadata description="&lt;p&gt;Loads a vector of PoseStamped messages from a YAML file.&lt;/p&gt;"/>
+      </MetadataFields>
+    </Action>
+    <Action ID="LoadSubframesFromYaml">
+      <output_port name="output" type="std::vector&lt;moveit_studio_vision_msgs::msg::ObjectSubframe_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_studio_vision_msgs::msg::ObjectSubframe_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{subframes}">A vector of ObjectSubframe messages.</output_port>
+      <input_port name="file_path" type="std::string">Path to the YAML subframe file to load.</input_port>
+      <MetadataFields>
+        <Metadata description="&lt;p&gt;Loads a vector of Subframes from a file, converts it and their names in the file to a vector of ROS moveit_studio_vision_msgs/ObjectSubframe messages, and writes that to an output data port.&lt;/p&gt;"/>
+      </MetadataFields>
+    </Action>
+    <Action ID="LogMessage">
+      <input_port name="log_level" type="std::string" default="info">Can use standard ROS 2 log levels (info, warn, warning, and error). Input is case insensitive.</input_port>
+      <input_port name="message" type="std::string" default="{message}">Message string to log. Will display on UI.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="                 &lt;p&gt;                     Log a message to the UI.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="MergePointClouds">
+      <output_port name="merged_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{merged_cloud}">A sensor_msgs::msg::PointCloud2 with the merged point clouds.</output_port>
+      <input_port name="grid_resolution_meters" type="double" default="0.010000">A double-precision floating-point number with the side length in meters of each voxel in the grid.</input_port>
+      <input_port name="point_clouds" type="std::vector&lt;sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{point_clouds}">Point clouds to merge as a vector of sensor_msgs::msg::PointCloud2 messages.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;Merges a number of input point clouds into a single one.&lt;/p&gt;                 &lt;p&gt;All point clouds must be expressed in the same reference frame.&lt;/p&gt;                 &lt;p&gt;The input point clouds are projected onto a voxel grid with the given resolution. Each voxel produces a point in the output cloud that is the average of all input points projected on that voxel.&lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="ModifyObjectInPlanningScene">
+      <input_port name="object" type="moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;" default="{object}">The object to add to the planning scene, represented as a moveit_msgs/CollisionObject.</input_port>
+      <input_port name="apply_planning_scene_service" type="std::string" default="/apply_planning_scene">Name of the service advertised by the MoveIt2 ApplyPlanningScene MoveGroup capability.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Add a collision object to the planning scene.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="MoveGripperAction">
+      <input_port name="position" type="double" default="0.792900">Gripper joint target position.</input_port>
+      <input_port name="gripper_command_action_name" type="std::string" default="/robotiq_gripper_controller/gripper_cmd">The name of the GripperCommand ROS action that actuates the gripper.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Grasping"/>
+        <Metadata description="                 &lt;p&gt;Calls a &lt;code&gt;control_msgs::action::GripperCommand&lt;/code&gt; action server that actuates the gripper to a target position using a position controller.&lt;/p&gt;                 &lt;p&gt;The gripper controller uses the target velocity and effort values specified in the URDF.&lt;/p&gt;                 &lt;p&gt;If the gripper is blocked by an obstacle or makes a successful grasp before reaching the target position, the Behavior will end successfully, but the gripper will continue to apply force indefinitely.&lt;/p&gt;                 &lt;p&gt;This Behavior will fail to execute if the GripperCommand action server is not running.&lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Control ID="Parallel">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;The ParallelNode executes all its children concurrently, but not in separate threads!&lt;/p&gt;                     &lt;p&gt;Even if this may look similar to ReactiveSequence, this Control Node is the only one that can have multiple children RUNNING at the same time.&lt;/p&gt;                     &lt;p&gt;The Node is completed either when the THRESHOLD_SUCCESS or THRESHOLD_FAILURE number is reached (both configured using ports).&lt;/p&gt;                     &lt;p&gt; If any of the thresholds are reached, and other children are still running, they will be halted.&lt;/p&gt;                 "/>
+      </MetadataFields>
+      <input_port name="success_count" default="">Number of children which need to succeed to trigger a SUCCESS.</input_port>
+      <input_port name="failure_count" default="">Number of children which need to fail to trigger a FAILURE.</input_port>
+    </Control>
+    <Action ID="PlanCartesianPath">
+      <input_port name="trajectory_sampling_rate" type="double" default="100.000000">Sampling rate in Hz of the output trajectory.</input_port>
+      <input_port name="acceleration_scale_factor" type="double" default="1.000000">Fraction of maximum robot acceleration to use.</input_port>
+      <output_port name="debug_solution" type="moveit_task_constructor_msgs::msg::Solution_&lt;std::allocator&lt;void&gt; &gt;" default="{debug_solution}">An MTCSolution message with the feasible part of the trajectory.</output_port>
+      <input_port name="velocity_scale_factor" type="double" default="1.000000">Fraction of maximum robot velocity to use.</input_port>
+      <input_port name="blending_radius" type="double" default="0.020000">Blending radius to apply at the intermediate path waypoints.</input_port>
+      <input_port name="position_only" type="bool" default="true">If true, constrain only 3D position and not orientation.</input_port>
+      <input_port name="tip_offset" type="std::vector&lt;double, std::allocator&lt;double&gt; &gt;" default="">Offset to apply to the tip_link frame.</input_port>
+      <output_port name="joint_trajectory_msg" type="trajectory_msgs::msg::JointTrajectory_&lt;std::allocator&lt;void&gt; &gt;" default="{joint_trajectory_msg}">The planned joint-space trajectory, maybe partial if the entire path is not feasible.</output_port>
+      <input_port name="tip_link" type="std::string" default="grasp_link">Name of the frame to be moved along the path.</input_port>
+      <input_port name="planning_group_name" type="std::string" default="manipulator">Name of the MoveIt planning group.</input_port>
+      <input_port name="path" type="std::vector&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{pose_stamped_vector}">Sequence of Cartesian poses.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Motion Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Given a Cartesian-space path, plan a joint-space trajectory to move the robot tip along the path.                 &lt;/p&gt;                 &lt;p&gt;                     The path to follow is given by &lt;code&gt;path&lt;/code&gt;, which can contain waypoints in different frames.                     The &lt;code&gt;CreateStampedPose&lt;/code&gt; and &lt;code&gt;AddPoseStampedToVector&lt;/code&gt; Behaviors can be used to create the Cartesian path.                     The kinematics are solved for the given &lt;code&gt;tip_link&lt;/code&gt; of the given planning group (&lt;code&gt;planning_group_name&lt;/code&gt;).                 &lt;/p&gt;                 &lt;p&gt;                     The output &lt;code&gt;joint_trajectory_msg&lt;/code&gt; is a timed joint-space trajectory that can be collision-checked with the &lt;code&gt;ValidateTrajectory&lt;/code&gt; Behavior, and executed with &lt;code&gt;ExecuteFollowJointTrajectory&lt;/code&gt;.                 &lt;/p&gt;                 &lt;p&gt;                     The Behavior succeeds if the entire path could be resolved, or fails otherwise.                     In any case, &lt;code&gt;joint_trajectory_msg&lt;/code&gt; is filled in with the portion of the path that could be solved.                     The &lt;code&gt;debug_solution&lt;/code&gt; output port will contain an MTCSolution message that can be used with the &lt;code&gt;WaitForUserTrajectoryApproval&lt;/code&gt; behavior for visualization.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="PlanMTCTask">
+      <output_port name="solution" type="moveit_task_constructor_msgs::msg::Solution_&lt;std::allocator&lt;void&gt; &gt;" default="{mtc_solution}">The output MoveIt Task Constructor Solution will be set to this port after planning succeeds.</output_port>
+      <input_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">Input MoveIt Task Constructor task.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;Solve a MoveIt Task Constructor (MTC) Task to create a Solution.&lt;/p&gt;                 &lt;p&gt;Given an input &lt;code&gt;std::shared_ptr&amp;lt;moveit::task_constructor::Task&amp;gt;&lt;/code&gt; which was created by the InitializeMTCTask Behavior and populated with MTC Stages by other Behaviors, attempt to find a solution that connects all the Stages in the Task into a single continuous and collision-free robot trajectory.&lt;/p&gt;                 &lt;p&gt;If a Solution is found, this Behavior sets it to the output data port and then performs a service request to store the Solution in the Solution Manager Node, which allows the user to explore the Solution in detail.&lt;/p&gt;                 &lt;p&gt;If these processes all succeed without any errors, this Behavior exits with a SUCCESS status code.&lt;/p&gt;                 &lt;p&gt;If any of the following failure states occur, this Behavior will exit with a FAILURE status code:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;No Task was set to the input port.&lt;/li&gt;                     &lt;li&gt;The input Task does not contain any Stages.&lt;/li&gt;                     &lt;li&gt;MTC fails to initialize the Stages in the Task prior to planning the Task.&lt;/li&gt;                     &lt;li&gt;MTC fails to plan the Task.&lt;/li&gt;                     &lt;li&gt;An exception is thrown while planning the Task.&lt;/li&gt;                     &lt;li&gt;The service request to the Solution Manager Node fails.&lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;This Behavior is derived from the AsyncBehaviorBase class defined in the &lt;code&gt;moveit_studio_behavior_interface&lt;/code&gt; package.&lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Decorator ID="Precondition">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;Executes its child node only if a condition is met.&lt;/p&gt;                     &lt;p&gt;If the precondition is met, the child node will be run and this node will return the status returned from the child.&lt;/p&gt;                     &lt;p&gt;If the precondition is not met, this node will return the BT::NodeStatus value specified in &quot;return_on_mismatch&quot;.&lt;/p&gt;                 "/>
+      </MetadataFields>
+      <input_port name="if" default="">If condition</input_port>
+      <input_port name="else" default="SUCCESS">Status to return if condition not met. Can be RUNNING, SUCCESS, or FAILURE.</input_port>
+    </Decorator>
+    <Action ID="PublishEmpty">
+      <input_port name="queue_size" type="unsigned long" default="1">The queue size for the publisher.</input_port>
+      <input_port name="topic" type="std::string" default="">The topic the message should be published to.</input_port>
+      <input_port name="use_best_effort" type="bool" default="false">Whether the publisher's reliability should be best effort (true) or reliable (false).</input_port>
+      <input_port name="message" type="std_msgs::msg::Empty_&lt;std::allocator&lt;void&gt; &gt;" default="">The message to be published</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Publish a &lt;code&gt;std_msgs::msg::Empty&lt;/code&gt; message to a topic.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="PublishMarkers">
+      <input_port name="marker_namespace" type="std::string" default="">The namespace to use for the markers.</input_port>
+      <input_port name="marker_type" type="std::string">A string that defines the type of marker to create. Must be one of the following options: arrow, cube, sphere, cylinder.</input_port>
+      <input_port name="marker_scale_xyz" type="std::vector&lt;double, std::allocator&lt;double&gt; &gt;" default="">The XYZ scale of the markers, as a semicolon separated list of numbers.</input_port>
+      <input_port name="marker_poses" type="std::vector&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{marker_poses}">A vector of marker poses, represented as &lt;code&gt;geometry_msgs/PoseStamped&lt;/code&gt; messages.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Reachability"/>
+        <Metadata description="                 &lt;p&gt;Publishes a set of markers to the UI for visualization.&lt;/p&gt;                 &lt;p&gt;This Behavior composes a &lt;code&gt;visualization_msgs::msg::MarkerArray&lt;/code&gt; message which contains one or more markers of the specified type. One marker will be created for each pose that is provided. The marker scale parameter will be applied uniformly to all the markers.&lt;/p&gt;                 &lt;p&gt;If all inputs are valid, this Behavior will publish the &lt;code&gt;visualization_msgs::msg::MarkerArray&lt;/code&gt; message it creates to a ROS topic named &lt;code&gt;moveit_pro/marker_publisher&lt;/code&gt; and then finally exit with a SUCCESS status code.&lt;/p&gt;                 &lt;p&gt;If an invalid marker type is provided or the marker scale vector does not contain exactly three values, exit with a FAILURE status code.&lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="PublishPointCloud">
+      <input_port name="point_cloud_topic" type="std::string" default="/my_point_cloud">Topic the point cloud is published to.</input_port>
+      <input_port name="point_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud}">Point cloud in &lt;code&gt;sensor_msgs::msg::PointCloud2&lt;/code&gt; format.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Publishes a point cloud on a ROS topic (typically used for debugging purposes).                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="PublishStaticFrame">
+      <input_port name="child_frame_id" type="std::string" default="published_frame">The name to give to the new frame.</input_port>
+      <input_port name="publish_rate" type="int" default="50">The rate (times per second) at which to publish the transform.</input_port>
+      <input_port name="pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{stamped_pose}">Pose describing the new frame location with respect to an origin frame.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Publishes a static transform to the tf2 buffer for use in other Behaviors and for visualization.                 &lt;/p&gt;                 &lt;p&gt;                     Use the &lt;code&gt;CreateStampedPose&lt;/code&gt; behavior to create the input pose.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="PublishString">
+      <input_port name="queue_size" type="unsigned long" default="1">The queue size for the publisher.</input_port>
+      <input_port name="topic" type="std::string" default="">The topic the message should be published to.</input_port>
+      <input_port name="use_best_effort" type="bool" default="false">Whether the publisher's reliability should be best effort (true) or reliable (false).</input_port>
+      <input_port name="message" type="std_msgs::msg::String_&lt;std::allocator&lt;void&gt; &gt;">The message to be published. This input can either be a std::string or a std_msgs::msg::String.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Publish a &lt;code&gt;std_msgs::msg::String&lt;/code&gt; message to a topic.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="PushToSolutionQueue">
+      <inout_port name="solution_queue" type="std::shared_ptr&lt;std::queue&lt;moveit_task_constructor_msgs::msg::Solution_&lt;std::allocator&lt;void&gt; &gt;, std::deque&lt;moveit_task_constructor_msgs::msg::Solution_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_task_constructor_msgs::msg::Solution_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt; &gt; &gt;" default="{solution_queue}">Solution queue to be read and popped. Will be created if it does not exist.</inout_port>
+      <input_port name="solution" type="moveit_task_constructor_msgs::msg::Solution_&lt;std::allocator&lt;void&gt; &gt;" default="{solution}">Solution to push to the queue.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Push an MTC solution to a queue.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Control ID="ReactiveFallback">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;The ReactiveFallback is similar to a ParallelNode. All the children are ticked from first to last:&lt;/p&gt;                     &lt;ul&gt;                         &lt;li&gt;If a child returns RUNNING, continue to the next sibling.&lt;/li&gt;                         &lt;li&gt;If a child returns FAILURE, continue to the next sibling.&lt;/li&gt;                         &lt;li&gt;If a child returns SUCCESS, stop and return SUCCESS.&lt;/li&gt;                     &lt;/ul&gt;                     &lt;p&gt;If all the children fail, then this node returns FAILURE.&lt;/p&gt;                     &lt;p&gt;IMPORTANT: to work properly, this node should not have more than a single asynchronous child.&lt;/p&gt;                 "/>
+      </MetadataFields>
+    </Control>
+    <Control ID="ReactiveSequence">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;The ReactiveSequence is similar to a ParallelNode. All the children are ticked from first to last:&lt;/p&gt;                     &lt;ul&gt;                         &lt;li&gt;If a child returns RUNNING, halt the remaining siblings in the sequence and return RUNNING.&lt;/li&gt;                         &lt;li&gt;If a child returns SUCCESS, tick the next sibling.&lt;/li&gt;                         &lt;li&gt;If a child returns FAILURE, stop and return FAILURE.&lt;/li&gt;                     &lt;/ul&gt;                     &lt;p&gt;If all the children return SUCCESS, this node returns SUCCESS.&lt;/p&gt;                 "/>
+      </MetadataFields>
+    </Control>
+    <Action ID="ReadTextFileAsString">
+      <output_port name="string_file_contents" type="std::string" default="{string_file_contents}">The contents of the input text file as a std::string.</output_port>
+      <input_port name="text_filename" type="std::string" default="">Name of the text file to read.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Read the contents of a text file into a &lt;code&gt;std::string&lt;/code&gt;.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="RegisterPointClouds">
+      <output_port name="target_pose_in_base_frame" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{target_pose}">The pose of the target point cloud relative to the frame of the base point cloud.</output_port>
+      <input_port name="max_correspondence_distance" type="double" default="5.000000">To create transform hypotheses, the algorithm explores correspondences between the base and target points. Two points must be closer than this threshold (in meters) to be considered a potential match.</input_port>
+      <input_port name="max_iterations" type="int" default="30">Maximum number of attempts to find the transform. Setting a higher number of iterations will allow the solver to converge even if the initial estimate of the transform was far from the actual transform, but it may take longer to complete.</input_port>
+      <input_port name="target_point_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{target_point_cloud}">Point cloud to which align the base point cloud.</input_port>
+      <input_port name="base_point_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud}">Point cloud to align with the target point cloud.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Finds the pose of a target point cloud relative to the base frame of a base point cloud using the Iterative Closest Point (ICP) algorithm.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Decorator ID="Repeat">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;Tick the child up to N times, where N is passed as a Input Port, as long as the child returns SUCCESS.&lt;/p&gt;                     &lt;p&gt;Interrupt the loop if the child returns FAILURE and, in that case, return FAILURE too.&lt;/p&gt;                     &lt;p&gt;If the child returns RUNNING, this node returns RUNNING too.&lt;/p&gt;                 "/>
+      </MetadataFields>
+      <input_port name="num_cycles" default="">Repeat a successful child up to N times. Use -1 to create an infinite loop.</input_port>
+    </Decorator>
+    <Action ID="ResetPlanningSceneObjects">
+      <input_port name="apply_planning_scene_service" type="std::string" default="/apply_planning_scene">Name of the service advertised by the MoveIt2 ApplyPlanningScene MoveGroup capability.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Removes all objects which were added to the planning scene during runtime.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="RetrieveJointStateParameter">
+      <output_port name="joint_state" type="sensor_msgs::msg::JointState_&lt;std::allocator&lt;void&gt; &gt;" default="{joint_state}">The retrieved joint states</output_port>
+      <input_port name="timeout_sec" type="double">Number of seconds to wait for a response from the &lt;code&gt;/retrieve_joint_state&lt;/code&gt; service.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="                 &lt;p&gt;Send a request to the &lt;code&gt;/retrieve_joint_state&lt;/code&gt; service to retrieve the joint states of the robot and set the &lt;code&gt;joint_state&lt;/code&gt; output port to the retrieved joint states.&lt;/p&gt;                 &lt;p&gt;Given the name of the joint, this behavior sends a service request to the &lt;code&gt;/retrieve_joint_state&lt;/code&gt; service which is advertised by the MoveIt Pro Parameter Manager Node.&lt;/p&gt;                 &lt;p&gt;The service type is &lt;code&gt;moveit_studio_agent_msgs::srv::RetrieveJointState&lt;/code&gt;.&lt;/p&gt;                 &lt;p&gt;The &lt;code&gt;joint_state&lt;/code&gt; output port is of type &lt;code&gt;sensor_msgs::msg::JointState&lt;/code&gt;.&lt;/p&gt;                 &lt;p&gt;If this Behavior receives a response from the service server indicating that the request succeeded, this Behavior exits with a SUCCESS status code.&lt;/p&gt;                 &lt;p&gt;If any of the following failure states occur, this Behavior will exit with a FAILURE status code:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;No service server is available with the specified name.&lt;/li&gt;                     &lt;li&gt;If no parameter is retrieved within the provided &quot;timeout_sec&quot; parameter.&lt;/li&gt;                     &lt;li&gt;The service response is received, but its success field is set to False.&lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;Leaving the &lt;code&gt;timeout_sec&lt;/code&gt; input empty makes this Behavior wait indefinitely to retrieve the parameter.&lt;/p&gt;                 &lt;p&gt;This Behavior is derived from the ServiceClientBehaviorBase class defined in the &lt;code&gt;moveit_studio_behavior_interface&lt;/code&gt; package.&lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="RetrievePoseParameter">
+      <output_port name="pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{pose}">The retrieved target pose</output_port>
+      <input_port name="timeout_sec" type="double">Number of seconds to wait for a response from the &lt;code&gt;/retrieve_pose&lt;/code&gt; service. Leaving this input port empty makes this Behavior wait indefinitely to retrieve the parameter.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="                 &lt;p&gt;Send a request to the &lt;code&gt;/retrieve_pose&lt;/code&gt; service to retrieve the pose of a target and set the &lt;code&gt;pose&lt;/code&gt; output port to the retrieved stamped pose.&lt;/p&gt;                 &lt;p&gt;Given a target pose, this behavior sends a service request to the &lt;code&gt;/retrieve_pose&lt;/code&gt; service which is advertised by the MoveIt Pro Parameter Manager Node.&lt;/p&gt;                 &lt;p&gt;The service type is &lt;code&gt;moveit_studio_agent_msgs::srv::RetrievePose&lt;/code&gt;.&lt;/p&gt;                 &lt;p&gt;The &lt;code&gt;pose&lt;/code&gt; output port is of type &lt;code&gt;geometry_msgs::msg::PoseStamped&lt;/code&gt;.&lt;/p&gt;                 &lt;p&gt;If this Behavior receives a response from the service server indicating that the request succeeded, this Behavior exits with a SUCCESS status code.&lt;/p&gt;                 &lt;p&gt;If any of the following failure states occur, this Behavior will exit with a FAILURE status code:&lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;No service server is available with the specified name.&lt;/li&gt;                     &lt;li&gt;If no pose is retrieved within the provided &quot;timeout_sec&quot; parameter.&lt;/li&gt;                     &lt;li&gt;If there is no pose stored by the MoveIt Pro parameter manager node.&lt;/li&gt;                     &lt;li&gt;The service response is received, but its success field is set to False.&lt;/li&gt;                 &lt;/ul&gt;                 &lt;p&gt;Leaving the &lt;code&gt;timeout_sec&lt;/code&gt; input empty makes this Behavior wait indefinitely to retrieve the parameter.&lt;/p&gt;                 &lt;p&gt;This Behavior is derived from the ServiceClientBehaviorBase class defined in the &lt;code&gt;moveit_studio_behavior_interface&lt;/code&gt; package.&lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="RetrieveWaypoint">
+      <output_port name="waypoint_joint_state" type="sensor_msgs::msg::JointState_&lt;std::allocator&lt;void&gt; &gt;" default="{target_joint_state}">The waypoint as a &lt;code&gt;sensor_msgs::msg::JointState&lt;/code&gt;.</output_port>
+      <input_port name="joint_group_name" type="std::string" default="{joint_group_name}">The name of the group the waypoint is associated with.</input_port>
+      <input_port name="waypoint_name" type="std::string" default="{waypoint_name}">The name of the waypoint.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Motion Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Given a named waypoint, sends a service request to the Agent WaypointManager to retrieve the joint state associated with that waypoint.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Decorator ID="RetryUntilSuccessful">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;Tick the child until it returns SUCCESS.&lt;/p&gt;                 "/>
+      </MetadataFields>
+      <input_port name="num_attempts" default="1">Execute again a failing child up to N times. Use -1 to create an infinite loop.</input_port>
+    </Decorator>
+    <Action ID="SaveCurrentState">
+      <output_port name="saved_robot_state" type="sensor_msgs::msg::JointState_&lt;std::allocator&lt;void&gt; &gt;" default="{robot_state}">Current robot state.</output_port>
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="                 &lt;p&gt;                     Use the &lt;code&gt;/get_planning_scene&lt;/code&gt; service to save the robot's current state.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SaveImageToFile">
+      <input_port name="image" type="sensor_msgs::msg::Image_&lt;std::allocator&lt;void&gt; &gt;" default="{image}">This port expects a sensor_msgs::msg::Image.</input_port>
+      <input_port name="file_prefix" type="std::string" default="image">The prefix of the target file name.</input_port>
+      <input_port name="file_path" type="std::string" default="~/.config/moveit_pro/saved_behavior_data">The full path to save the image in.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Save the contents of an image on the blackboard to a file. Filename will follow the syntax of file_prefix_YYYYMMDD_HHMMSS.png                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SaveJointTrajectoryToYaml">
+      <input_port name="message" type="geometry_msgs::msg::Pose_&lt;std::allocator&lt;void&gt; &gt;" default="{joint_trajectory_msg}">JointTrajectory ROS message.</input_port>
+      <input_port name="namespace" type="std::string">The namespace the joint trajectory will be under within the yaml file.</input_port>
+      <input_port name="yaml_filename" type="std::string" default="joint_trajectory">The yaml file name the joint trajectory data will be saved under.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="&lt;p&gt;Accepts a JointTrajectory ROS message object, a namespace, and a file name. Converts and saves the joint trajectory message as a YAML file in the objectives directory at the provided file name and under the provided namespace within the file.&lt;/p&gt;"/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SavePointCloudToFile">
+      <input_port name="point_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud}">This port expects a sensor_msgs::msg::PointCloud2.</input_port>
+      <input_port name="file_prefix" type="std::string" default="pointcloud">The prefix of the target file name.</input_port>
+      <input_port name="file_path" type="std::string" default="~/.config/moveit_pro/saved_behavior_data">The full path to save the point cloud in.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Save the contents of a point cloud on the blackboard to a pcd file using the &lt;code&gt;pcl::PointXYZRGB&lt;/code&gt; point type. Filename will follow the syntax of file_prefix_YYYYMMDD_HHMMSS.pcd                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SavePoseStampedToYaml">
+      <input_port name="message" type="geometry_msgs::msg::Pose_&lt;std::allocator&lt;void&gt; &gt;" default="{pose_stamped_msg}">A `geometry_msgs::msg::PoseStamped` message with the pose to write to the file.</input_port>
+      <input_port name="namespace" type="std::string">The namespace the pose is under in the yaml file.</input_port>
+      <input_port name="yaml_filename" type="std::string" default="pose_stamped">The name of the yaml file to save</input_port>
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="&lt;p&gt;Write a pose given as a `geometry_msgs::msg::PoseStamped` message to a YAML file.&lt;/p&gt;"/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SavePoseToYaml">
+      <input_port name="message" type="geometry_msgs::msg::Pose_&lt;std::allocator&lt;void&gt; &gt;" default="{pose_msg}">A `geometry_msgs::msg::Pose` message with the pose to write to the file.</input_port>
+      <input_port name="namespace" type="std::string">The namespace the pose is under in the yaml file.</input_port>
+      <input_port name="yaml_filename" type="std::string" default="pose">The name of the yaml file to save.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="&lt;p&gt;Write a pose given as a `geometry_msgs::msg::Pose` message to a YAML file.&lt;/p&gt;"/>
+      </MetadataFields>
+    </Action>
+    <Action ID="Script">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;Introduced in BT.CPP 4 to integrate scripting language within XML&lt;/p&gt;                     &lt;p&gt;Allows users to read from and write to variables in the blackboard&lt;/p&gt;                     &lt;p&gt;Can perform operation like assignment, comparison, etc.&lt;/p&gt;                 "/>
+      </MetadataFields>
+      <input_port name="code" default="">Code that can be parsed.</input_port>
+    </Action>
+    <Action ID="SendPointCloudToUI">
+      <input_port name="point_cloud_uuid" type="std::string" default="">Optional identifier for the request to be published to the pcd_topic</input_port>
+      <input_port name="point_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud}">Point cloud in sensor_msgs::msg::PointCloud2 format.</input_port>
+      <input_port name="sensor_name" type="std::string" default="scene_scan_camera">The name of the sensor the point cloud was generated from</input_port>
+      <input_port name="pcd_topic" type="std::string" default="/pcd_pointcloud_captures">Topic the pcd formatted point cloud is published to.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Given a point cloud, filter it using MoveIt's settings for that sensor, transform it to the &quot;world&quot; frame, convert it to ASCII PCD format, and publish it on a topic.                 &lt;/p&gt;                 &lt;p&gt;                     The UUID parameter can be used to track the pointcloud request through to other behaviors, if required. It is an optional input port, and if unset then the published message will have an empty string in its UUID field. Note: no validation is done on the value of the UUID, so any string that is provided (including the empty string) will be set on the output port.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Control ID="Sequence">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;The SequenceNode is used to tick children in an ordered sequence. If any child returns RUNNING, previous children will NOT be ticked again.&lt;/p&gt;                     &lt;ul&gt;                         &lt;li&gt;If all the children return SUCCESS, this node returns SUCCESS.&lt;/li&gt;                         &lt;li&gt;If a child returns RUNNING, this node returns RUNNING. Loop is NOT restarted, the same running child will be ticked again.&lt;/li&gt;                         &lt;li&gt;If a child returns FAILURE, stop the loop and return FAILURE. Restart the loop only if (reset_on_failure == true)&lt;/li&gt;                     &lt;/ul&gt;                 "/>
+      </MetadataFields>
+    </Control>
+    <Control ID="SequenceStar">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;The SequenceStarNode is used to tick children in an ordered sequence. If any child returns RUNNING, previous children are not ticked again.&lt;/p&gt;                     &lt;ul&gt;                         &lt;li&gt;If all the children return SUCCESS, this node returns SUCCESS.&lt;/li&gt;                         &lt;li&gt;If a child returns RUNNING, this node returns RUNNING. Loop is NOT restarted, the same running child will be ticked again.&lt;/li&gt;                         &lt;li&gt;If a child returns FAILURE, stop the loop and return FAILURE. Loop is NOT restarted, the same running child will be ticked again.&lt;/li&gt;                     &lt;/ul&gt;                 "/>
+      </MetadataFields>
+    </Control>
+    <Action ID="ServoTowardsPose">
+      <input_port name="publish_rate" type="int" default="20">The rate (times per second) at which to publish Twist messages to Servo.</input_port>
+      <input_port name="exit_threshold_time" type="double" default="0.010000">Translation and rotation errors must be below the thresholds for this amount of time (in seconds) for the Behavior to finish.</input_port>
+      <input_port name="exit_threshold_rotation" type="double" default="0.010000">Rotation error must be below this value for the Behavior to finish.</input_port>
+      <input_port name="exit_threshold_translation" type="double" default="0.010000">Translation error must be below this value for the Behavior to finish.</input_port>
+      <input_port name="max_translational_vel" type="double" default="0.100000">Maximum Cartesian-space translational velocity in m/s.</input_port>
+      <input_port name="rotational_gain" type="double" default="1.000000">To use as a multiplier for the rotational part of the pose error.</input_port>
+      <input_port name="max_rotational_vel" type="double" default="0.100000">Maximum Cartesian-space rotational velocity in rad/s.</input_port>
+      <input_port name="translational_gain" type="double" default="1.000000">To use as a multiplier for the translational part of the pose error.</input_port>
+      <input_port name="target_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{pose_stamped_msg}">A `geometry_msgs::msg::PoseStamped` message with the target pose.</input_port>
+      <input_port name="planning_group_name" type="std::string" default="manipulator">Name of the planning group to control.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Move the tip towards the Cartesian &lt;code&gt;target_pose&lt;/code&gt; using the specified gains and velocity limits.                 &lt;/p&gt;                 &lt;p&gt;                     This Behavior is intended to be used in a Parallel node.                     With every tick, the error between the current tip pose (for &lt;code&gt;planning_group_name&lt;/code&gt;) and the given &lt;code&gt;target_pose&lt;/code&gt; is computed.                     That error is also the direction along which the tip has to move to decrease the error.                     Therefore, with every tick, this Behavior will send a twist to Servo, to move along the direction that points towards the target.                     The Cartesian velocity sent to Servo is proportional (with &lt;code&gt;translational_gain&lt;/code&gt; and &lt;code&gt;rotational_gain&lt;/code&gt;) to the distance to the target, but capped at the given &lt;code&gt;max_translational_vel&lt;/code&gt; and &lt;code&gt;max_rotational_vel&lt;/code&gt; translational and rotational velocities.                     Twist messages are published to Servo at the given &lt;code&gt;publish_rate&lt;/code&gt;.                     The Behavior will run indefinitely until cancelled or until the distance to the target falls below the given &lt;code&gt;exit_threshold_translation&lt;/code&gt; and &lt;code&gt;exit_threshold_rotation&lt;/code&gt; in the 3D translational and rotational axes, for at least the given &lt;code&gt;exit_threshold_time&lt;/code&gt; amount of seconds.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetBlackboard">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;Write a value into the behavior tree blackboard.&lt;/p&gt;                 "/>
+      </MetadataFields>
+      <input_port name="value" default="">Value represented as a string. convertFromString must be implemented.</input_port>
+      <inout_port name="output_key" default="">Name of the blackboard entry where the value should be written.</inout_port>
+    </Action>
+    <Action ID="SetupMTCApproachGrasp">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <output_port name="monitored_stage" type="std::string" default="{monitored_stage}">Name of monitored stage for grasp generation.</output_port>
+      <input_port name="parameters" type="YAML::Node" default="">Behavior parameters stored in a common configuration file for the objective.</input_port>
+      <input_port name="target_object" type="moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;" default="{object}">Target object to grasp, represented as a represented as a moveit_studio_vision_msgs/GraspableObject.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Given an existing MTC Task object and a target object, appends MTC stages to describe a motion plan to approach the object.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCAttachObject">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <input_port name="frame_id" type="std::string" default="grasp_link">The name of a frame on the robot. The object will be attached to this frame.</input_port>
+      <input_port name="object" type="moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;" default="{object}">The GraspableObject to attach.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Given an existing MTC Task object, appends an MTC ModifyPlanningScene stage to attach a GraspableObject which was previously added to the planning scene.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCCartesianMoveToJointState">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <input_port name="joint_state" type="sensor_msgs::msg::JointState_&lt;std::allocator&lt;void&gt; &gt;" default="{joint_state}">Target joint state.</input_port>
+      <input_port name="planning_group_name" type="std::string" default="manipulator">Name of the MoveIt planning group.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Given an existing MTC Task object and a joint state, appends MTC stages to describe a cartesian motion plan to that joint state.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCCartesianSequence">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{task}">Behavior parameters stored in a common configuration file for the objective.</inout_port>
+      <input_port name="pose_stamped_vector" type="std::vector&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{pose_stamped_vector}">Sequence of Cartesian poses.</input_port>
+      <input_port name="planning_group_name" type="std::string" default="manipulator">Name of the MoveIt planning group.</input_port>
+      <input_port name="ik_frame" type="std::string" default="grasp_link">Name of the frame that is moved to align with the goal pose.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Given an existing MTC Task object and a sequence of target poses, appends MTC stages to plan a sequence of cartesian motions between the poses.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCCurrentState">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Given an existing MTC Task object, appends an MTC CurrentState Stage to the Task.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCDetachObject">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <input_port name="frame_id" type="std::string" default="grasp_link">The name of the frame on the robot which the object is attached to.</input_port>
+      <input_port name="object" type="moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;" default="{object}">The GraspableObject to detach.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Given an existing MTC Task object, appends an MTC ModifyPlanningScene stage to detach a GraspableObject which was previously attached to a robot frame.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCFixedJointState">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <input_port name="joint_state_msg" type="sensor_msgs::msg::JointState_&lt;std::allocator&lt;void&gt; &gt;" default="{target_joint_state}">Joint state to set in the fixed scene state.</input_port>
+      <input_port name="planning_scene_msg" type="moveit_msgs::msg::PlanningScene_&lt;std::allocator&lt;void&gt; &gt;" default="{planning_scene}">Planning scene message.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Creates an MTC FixedState stage representing an expected future robot and planning scene state, and appends the stage to an MTC Task. The expected planning scene and robot states are provided through input data ports.                 &lt;/p&gt;                 &lt;p&gt;                     This allows planning trajectories that do not start at the robot's current state. It is important to move the robot to the joint state used to create the FixedState stage before executing a trajectory that starts at that joint state.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCFromSolution">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <input_port name="solution" type="moveit_task_constructor_msgs::msg::Solution_&lt;std::allocator&lt;void&gt; &gt;" default="{solution}">A previous solution whose final planning scene is used to initialize the given task.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Given an existing MTC Task object, appends an MTC Stage to the Task that initializes it with the final planning scene of a given solution.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCGenerateCuboidGrasps">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <input_port name="parameters" type="YAML::Node" default="">Behavior parameters stored in a common configuration file for the objective.</input_port>
+      <input_port name="monitored_stage" type="std::string" default="{monitored_stage}">Name of monitored stage for grasp generation.</input_port>
+      <input_port name="target_object" type="moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;" default="{object}">Cuboid object to grasp, represented as a represented as a moveit_studio_vision_msgs/GraspableObject.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Given an existing MTC Task object and a target object, appends MTC stages to generate cuboid grasp poses.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCGenerateVacuumGrasps">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <input_port name="parameters" type="YAML::Node" default="">Behavior parameters stored in a common configuration file for the objective.</input_port>
+      <input_port name="monitored_stage" type="std::string" default="{monitored_stage}">Name of monitored stage for grasp generation.</input_port>
+      <input_port name="target_object" type="moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;" default="{object}">Cuboid object to grasp, represented as a represented as a moveit_studio_vision_msgs/GraspableObject.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Given an existing MTC Task object and a target object, appends MTC stages to generate vacuum grasp poses.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCGraspAndTwistThenMoveAlongArcPush">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <input_port name="handle_z_offset" type="double" default="{handle_z_offset}">The door handle height.</input_port>
+      <input_port name="handle_length" type="double" default="{handle_length}">Length of the door handle in meters.</input_port>
+      <input_port name="graspable_object" type="moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;" default="{graspable_object}">Graspable Object message with a handle subframe.</input_port>
+      <input_port name="parameters" type="YAML::Node" default="">Behavior parameters stored in a common configuration file for the objective.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Configures MTC stages to grasp a location, rotate the end-effector about an axis to turn the grasp point (for example a handle), and then push the end-effector away from the robot base while still grasping (for example to open a door).                 &lt;/p&gt;                 &lt;p&gt;                     The input data ports are generally calculated by separate perception processing Behaviors in a previous step of the Objective.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCGraspThenMoveAlongArcPull">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <input_port name="graspable_object" type="moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;" default="{graspable_object}">Graspable Object message containing the (fixed) handle, with the required subframes added.</input_port>
+      <input_port name="parameters" type="YAML::Node" default="">Behavior parameters stored in a common configuration file for the objective.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Configures MTC stages to perform a motion that can be parameterized as a grasp followed by a pulling motion in a screw-trajectory (a circular arc).                     Examples in practice include opening pull doors and drawers.                 &lt;/p&gt;                 &lt;p&gt;                     The input data ports are generally calculated by separate perception processing Behaviors in a previous step of the Objective.                 &lt;/p&gt;                 &lt;p&gt;                     Given an existing MTC Task object and input parameters that configure a screw motion affordance template, perform the following steps:                 &lt;/p&gt;                 &lt;ul&gt;                     &lt;li&gt;                         Move to a pre-grasp pose offset from the specified grasp pose.                     &lt;/li&gt;                     &lt;li&gt;                         Approach the grasp pose.                     &lt;/li&gt;                     &lt;li&gt;                         Close the gripper.                     &lt;/li&gt;                     &lt;li&gt;                         Move along a screw-parameterised trajectory.                     &lt;/li&gt;                     &lt;li&gt;                         Open the gripper.                     &lt;/li&gt;                     &lt;li&gt;                         Retreat from the grasp pose.                     &lt;/li&gt;                 &lt;/ul&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCInterpolateToJointState">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <input_port name="joint_state" type="sensor_msgs::msg::JointState_&lt;std::allocator&lt;void&gt; &gt;" default="{joint_state}">Target joint state.</input_port>
+      <input_port name="planning_group_name" type="std::string" default="manipulator">Name of the MoveIt planning group.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Given an existing MTC Task object and a joint state, appends MTC stages to describe a joint-interpolated motion plan to that joint state.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCMoveAlongFrameAxis">
+      <input_port name="acceleration_scale" type="double" default="1.000000">Scale the maximum acceleration of the trajectory by this factor relative to the robot's joint limits. Must be greater than 0.0 and less than or equal to 1.0.</input_port>
+      <input_port name="hand_frame" type="std::string" default="grasp_link">The frame ID of the robot frame which will move.</input_port>
+      <input_port name="planning_group_name" type="std::string" default="manipulator">Name of the MoveIt planning group which will perform the motion.</input_port>
+      <input_port name="max_distance" type="double" default="0.200000">Maximum distance in meters to move along the axis.</input_port>
+      <input_port name="min_distance" type="double" default="0.100000">Minimum distance in meters to move along the axis.</input_port>
+      <input_port name="axis_z" type="double" default="1.000000">The Z-component of the direction of motion. The input values will be normalized to make the axis a unit vector.</input_port>
+      <input_port name="axis_y" type="double" default="0.000000">The Y-component of the direction of motion. The input values will be normalized to make the axis a unit vector.</input_port>
+      <input_port name="axis_x" type="double" default="0.000000">The X-component of the direction of motion. The input values will be normalized to make the axis a unit vector.</input_port>
+      <input_port name="velocity_scale" type="double" default="1.000000">Scale the maximum velocity of the trajectory by this factor relative to the robot's joint limits. Must be greater than 0.0 and less than or equal to 1.0.</input_port>
+      <input_port name="axis_frame" type="std::string" default="world">The direction of motion will be defined relative to this frame.</input_port>
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Given an existing MTC Task object, append a MTC MoveRelative stage to perform a cartesian motion along an axis.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCMoveToJointState">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <input_port name="constraints" type="std::shared_ptr&lt;moveit_msgs::msg::Constraints_&lt;std::allocator&lt;void&gt; &gt; &gt;" default="">Motion planning constraints.</input_port>
+      <input_port name="use_all_planners" type="bool" default="false">Use all available planners in parallel to find a solution.</input_port>
+      <input_port name="joint_state" type="sensor_msgs::msg::JointState_&lt;std::allocator&lt;void&gt; &gt;" default="{joint_state}">Target joint state.</input_port>
+      <input_port name="planning_group_name" type="std::string" default="manipulator">Name of the MoveIt planning group.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Given an existing MTC Task object and a joint state, appends MTC stages to describe a freespace motion plan to that joint state.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCMoveToNamedState">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <input_port name="use_all_planners" type="bool" default="false">Use all available planners in parallel to find a solution.</input_port>
+      <input_port name="goal_state_name" type="std::string" default="Forward Down">Named joint state used as a motion planning goal state.</input_port>
+      <input_port name="planning_group_name" type="std::string" default="manipulator">Name of the MoveIt planning group.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Given an existing MTC Task object and the name of a known state, appends MTC stages to describe a freespace motion plan to that state.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCMoveToPose">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <input_port name="use_all_planners" type="bool" default="false">Use all available planners in parallel to find a solution.</input_port>
+      <input_port name="target_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{target_pose}">Goal pose.</input_port>
+      <input_port name="planning_group_name" type="std::string" default="manipulator">Name of the MoveIt planning group.</input_port>
+      <input_port name="ik_frame" type="std::string" default="grasp_link">Name of the frame that is moved to align with the goal pose.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Given an existing MTC Task object and a target pose, appends MTC stages to describe a freespace motion plan to that target pose.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCPickObject">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <input_port name="parameters" type="YAML::Node" default="">Behavior parameters stored in a common configuration file for the Objective.</input_port>
+      <input_port name="grasp_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{grasp_pose}">End-effector grasping pose.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Given an existing MTC Task object and a target grasp pose, appends MTC stages to describe a motion plan to approach, grasp and lift an object at that pose.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCRetractFromGrasp">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <input_port name="parameters" type="YAML::Node" default="">Behavior parameters stored in a common configuration file for the objective.</input_port>
+      <input_port name="target_object" type="moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;" default="{object}">Target object to grasp, represented as a represented as a moveit_studio_vision_msgs/GraspableObject.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Given an existing MTC Task object and a target object, appends MTC stages to describe a motion plan to retract after grasping the object.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCUpdateGroupCollisionRule">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <input_port name="parameters" type="YAML::Node" default="">Behavior parameters stored in a common configuration file for the objective.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Add an MTC Stage to an MTC Task that modifies the planning scene's Allowed Collision Matrix to permit or forbid collision between a planning scene object and the links of a named robot planning group while planning subsequent Stages.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SetupMTCUpdateObjectCollisionRule">
+      <inout_port name="task" type="std::shared_ptr&lt;moveit::task_constructor::Task&gt;" default="{mtc_task}">MoveIt Task Constructor task.</inout_port>
+      <input_port name="allow_collision" type="bool" default="true">Specifies whether or not collision is allowed.</input_port>
+      <input_port name="object" type="moveit_studio_vision_msgs::msg::GraspableObject_&lt;std::allocator&lt;void&gt; &gt;" default="{object}">Target object to grasp, represented as a represented as a &lt;code&gt;moveit_studio_vision_msgs/GraspableObject&lt;/code&gt;.</input_port>
+      <input_port name="object_or_group_name" type="std::string" default="manipulator">Name of the MoveIt planning group.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Add an MTC Stage to an MTC Task that makes following stages either allow or prohibit collision between a GraspableObject and another entity.                 &lt;/p&gt;                 &lt;p&gt;                     The other entity can be either a named collision object in the planning scene or the links of a named robot planning group.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SolveIKQueries">
+      <output_port name="ik_query_results" type="std::vector&lt;bool, std::allocator&lt;bool&gt; &gt;" default="{ik_query_results}">Whether the end effector could reach the target poses (true) or not (false). The indices of this vector correspond to the pose with the same index in the `target_poses` input vector.</output_port>
+      <input_port name="timeout" type="double" default="0.000000">The timeout for each target pose's IK request. Set to &lt;= 0.0 for no IK timeout.</input_port>
+      <input_port name="target_poses" type="std::vector&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;">The poses that the end effector should try to reach. If necessary, the pose frames will be transformed to be w.r.t. the robot's base frame.</input_port>
+      <input_port name="joint_group_name" type="std::string" default="manipulator">The name of the joint group.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Motion Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Calculate whether or not the robot's end effector can reach a list of target poses.                     The robot's current joint state is used as the initial random seed for determining target reachability.                     The target poses can be defined in any frame, as long as a transform exists between the specified frame and the robot's base frame.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SplitMTCSolution">
+      <output_port name="solution_out_2" type="moveit_task_constructor_msgs::msg::Solution_&lt;std::allocator&lt;void&gt; &gt;" default="{solution_out_2}">Contains the second solution split.</output_port>
+      <output_port name="solution_out_1" type="moveit_task_constructor_msgs::msg::Solution_&lt;std::allocator&lt;void&gt; &gt;" default="{solution_out_1}">Contains the first solution split.</output_port>
+      <input_port name="index" type="unsigned long" default="0">The index to split the solution at.</input_port>
+      <input_port name="solution_in" type="moveit_task_constructor_msgs::msg::Solution_&lt;std::allocator&lt;void&gt; &gt;" default="{solution_in}">Solution generated by MTC plan.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Split an MTC Solution message in two by dividing its vector of subtrajectories at the specified index.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="StopwatchBegin">
+      <output_port name="timepoint" type="std::chrono::time_point&lt;std::chrono::_V2::steady_clock, std::chrono::duration&lt;long, std::ratio&lt;1l, 1000000000l&gt; &gt; &gt;" default="{timepoint}">Epoch time when this Behavior was ticked.</output_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Saves the current epoch time as a timepoint to an output data port.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="StopwatchEnd">
+      <input_port name="timepoint" type="std::chrono::time_point&lt;std::chrono::_V2::steady_clock, std::chrono::duration&lt;long, std::ratio&lt;1l, 1000000000l&gt; &gt; &gt;" default="{timepoint}">Measure time elapsed since this timepoint.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Log the time elapsed since a timepoint provided on an input data port.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="SwitchUIPrimaryView">
+      <input_port name="primary_view_name" type="std::string" default="Visualization">The name of the primary view to switch to.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Switches the primary view in the MoveIt Studio Developer Tool.                 &lt;/p&gt;                 &lt;p&gt;                     This can be &quot;Visualization&quot;, &quot;Behavior Tree&quot;, or the name of any valid camera topic available in the view drop-down menu in the UI.                  &lt;/p&gt;                 &lt;p&gt;                     If the view name is not available, this Behavior returns FAILURE.                 &lt;/p&gt;             "/>
+        <Metadata subcategory="User Input"/>
+      </MetadataFields>
+    </Action>
+    <Action ID="TeleoperateJointJog">
+      <input_port name="controller_name" type="std::string" default="servo_controller">Name of the controller to use for servoing.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="                 &lt;p&gt;                     This is a special Behavior to run human-in-the-loop teleoperation using MoveIt Servo through the Objective Server.                 &lt;/p&gt;                 &lt;p&gt;                     When started, this Behavior will run INDEFINITELY until it is halted. This will happen either when the root node of the behavior tree is halted as the Objective is canceled, or when this Behavior's parent control node halts it. When this Behavior first transitions from IDLE to RUNNING, it starts and unpauses Servo control using the services advertised by the Servo server node. While this Behavior is RUNNING, it subscribes to JointJog command messages that originate in the user interface, and republishes these messages to the command topics advertised by the Servo server node. When this Behavior is halted, it pauses Servo control using the server's services.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="TeleoperateTwist">
+      <input_port name="controller_name" type="std::string" default="servo_controller">Name of the controller to use for servoing.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="                 &lt;p&gt;                     This is a special Behavior to run human-in-the-loop teleoperation using MoveIt Servo through the Objective Server.                 &lt;/p&gt;                 &lt;p&gt;                     When started, this Behavior will run INDEFINITELY until it is halted. This will happen either when the root node of the behavior tree is halted as the Objective is canceled, or when this Behavior's parent control node halts it. When this Behavior first transitions from IDLE to RUNNING, it starts and unpauses Servo control using the services advertised by the Servo server node. While this Behavior is RUNNING, it subscribes to TwistStamped command messages that originate in the user interface, and republishes these messages to the command topics advertised by the Servo server node. When this Behavior is halted, it pauses Servo control using the server's services.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Decorator ID="Timeout">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;Halt the child node after a given timeout.&lt;/p&gt;                 "/>
+      </MetadataFields>
+      <input_port name="msec" default="">After a certain amount of time, halt() the child if it is still running.</input_port>
+    </Decorator>
+    <Action ID="TransformPointCloud">
+      <output_port name="output_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{output_cloud}">Transformed point cloud.</output_port>
+      <input_port name="transform_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{transform_pose}">A PoseStamped message describing the transform to apply to the input point cloud.</input_port>
+      <input_port name="input_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{input_cloud}">Input point cloud.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Transforms a point cloud given an input pose in the same frame as the point cloud.                 &lt;/p&gt;                 &lt;p&gt;                     The frame IDs of the input point cloud and transform pose must match, or this Behavior will fail.                     The output point cloud will similarly be with respect to this frame.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="TransformPointCloudFrame">
+      <output_port name="output_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{output_cloud}">Transformed point cloud.</output_port>
+      <input_port name="target_frame" type="std::string" default="world">The name of the target frame.</input_port>
+      <input_port name="input_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{input_cloud}">Input point cloud.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Transforms a point cloud to a target coordinate frame.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="TransformPose">
+      <output_port name="output_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{output_pose}">Input pose expressed in the new frame.</output_port>
+      <input_port name="quaternion_xyzw" type="std::vector&lt;double, std::allocator&lt;double&gt; &gt;" default="">The x, y, z, and w quaternion values of the rotation.</input_port>
+      <input_port name="translation_xyz" type="std::vector&lt;double, std::allocator&lt;double&gt; &gt;" default="">The x, y, z values of the translation.</input_port>
+      <input_port name="input_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{input_pose}">Pose to be transformed.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Transforms a stamped pose given an input translation and orientation.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="TransformPoseFrame">
+      <output_port name="output_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{output_pose}">Input pose expressed in the new frame.</output_port>
+      <input_port name="target_frame_id" type="std::string" default="world">Frame to transform pose to.</input_port>
+      <input_port name="input_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{input_pose}">Pose to be transformed.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Transforms a stamped pose into a different frame ID.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="TransformPoseFromYaml">
+      <output_port name="output_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{output_pose}">Input pose transformed by the pose_parameters.</output_port>
+      <input_port name="pose_parameters" type="YAML::Node" default="">The yaml parameters of the transform pose.</input_port>
+      <input_port name="parameter_namespace" type="std::string" default="">The namespace the pose is under in the yaml file.</input_port>
+      <input_port name="input_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{input_pose}">Pose to be transformed.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Transforms a stamped pose given a yaml file that contains position and orientation.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="TransformPoseWithPose">
+      <output_port name="output_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{output_pose}">Input pose pre-multiplied by the transform pose. The frame ID and stamp are copied from the input pose.</output_port>
+      <input_port name="transform_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{transform_pose}">Pose with the transform to apply to the input pose. The frame ID must match that of the input pose.</input_port>
+      <input_port name="input_pose" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{input_pose}">Pose to be transformed.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Transforms a stamped pose with a transform defined by another pose in the same frame.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="UpdateAdmittanceController">
+      <input_port name="config_file_name" type="std::string" default="">Configuration file name.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Motion Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Updates parameters for an existing admittance controller.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="UpdatePlanningSceneService">
+      <input_port name="point_cloud" type="sensor_msgs::msg::PointCloud2_&lt;std::allocator&lt;void&gt; &gt;" default="{point_cloud}">Point cloud in sensor_msgs::msg::PointCloud2 format.</input_port>
+      <input_port name="point_cloud_service" type="std::string" default="/point_cloud_service">Name of the service advertised by the PointCloudServiceOctomapUpdater MoveIt plugin.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Updates the planning scene's collision octree using the provided point cloud, and waits until the octree has finished updating.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="ValidateTrajectory">
+      <output_port name="debug_solution" type="moveit_task_constructor_msgs::msg::Solution_&lt;std::allocator&lt;void&gt; &gt;" default="{debug_solution}">An MTCSolution message with the feasible part of the trajectory.</output_port>
+      <input_port name="joint_space_step" type="double" default="0.050000">Collision-check resolution in joint-space (norm of minimum joint-space distance).</input_port>
+      <input_port name="joint_trajectory_msg" type="trajectory_msgs::msg::JointTrajectory_&lt;std::allocator&lt;void&gt; &gt;" default="{joint_trajectory_msg}">The joint-space trajectory to validate.</input_port>
+      <input_port name="cartesian_space_step" type="double" default="0.020000">Collision-check resolution in Cartesian space (norm of minimum translational and angular distance).</input_port>
+      <input_port name="planning_group_name" type="std::string" default="manipulator">Planning group name.</input_port>
+      <input_port name="planning_scene_msg" type="moveit_msgs::msg::PlanningScene_&lt;std::allocator&lt;void&gt; &gt;" default="{planning_scene_msg}">A planning scene message, including the obstacles around the robot.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Motion Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Checks if a joint trajectory is valid, given a model of the scene.                 &lt;/p&gt;                 &lt;p&gt;                     This Behavior checks that `joint_trajectory_msg` is collision-free at a given density (`joint_space_step` and `cartesian_space_step`).                     The model of the scene is constructed from the contents of `planning_scene_msg`.                     Use the `GetCurrentPlanningScene` Behavior to obtain the current scene model around the robot.                 &lt;/p&gt;                 &lt;p&gt;                     The Behavior succeeds if the trajectory is valid on the given scene, or fails otherwise.                     If any case, the `debug_solution` output port will contain an MTCSolution message that can be used with the `WaitForUserTrajectoryApproval' Behavior for visualization.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="WaitAndPopSolutionQueue">
+      <input_port name="fail_if_queue_empty" type="bool" default="false">Set to true to return failure if the queue is empty instead of waiting for a new entry to be pushed.</input_port>
+      <output_port name="solution" type="moveit_task_constructor_msgs::msg::Solution_&lt;std::allocator&lt;void&gt; &gt;" default="{solution}">First element of the solution queue.</output_port>
+      <inout_port name="solution_queue" type="std::shared_ptr&lt;std::queue&lt;moveit_task_constructor_msgs::msg::Solution_&lt;std::allocator&lt;void&gt; &gt;, std::deque&lt;moveit_task_constructor_msgs::msg::Solution_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;moveit_task_constructor_msgs::msg::Solution_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt; &gt; &gt;" default="{solution_queue}">Solution queue to be read and popped.</inout_port>
+      <MetadataFields>
+        <Metadata subcategory="Task Planning"/>
+        <Metadata description="                 &lt;p&gt;                     Wait for an MTC solution queue to contain values, pop queue and write the next solution to output port.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="WaitForDuration">
+      <input_port name="delay_duration" type="double" default="5.000000">Sleep duration in seconds.</input_port>
+      <MetadataFields>
+        <Metadata description="                 &lt;p&gt;                     Wait for a specified duration before succeeding.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Action ID="WaitForUserTrajectoryApproval">
+      <input_port name="solution" type="moveit_task_constructor_msgs::msg::Solution_&lt;std::allocator&lt;void&gt; &gt;" default="{mtc_solution}">MoveIt Task Constructor plan solution.</input_port>
+      <MetadataFields>
+        <Metadata subcategory="User Input"/>
+        <Metadata description="                 &lt;p&gt;                     Takes a shared pointer to an MTC Solution object via an input data port, and publishes the lowest-cost trajectory in that Solution on the &quot;/preview_solution&quot; topic. Creates a SetBool service server on the &quot;/execute_behavior_solution&quot; topic and waits to receive a request containing data: true before succeeding.                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
+    <Control ID="WhileDoElse">
+      <MetadataFields>
+        <metadata description="                     &lt;p&gt;WhileDoElse must have exactly 2 or 3 children. It is a REACTIVE node of IfThenElseNode.&lt;/p&gt;                     &lt;p&gt;The first child is the &quot;statement&quot; that is executed at each tick&lt;/p&gt;                     &lt;p&gt;If result is SUCCESS, the second child is executed.&lt;/p&gt;                     &lt;p&gt;If result is FAILURE, the third child is executed.&lt;/p&gt;                     &lt;p&gt;If the 2nd or 3d child is RUNNING and the statement changes, the RUNNING child will be stopped before starting the sibling.&lt;/p&gt;                 "/>
+      </MetadataFields>
+    </Control>
+    <Action ID="WriteCalibratedPoseToYaml">
+      <input_port name="calibrated_poses" type="std::vector&lt;geometry_msgs::msg::TransformStamped_&lt;std::allocator&lt;void&gt; &gt;, std::allocator&lt;geometry_msgs::msg::TransformStamped_&lt;std::allocator&lt;void&gt; &gt; &gt; &gt;" default="{calibrated_poses}">The set of calibrated poses to write to the file</input_port>
+      <MetadataFields>
+        <Metadata subcategory="Perception"/>
+        <Metadata description="                 &lt;p&gt;                     Write pose (x,y,z, roll, pitch, yaw) to YAML file.                     This behavior is meant to be called after the Calibrate Pose Action.                 &lt;/p&gt;                 &lt;p&gt;                     Note: The behavior saves the calibrated_pose into the ~/.config/moveit_studio/calibration folder                 &lt;/p&gt;             "/>
+      </MetadataFields>
+    </Action>
   </TreeNodesModel>
 </root>
