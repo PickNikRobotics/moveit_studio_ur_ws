@@ -3,8 +3,6 @@
   <BehaviorTree ID="Open Lever Handle Door" _description="Open a lever handle door by turning the handle and pushing the door" _favorite="false">
     <Control ID="Sequence" name="Setup">
       <Action ID="LoadObjectiveParameters" config_file_name="open_door_lever_handle_MTC_config.yaml" parameters="{parameters}"/>
-      <!--      <SubTree ID="Re-Zero Force-Torque Sensors" _collapsed="true"/>-->
-      <!--      <SubTree ID="Update Admittance Controller" _collapsed="true"/>-->
       <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" timeout_sec="5.000000"/>
       <Action ID="PublishPointCloud" point_cloud="{point_cloud}" point_cloud_topic="studio_vision_debug_snapshot"/>
       <Action ID="GetPointsFromUser" view_name="/wrist_mounted_camera/color/image_raw" point_names="handle_pivot; handle_tip" point_prompts="Click on center of axis of handle;Click on end of handle" pixel_coords="{pixel_coords}"/>
