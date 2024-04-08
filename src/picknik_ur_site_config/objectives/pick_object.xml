@@ -12,7 +12,7 @@
             <Action ID="LoadObjectiveParameters" config_file_name="pick_object_config.yaml" parameters="{parameters}"/>
             <Action ID="InitializeMTCTask" task_id="pick_object" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{pick_object_task}"/>
             <Action ID="SetupMTCCurrentState" task="{pick_object_task}"/>
-            <Decorator ID="ForEachPoseStamped" vector_in="{output_poses}" out="{grasp_pose}">
+            <Decorator ID="ForEachPoseStamped" vector_in="{adjusted_poses}" out="{grasp_pose}">
                 <Control ID="Sequence">
                     <Action ID="SetupMTCPickObject" grasp_pose="{grasp_pose}" task="{pick_object_task}" parameters="{parameters}"/>
                     <Action ID="PlanMTCTask" solution="{pick_object_solution}" task="{pick_object_task}"/>
