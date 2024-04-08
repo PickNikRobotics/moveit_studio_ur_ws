@@ -78,10 +78,10 @@
                       </Control>
                     </Decorator>
                   </Control>
+                <!-- We will reach this part of the Objective if the move to the pre-grasp pose succeeds without the system detecting a significant change in the target object. -->
+                <Action ID="ExecuteMTCTask" solution="{solution_grasp}"/>
                 </Control>
               </Decorator>
-              <!-- We will reach this part of the Objective if the move to the pre-grasp pose succeeds without the system detecting a significant change in the target object. -->
-              <Action ID="ExecuteMTCTask" solution="{solution_grasp}"/>
             </Control>
             <!-- The "Then" condition of the TryGraspInner IfThenElse control. If motion execution succeeded, emit a success to exit the retry loop. -->
             <Action ID="AlwaysSuccess"/>
