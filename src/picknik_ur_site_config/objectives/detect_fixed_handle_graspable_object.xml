@@ -6,9 +6,9 @@
     <Control ID="Sequence" name="TopLevelSequence">
       <!-- Get the point cloud from the wrist camera -->
       <Control ID="Sequence" name="GetDepthImage">
-        <Action ID="GetCameraInfo" topic_name="/camera/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>
-        <Action ID="GetImage" topic_name="/camera/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
-        <Action ID="GetPointCloud" topic_name="/camera/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
+        <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>
+        <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
+        <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
         <Action ID="UpdatePlanningSceneService" point_cloud="{point_cloud}" point_cloud_service="/point_cloud_service"/>
       </Control>
       <!-- Segment out 2D masks and then convert to 3D masks and visualize in UI -->
