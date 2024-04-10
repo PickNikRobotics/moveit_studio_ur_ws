@@ -3,7 +3,7 @@
   <!-- Scene camera  -->
   <include file="$(find-pkg-share realsense2_camera)/launch/rs_launch.py">
     <arg name="camera_name" value="scene_camera"/>
-    <arg name="serial_no" value="0"/>
+    <arg name="serial_no" value="'0'"/>
     <arg name="device_type" value="D415"/>
     <arg name="framerate" value="6"/>
     <arg name="image_width" value="640"/>
@@ -21,7 +21,7 @@
   <!-- Wrist camera  -->
   <include file="$(find-pkg-share realsense2_camera)/launch/rs_launch.py">
     <arg name="camera_name" value="wrist_mounted_camera"/>
-    <arg name="serial_no" value="0"/>
+    <arg name="serial_no" value="'0'"/>
     <arg name="device_type" value="D415"/>
     <arg name="framerate" value="6"/>
     <arg name="image_width" value="640"/>
