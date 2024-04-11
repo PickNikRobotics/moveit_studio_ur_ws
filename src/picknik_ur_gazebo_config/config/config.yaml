@@ -39,11 +39,6 @@ hardware:
     package: "picknik_ur_gazebo_config"
     path: "launch/sim/hardware_sim.launch.py"
 
-  # Override other parameters from the base config package, including
-  # the camera configuration and the robot description model.
-  camera_config_file:
-    package: "picknik_ur_gazebo_config"
-    path: "config/cameras.yaml"
   robot_description:
     urdf:
       package: "picknik_ur_gazebo_config"

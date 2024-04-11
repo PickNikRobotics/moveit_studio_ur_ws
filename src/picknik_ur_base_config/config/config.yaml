@@ -51,12 +51,6 @@ hardware:
     package: "moveit_studio_agent"
     path: "launch/blank.launch.py"
 
-  # Configuration details for cameras and scene planning.
-  # [Required]
-  camera_config_file:
-    package: "picknik_ur_base_config"
-    path: "config/cameras.yaml"
-
   # Parameters used to configure the robot description through XACRO.
   # A URDF and SRDF are both required.
   # [Required]
