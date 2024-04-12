@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
+  <arg name="scene_camera_serial_no" default="'0'" />
+  <arg name="wrist_mounted_camera_serial_no" default="'0'" />
+
   <!-- Scene camera  -->
   <include file="$(find-pkg-share realsense2_camera)/launch/rs_launch.py">
     <arg name="camera_name" value="scene_camera"/>
-    <arg name="serial_no" value="'0'"/>
+    <arg name="serial_no" value="$(arg scene_camera_serial_no)"/>
     <arg name="device_type" value="D415"/>
     <arg name="depth_module.profile" value="640x480x6"/>
     <arg name="pointcloud.enable" value="True"/>
@@ -22,7 +25,7 @@
   <!-- Wrist camera  -->
   <include file="$(find-pkg-share realsense2_camera)/launch/rs_launch.py">
     <arg name="camera_name" value="wrist_mounted_camera"/>
-    <arg name="serial_no" value="'0'"/>
+    <arg name="serial_no" value="$(arg wrist_mounted_camera_serial_no)"/>
     <arg name="device_type" value="D415"/>
     <arg name="depth_module.profile" value="640x480x6"/>
     <arg name="pointcloud.enable" value="True"/>
