@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2023 PickNik Inc.
+# Copyright 2024 PickNik Inc.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
