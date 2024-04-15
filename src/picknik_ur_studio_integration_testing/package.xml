@@ -15,7 +15,10 @@
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>moveit_studio_agent</test_depend>
   <test_depend>moveit_studio_common</test_depend>
+  <test_depend>moveit_studio_internal_msgs</test_depend>
   <test_depend>moveit_studio_ur_pstop_manager</test_depend>
+  <test_depend>picknik_ur_site_config</test_depend>
+  <test_depend>picknik_ur_gazebo_config</test_depend>
   <test_depend>rclcpp</test_depend>
   <test_depend>ros_testing</test_depend>
   <test_depend>std_srvs</test_depend>

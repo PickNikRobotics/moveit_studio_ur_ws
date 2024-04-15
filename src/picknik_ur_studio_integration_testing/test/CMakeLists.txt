@@ -2,12 +2,19 @@ find_package(rclcpp REQUIRED)
 find_package(ament_cmake_gtest REQUIRED)
 find_package(moveit_studio_agent REQUIRED)
 find_package(moveit_studio_common REQUIRED)
+find_package(moveit_studio_internal_msgs REQUIRED)
 find_package(ros_testing REQUIRED)
 
 # Integration test for ObjectiveServerNode running with other Agent nodes using real Behaviors
 ament_add_gtest_executable(test_basic_ur5e_objectives test_basic_ur5e_objectives.cpp)
 target_link_libraries(test_basic_ur5e_objectives moveit_studio_agent::do_objective_test_fixture)
+ament_target_dependencies(test_basic_ur5e_objectives moveit_studio_internal_msgs)
 add_ros_test(launch/test_basic_ur5e_objectives.test.py TIMEOUT 120 ARGS "test_binary_dir:=${CMAKE_CURRENT_BINARY_DIR}")
+
+ament_add_gtest_executable(test_ur5e_perception_objectives test_ur5e_perception_objectives.cpp)
+target_link_libraries(test_ur5e_perception_objectives moveit_studio_agent::do_objective_test_fixture)
+ament_target_dependencies(test_ur5e_perception_objectives moveit_studio_internal_msgs)
+add_ros_test(launch/test_ur5e_perception_objectives.test.py TIMEOUT 120 ARGS "test_binary_dir:=${CMAKE_CURRENT_BINARY_DIR}" "delay_before_test:=30.0")
 
 # Integration test for the 'getPlanningGroups' MoveGroup capability.
 ament_add_gtest_executable(test_get_planning_groups test_get_planning_groups.cpp)

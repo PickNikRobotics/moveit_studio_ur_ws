@@ -207,12 +207,16 @@ def generate_agent_plus_drivers_launch_description(
                 description="Binary directory of package "
                 "containing test executables",
             ),
+            DeclareLaunchArgument(
+                "delay_before_test",
+                default_value="10",
+            ),
             agent_launch_description,
             robot_driver_launch_description,
             make_rosbag_directory,
             TimerAction(period=9.0, actions=[rosbag_record]),
             TimerAction(
-                period=10.0,
+                period=LaunchConfiguration("delay_before_test"),
                 actions=[gtest_action],
             ),
             launch_testing.actions.ReadyToTest(),

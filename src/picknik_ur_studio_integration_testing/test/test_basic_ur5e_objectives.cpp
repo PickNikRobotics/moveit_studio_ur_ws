@@ -82,34 +82,6 @@ TEST_F(ObjectiveFixture, TestOpenGripper)
   EXPECT_TRUE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal)));
 }
 
-TEST_F(ObjectiveFixture, TestPickObject)
-{
-  ASSERT_TRUE(setupDoObjectiveSequenceClient());
-
-  auto do_objective_goal = std::make_unique<DoObjectiveSequence::Goal>();
-  do_objective_goal->objective_name = "Pick Object";
-
-  // Set a grasp pose based on a user-selected grasp originally picked in simulation
-  const auto grasp_pose = [] {
-    PoseStamped msg;
-    msg.header.frame_id = "world";
-    msg.pose.position = geometry_msgs::build<Point>().x(0.58976525).y(-0.1367085).z(0.27501845);
-    msg.pose.orientation = geometry_msgs::build<Quaternion>().x(0.7063694).y(0.44723025).z(0.29349735).w(0.46355873);
-    return msg;
-  }();
-
-  // Update the grasp pose parameter used when planning the objective
-  BehaviorParameter pose_name_parameter;
-  pose_name_parameter.behavior_namespaces.emplace_back("pick_object");
-  pose_name_parameter.description.name = "grasp_pose";
-  pose_name_parameter.description.type = BehaviorParameterDescription::TYPE_POSE;
-  pose_name_parameter.pose_value = grasp_pose;
-
-  do_objective_goal->parameter_overrides.insert(do_objective_goal->parameter_overrides.end(), { pose_name_parameter });
-
-  EXPECT_TRUE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal), 30.0));
-}
-
 TEST_F(ObjectiveFixture, DISABLED_TestInspectSurface)
 {
   using SetTransform = moveit_studio_agent_msgs::srv::SetTransform;
