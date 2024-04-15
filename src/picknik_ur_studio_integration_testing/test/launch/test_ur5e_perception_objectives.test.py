@@ -45,6 +45,7 @@ def generate_test_description():
             # Load site config for simulated UR-5e
             "STUDIO_CONFIG_PACKAGE": "picknik_ur_gazebo_config",
             "MOCK_HARDWARE": "false",
+            "DISPLAY": ":0",
         },
     )
 
