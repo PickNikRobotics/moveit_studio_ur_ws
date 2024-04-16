@@ -82,7 +82,8 @@ TEST_F(ObjectiveFixture, TestOpenGripper)
   EXPECT_TRUE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal)));
 }
 
-TEST_F(ObjectiveFixture, TestPickObject)
+// TODO(schornakj): re-enable this test when we can generate simulated point clouds in the test environment
+TEST_F(ObjectiveFixture, DISABLED_TestPickObject)
 {
   ASSERT_TRUE(setupDoObjectiveSequenceClient());
 
