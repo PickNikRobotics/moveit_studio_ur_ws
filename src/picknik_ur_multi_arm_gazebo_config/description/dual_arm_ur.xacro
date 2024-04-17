@@ -29,6 +29,7 @@
   <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro" />
   <xacro:include filename="$(find picknik_ur_base_config)/description/pinch_links.xacro" />
   <xacro:include filename="$(find picknik_ur_base_config)/description/picknik_ur_attachments_macro.xacro" />
+  <xacro:include filename="$(find picknik_ur_multi_arm_gazebo_config)/description/camera_and_gripper.xacro" />
   <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro" />
 
   <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
@@ -38,9 +39,6 @@
   <!-- Import environment macros -->
   <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
   <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/visual/cube_visual.urdf.xacro" />
-  <!-- Bring in realsense materials only once -->
-  <xacro:include filename="$(find realsense2_description)/urdf/_materials.urdf.xacro" />
-  <xacro:property name="realsense_materials_defined" value="true"/>
   <xacro:property name="gazebo_renderer" default="$(arg gazebo_renderer)"/>
 
   <link name="world" />
@@ -71,7 +69,7 @@
       <xacro:wrist_3_pinch_link  prefix="right"/>
   </xacro:if>
 
-  <xacro:picknik_ur_attachments
+  <xacro:camera_and_gripper
     prefix="left"
     parent="left_tool0"
     child="left_grasp_link"
@@ -104,7 +102,7 @@
     <xacro:wrist_3_pinch_link  prefix="left"/>
   </xacro:if>
 
-  <xacro:picknik_ur_attachments
+  <xacro:camera_and_gripper
     prefix="right"
     parent="right_tool0"
     child="right_grasp_link"
