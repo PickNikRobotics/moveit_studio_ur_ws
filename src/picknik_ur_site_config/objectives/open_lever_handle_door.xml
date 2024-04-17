@@ -13,7 +13,7 @@
       <Action ID="GetDoorHandle" handle_poses="{handle_poses}" point_cloud="{point_cloud}" minimum_door_handle_depth="0.02" target_output_frame_id="world" target_handle_length="{handle_length}" target_handle_pose="{handle_pose}" target_handle_z_offset="{handle_z_offset}"/>
       <!--Set up Subframes for MTC-->
       <Action ID="GetGraspAndTwistSubframes" grasp_rotation_z_radians="1.5708" target_grasp_pose="{handle_pose}" grasp_and_twist_subframes="{grasp_and_twist_subframes}"/>
-      <Action ID="CreateGraspableObject" cuboid_object="{door_object}" generate_side_faces="true" generate_top_face="true" dy="0.100000" dx="0.100000" generate_front_face="true" object_id="lever_door" dz="0.100000" pose="{handle_pose}"/>
+      <Action ID="CreateGraspableObject" cuboid_object="{door_object}" generate_side_faces="true" generate_top_face="true" generate_front_face="true" object_id="lever_door" dy="0.100000" dx="0.100000" dz="0.100000" pose="{handle_pose}"/>
       <!--Add the subframes to the Object-->
       <Decorator ID="ForEachObjectSubframe" vector_in="{grasp_and_twist_subframes}" out="{subframe}">
         <Action ID="AddSubframeToObject" subframe="{subframe}" graspable_object="{door_object}"/>
