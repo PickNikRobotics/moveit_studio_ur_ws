@@ -1,7 +1,7 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" main_tree_to_execute="Detect Door Graspable Object">
   <!-- ////////// -->
-  <BehaviorTree ID="Detect Door Graspable Object" _description="Segments out a door from an input depth image and attempts to fit an output GraspableObject.">
+  <BehaviorTree ID="Detect Door Graspable Object" _description="Detects a door grapsable object from a depth image and gets a GraspableObject.">
     <!-- TODO: need to be directly in front of door for this objective to work until GetGraspableObjectsFromMasks3D calculates the collision more robustly for non cuboid objects. -->
     <Control ID="Sequence" name="TopLevelSequence">
       <!-- Get the point cloud from the wrist camera -->
@@ -11,7 +11,7 @@
       <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
       <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
       <!-- Segment out 2D masks and then convert to 3D masks and visualize in UI -->
-      <Action ID="GetMasks2DAction" image="{image}" action_name="get_masks_2d_maskrcnn" min_confidence="0.8" max_nms_iou="0.8" min_relative_area="0.05" max_relative_area="0.8" timeout_sec="15.0" masks2d="{masks2d}" valid_classes="{detection_classes}"/>
+      <Action ID="GetMasks2DAction" image="{image}" action_name="get_masks_2d_maskrcnn" min_confidence="0.8" max_nms_iou="0.8" min_relative_area="0.05" max_relative_area="0.8" timeout_sec="10.0" masks2d="{masks2d}" valid_classes="{detection_classes}"/>
       <Action ID="GetMasks3DFromMasks2D" point_cloud="{point_cloud}" masks2d="{masks2d}" camera_info="{camera_info}" masks3d="{masks3d}"/>
       <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
         <Control ID="Sequence">
@@ -19,15 +19,16 @@
           <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
         </Control>
       </Decorator>
-      <!-- Convert 3D mask into graspable object, but as we don't need it for MTC  -->
-      <Decorator ID="ForceSuccess">
-        <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.01" minimum_face_area="0.000625" face_separation_threshold="0.02" graspable_objects="{door_objects}"/>
-      </Decorator>
+      <!-- Convert 3D mask into graspable object -->
+      <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.01" minimum_face_area="0.000625" face_separation_threshold="0.02" graspable_objects="{door_objects}"/>
       <Decorator ID="ForceSuccess">
         <Decorator ID="ForEachGraspableObject" vector_in="{door_objects}" out="{door_object}">
           <Action ID="AlwaysFailure"/>
         </Decorator>
       </Decorator>
+      <!-- Add object to planning scene and return success  -->
+      <Action ID="ModifyObjectInPlanningScene" object="{door_object}" apply_planning_scene_service="/apply_planning_scene"/>
+      <Action ID="LogMessage" message="Found a GraspableObject for the door." log_level="info"/>
     </Control>
   </BehaviorTree>
 </root>

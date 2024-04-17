@@ -1,0 +1,25 @@
+<root>
+  <TreeNodesModel>
+    <SubTree ID="Sample April Tag">
+        <description>
+          <p>
+              Samples the pose of an AprilTag and returns the average measurement.
+          </p>
+        </description>
+        <input_port name="num_samples" default="1">The number of times to sample the pose.</input_port>
+        <input_port name="tag_id" default="0">The AprilTag ID to detect.</input_port>
+        <input_port name="apriltag_config" default="apriltag_detection_config.yaml">The configuration file for detecting AprilTags.</input_port>
+        <input_port name="max_distance" default="0.02">The maximum distance allow between the average pose and the new sample (Euclidean distance between pose positions).</input_port>
+        <input_port name="max_rotation" default="0.2">The maximum angle allow between the average pose and the new sample (shortest angle between two pose quaternions).</input_port>
+        <output_port name="avg_pose" default="{avg_pose}">The calculated average pose.</output_port>
+    </SubTree>
+    <SubTree ID="Pick Object">
+        <description>
+          <p>
+              Picks an object at the specified grasp pose.
+          </p>
+        </description>
+        <input_port name="grasp_pose" default="{grasp_pose}">The desired grasp pose.</input_port>
+    </SubTree>
+  </TreeNodesModel>
+</root>
