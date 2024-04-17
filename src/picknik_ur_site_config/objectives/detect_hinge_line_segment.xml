@@ -17,7 +17,7 @@
         </Decorator>
       </Decorator>
       <!-- fit 3D mask to a line segment and return the two end poses. -->
-      <Action ID="FitLineSegmentToMask3D" point_cloud="{point_cloud}" mask3d="{mask3d}" base_frame="world" max_distance_from_line_for_inlier="0.02" line_segment_poses="{line_segment_poses}"/>
+      <Action ID="FitLineSegmentToMask3D" point_cloud="{point_cloud}" mask3d="{mask3d}" base_frame="world" max_distance_from_line_for_inlier="0.02" line_segment_start_point="{line_segment_start_point}" line_segment_end_point="{line_segment_end_point}"/>
       <Action ID="LogMessage" message="Fit a line segment to the detected hinge successfully." log_level="info"/>
     </Control>
   </BehaviorTree>
