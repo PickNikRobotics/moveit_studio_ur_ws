@@ -19,12 +19,7 @@
         <group name="manipulator_left" />
         <group name="manipulator_right" />
     </group>
-    <group name="gripper_left">
-        <chain base_link="left_robotiq_85_base_link" tip_link="left_grasp_link"/>
-    </group>
-    <!-- <group name="gripper">
-        <chain base_link="right_robotiq_85_base_link" tip_link="right_grasp_link"/>
-    </group> -->
+
 
     <group name="gripper">
         <link name="right_robotiq_85_base_link"/>
@@ -40,7 +35,6 @@
         <joint name="right_robotiq_85_left_knuckle_joint"/>
     </group>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="left_ee" parent_link="left_tool0" group="gripper_left"/>
     <end_effector name="right_ee" parent_link="right_tool0" group="gripper"/>
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="left_fixed_base" type="fixed" parent_frame="world" child_link="left_base_link"/>
