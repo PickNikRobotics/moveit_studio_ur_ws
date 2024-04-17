@@ -8,7 +8,7 @@ install(
     config
     # Uncomment the following lines if you make use of these directories in you site_config package
     # description
-    # launch
+    launch
     objectives
     # waypoints
   DESTINATION
