@@ -62,15 +62,15 @@ hardware:
   robot_description:
     urdf:
       package: "picknik_ur_multi_arm_config"
-      path: "description/dual_arm_ur.xacro"
+      path: "description/multi_arm_ur.xacro"
     srdf:
       package: "picknik_ur_multi_arm_config"
-      path: "config/moveit/dual_arm_ur.srdf"
+      path: "config/moveit/multi_arm_ur.srdf"
     # Specify any additional parameters required for the URDF.
     # Many of these are specific to the UR descriptions packages, and can be customized as needed.
     # [Optional]
     urdf_params:
-      - name: "dual_arm_ur"
+      - name: "multi_arm_ur"
       - prefix: ""
       - use_fake_hardware: "%>> hardware.simulated"
       - use_pinch_links: "true"
@@ -112,7 +112,7 @@ ros_global_params:
 # [Required]
 moveit_params:
   # Used by the Waypoint Manager to save joint states from this joint group.
-  joint_group_name: "dual_arm_manipulator"
+  joint_group_name: "first_manipulator"
 
   ompl_planning:
     package: "picknik_ur_multi_arm_config"
@@ -128,7 +128,7 @@ moveit_params:
     path: "config/moveit/trac_ik_kinematics_distance.yaml"
   servo:
     package: "picknik_ur_multi_arm_config"
-    path: "config/moveit/right_ur_servo.yaml"
+    path: "config/moveit/multi_ur_servo.yaml"
   sensors_3d:
     package: "picknik_ur_base_config"
     path: "config/moveit/sensors_3d.yaml"
@@ -137,7 +137,7 @@ moveit_params:
     path: "config/moveit/trac_ik_kinematics_speed.yaml"
   joint_limits:
     package: "picknik_ur_multi_arm_config"
-    path: "config/moveit/dual_arm_joint_limits.yaml"
+    path: "config/moveit/multi_arm_joint_limits.yaml"
   pilz_cartesian_limits:
     package: "picknik_ur_base_config"
     path: "config/moveit/pilz_cartesian_limits.yaml"
@@ -160,34 +160,37 @@ ui_params:
   # By default, MoveIt Pro uses a frame called "grasp_link" for tool grasp pose rendering
   # and planning.
   # [Required]
-  servo_endpoint_frame_id: "right_grasp_link"
+  servo_endpoint_frame_id: "first_grasp_link"
 
 # Configuration for launching ros2_control processes.
 # [Required, if using ros2_control]
 ros2_control:
   config:
     package: "picknik_ur_multi_arm_config"
-    path: "config/control/picknik_dual_ur.ros2_control.yaml"
+    path: "config/control/picknik_multi_ur.ros2_control.yaml"
   # MoveIt Pro will load and activate these controllers at start up to ensure they are available.
   # If not specified, it is up to the user to ensure the appropriate controllers are active and available
   # for running the application.
   # [Optional, default=[]]
   controllers_active_at_startup:
     - "joint_state_broadcaster"
-    - "left_servo_controller"
-    - "right_servo_controller"
-    - "left_io_and_status_controller"
-    - "right_io_and_status_controller"
-    - "left_robotiq_activation_controller"
-    - "left_robotiq_gripper_controller"
-    - "right_robotiq_activation_controller"
-    - "right_robotiq_gripper_controller"
+    - "servo_controller"
+    - "first_io_and_status_controller"
+    - "second_io_and_status_controller"
+    - "third_io_and_status_controller"
+    - "fourth_io_and_status_controller"
+    - "first_robotiq_activation_controller"
+    - "second_robotiq_activation_controller"
+    - "third_robotiq_activation_controller"
+    - "fourth_robotiq_activation_controller"
+    - "first_robotiq_gripper_controller"
+    - "second_robotiq_gripper_controller"
+    - "third_robotiq_gripper_controller"
+    - "fourth_robotiq_gripper_controller"
   # Load but do not start these controllers so they can be activated later if needed.
   # [Optional, default=[]]
   controllers_inactive_at_startup:
-    - "left_joint_trajectory_controller"
-    - "right_joint_trajectory_controller"
-    - "dual_arm_joint_trajectory_controller"
+    - "multi_arm_joint_trajectory_controller"
   # Any controllers here will not be spawned by MoveIt Pro.
   # [Optional, default=[]]
   controllers_not_managed: []
