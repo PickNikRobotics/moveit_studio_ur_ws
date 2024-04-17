@@ -39,7 +39,7 @@
             <!--Pose Jog-->
             <Control ID="Sequence" _while="teleop_mode == 2">
               <Action ID="SwitchUIPrimaryView" primary_view_name="Visualization"/>
-              <Action ID="TeleoperateTwist" controller_name="first_servo_controller"/>
+              <Action ID="TeleoperateTwist" controller_name="servo_controller"/>
             </Control>
             <!--Joint Jog-->
             <Control ID="Sequence" _while="teleop_mode == 1">

@@ -174,10 +174,6 @@ ros2_control:
   # [Optional, default=[]]
   controllers_active_at_startup:
     - "joint_state_broadcaster"
-    - "first_servo_controller"
-    - "second_servo_controller"
-    - "third_servo_controller"
-    - "fourth_servo_controller"
     - "servo_controller"
     - "first_io_and_status_controller"
     - "second_io_and_status_controller"
