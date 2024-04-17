@@ -124,9 +124,6 @@ moveit_params:
   sensors_3d:
     package: "picknik_ur_base_config"
     path: "config/moveit/sensors_3d.yaml"
-  servo:
-    package: "picknik_ur_multi_arm_gazebo_config"
-    path: "config/moveit/ur_servo.yaml"
   servo_kinematics:
     package: "picknik_ur_multi_arm_gazebo_config"
     path: "config/moveit/trac_ik_kinematics_speed.yaml"
