@@ -35,7 +35,7 @@ smoothing_filter_plugin_name: "online_signal_smoothing::ButterworthFilterPlugin"
 low_pass_filter_coeff: 1.5  # Larger --> trust the filtered data more, trust the measurements less.
 
 ## MoveIt properties
-move_group_name: manipulator_left # Often 'manipulator' or 'arm'
+move_group_name: first_manipulator  # Often 'manipulator' or 'arm'
 is_primary_planning_scene_monitor: false  # The MoveGroup node maintains the planning scene, so Servo needs to get its world info from there.
 
 ## Stopping behaviour
@@ -51,7 +51,7 @@ cartesian_command_in_topic: ~/delta_twist_cmds  # Topic for incoming Cartesian t
 joint_command_in_topic: ~/delta_joint_cmds # Topic for incoming joint angle commands
 joint_topic: /joint_states
 status_topic: ~/status # Publish status to this topic
-command_out_topic: /left_servo_controller/commands # Publish outgoing commands here
+command_out_topic: /servo_controller/commands # Publish outgoing commands here
 
 ## Collision checking for the entire robot body
 check_collisions: true # Check collisions?

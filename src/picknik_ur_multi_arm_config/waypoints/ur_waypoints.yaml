@@ -1,11 +1,8 @@
-- description: 'Both arms are in a down position'
+- description: ''
   favorite: true
   joint_group_names:
-  - dual_arm_manipulator
-  - gripper
-  - gripper_left
-  - manipulator_left
-  - manipulator_right
+    - first_manipulator
+    - third_manipulator
   joint_state:
     effort: []
     header:
@@ -14,43 +11,41 @@
         nanosec: 0
         sec: 0
     name:
-      - left_shoulder_pan_joint
-      - left_shoulder_lift_joint
-      - left_elbow_joint
-      - left_wrist_1_joint
-      - left_wrist_2_joint
-      - left_wrist_3_joint
-      - right_shoulder_pan_joint
-      - right_shoulder_lift_joint
-      - right_elbow_joint
-      - right_wrist_1_joint
-      - right_wrist_2_joint
-      - right_wrist_3_joint
-      - right_robotiq_85_left_knuckle_joint
-      - left_robotiq_85_left_knuckle_joint
+      - first_shoulder_pan_joint
+      - first_shoulder_lift_joint
+      - first_elbow_joint
+      - first_wrist_1_joint
+      - first_wrist_2_joint
+      - first_wrist_3_joint
+      - third_shoulder_pan_joint
+      - third_shoulder_lift_joint
+      - third_elbow_joint
+      - third_wrist_1_joint
+      - third_wrist_2_joint
+      - third_wrist_3_joint
     position:
-      - 5.12061324901879e-05
-      - -1.4100637137602083
-      - -0.6999914125130512
-      - -2.1199174221931956
-      - 1.6699393665105104
-      - -4.32235198095441e-06
-      - 3.109852643683551e-05
-      - -1.410057083617756
-      - -0.7000249972289894
-      - -2.1200145056689625
-      - 1.669979084378574
-      - 1.3941351324319836e-05
-      - 0
-      - 0.7929
+      - 9.540279814973473e-05
+      - -1.5136292813696373
+      - -1.7991856549041711
+      - -1.5993025047320004
+      - 1.66998561271755
+      - -8.610167000442744e-05
+      - 8.305896818637847e-05
+      - -1.5136114941166188
+      - -1.7992262944389035
+      - -1.599280362740957
+      - 1.6699864011902827
+      - -9.210125892423094e-05
     velocity: []
-  name: Home
-- description: Both arms are in a down position
+  name: Two Arms Down
+- description: Home Flipped
   favorite: true
   joint_group_names:
-    - dual_arm_manipulator
-    - manipulator_left
-    - manipulator_right
+    - multi_arm_manipulator
+    - first_manipulator
+    - second_manipulator
+    - third_manipulator
+    - fourth_manipulator
   joint_state:
     effort: []
     header:
@@ -59,30 +54,255 @@
         nanosec: 0
         sec: 0
     name:
-      - left_shoulder_pan_joint
-      - left_shoulder_lift_joint
-      - left_elbow_joint
-      - left_wrist_1_joint
-      - left_wrist_2_joint
-      - left_wrist_3_joint
-      - right_shoulder_pan_joint
-      - right_shoulder_lift_joint
-      - right_elbow_joint
-      - right_wrist_1_joint
-      - right_wrist_2_joint
-      - right_wrist_3_joint
+      - first_shoulder_pan_joint
+      - first_shoulder_lift_joint
+      - first_elbow_joint
+      - first_wrist_1_joint
+      - first_wrist_2_joint
+      - first_wrist_3_joint
+      - second_shoulder_pan_joint
+      - second_shoulder_lift_joint
+      - second_elbow_joint
+      - second_wrist_1_joint
+      - second_wrist_2_joint
+      - second_wrist_3_joint
+      - third_shoulder_pan_joint
+      - third_shoulder_lift_joint
+      - third_elbow_joint
+      - third_wrist_1_joint
+      - third_wrist_2_joint
+      - third_wrist_3_joint
+      - fourth_shoulder_pan_joint
+      - fourth_shoulder_lift_joint
+      - fourth_elbow_joint
+      - fourth_wrist_1_joint
+      - fourth_wrist_2_joint
+      - fourth_wrist_3_joint
     position:
-      - 8.581502470187843e-05
+      - 6.283
+      - -1.013
+      - -1.799
+      - 0
+      - -1.669
+      - 3.141
+      - -6.283
+      - -1.013
+      - -1.713
+      - 0
+      - -1.669
+      - 3.141
+      - 6.283
+      - -1.013
+      - -1.799
+      - 0
+      - -1.669
+      - 3.141
+      - -6.283
+      - -1.013
+      - -1.713
+      - 0
+      - -1.669
+      - 3.141
+    velocity: []
+  name: Home Flipped
+- description: Arms down
+  favorite: true
+  joint_group_names:
+    - multi_arm_manipulator
+    - first_manipulator
+    - second_manipulator
+    - third_manipulator
+    - fourth_manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - first_shoulder_pan_joint
+      - first_shoulder_lift_joint
+      - first_elbow_joint
+      - first_wrist_1_joint
+      - first_wrist_2_joint
+      - first_wrist_3_joint
+      - second_shoulder_pan_joint
+      - second_shoulder_lift_joint
+      - second_elbow_joint
+      - second_wrist_1_joint
+      - second_wrist_2_joint
+      - second_wrist_3_joint
+      - third_shoulder_pan_joint
+      - third_shoulder_lift_joint
+      - third_elbow_joint
+      - third_wrist_1_joint
+      - third_wrist_2_joint
+      - third_wrist_3_joint
+      - fourth_shoulder_pan_joint
+      - fourth_shoulder_lift_joint
+      - fourth_elbow_joint
+      - fourth_wrist_1_joint
+      - fourth_wrist_2_joint
+      - fourth_wrist_3_joint
+    position:
+      - 0
       - -1.5136764603659916
       - -1.799275792510518
       - -1.5993562600093492
       - 1.6699146867751609
-      - -1.3363372068852196e-06
-      - -6.064204568974674e-05
+      - 0
+      - 0
       - -1.5136764603659916
       - -1.71359599286716
       - -1.6564761264382546
       - 1.6699516917224972
-      - -4.144793883897364e-05
+      - 0
+      - 0
+      - -1.5136764603659916
+      - -1.799275792510518
+      - -1.5993562600093492
+      - 1.6699146867751609
+      - 0
+      - 0
+      - -1.5136764603659916
+      - -1.71359599286716
+      - -1.6564761264382546
+      - 1.6699516917224972
+      - 0
     velocity: []
   name: Arms Down
+- description: Home twisted
+  favorite: true
+  joint_group_names:
+    - multi_arm_manipulator
+    - first_manipulator
+    - second_manipulator
+    - third_manipulator
+    - fourth_manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - first_shoulder_pan_joint
+      - first_shoulder_lift_joint
+      - first_elbow_joint
+      - first_wrist_1_joint
+      - first_wrist_2_joint
+      - first_wrist_3_joint
+      - second_shoulder_pan_joint
+      - second_shoulder_lift_joint
+      - second_elbow_joint
+      - second_wrist_1_joint
+      - second_wrist_2_joint
+      - second_wrist_3_joint
+      - third_shoulder_pan_joint
+      - third_shoulder_lift_joint
+      - third_elbow_joint
+      - third_wrist_1_joint
+      - third_wrist_2_joint
+      - third_wrist_3_joint
+      - fourth_shoulder_pan_joint
+      - fourth_shoulder_lift_joint
+      - fourth_elbow_joint
+      - fourth_wrist_1_joint
+      - fourth_wrist_2_joint
+      - fourth_wrist_3_joint
+    position:
+      - -6.283
+      - -1.013
+      - -1.799
+      - -0.75
+      - 1.669
+      - 0
+      - 6.283
+      - -1.013
+      - -1.713
+      - -0.75
+      - 1.669
+      - 0
+      - -6.283
+      - -1.013
+      - -1.799
+      - -0.75
+      - 1.669
+      - 0
+      - 6.283
+      - -1.013
+      - -1.713
+      - -0.75
+      - 1.669
+      - 0
+    velocity: []
+  name: Home Twisted
+- description: Home
+  favorite: true
+  joint_group_names:
+    - multi_arm_manipulator
+    - first_manipulator
+    - second_manipulator
+    - third_manipulator
+    - fourth_manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - first_shoulder_pan_joint
+      - first_shoulder_lift_joint
+      - first_elbow_joint
+      - first_wrist_1_joint
+      - first_wrist_2_joint
+      - first_wrist_3_joint
+      - second_shoulder_pan_joint
+      - second_shoulder_lift_joint
+      - second_elbow_joint
+      - second_wrist_1_joint
+      - second_wrist_2_joint
+      - second_wrist_3_joint
+      - third_shoulder_pan_joint
+      - third_shoulder_lift_joint
+      - third_elbow_joint
+      - third_wrist_1_joint
+      - third_wrist_2_joint
+      - third_wrist_3_joint
+      - fourth_shoulder_pan_joint
+      - fourth_shoulder_lift_joint
+      - fourth_elbow_joint
+      - fourth_wrist_1_joint
+      - fourth_wrist_2_joint
+      - fourth_wrist_3_joint
+    position:
+      - 0
+      - -1.013
+      - -1.799
+      - -0.75
+      - 1.669
+      - 0
+      - 0
+      - -1.013
+      - -1.713
+      - -0.75
+      - 1.669
+      - 0
+      - 0
+      - -1.013
+      - -1.799
+      - -0.75
+      - 1.669
+      - 0
+      - 0
+      - -1.013
+      - -1.713
+      - -0.75
+      - 1.669
+      - 0
+    velocity: []
+  name: Home
