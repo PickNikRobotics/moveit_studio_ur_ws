@@ -7,8 +7,9 @@
       <Decorator ID="ForceSuccess">
         <Action ID="GetPoseFromUser" parameter_name="pick_object.grasp_pose" parameter_value="{grasp_pose}"/>
       </Decorator>
-      <Action ID="LoadObjectiveParameters" config_file_name="pick_object_config.yaml" parameters="{parameters}"/>
-      <Action ID="InitializeMTCTask" task_id="pick_object" controller_names="/dual_arm_joint_trajectory_controller /right_robotiq_gripper_controller" task="{pick_object_task}"/>
+      <SubTree ID="Clear Snapshot" _collapsed="false"/>
+      <Action ID="LoadObjectiveParameters" config_file_name="pick_object_left.yaml" parameters="{parameters}"/>
+      <Action ID="InitializeMTCTask" task_id="pick_object" controller_names="/dual_arm_joint_trajectory_controller /right_robotiq_gripper_controller /left_robotiq_gripper_controller" task="{pick_object_task}"/>
       <Action ID="SetupMTCCurrentState" task="{pick_object_task}"/>
       <Action ID="SetupMTCPickObject" grasp_pose="{grasp_pose}" task="{pick_object_task}" parameters="{parameters}"/>
       <Action ID="PlanMTCTask" solution="{pick_object_solution}" task="{pick_object_task}"/>

@@ -1,0 +1,11 @@
+SetupMTCPickObject:
+  # The lift vector points to the direction of the positive z-axis of the frame marked as the world frame.
+  world_frame_name: "world"
+  arm_group_name: "manipulator_left"
+  end_effector_group_name: "gripper_left"
+  end_effector_name: "left_ee"
+  hand_frame_name: "left_grasp_link"
+  end_effector_closed_pose_name: "close_left"
+
+  approach_distance: 0.1
+  lift_distance: 0.1
