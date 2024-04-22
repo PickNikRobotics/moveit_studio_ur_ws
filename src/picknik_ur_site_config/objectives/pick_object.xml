@@ -1,39 +1,25 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0"?>
 <root BTCPP_format="4" main_tree_to_execute="Pick Object">
-  <BehaviorTree ID="Pick Object" _description="Pick up and lift a small object" _favorite="true">
-    <Control ID="Sequence" name="root">
-      <SubTree ID="Open Gripper"/>
-      <Control ID="Sequence">
-        <Action ID="GetPointsFromUser" view_name="/wrist_mounted_camera/color/image_raw" point_names="grasp_pose" point_prompts="Select the object you wish to pick" pixel_coords="{pixel_coords}"/>
-        <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" timeout_sec="5.000000"/>
-        <Decorator ID="ForceSuccess">
-          <Control ID="Sequence">
-            <Action ID="AlwaysFailure"/>
-            <Action ID="TransformPointCloudFrame" output_cloud="{point_cloud}" target_frame="wrist_mounted_camera_color_optical_frame" input_cloud="{point_cloud}"/>
-          </Control>
-        </Decorator>
-        <Action ID="GetPoseFromPixelCoords" point_cloud="{point_cloud}" pixel_coords="{pixel_coords}" downsample_fraction="0.1" neighbor_radius="0.1" output_poses="{output_poses}"/>
-        <Action ID="ResetPoseStampedVector" vector="{output_poses_transformed}"/>
-        <Decorator ID="ForEachPoseStamped" out="{pose}" vector_in="{output_poses}">
-          <Control ID="Sequence">
-            <Action ID="TransformPose" output_pose="{pose_transformed}" input_pose="{pose}" quaternion_xyzw="1;0;0;0" translation_xyz="0;0;0.12"/>
-            <Action ID="AddPoseStampedToVector" input="{pose_transformed}" vector="{output_poses_transformed}"/>
-          </Control>
-        </Decorator>
-        <Action ID="AdjustPoseWithIMarker" prompts="Adjust IMarker to desired pose" initial_poses="{output_poses_transformed}" adjusted_poses="{adjusted_poses}"/>
-        <Action ID="ClearSnapshot"/>
-      </Control>
-      <Action ID="LoadObjectiveParameters" config_file_name="pick_object_config.yaml" parameters="{parameters}"/>
-      <Decorator ID="ForEachPoseStamped" vector_in="{adjusted_poses}" out="{grasp_pose}">
-        <Control ID="Sequence">
-          <Action ID="InitializeMTCTask" task_id="pick_object" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{pick_object_task}"/>
-          <Action ID="SetupMTCCurrentState" task="{pick_object_task}"/>
-          <Action ID="SetupMTCPickObject" grasp_pose="{grasp_pose}" task="{pick_object_task}" parameters="{parameters}"/>
-          <Action ID="PlanMTCTask" solution="{pick_object_solution}" task="{pick_object_task}"/>
-          <SubTree ID="Wait for Trajectory Approval if User Available" solution="{pick_object_solution}"/>
-          <Action ID="ExecuteMTCTask" solution="{pick_object_solution}"/>
+    <BehaviorTree ID="Pick Object" _description="Pick up and lift a small object" _favorite="true">
+        <Control ID="Sequence" name="root">
+            <SubTree ID="Open Gripper"/>
+            <Control ID="Sequence">
+                <Action ID="GetPointsFromUser" view_name="/wrist_mounted_camera/color/image_raw" point_names="grasp_pose" point_prompts="Select the object you wish to pick" pixel_coords="{pixel_coords}"/>
+                <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
+                <Action ID="GetPoseFromPixelCoords" point_cloud="{point_cloud}" pixel_coords="{pixel_coords}" downsample_fraction="0.1" neighbor_radius="0.1" output_poses="{output_poses}"/>
+                <Action ID="AdjustPoseWithIMarker" prompts="Adjust IMarker to desired pose" initial_poses="{output_poses}" adjusted_poses="{adjusted_poses}"/>
+            </Control>
+            <Action ID="LoadObjectiveParameters" config_file_name="pick_object_config.yaml" parameters="{parameters}"/>
+            <Action ID="InitializeMTCTask" task_id="pick_object" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{pick_object_task}"/>
+            <Action ID="SetupMTCCurrentState" task="{pick_object_task}"/>
+            <Decorator ID="ForEachPoseStamped" vector_in="{adjusted_poses}" out="{grasp_pose}">
+                <Control ID="Sequence">
+                    <Action ID="SetupMTCPickObject" grasp_pose="{grasp_pose}" task="{pick_object_task}" parameters="{parameters}"/>
+                    <Action ID="PlanMTCTask" solution="{pick_object_solution}" task="{pick_object_task}"/>
+                    <SubTree ID="Wait for Trajectory Approval if User Available" solution="{pick_object_solution}"/>
+                    <Action ID="ExecuteMTCTask" solution="{pick_object_solution}"/>
+                </Control>
+            </Decorator>
         </Control>
-      </Decorator>
-    </Control>
-  </BehaviorTree>
+    </BehaviorTree>
 </root>
