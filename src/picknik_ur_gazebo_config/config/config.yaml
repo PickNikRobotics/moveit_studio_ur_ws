@@ -31,9 +31,6 @@ hardware:
   # This should be false if you are launching the robot state publisher as part of drivers.
   launch_robot_state_publisher: True
 
-  # If the MoveIt Pro Agent should launch cameras when simulated.
-  launch_cameras_when_simulated: True
-
   # The robot's IP address
   ip: "0.0.0.0"
 
@@ -42,11 +39,6 @@ hardware:
     package: "picknik_ur_gazebo_config"
     path: "launch/sim/hardware_sim.launch.py"
 
-  # Override other parameters from the base config package, including
-  # the camera configuration and the robot description model.
-  camera_config_file:
-    package: "picknik_ur_gazebo_config"
-    path: "config/cameras.yaml"
   robot_description:
     urdf:
       package: "picknik_ur_gazebo_config"

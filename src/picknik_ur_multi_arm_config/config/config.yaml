@@ -22,11 +22,6 @@ hardware:
   # [Optional, default=True]
   launch_robot_state_publisher: True
 
-  # If the MoveIt Pro Agent should launch cameras when simulated.
-  # This must be False when using mock hardware, since there are no cameras simulated.
-  # [Optional, default=True]
-  launch_cameras_when_simulated: False
-
   # The robot's IP address.
   # [Required]
   ip: "0.0.0.0"
@@ -49,12 +44,6 @@ hardware:
   simulated_hardware_launch_file:
     package: "moveit_studio_agent"
     path: "launch/blank.launch.py"
-
-  # Configuration details for cameras and scene planning.
-  # [Required]
-  camera_config_file:
-    package: "picknik_ur_multi_arm_config"
-    path: "config/cameras.yaml"
 
   # Parameters used to configure the robot description through XACRO.
   # A URDF and SRDF are both required.

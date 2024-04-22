@@ -7,6 +7,7 @@ install(
   DIRECTORY
     config
     description
+    launch
     waypoints
     objectives
   DESTINATION
