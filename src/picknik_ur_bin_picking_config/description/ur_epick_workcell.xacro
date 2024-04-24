@@ -1,0 +1,191 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
+  <!-- parameters -->
+  <xacro:arg name="name" default="" />
+  <xacro:arg name="headless_mode" default="false" />
+  <xacro:arg name="robot_ip" default="0.0.0.0" />
+  <xacro:arg name="joint_limits_parameters_file" default="$(find ur_description)/config/ur5e/joint_limits.yaml"/>
+  <xacro:arg name="kinematics_parameters_file" default="$(find ur_description)/config/ur5e/default_kinematics.yaml"/>
+  <xacro:arg name="physical_parameters_file" default="$(find ur_description)/config/ur5e/physical_parameters.yaml"/>
+  <xacro:arg name="visual_parameters_file" default="$(find ur_description)/config/ur5e/visual_parameters.yaml"/>
+
+  <xacro:arg name="use_fake_hardware" default="false" />
+  <xacro:arg name="usb_port" default="/dev/ttyUSB0" />
+  <xacro:arg name="use_tool_communication" default="false" />
+  <xacro:arg name="tool_voltage" default="0" />
+
+  <xacro:arg name="epick_extension_radius" default="0.01" />
+  <xacro:arg name="epick_extension_length" default="0.09" />
+  <xacro:arg name="epick_suction_cup_radius" default="0.02" />
+  <xacro:arg name="epick_suction_cup_height" default="0.036" />
+  <xacro:arg name="epick_tcp_stroke_compensation" default="-0.025" /> <!--  Setting this to a negative value will actually move the TCP away from the gripper  -->
+
+  <xacro:arg name="overhead_camera_calibration_file" default="$(find picknik_ur_bin_picking_config)/calibration/nominal_overhead_camera_calibration.yaml"/>
+
+  <!-- Import macros for main hardware components -->
+  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro" />
+  <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro" />
+  <xacro:include filename="$(find epick_description)/urdf/epick_single_suction_cup.xacro"/>
+  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur_camera_adapter.urdf.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro" />
+  <xacro:include
+    filename="$(find picknik_accessories)/descriptions/sensors/extrinsic_calibrated_realsense.urdf.xacro" />
+
+  <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
+  <xacro:arg name="initial_positions_file" default="$(find picknik_ur_bin_picking_config)/config/initial_positions.yaml"/>
+  <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
+  
+  <!-- Import environment macros -->
+  <xacro:include filename="$(find picknik_ur_bin_picking_config)/description/workcell-teststand.xacro" />
+  <xacro:include filename="$(find picknik_ur_bin_picking_config)/description/generic_tote.xacro" />
+
+  <link name="world" />
+
+  <!-- Workcell -->
+  <xacro:workcell_teststand
+    parent_link="world"
+  />
+
+  <!-- arm -->
+  <xacro:ur_robot
+    name="$(arg name)"
+    tf_prefix=""
+    parent="robot_mount"
+    joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
+    kinematics_parameters_file="$(arg kinematics_parameters_file)"
+    physical_parameters_file="$(arg physical_parameters_file)"
+    visual_parameters_file="$(arg visual_parameters_file)"
+    use_fake_hardware="$(arg use_fake_hardware)"
+    initial_positions="${xacro.load_yaml(initial_positions_file)}"
+    headless_mode="$(arg headless_mode)"
+    robot_ip="$(arg robot_ip)"
+    script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
+    output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
+    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
+    use_tool_communication="true"
+    tool_voltage="$(arg tool_voltage)"
+    tool_device_name="$(arg usb_port)">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:ur_robot>
+
+  <!-- wrist camera adapter and camera-->
+  <xacro:ur_realsense_camera_adapter prefix="" parent="tool0" child_camera="d415_mount_link" child_tool="realsense_camera_adapter_tool0" rotation="0" camera_mount_pitch_offset="${7.0 * pi / 180}"/>
+
+  <xacro:realsense_d415 parent="d415_mount_link" name="wrist_mounted_camera">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:realsense_d415>
+
+  <!-- Gripper and UR adapter-->
+  <xacro:ur_to_robotiq prefix="" parent="realsense_camera_adapter_tool0" child="gripper_mount_link" rotation="0" />
+
+  <xacro:epick_single_suction_cup 
+    prefix=""
+    parent="gripper_mount_link"
+    extension_radius="$(arg epick_extension_radius)"
+    extension_length="$(arg epick_extension_length)"
+    suction_cup_radius="$(arg epick_suction_cup_radius)"
+    suction_cup_height="$(arg epick_suction_cup_height)"
+    tcp_stroke_compensation="$(arg epick_tcp_stroke_compensation)"
+    use_fake_hardware="$(arg use_fake_hardware)"
+    usb_port="$(arg usb_port)">
+  </xacro:epick_single_suction_cup>
+  
+  <link name="grasp_link"/>
+  <joint name="grasp_link_joint" type="fixed">
+    <parent link="epick_tcp"/>
+    <child link="grasp_link"/>
+    <origin xyz="0.0 0.0 0" rpy="0.0 0.0 0.0"/>
+  </joint>
+
+  <!-- Moveit Studio requires a link name called manual_grasp_link to perform quick tasks such as inspect surface -->
+  <link name="manual_grasp_link"/>
+  <joint name="manual_grasp_joint" type="fixed">
+    <parent link="grasp_link"/>
+    <child link="manual_grasp_link"/>
+    <origin xyz="0 0 0" rpy="${pi / 180.0 * 5} 0 0"/>
+  </joint>
+
+  <!-- Overhead Camera -->
+  <xacro:load_extrinsic_calibrated_realsense
+    name="overhead_camera"
+    parent="base_link"
+    model="d435"
+    extrinsic_calibration_parameter_file="$(arg overhead_camera_calibration_file)" />
+
+  <!-- Tote Frames -->
+  <link name="left_tote_origin"/>
+  <joint name="left_tote_origin_joint" type="fixed">
+    <parent link="world"/>
+    <child link = "left_tote_origin"/>
+    <origin xyz="0.008 -0.055 -0.21" rpy="0 0 ${pi}"/>
+  </joint>
+  <link name="right_tote_origin"/>
+  <joint name="right_tote_origin_joint" type="fixed">
+    <parent link="world"/>
+    <child link = "right_tote_origin"/>
+    <origin xyz="0.008 0.4 -0.21" rpy="0 0 ${pi}"/>
+  </joint>
+
+  <xacro:property name="tote_x" value="${24 * 0.0254}" />
+  <xacro:property name="tote_y" value="${15 * 0.0254}" />
+  <xacro:property name="tote_z" value="${7.5 * 0.0254}" />
+  <xacro:property name="tote_wall" value="0.025" />
+  <xacro:property name="tote_bottom" value="0.005" />
+
+  <!-- Add the left tote -->
+  <xacro:generic_tote
+    parent="left_tote_origin"
+    prefix="left_"
+    x_length="${tote_x}"
+    y_length="${tote_y}"
+    z_length="${tote_z}"
+    side_wall_thickness="${tote_wall}"
+    bottom_thickness="${tote_bottom}"/>
+
+  <!-- Add the right tote -->
+  <xacro:generic_tote
+    parent="right_tote_origin"
+    prefix="right_"
+    x_length="${tote_x}"
+    y_length="${tote_y}"
+    z_length="${tote_z}"
+    side_wall_thickness="${tote_wall}"
+    bottom_thickness="${tote_bottom}"/>
+  <!-- These links are used to help visualize the left and right bin crop box settings configured 
+  in pick_left/right_bin_config.yaml -->
+  <xacro:property name="crop_box_size_x" value="${tote_x - 2 * tote_wall - 0.04}" />
+  <xacro:property name="crop_box_size_y" value="${tote_y - 2 * tote_wall - 0.04}" />
+  <xacro:property name="crop_box_size_z" value="${tote_z + 0.03}" />
+  <link name="left_bin_crop_box">
+    <visual>
+      <geometry>
+        <box size="${crop_box_size_x} ${crop_box_size_y} ${crop_box_size_z} "/>
+      </geometry>
+      <material name="green">
+        <color rgba="0 1 0 0.5"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="left_bin_crop_box_joint" type="fixed">
+    <parent link="left_tote_origin"/>
+    <child link="left_bin_crop_box"/>
+    <origin xyz="${tote_x/2} ${tote_y/2} ${crop_box_size_z/2 + tote_bottom}" rpy="0 0 0"/>
+  </joint>
+  
+  <link name="right_bin_crop_box">
+    <visual>
+      <geometry>
+        <box size="${crop_box_size_x} ${crop_box_size_y} ${crop_box_size_z} "/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 1 0.5"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="right_bin_crop_box_joint" type="fixed">
+    <parent link="right_tote_origin"/>
+    <child link = "right_bin_crop_box"/>
+    <origin xyz="${tote_x/2} ${tote_y/2} ${crop_box_size_z/2 + tote_bottom}" rpy="0 0 0"/>
+  </joint>
+
+</robot>

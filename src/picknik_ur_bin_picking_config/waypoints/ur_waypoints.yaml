@@ -1,0 +1,162 @@
+- description: ''
+  favorite: false
+  joint_group_names:
+    - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    position:
+      - -1.679987557840669
+      - -1.8160489399476543
+      - -1.6065040258834569
+      - -1.2707830714551729
+      - 1.6180221593594688
+      - -1.4562151226317823
+    velocity: []
+  name: Inside Right
+- description: ''
+  favorite: false
+  joint_group_names:
+    - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    position:
+      - -1.1114094893084925
+      - -1.8326198063292445
+      - -1.343468189239502
+      - -1.5500391212156792
+      - 1.6224205493927002
+      - -1.314564053212301
+    velocity: []
+  name: Place in Left Box
+- description: ''
+  favorite: false
+  joint_group_names:
+    - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    position:
+      - -1.1055105368243616
+      - -1.6340896091856898
+      - -0.8956022262573242
+      - -2.004265447656149
+      - 1.5578076839447021
+      - -1.0797513167010706
+    velocity: []
+  name: Look at Left Box
+- description: ''
+  favorite: false
+  joint_group_names:
+    - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    position:
+      - -1.681838337575094
+      - -1.6589795551695765
+      - -0.8576908111572266
+      - -2.0132934055724085
+      - 1.567287564277649
+      - 1.4638665914535522
+    velocity: []
+  name: Look at Right Box
+- description: ''
+  favorite: false
+  joint_group_names:
+    - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    position:
+      - -1.6882641951190394
+      - -1.781846662560934
+      - -1.386147379875183
+      - -1.5258264330080529
+      - 1.6182382106781006
+      - -1.4645078817950647
+    velocity: []
+  name: Place in Right Box
+- description: ''
+  favorite: false
+  joint_group_names:
+    - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    position:
+      - -1.1055979205467734
+      - -1.8481574679172958
+      - -1.496501192020063
+      - -1.3810685505624993
+      - 1.6225058127761554
+      - -1.3087577748739863
+    velocity: []
+  name: Inside Left

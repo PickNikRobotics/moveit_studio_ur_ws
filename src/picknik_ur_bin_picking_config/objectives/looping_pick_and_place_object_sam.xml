@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Looping Pick and Place Object SAM">
+  <!--//////////-->
+  <BehaviorTree ID="Looping Pick and Place Object SAM copy 2" _description="" _favorite="true">
+    <Control ID="Sequence">
+      <Action ID="ResetPlanningSceneObjects" apply_planning_scene_service="apply_planning_scene"/>
+      <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.0"/>
+      <Action ID="LoadObjectiveParameters" config_file_name="looping_pick_and_place_object_sam_config.yaml" parameters="{parameters}"/>
+      <Action ID="InitializeMotionConstraints" constraints="{constraints}" constraints_name="empty_constraints"/>
+      <Action ID="Script" code="joint_group_name:='manipulator'"/>
+      <Decorator ID="KeepRunningUntilFailure">
+        <Decorator ID="ForEachString" vector_in="Left;Right" out="{bin_name}">
+          <Decorator ID="ForceSuccess">
+            <Decorator ID="KeepRunningUntilFailure">
+              <Control ID="Sequence">
+                <Control ID="IfThenElse">
+                  <Decorator ID="Precondition" if="bin_name == 'Left'" else="FAILURE">
+                    <Action ID="AlwaysSuccess"/>
+                  </Decorator>
+                  <Control ID="Sequence">
+                    <Action ID="Script" code="look_at_bin_waypoint := 'Look at Left Box'"/>
+                    <Action ID="Script" code="place_waypoint := 'Place in Right Box'"/>
+                    <Action ID="Script" code="crop_box_origin_frame_id := 'right_bin_crop_box'"/>
+                    <Action ID="Script" code="tote_link_name := 'right_tote_link'"/>
+                  </Control>
+                  <Control ID="Sequence">
+                    <Action ID="Script" code="look_at_bin_waypoint := 'Look at Right Box'"/>
+                    <Action ID="Script" code="place_waypoint := 'Place in Left Box'"/>
+                    <Action ID="Script" code="crop_box_origin_frame_id := 'left_bin_crop_box'"/>
+                    <Action ID="Script" code="tote_link_name := 'left_tote_link'"/>
+                  </Control>
+                </Control>
+                <Action ID="CreateStampedPose" position_xyz="0.0;0.0;0.0" orientation_xyzw="0.0;0.0;0.0;1.0" stamped_pose="{crop_box_pose}" reference_frame="{crop_box_origin_frame_id}"/>
+                <Control ID="Sequence">
+                  <Decorator ID="RetryUntilSuccessful" num_attempts="3">
+                    <Control ID="Fallback" name="TryGraspInner">
+                      <Control ID="Sequence">
+                        <Control ID="Sequence">
+                          <Action ID="ResetPlanningSceneObjects" apply_planning_scene_service="apply_planning_scene"/>
+                          <SubTree ID="Move to Waypoint" _collapsed="true" waypoint_name="{look_at_bin_waypoint}" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" constraints="{constraints}" joint_group_name="manipulator"/>
+                          <Action ID="ClearSnapshot"/>
+                        </Control>
+                        <SubTree ID="Detect Graspable Objects In ROI" rgb_image_topic="/wrist_mounted_camera/color/image_raw" point_cloud_topic="/wrist_mounted_camera/depth/color/points" rgb_info_topic="/wrist_mounted_camera/color/camera_info" get_masks_2d_action="/get_masks_2d_fastsam" objects="{objects}" _collapsed="true" roi_pose="{crop_box_pose}" roi_size="0.23;0.32;0.5"/>
+                        <Control ID="Sequence">
+                          <Action ID="Script" code="found_plan:=false"/>
+                          <Action ID="Script" code="picked_object := false"/>
+                          <Decorator ID="ForceSuccess">
+                            <Decorator ID="ForEachGraspableObject" vector_in="{objects}" out="{object}">
+                              <Control ID="Sequence">
+                                <Decorator ID="ForceSuccess">
+                                  <Control ID="Sequence">
+                                    <Action ID="InitializeMTCTask" task_id="pick_object" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{task}"/>
+                                    <Action ID="SetupMTCCurrentState" task="{task}"/>
+                                    <Action ID="SetupMTCApproachGrasp" parameters="{parameters}" target_object="{object}" monitored_stage="{monitored_stage}" task="{task}"/>
+                                    <Action ID="SetupMTCGenerateVacuumGrasps" parameters="{parameters}" target_object="{object}" monitored_stage="{monitored_stage}" task="{task}"/>
+                                    <Action ID="SetupMTCMoveAlongFrameAxis" task="{task}" hand_frame="grasp_link" axis_frame="grasp_link" axis_x="0.0" axis_y="0.0" axis_z="1.0" max_distance="0.1" min_distance="0.05" planning_group_name="manipulator" velocity_scale="0.25" acceleration_scale="1.0"/>
+                                    <Action ID="SetupMTCMoveAlongFrameAxis" task="{task}" hand_frame="grasp_link" axis_frame="grasp_link" axis_x="0.0" axis_y="0.0" axis_z="-1.0" max_distance="0.1" min_distance="0.09" planning_group_name="manipulator" velocity_scale="0.25" acceleration_scale="1"/>
+                                    <Control ID="Sequence">
+                                      <Action ID="PlanMTCTask" solution="{solution}" task="{task}"/>
+                                      <Action ID="Script" code="found_plan = true" name="Set Plan Found"/>
+                                    </Control>
+                                    <Decorator ID="Precondition" if="found_plan" else="FAILURE" name="Check If Plan Found">
+                                      <Action ID="AlwaysSuccess"/>
+                                    </Decorator>
+                                    <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="1.0"/>
+                                    <SubTree ID="Execute Trajectory Until Epick Gripper State" _collapsed="true" expected_vacuum_status="OBJECT_DETECTED_AT_MIN_PRESSURE" solution="{solution}" trajectory_execution_succeeded="{trajectory_execution_succeeded}"/>
+                                    <Decorator ID="Precondition" if="trajectory_execution_succeeded == true" else="SUCCESS" name="Check If Trajectory Finished">
+                                      <Action ID="AlwaysFailure"/>
+                                    </Decorator>
+                                    <Action ID="Script" code="picked_object = true"/>
+                                    <Action ID="Script" code="object_in_hand:=object"/>
+                                  </Control>
+                                </Decorator>
+                                <Decorator ID="Precondition" if="picked_object == true" else="SUCCESS" name="Check If Object Picked">
+                                  <Action ID="AlwaysFailure"/>
+                                </Decorator>
+                              </Control>
+                            </Decorator>
+                          </Decorator>
+                          <Decorator ID="Precondition" if="picked_object == true" else="FAILURE" name="Check If Object Picked">
+                            <Action ID="AlwaysSuccess"/>
+                          </Decorator>
+                        </Control>
+                      </Control>
+                      <Control ID="Sequence">
+                        <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.0"/>
+                        <Action ID="AlwaysFailure"/>
+                      </Control>
+                    </Control>
+                  </Decorator>
+                  <Control ID="Sequence">
+                    <Action ID="InitializeMTCTask" task_id="allow_tote_collision" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{allow_collision_task}"/>
+                    <Action ID="SetupMTCCurrentState" task="{allow_collision_task}"/>
+                    <Action ID="SetupMTCUpdateObjectCollisionRule" task="{allow_collision_task}" allow_collision="true" object="{object}" object_or_group_name="{tote_link_name}"/>
+                    <Action ID="SetupMTCUpdateObjectCollisionRule" task="{allow_collision_task}" object="{object}" object_or_group_name="gripper" allow_collision="true"/>
+                    <Action ID="PlanMTCTask" solution="{allow_collision_solution}" task="{allow_collision_task}"/>
+                    <Action ID="ExecuteMTCTask" solution="{allow_collision_solution}"/>
+                  </Control>
+                  <Action ID="ModifyObjectInPlanningScene" object="{object}" apply_planning_scene_service="/apply_planning_scene"/>
+                  <Control ID="Sequence">
+                    <Action ID="RetrieveWaypoint" waypoint_name="{place_waypoint}" waypoint_joint_state="{place_joint_state}" joint_group_name="{joint_group_name}"/>
+                    <Action ID="InitializeMTCTask" task_id="place_object" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{task_place}"/>
+                    <Action ID="SetupMTCCurrentState" task="{task_place}"/>
+                    <Action ID="SetupMTCAttachObject" task="{task_place}" object="{object}" frame_id="grasp_link"/>
+                    <Action ID="SetupMTCMoveAlongFrameAxis" task="{task_place}" hand_frame="grasp_link" axis_frame="grasp_link" axis_x="0.0" axis_y="0.0" axis_z="-1.0" max_distance="0.21" min_distance="0.2" planning_group_name="manipulator" velocity_scale="0.5" acceleration_scale="0.5"/>
+                    <Action ID="SetupMTCMoveToJointState" planning_group_name="manipulator" joint_state="{place_joint_state}" use_all_planners="false" constraints="{constraints}" task="{task_place}"/>
+                    <Action ID="SetupMTCDetachObject" task="{task_place}" object="{object}" frame_id="grasp_link"/>
+                    <Action ID="PlanMTCTask" solution="{solution_place}" task="{task_place}" _onSuccess="found_plan=true"/>
+                  </Control>
+                  <SubTree ID="Execute Trajectory Until Epick Gripper State" _collapsed="true" expected_vacuum_status="NO_OBJECT_DETECTED" solution="{solution_place}" trajectory_execution_succeeded="{trajectory_execution_succeeded}"/>
+                  <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.0"/>
+                </Control>
+              </Control>
+            </Decorator>
+          </Decorator>
+        </Decorator>
+      </Decorator>
+    </Control>
+  </BehaviorTree>
+</root>
