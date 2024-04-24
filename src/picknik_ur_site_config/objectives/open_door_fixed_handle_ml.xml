@@ -28,9 +28,9 @@
       </Control>
       <!-- Get the masks for the hinge subframes of the door GraspableObject -->
       <SubTree ID="Move to Waypoint" waypoint_name="Hinge View" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
-      <SubTree ID="Detect Hinge Line Segment" _collapsed="true" line_segment_start_point="{line_segment_start_point}" line_segment_end_point="{line_segment_end_point}"/>
+      <SubTree ID="Detect Hinge Line Segment" _collapsed="true" line_segment_poses="{line_segment_poses}"/>
       <!-- Helper behavior to convert poses into subframes that adhere to the expected axis convention -->
-      <Action ID="GetMoveAlongArcSubframes" target_grasp_pose="{grasp_pose}" hinge_axis_pose_start="{line_segment_start_point}" hinge_axis_pose_end="{line_segment_end_point}" move_along_arc_subframes="{move_along_arc_subframes}"/>
+      <Action ID="GetMoveAlongArcSubframes" target_grasp_pose="{grasp_pose}" hinge_axis_poses="{line_segment_poses}" move_along_arc_subframes="{move_along_arc_subframes}"/>
       <!-- Add the subframes to the Object-->
       <Decorator ID="ForEachObjectSubframe" vector_in="{move_along_arc_subframes}" out="{subframe}">
         <Action ID="AddSubframeToObject" subframe="{subframe}" graspable_object="{door_object}"/>
@@ -41,7 +41,17 @@
       <Control ID="Sequence" name="OpenDoorFixedHandleMTC">
         <Action ID="InitializeMTCTask" task_id="open_door_fixed_handle_ml" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{open_door_fixed_handle_task}"/>
         <Action ID="SetupMTCCurrentState" task="{open_door_fixed_handle_task}"/>
-        <Action ID="SetupMTCGraspThenMoveAlongArcPull" graspable_object="{door_object}" parameters="{parameters}" task="{open_door_fixed_handle_task}"/>
+        <!--Open Gripper-->
+        <Action ID="SetupMTCMoveToNamedState" task="{open_door_fixed_handle_task}" planning_group_name="gripper" goal_state_name="open" use_all_planners="false"/>
+        <!--Approach Grasp Point-->
+        <Action ID="SetupMTCApproachGrasp" task="{open_door_fixed_handle_task}" monitored_stage="{monitored_stage}" target_object="{handle_object}" parameters="{parameters}"/>
+        <!--Generate Cuboid Grasps at Handle-->
+        <Action ID="SetupMTCGenerateCuboidGrasps" parameters="{parameters}" target_object="{handle_object}" monitored_stage="{monitored_stage}" task="{open_door_fixed_handle_task}"/>
+        <!--Close Gripper around handle? todo: break out of MoveAlongArcPull and handle collisions.-->
+        <!--<Action ID="SetupMTCMoveToNamedState" task="{open_door_fixed_handle_task}" planning_group_name="gripper" goal_state_name="close" use_all_planners="false"/>-->
+        <!--Close gripper (here for now due to collisions) and Move Along Arc-->
+        <Action ID="SetupMTCGraspThenMoveAlongArcPull" graspable_object="{handle_object}" parameters="{parameters}" task="{open_door_fixed_handle_task}"/>
+        <!--End of MTC task setup, now plan-->
         <Action ID="PlanMTCTask" task="{open_door_fixed_handle_task}" solution="{open_door_fixed_handle_solution}"/>
         <SubTree ID="Wait for Trajectory Approval if User Available" solution="{open_door_fixed_handle_solution}"/>
         <Action ID="ExecuteMTCTask" solution="{open_door_fixed_handle_solution}"/>
