@@ -1,0 +1,113 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 600  # Hz
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    force_torque_sensor_broadcaster:
+      type: force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    servo_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+force_torque_sensor_broadcaster:
+  ros__parameters:
+    sensor_name: tcp_fts_sensor
+    state_interface_names:
+      - force.x
+      - force.y
+      - force.z
+      - torque.x
+      - torque.y
+      - torque.z
+    frame_id: tool0
+    topic_name: ft_data
+
+joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - panda_joint1
+      - panda_joint2
+      - panda_joint3
+      - panda_joint4
+      - panda_joint5
+      - panda_joint6
+      - panda_joint7
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    command_joints:
+      - panda_joint1
+      - panda_joint2
+      - panda_joint3
+      - panda_joint4
+      - panda_joint5
+      - panda_joint6
+      - panda_joint7
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.0
+      goal_time: 0.0
+      panda_joint1:
+        goal: 0.05
+      panda_joint2:
+        goal: 0.05
+      panda_joint3:
+        goal: 0.05
+      panda_joint4:
+        goal: 0.05
+      panda_joint5:
+        goal: 0.05
+      panda_joint6:
+        goal: 0.05
+      panda_joint7:
+        goal: 0.05
+
+
+servo_controller:
+  ros__parameters:
+    joints:
+      - panda_joint1
+      - panda_joint2
+      - panda_joint3
+      - panda_joint4
+      - panda_joint5
+      - panda_joint6
+      - panda_joint7
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    command_joints:
+      - panda_joint1
+      - panda_joint2
+      - panda_joint3
+      - panda_joint4
+      - panda_joint5
+      - panda_joint6
+      - panda_joint7
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.0
+      goal_time: 0.0
+      panda_joint1:
+        goal: 0.05
+      panda_joint2:
+        goal: 0.05
+      panda_joint3:
+        goal: 0.05
+      panda_joint4:
+        goal: 0.05
+      panda_joint5:
+        goal: 0.05
+      panda_joint6:
+        goal: 0.05
+      panda_joint7:
+        goal: 0.05
