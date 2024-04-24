@@ -1,0 +1,29 @@
+- description: ''
+  favorite: false
+  joint_group_names:
+  - panda_arm
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - panda_joint1
+      - panda_joint2
+      - panda_joint3
+      - panda_joint4
+      - panda_joint5
+      - panda_joint6
+      - panda_joint7
+    position:
+      - 0.2253391084621194
+      - -0.8766468985357625
+      - 0.10192433450120461
+      - -2.3967537870776034
+      - 0.011929218244692156
+      - 1.4015845357950218
+      - 0.9758079705372791
+    velocity: []
+  name: Home
