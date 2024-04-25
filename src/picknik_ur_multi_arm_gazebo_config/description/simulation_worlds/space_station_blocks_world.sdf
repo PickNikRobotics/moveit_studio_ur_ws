@@ -132,7 +132,7 @@
         <collision name='collision'>
           <geometry>
             <mesh>
-              <uri>package://picknik_ur_multi_arm_confi/description/simulation_worlds/agrisphere-facility-building-2.dae</uri>
+              <uri>package://picknik_ur_multi_arm_config/description/simulation_worlds/agrisphere-facility-building-2.dae</uri>
             </mesh>
           </geometry>
         </collision>
