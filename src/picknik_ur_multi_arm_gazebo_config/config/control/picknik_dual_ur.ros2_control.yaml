@@ -1,0 +1,241 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 200  # Hz
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    left_joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    right_joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    dual_arm_joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    left_robotiq_gripper_controller:
+      type: position_controllers/GripperActionController
+    right_robotiq_gripper_controller:
+      type: position_controllers/GripperActionController
+    servo_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+left_joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - left_shoulder_pan_joint
+      - left_shoulder_lift_joint
+      - left_elbow_joint
+      - left_wrist_1_joint
+      - left_wrist_2_joint
+      - left_wrist_3_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    command_joints:
+      - left_shoulder_pan_joint
+      - left_shoulder_lift_joint
+      - left_elbow_joint
+      - left_wrist_1_joint
+      - left_wrist_2_joint
+      - left_wrist_3_joint
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.0
+      goal_time: 0.0
+      left_shoulder_pan_joint:
+        goal: 0.05
+      left_shoulder_lift_joint:
+        goal: 0.05
+      left_elbow_joint:
+        goal: 0.05
+      left_wrist_1_joint:
+        goal: 0.05
+      left_wrist_2_joint:
+        goal: 0.05
+      left_wrist_3_joint:
+        goal: 0.05
+
+right_joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - right_shoulder_pan_joint
+      - right_shoulder_lift_joint
+      - right_elbow_joint
+      - right_wrist_1_joint
+      - right_wrist_2_joint
+      - right_wrist_3_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    command_joints:
+      - right_shoulder_pan_joint
+      - right_shoulder_lift_joint
+      - right_elbow_joint
+      - right_wrist_1_joint
+      - right_wrist_2_joint
+      - right_wrist_3_joint
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.0
+      goal_time: 0.0
+      right_shoulder_pan_joint:
+        goal: 0.05
+      right_shoulder_lift_joint:
+        goal: 0.05
+      right_elbow_joint:
+        goal: 0.05
+      right_wrist_1_joint:
+        goal: 0.05
+      right_wrist_2_joint:
+        goal: 0.05
+      right_wrist_3_joint:
+        goal: 0.05
+
+dual_arm_joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - left_shoulder_pan_joint
+      - left_shoulder_lift_joint
+      - left_elbow_joint
+      - left_wrist_1_joint
+      - left_wrist_2_joint
+      - left_wrist_3_joint
+      - right_shoulder_pan_joint
+      - right_shoulder_lift_joint
+      - right_elbow_joint
+      - right_wrist_1_joint
+      - right_wrist_2_joint
+      - right_wrist_3_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    command_joints:
+      - left_shoulder_pan_joint
+      - left_shoulder_lift_joint
+      - left_elbow_joint
+      - left_wrist_1_joint
+      - left_wrist_2_joint
+      - left_wrist_3_joint
+      - right_shoulder_pan_joint
+      - right_shoulder_lift_joint
+      - right_elbow_joint
+      - right_wrist_1_joint
+      - right_wrist_2_joint
+      - right_wrist_3_joint
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: true
+    constraints:
+      stopped_velocity_tolerance: 0.0
+      goal_time: 0.0
+      left_shoulder_pan_joint:
+        goal: 0.05
+      left_shoulder_lift_joint:
+        goal: 0.05
+      left_elbow_joint:
+        goal: 0.05
+      left_wrist_1_joint:
+        goal: 0.05
+      left_wrist_2_joint:
+        goal: 0.05
+      left_wrist_3_joint:
+        goal: 0.05
+      right_shoulder_pan_joint:
+        goal: 0.05
+      right_shoulder_lift_joint:
+        goal: 0.05
+      right_elbow_joint:
+        goal: 0.05
+      right_wrist_1_joint:
+        goal: 0.05
+      right_wrist_2_joint:
+        goal: 0.05
+      right_wrist_3_joint:
+        goal: 0.05
+
+servo_controller:
+  ros__parameters:
+    joints:
+      - right_shoulder_pan_joint
+      - right_shoulder_lift_joint
+      - right_elbow_joint
+      - right_wrist_1_joint
+      - right_wrist_2_joint
+      - right_wrist_3_joint
+      - left_shoulder_pan_joint
+      - left_shoulder_lift_joint
+      - left_elbow_joint
+      - left_wrist_1_joint
+      - left_wrist_2_joint
+      - left_wrist_3_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    command_joints:
+      - right_shoulder_pan_joint
+      - right_shoulder_lift_joint
+      - right_elbow_joint
+      - right_wrist_1_joint
+      - right_wrist_2_joint
+      - right_wrist_3_joint
+      - left_shoulder_pan_joint
+      - left_shoulder_lift_joint
+      - left_elbow_joint
+      - left_wrist_1_joint
+      - left_wrist_2_joint
+      - left_wrist_3_joint
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.0
+      goal_time: 0.0
+      right_shoulder_pan_joint:
+        goal: 0.05
+      right_shoulder_lift_joint:
+        goal: 0.05
+      right_elbow_joint:
+        goal: 0.05
+      right_wrist_1_joint:
+        goal: 0.05
+      right_wrist_2_joint:
+        goal: 0.05
+      right_wrist_3_joint:
+        goal: 0.05
+      left_shoulder_pan_joint:
+        goal: 0.05
+      left_shoulder_lift_joint:
+        goal: 0.05
+      left_elbow_joint:
+        goal: 0.05
+      left_wrist_1_joint:
+        goal: 0.05
+      left_wrist_2_joint:
+        goal: 0.05
+      left_wrist_3_joint:
+        goal: 0.05
+
+left_robotiq_gripper_controller:
+  ros__parameters:
+    default: true
+    joint: left_robotiq_85_left_knuckle_joint
+    allow_stalling: true
+    stall_velocity_threshold: 0.075
+    stall_timeout: 0.2
+
+right_robotiq_gripper_controller:
+  ros__parameters:
+    default: true
+    joint: right_robotiq_85_left_knuckle_joint
+    allow_stalling: true
+    stall_velocity_threshold: 0.075
+    stall_timeout: 0.2

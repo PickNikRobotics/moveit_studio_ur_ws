@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Move Two Arms">
+  <!--//////////-->
+  <BehaviorTree ID="Move Two Arms" _description="Simple example objective for dual arm motions. Two arms are moved to different waypoints." _favorite="true" _hardcoded="false">
+    <Decorator ID="KeepRunningUntilFailure">
+      <Control ID="Sequence">
+        <Control ID="Sequence">
+          <!--Move left arm down-->
+          <SubTree ID="Move to Named Pose" waypoint_name="Arms Down" joint_group_name="manipulator_left" _collapsed="true"/>
+          <SubTree ID="Open Left Gripper" _collapsed="true"/>
+          <!--Move right arm down-->
+          <SubTree ID="Move to Named Pose" waypoint_name="Arms Down" joint_group_name="manipulator_right" _collapsed="true"/>
+          <SubTree ID="Open Right Gripper" _collapsed="true"/>
+          <!--Move left arm home-->
+          <SubTree ID="Move to Named Pose" waypoint_name="Home" joint_group_name="manipulator_left" _collapsed="true"/>
+          <SubTree ID="Close Left Gripper" _collapsed="true"/>
+          <!--Move right arm home-->
+          <SubTree ID="Move to Named Pose" waypoint_name="Home" joint_group_name="manipulator_right" _collapsed="true"/>
+          <SubTree ID="Close Right Gripper" _collapsed="true"/>
+        </Control>
+        <Control ID="Sequence">
+          <!--Move both arms down-->
+          <SubTree ID="Move to Named Pose" waypoint_name="Arms Down" joint_group_name="dual_arm_manipulator" _collapsed="true"/>
+          <!--Move both arms home-->
+          <SubTree ID="Move to Named Pose" waypoint_name="Home" joint_group_name="dual_arm_manipulator" _collapsed="true"/>
+        </Control>
+      </Control>
+    </Decorator>
+  </BehaviorTree>
+</root>
