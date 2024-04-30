@@ -331,6 +331,7 @@
             <plugin>picknik_mujoco_ros/MujocoSystem</plugin>
             <param name="mujoco_model">description/mujoco/panda.xml</param>
             <param name="mujoco_model_package">picknik_panda_mujoco_config</param>
+            <param name="publish_rate">50</param>
         </hardware>
     </ros2_control>
 </robot>
