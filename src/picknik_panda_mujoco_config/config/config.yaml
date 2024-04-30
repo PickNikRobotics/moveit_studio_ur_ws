@@ -176,6 +176,7 @@ ros2_control:
     - "force_torque_sensor_broadcaster"
     - "joint_state_broadcaster"
     - "servo_controller"
+    - "panda_hand_controller"
   # Load but do not start these controllers so they can be activated later if needed.
   # [Optional, default=[]]
   controllers_inactive_at_startup:
