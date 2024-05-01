@@ -1,7 +1,39 @@
 - description: ''
   favorite: false
   joint_group_names:
+  - hand
   - panda_arm
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - panda_finger_joint1
+      - panda_joint1
+      - panda_joint2
+      - panda_joint3
+      - panda_joint4
+      - panda_joint5
+      - panda_joint6
+      - panda_joint7
+    position:
+      - 0.03999979927318611
+      - 0.09298164902017976
+      - 0.2850030760570641
+      - -0.14104577890202147
+      - -2.809081467768454
+      - -0.29561775333408385
+      - 3.0686416204777234
+      - 0.9971668198970385
+    velocity: []
+  name: Grab Block
+- description: ''
+  favorite: false
+  joint_group_names:
+    - panda_arm
   joint_state:
     effort: []
     header:
@@ -24,6 +56,7 @@
       - -2.3967537870776034
       - 0.011929218244692156
       - 1.4015845357950218
+      - 0.9758079705372791
       - 0.9758079705372791
     velocity: []
   name: Home
