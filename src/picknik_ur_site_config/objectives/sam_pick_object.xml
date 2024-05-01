@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="SAM Pick Object">
   <!--//////////-->
-  <BehaviorTree ID="SAM Pick Object" _description="Uses SAM to Segment out an arbitrary object and pick it.">
+  <BehaviorTree ID="SAM Pick Object" _description="Uses SAM to segment out an arbitrary object and pick it.">
     <Control ID="Sequence" name="TopLevelSequence">
       <Action ID="LoadObjectiveParameters" parameters="{pick_parameters}" config_file_name="sam_pick_object_config.yaml"/>
       <SubTree ID="Move to Waypoint" waypoint_name="Look at Pick" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" _collapsed="true"/>
@@ -21,7 +21,7 @@
           <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"/>
         </Control>
       </Decorator>
-      <!--Convert 3D mask into graspable object, but as we don't need it for MTC-->
+      <!--Convert 3D masks into graspable objects-->
       <Action ID="GetGraspableObjectsFromMasks3D" graspable_objects="{objects}" plane_inlier_threshold="0.020000" base_frame="world" minimum_face_area="0" masks3d="{masks3d}" face_separation_threshold="0.025000" point_cloud="{point_cloud}"/>
       <Decorator ID="ForEachGraspableObject" vector_in="{objects}" out="{object}">
         <Control ID="Sequence">
