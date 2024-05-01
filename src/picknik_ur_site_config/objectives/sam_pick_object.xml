@@ -3,7 +3,7 @@
   <!--//////////-->
   <BehaviorTree ID="SAM Pick Object" _description="Uses SAM to Segment out an arbitrary object and pick it.">
     <Control ID="Sequence" name="TopLevelSequence">
-      <Action ID="LoadObjectiveParameters" parameters="{pick_parameters}" config_file_name="looping_pick_and_place_object_config.yaml"/>
+      <Action ID="LoadObjectiveParameters" parameters="{pick_parameters}" config_file_name="sam_pick_object_config.yaml"/>
       <SubTree ID="Move to Waypoint" waypoint_name="Look at Pick" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" _collapsed="true"/>
       <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.0"/>
       <!--Get the point cloud from the wrist camera-->
