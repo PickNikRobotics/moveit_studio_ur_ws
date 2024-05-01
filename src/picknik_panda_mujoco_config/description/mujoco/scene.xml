@@ -24,7 +24,8 @@
   <worldbody>
     <body name="object" pos=".35 0 .60">
       <freejoint/>
-      <geom type="box" size=".0399 .0399 .0399" rgba="1 .5 .5 1" mass="1"/>
+      <geom type="box" size=".025 .025 .025" rgba="1 .5 .5 1" mass="0.05"/>
     </body>
   </worldbody>
+
 </mujoco>
