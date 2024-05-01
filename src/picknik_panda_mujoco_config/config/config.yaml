@@ -32,25 +32,6 @@ hardware:
   # [Required]
   ip: "0.0.0.0"
 
-  # Specify additional launch files for running the robot with real hardware.
-  # [Optional, defaults to a blank launch file if not specified]
-  robot_driver_persist_launch_file:
-    package: "picknik_panda_mujoco_config"
-    path: "launch/robot_drivers_to_persist.launch.py"
-  hardware_launch_file:
-    package: "moveit_studio_agent"
-    path: "launch/blank.launch.py"
-
-  # Specify any additional launch files for running the robot in simulation mode.
-  # Used when hardware.simulated is True.
-  # [Optional, defaults to a blank launch file if not specified]
-#  simulated_robot_driver_persist_launch_file:
-#    package: "picknik_panda_mujoco_config"
-#    path: "launch/sim/robot_drivers_to_persist_sim.launch.py"
-#  simulated_hardware_launch_file:
-#    package: "moveit_studio_agent"
-#    path: "launch/blank.launch.py"
-
   # Parameters used to configure the robot description through XACRO.
   # A URDF and SRDF are both required.
   # [Required]
@@ -173,7 +154,6 @@ ros2_control:
   # for running the application.
   # [Optional, default=[]]
   controllers_active_at_startup:
-    - "force_torque_sensor_broadcaster"
     - "joint_state_broadcaster"
     - "servo_controller"
     - "panda_hand_controller"
