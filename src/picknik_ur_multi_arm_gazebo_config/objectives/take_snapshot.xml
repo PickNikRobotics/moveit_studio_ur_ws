@@ -11,7 +11,7 @@
         <!--if we fail to get the string from the user fallback to an empty value for the uuid-->
         <Action ID="Script" code="uuid := ''"/>
       </Control>
-      <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures" point_cloud_uuid="{uuid}"/>
+      <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"/>
     </Control>
   </BehaviorTree>
 </root>
