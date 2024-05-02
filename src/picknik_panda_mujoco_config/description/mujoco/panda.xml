@@ -263,18 +263,18 @@
   </equality>
 
   <actuator>
-    <general class="panda" name="actuator1" joint="panda_joint1" gainprm="4500" biasprm="0 -4500 -450"/>
-    <general class="panda" name="actuator2" joint="panda_joint2" gainprm="4500" biasprm="0 -4500 -450"
+    <general class="panda" name="panda_joint1" joint="panda_joint1" gainprm="4500" biasprm="0 -4500 -450"/>
+    <general class="panda" name="panda_joint2" joint="panda_joint2" gainprm="4500" biasprm="0 -4500 -450"
       ctrlrange="-1.7628 1.7628"/>
-    <general class="panda" name="actuator3" joint="panda_joint3" gainprm="3500" biasprm="0 -3500 -350"/>
-    <general class="panda" name="actuator4" joint="panda_joint4" gainprm="3500" biasprm="0 -3500 -350"
+    <general class="panda" name="panda_joint3" joint="panda_joint3" gainprm="3500" biasprm="0 -3500 -350"/>
+    <general class="panda" name="panda_joint4" joint="panda_joint4" gainprm="3500" biasprm="0 -3500 -350"
       ctrlrange="-3.0718 -0.0698"/>
-    <general class="panda" name="actuator5" joint="panda_joint5" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"/>
-    <general class="panda" name="actuator6" joint="panda_joint6" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"
+    <general class="panda" name="panda_joint5" joint="panda_joint5" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"/>
+    <general class="panda" name="panda_joint6" joint="panda_joint6" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"
       ctrlrange="-0.0175 3.7525"/>
-    <general class="panda" name="actuator7" joint="panda_joint7" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"/>
+    <general class="panda" name="panda_joint7" joint="panda_joint7" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"/>
     <!-- Remap original ctrlrange (0, 0.04) to (0, 255): 0.04 * 100 / 255 = 0.01568627451 -->
-    <general class="panda" name="actuator8" tendon="split" forcerange="-100 100" ctrlrange="0 255"
+    <general class="panda" name="panda_finger_joint1" tendon="split" forcerange="-100 100" ctrlrange="0 255"
       gainprm="0.01568627451 0 0" biasprm="0 -100 -10"/>
   </actuator>
 
