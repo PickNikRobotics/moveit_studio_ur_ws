@@ -154,6 +154,7 @@ ros2_control:
   # for running the application.
   # [Optional, default=[]]
   controllers_active_at_startup:
+    - "force_torque_sensor_broadcaster"
     - "joint_state_broadcaster"
     - "servo_controller"
     - "panda_hand_controller"
