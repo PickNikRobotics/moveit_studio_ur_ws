@@ -4,7 +4,7 @@
     <Control ID="Sequence" name="root">
       <SubTree ID="Open Right Gripper"/>
       <!--Wrap in a ForceSuccess decorator so this can be used as both a top-level tree and subtree-->
-      <Action ID="GetPointsFromUser"/>
+      <Action ID="GetPointsFromUser" point_prompts="promn" point_names="namn" view_name="/wrist_mounted_camera/color/image_raw" pixel_coords="{pixel_coords}"/>
       <SubTree ID="Clear Snapshot" _collapsed="false"/>
       <Action ID="LoadObjectiveParameters" config_file_name="pick_object_left.yaml" parameters="{parameters}"/>
       <Action ID="InitializeMTCTask" task_id="pick_object" controller_names="/dual_arm_joint_trajectory_controller /right_robotiq_gripper_controller /left_robotiq_gripper_controller" task="{pick_object_task}"/>
