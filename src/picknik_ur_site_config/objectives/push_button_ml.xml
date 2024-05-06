@@ -15,7 +15,7 @@
       <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
         <Control ID="Sequence">
           <Action ID="GetPointCloudFromMask3D" point_cloud="{point_cloud}" mask3d="{mask3d}" point_cloud_fragment="{point_cloud_fragment}"/>
-          <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" sensor_name="scene_scan_camera" point_cloud_uuid="" pcd_topic="/pcd_pointcloud_captures"/>
+          <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"/>
         </Control>
       </Decorator>
       <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.02" minimum_face_area="0.000625" face_separation_threshold="0.03" graspable_objects="{graspable_objects}"/>
@@ -31,9 +31,9 @@
         <Action ID="InitializeMTCTask" task_id="push_button_ml" controller_names="/joint_trajectory_controller" task="{push_along_axis_task}"/>
         <Action ID="SetupMTCCurrentState" task="{push_along_axis_task}"/>
         <Action ID="SetupMTCMoveToPose" ik_frame="grasp_link" planning_group_name="manipulator" target_pose="{button_pose}" task="{push_along_axis_task}" use_all_planners="false"/>
-        <Action ID="SetupMTCUpdateGroupCollisionRule" name="AllowGripperCollisionWithOctomap" group_name="gripper" object_name="<octomap>" allow_collision="true" task="{push_along_axis_task}"/>
+        <Action ID="SetupMTCUpdateGroupCollisionRule" name="AllowGripperCollisionWithOctomap" group_name="gripper" object_name="&lt;octomap&gt;" allow_collision="true" task="{push_along_axis_task}"/>
         <Action ID="SetupMTCMoveAlongFrameAxis" task="{push_along_axis_task}" hand_frame="grasp_link" axis_frame="grasp_link" axis_x="0.0" axis_y="0.0" axis_z="1.0" max_distance="0.2" min_distance="0.05" planning_group_name="manipulator" velocity_scale="0.05" acceleration_scale="0.05"/>
-        <Action ID="SetupMTCUpdateGroupCollisionRule" name="ForbidGripperCollisionWithOctomap" group_name="gripper" object_name="<octomap>" allow_collision="false" task="{push_along_axis_task}"/>
+        <Action ID="SetupMTCUpdateGroupCollisionRule" name="ForbidGripperCollisionWithOctomap" group_name="gripper" object_name="&lt;octomap&gt;" allow_collision="false" task="{push_along_axis_task}"/>
         <Action ID="PlanMTCTask" solution="{full_push_along_axis_solution}" task="{push_along_axis_task}"/>
         <Action ID="SplitMTCSolution" solution_in="{full_push_along_axis_solution}" index="3" solution_out_1="{move_to_approach_solution}" solution_out_2="{push_solution}"/>
         <Action ID="WaitForUserTrajectoryApproval" solution="{full_push_along_axis_solution}"/>
@@ -56,9 +56,9 @@
     <Control ID="Sequence">
       <Action ID="InitializeMTCTask" task_id="push_button_ml_retreat" controller_names="/joint_trajectory_controller" task="{retreat_task}"/>
       <Action ID="SetupMTCCurrentState" task="{retreat_task}"/>
-      <Action ID="SetupMTCUpdateGroupCollisionRule" name="AllowGripperCollisionWithOctomap" group_name="gripper" object_name="<octomap>" allow_collision="true" task="{retreat_task}"/>
+      <Action ID="SetupMTCUpdateGroupCollisionRule" name="AllowGripperCollisionWithOctomap" group_name="gripper" object_name="&lt;octomap&gt;" allow_collision="true" task="{retreat_task}"/>
       <Action ID="SetupMTCCartesianMoveToJointState" joint_state="{pre_approach_robot_state}" planning_group_name="manipulator" task="{retreat_task}"/>
-      <Action ID="SetupMTCUpdateGroupCollisionRule" name="ForbidGripperCollisionWithOctomap" group_name="gripper" object_name="<octomap>" allow_collision="false" task="{retreat_task}"/>
+      <Action ID="SetupMTCUpdateGroupCollisionRule" name="ForbidGripperCollisionWithOctomap" group_name="gripper" object_name="&lt;octomap&gt;" allow_collision="false" task="{retreat_task}"/>
       <Action ID="SetupMTCMoveToJointState" joint_state="{initial_robot_state}" planning_group_name="manipulator" task="{retreat_task}" use_all_planners="false" />
       <Action ID="PlanMTCTask" solution="{return_to_initial_waypoint_solution}" task="{retreat_task}"/>
       <Action ID="ExecuteMTCTask" solution="{return_to_initial_waypoint_solution}"/>
