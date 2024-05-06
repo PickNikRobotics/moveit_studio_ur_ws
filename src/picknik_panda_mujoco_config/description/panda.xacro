@@ -258,10 +258,10 @@
     <!--Add camera frame-->
     <joint name="wrist_camera_joint" type="fixed">
         <parent link="panda_hand"/>
-        <child link="wrist_camera_color_optical_frame"/>
+        <child link="wrist_camera_optical_frame"/>
         <origin rpy="0 0 ${pi/2}" xyz="0.05 0 0"/>
     </joint>
-    <link name="wrist_camera_color_optical_frame"/>
+    <link name="wrist_camera_optical_frame"/>
 
     <ros2_control name="picknik_mujoco_simulation" type="system">
         <joint name="panda_joint1">

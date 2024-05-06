@@ -209,7 +209,7 @@
                     <geom mesh="link7_c" class="collision"/>
                     <body name="hand" pos="0 0 0.107" quat="0.9238795 0 0 -0.3826834">
                       <site name="tcp_fts_sensor" size="0.1" pos="0 0 0"/>
-                      <camera name="/camera/wrist_camera" pos="0.05 0 0" fovy="58" mode="fixed" resolution="640 480" quat="0.0 0.707107 0.707107 0"/>
+                      <camera name="wrist_camera" pos="0.05 0 0" fovy="58" mode="fixed" resolution="640 480" quat="0.0 0.707107 0.707107 0"/>
                       <inertial mass="0.73" pos="-0.01 0 0.03" diaginertia="0.001 0.0025 0.0017"/>
                       <geom mesh="hand_0" material="off_white" class="visual"/>
                       <geom mesh="hand_1" material="black" class="visual"/>
