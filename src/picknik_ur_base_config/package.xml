@@ -14,7 +14,6 @@
   <exec_depend>admittance_controller</exec_depend>
   <exec_depend>kinematics_interface_kdl</exec_depend>
   <exec_depend>moveit_planners_stomp</exec_depend>
-  <exec_depend>moveit_pro_controllers</exec_depend>
   <exec_depend>moveit_ros_perception</exec_depend>
   <exec_depend>moveit_studio_agent</exec_depend>
   <exec_depend>moveit_studio_behavior</exec_depend>
