@@ -9,6 +9,7 @@
     <param name="serial_no" value="$(var scene_camera_serial_no)"/>
     <param name="device_type" value="D415"/>
     <param name="depth_module.profile" value="640x480x6"/>
+    <param name="rgb_camera.profile" value="640x480x6"/>
     <param name="pointcloud.enable" value="True"/>
     <param name="pointcloud.ordered_pc" value="True"/>
     <param name="decimation_filter.enable" value="False"/>
@@ -32,6 +33,7 @@
     <param name="serial_no" value="$(var wrist_mounted_camera_serial_no)"/>
     <param name="device_type" value="D415"/>
     <param name="depth_module.profile" value="640x480x6"/>
+    <param name="rgb_camera.profile" value="640x480x6"/>
     <param name="pointcloud.enable" value="True"/>
     <param name="pointcloud.ordered_pc" value="True"/>
     <param name="decimation_filter.enable" value="False"/>
