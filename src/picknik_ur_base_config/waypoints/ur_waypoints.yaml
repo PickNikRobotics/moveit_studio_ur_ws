@@ -13,6 +13,16 @@
     position: [2.7712432925819273, -1.4531914890259676, -1.96615025453015, -1.0617789845470658, 1.5878968566255958, -0.07080028000697597]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
 - name: Look at Table
   favorite: true
   joint_group_names:
@@ -27,6 +37,16 @@
     position: [3.03, -0.78, -0.51, -2.39, 1.65, 0]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
 - name: Look at Pick and Place Zone
   favorite: true
   joint_group_names:
@@ -41,6 +61,16 @@
     position: [3.03, -0.78, -0.51, -2.39, 1.65, 0]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
 - name: Forward Down
   favorite: true
   joint_group_names:
@@ -55,6 +85,16 @@
     position: [0, -1.41, -0.7, -2.12, 1.67, 0]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
 - name: Right Corner
   favorite: true
   joint_group_names:
@@ -69,6 +109,16 @@
     position: [-0.61, -0.78, -0.45, -2.49, 1.64, 0]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
 - name: Left Corner
   favorite: true
   joint_group_names:
@@ -83,6 +133,16 @@
     position: [0.58, -0.78, -0.45, -2.33, 1.64, 0]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
 - name: Home
   favorite: true
   joint_group_names:
@@ -97,6 +157,16 @@
     position: [0, -0.78, -0.51, -2.4, 1.65, 0]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
 - name: Place
   joint_group_names:
     - manipulator
@@ -110,6 +180,16 @@
     position: [-0.14017278352846319, -2.0659257374205531, -1.3808614015579224, -1.1930744808963318, 1.6471527814865112, -1.2497900168048304]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
 - name: Right Wall
   joint_group_names:
     - manipulator
@@ -123,6 +203,16 @@
     position: [-0.10607844987978154, -0.60454382122073369, -0.53829550743103027, -2.1444779835143031, 1.3706846237182617, -0.03349477449526006]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
 - name: Left Wall
   joint_group_names:
     - manipulator
@@ -136,6 +226,16 @@
     position: [-0.090000931416646779, -0.71631135166201787, -0.25595679879188538, -2.3102809391417445, 2.1028439998626709, 0.037132550030946732]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
 - name: Left Shelf
   joint_group_names:
     - manipulator
@@ -149,6 +249,16 @@
     position: [-0.13052112260927373, -2.0738541088499964, -1.3867737054824829, -1.2032757264426728, 1.5722750425338745, -1.2421711126910608]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
 - name: Right Shelf
   joint_group_names:
     - manipulator
@@ -162,6 +272,16 @@
     position: [-0.3130109945880335, -2.2752829990782679, -0.99421918392181396, -1.4464575362256546, 1.6087517738342285, 0.3333250880241394]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
 - name: Drop
   joint_group_names:
     - manipulator
@@ -175,6 +295,16 @@
     position: [-0.14025289217104131, -2.0338388882079066, -1.3048344850540161, -1.3033235830119629, 1.6469297409057617, -1.2498410383807581]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
 - name: Place Left
   joint_group_names:
     - manipulator
@@ -188,6 +318,16 @@
     position: [-0.13052112260927373, -2.0738541088499964, -1.3867737054824829, -1.2032757264426728, 1.5722750425338745, -1.2421711126910608]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
 - name: Place Right
   joint_group_names:
     - manipulator
@@ -201,6 +341,16 @@
     position: [-0.3130109945880335, -2.2752829990782679, -0.99421918392181396, -1.4464575362256546, 1.6087517738342285, 0.3333250880241394]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
 - name: Place Block
   joint_group_names:
     - manipulator
@@ -214,6 +364,16 @@
     position: [0.139626, -2.05949, -1.48353, -1.20428, 1.69297, 0.20944]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
 - name: Pick Block
   joint_group_names:
     - manipulator
@@ -227,6 +387,16 @@
     position: [2.89725, -2.0944, -1.50098, -1.0472, 1.69297, 0.20944]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
 - name: Wrist 2 Min
   joint_group_names:
     - manipulator
@@ -240,6 +410,16 @@
     position: [-2.2335834056138996e-05, -0.7800858658974525, -0.5100288585397881, -2.399985082258936, -3.141592653589793, 2.282092208042741e-05]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
 - name: Wrist 2 Max
   joint_group_names:
     - manipulator
@@ -253,3 +433,13 @@
     position: [-2.2335834056138996e-05, -0.7800858658974525, -0.5100288585397881, -2.399985082258936, 3.141592653589793, 2.282092208042741e-05]
     velocity: []
     effort: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []

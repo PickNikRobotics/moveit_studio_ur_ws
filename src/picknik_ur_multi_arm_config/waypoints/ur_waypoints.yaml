@@ -37,6 +37,16 @@
       - 1.6699864011902827
       - -9.210125892423094e-05
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Two Arms Down
 - description: Home Flipped
   favorite: true
@@ -104,6 +114,16 @@
       - -1.669
       - 3.141
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Home Flipped
 - description: Arms down
   favorite: true
@@ -171,6 +191,16 @@
       - 1.6699516917224972
       - 0
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Arms Down
 - description: Home twisted
   favorite: true
@@ -238,6 +268,16 @@
       - 1.669
       - 0
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Home Twisted
 - description: Home
   favorite: true
@@ -305,4 +345,14 @@
       - 1.669
       - 0
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Home

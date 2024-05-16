@@ -27,6 +27,16 @@
       - 1.6641204475784201
       - 0.0021283164147193555
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Inspect Right
 - description: ''
   favorite: false
@@ -44,6 +54,16 @@
     position:
       - 0.7930685959474917
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Right Closed Gripper
 - description: Both arms are in a down position
   favorite: true
@@ -90,6 +110,16 @@
       - 0
       - 0.7929
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Home
 - description: Both arms are in a down position
   favorite: true
@@ -131,6 +161,16 @@
       - 1.6699516917224972
       - -4.144793883897364e-05
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Arms Down
 - description: ''
   favorite: true
@@ -178,6 +218,16 @@
       - 0.592406376256699
       - 0.592813686273142
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Inspect
 - description: ''
   favorite: false
@@ -208,6 +258,16 @@
       - 1.5614126435536537
       - -0.057252780894965
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Pick Red Left
 - description: ''
   favorite: false
@@ -238,4 +298,14 @@
       - 1.6672861150624345
       - 0.0013212085431139491
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Inspect Left
