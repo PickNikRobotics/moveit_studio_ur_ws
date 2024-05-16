@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Move to Pick Pose">
+  <!--//////////-->
+  <BehaviorTree ID="Move to Pick Pose" _description="" _favorite="false" _hardcoded="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="CreateStampedPose" orientation_xyzw="1;0;0;0" position_xyz="0;0.5;0.5"/>
+      <SubTree ID="Move to Pose" _collapsed="true" target_pose="{stamped_pose}" controller_names="/joint_trajectory_controller /robotiq_gripper_controller"/>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Move to Pick Pose"/>
+  </TreeNodesModel>
+</root>

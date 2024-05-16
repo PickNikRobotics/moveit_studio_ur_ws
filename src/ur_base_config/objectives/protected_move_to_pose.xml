@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Teleoperate Move to Pose">
+  <BehaviorTree ID="Teleoperate Move to Pose" _description="Uses inverse kinematics to move the robot to a set gripper position">
+    <!--WARNING: Modifying this objective may have unintended side effects in the Teleoperate objective-->
+    <Control ID="Fallback" name="root">
+      <Control ID="Sequence">
+        <!--The RetrieveJointStateParameter behavior retrieves a joint state from the iMarker control in the user interface-->
+        <Action ID="RetrievePoseParameter" timeout_sec="-1" pose="{target_pose}"/>
+        <Action ID="InitializeMTCTask" task_id="move_to_pose" controller_names="{controller_names}" task="{move_to_pose_task}"/>
+        <Action ID="SetupMTCCurrentState" task="{move_to_pose_task}"/>
+        <Action ID="SetupMTCMoveToPose" ik_frame="grasp_link" planning_group_name="manipulator" target_pose="{target_pose}" task="{move_to_pose_task}" use_all_planners="false"/>
+        <Action ID="PlanMTCTask" solution="{move_to_pose_solution}" task="{move_to_pose_task}"/>
+        <SubTree ID="Wait for Trajectory Approval if User Available" solution="{move_to_pose_solution}"/>
+        <Action ID="ExecuteMTCTask" solution="{move_to_pose_solution}"/>
+        <Action ID="PublishEmpty" topic="/studio_ui/motion_ended" queue_size="1" use_best_effort="false"/>
+        <Action ID="Script" code="teleop_complete := 'yes'"/>
+      </Control>
+      <Control ID="Sequence">
+        <Action ID="PublishEmpty" topic="/studio_ui/motion_ended" queue_size="1" use_best_effort="false"/>
+        <Action ID="AlwaysFailure"/>
+      </Control>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Teleoperate Move to Pose">
+      <input_port name="teleop_complete" default="{teleop_complete}"/>
+    </SubTree>
+  </TreeNodesModel>
+</root>

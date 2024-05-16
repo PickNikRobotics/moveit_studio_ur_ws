@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
+  <!-- parameters -->
+  <xacro:arg name="use_fake_hardware" default="false" />
+  <xacro:arg name="external_camera" default="false" />
+  <xacro:arg name="name" default="" />
+  <xacro:arg name="joint_limits_parameters_file" default="" />
+  <xacro:arg name="kinematics_parameters_file" default="" />
+  <xacro:arg name="physical_parameters_file" default="" />
+  <xacro:arg name="visual_parameters_file" default="" />
+
+  <xacro:arg name="robot_ip" default="0.0.0.0" />
+
+  <xacro:property name="camera_adapter_parent" value="tool0" />
+
+  <!-- Import macros for main hardware components -->
+  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro" />
+  <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro" />
+  <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur_camera_adapter.urdf.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro" />
+
+  <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
+  <xacro:arg name="initial_positions_file" default="$(find ur_base_config)/config/initial_positions.yaml"/>
+  <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
+  
+  <!-- Import environment macros -->
+  <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
+  <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/visual/cube_visual.urdf.xacro" />
+
+  <link name="world" />
+  <!-- arm -->
+  <xacro:ur_robot
+    name="$(arg name)"
+    tf_prefix=""
+    parent="world"
+    joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
+    kinematics_parameters_file="$(arg kinematics_parameters_file)"
+    physical_parameters_file="$(arg physical_parameters_file)"
+    visual_parameters_file="$(arg visual_parameters_file)"
+    use_fake_hardware="$(arg use_fake_hardware)"
+    initial_positions="${xacro.load_yaml(initial_positions_file)}"
+    robot_ip="$(arg robot_ip)"
+    script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
+    output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
+    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:ur_robot>
+
+  <!-- wrist camera adapter and camera-->
+  <xacro:ur_realsense_camera_adapter prefix="" connected_to="${camera_adapter_parent}" rotation="0" />
+
+  <xacro:realsense_d415 parent="d415_mount_link" name="wrist_mounted_camera">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:realsense_d415>
+
+  <!-- Gripper and UR adapter-->
+  <xacro:ur_to_robotiq prefix="" connected_to="realsense_camera_adapter_tool0" rotation="0" />
+
+  <xacro:robotiq_gripper name="RobotiqGripperHardwareInterface" prefix="" 
+    parent="gripper_mount_link" use_fake_hardware="$(arg use_fake_hardware)" com_port="/dev/ttyUSB0">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:robotiq_gripper>
+
+  <!-- This link aligns the axes of the grasp frame to our required convention for motion planning tasks. -->
+  <link name="grasp_link" />
+  <joint name="grasp_link_joint" type="fixed">
+    <parent link="robotiq_85_base_link" />
+    <child link="grasp_link" />
+    <origin xyz="0.0 0.0 0.134" rpy="0.0 0.0 ${pi}" />
+  </joint>
+
+  <!-- Environment -->
+  <link name="environment">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://picknik_accessories/descriptions/furniture/generic_table/wood_block.dae" scale="0.5 0.5 0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://picknik_accessories/descriptions/furniture/generic_table/wood_block.dae" scale="0.5 0.5 0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="table_joint" type="fixed">
+    <parent link="base" />
+    <child link="environment" />
+    <origin rpy="0 0 0" xyz="0 0 -0.05" />
+  </joint>
+
+  <link name="box_red">
+    <xacro:cube_visual length="0.05" width="0.05" height="0.05">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <color rgba="1.0 0.0 0.0 0.9" />
+    </xacro:cube_visual>
+  </link>
+  <joint name="box_red_on_table" type="fixed">
+    <parent link="environment" />
+    <child link="box_red" />
+    <origin rpy="0 0 0" xyz="0.65 -0.3 0.1" />
+  </joint>
+
+  <link name="box_green">
+    <xacro:cube_visual length="0.05" width="0.05" height="0.05">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <color rgba="0.0 1.0 0.0 0.9" />
+    </xacro:cube_visual>
+  </link>
+  <joint name="box_green_on_table" type="fixed">
+    <parent link="environment" />
+    <child link="box_green" />
+    <origin rpy="0 0 0" xyz="0.65 0.3 0.1" />
+  </joint>
+
+  <link name="box_blue">
+    <xacro:cube_visual length="0.05" width="0.05" height="0.05">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <color rgba="0.0 0.0 1.0 0.9" />
+    </xacro:cube_visual>
+  </link>
+  <joint name="box_blue_on_table" type="fixed">
+    <parent link="environment" />
+    <child link="box_blue" />
+    <origin rpy="0 0 0" xyz="0.65 0 0.1" />
+  </joint>
+
+  <!-- External Camera -->
+  <link name="external_camera_link" />
+  <joint name="external_camera_joint" type="fixed">
+    <parent link="world" />
+    <child link="external_camera_link" />
+    <origin xyz="-0.3 0.3 1.0" rpy="0.0 0.4 0" />
+  </joint>
+
+  <xacro:realsense_d435 parent="external_camera_link" name="scene_camera" visible="false">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:realsense_d435>
+</robot>

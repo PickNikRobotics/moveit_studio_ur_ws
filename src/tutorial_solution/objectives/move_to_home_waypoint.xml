@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Move to Home Waypoint">
+  <!--//////////-->
+  <BehaviorTree ID="Move to Home Waypoint" _description="" _favorite="true" _hardcoded="false">
+    <SubTree ID="Move to Waypoint" _collapsed="true" use_all_planners="false" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" joint_group_name="manipulator" waypoint_name="Home"/>
+  </BehaviorTree>
+</root>

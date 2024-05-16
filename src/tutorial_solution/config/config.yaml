@@ -1,0 +1,19 @@
+based_on_package: "ur_base_config"
+
+hardware:
+
+  # Be sure to set your robot's IP address.
+  ip: "0.0.0.0"
+  simulated: True
+
+
+objectives:
+  waypoints_file:
+    package_name: "ur_base_config"
+    relative_path: "waypoints/ur5e_waypoints.yaml"
+  objective_library_paths:
+    # You must use a unique key for each package.
+    # The ur_base_config uses "core"
+    mock_hardware_objectives:
+      package_name: "tutorial_solution"
+      relative_path: "objectives"

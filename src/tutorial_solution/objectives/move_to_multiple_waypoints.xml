@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Pick and Place">
+  <!--//////////-->
+  <BehaviorTree ID="Pick and Place" _description="" _favorite="false" _hardcoded="false">
+    <Decorator ID="KeepRunningUntilFailure">
+      <Control ID="Sequence" name="TopLevelSequence">
+        <SubTree ID="Move to Waypoint" _collapsed="true" waypoint_name="Look Left" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
+        <SubTree ID="Move to Waypoint With Approval" _collapsed="true" waypoint_name="Look Right" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
+      </Control>
+    </Decorator>
+  </BehaviorTree>
+</root>
