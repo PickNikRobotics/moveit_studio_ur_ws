@@ -7,7 +7,6 @@
       <Action ID="SetupMTCCurrentState" task="{move_to_waypoint_task}"/>
       <Action ID="SetupMTCMoveToJointState" joint_state="{target_joint_state}" name="SetupMTCMoveToJointState_First" planning_group_name="manipulator" task="{move_to_waypoint_task}" use_all_planners="false"/>
       <Action ID="PlanMTCTask" solution="{move_to_waypoint_solution}" task="{move_to_waypoint_task}"/>
-      <Action ID="WaitForUserTrajectoryApproval" solution="{move_to_waypoint_solution}"/>
       <Action ID="ExecuteMTCTask" solution="{move_to_waypoint_solution}"/>
     </Control>
   </BehaviorTree>
