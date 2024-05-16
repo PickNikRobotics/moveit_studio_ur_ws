@@ -1,0 +1,21 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'The tag of the image to use for the container'
+        required: false
+        default: ''
+  # Run every 6 hours Mon-Fri
+  schedule:
+    - cron: "0 */6 * * 1-5"
+
+jobs:
+  integration-test-in-studio-container:
+    uses: PickNikRobotics/moveit_pro_ci/.github/workflows/workspace_integration_test.yaml@main
+    with:
+      image_tag: ${{ github.event.inputs.image_tag || null }}
+    secrets: inherit
