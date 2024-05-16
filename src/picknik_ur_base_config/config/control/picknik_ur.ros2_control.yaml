@@ -20,7 +20,7 @@ controller_manager:
     joint_trajectory_controller_chained_open_door:
       type: joint_trajectory_controller/JointTrajectoryController
     joint_trajectory_admittance_controller:
-      type: moveit_pro_controllers/JointTrajectoryAdmittanceController
+      type: joint_trajectory_admittance_controller/JointTrajectoryAdmittanceController
 
 io_and_status_controller:
   ros__parameters:
