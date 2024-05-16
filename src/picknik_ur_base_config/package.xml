@@ -12,6 +12,7 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <exec_depend>admittance_controller</exec_depend>
+  <exec_depend>joint_trajectory_admittance_controller</exec_depend>
   <exec_depend>kinematics_interface_kdl</exec_depend>
   <exec_depend>moveit_planners_stomp</exec_depend>
   <exec_depend>moveit_ros_perception</exec_depend>
