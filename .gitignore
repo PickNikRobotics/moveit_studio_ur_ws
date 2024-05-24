@@ -2,5 +2,8 @@
 build/
 install/
 log/
-
+src/tii_pro_config/
+src/verobotics_config/
+src/stretch_pro_config/
+src/jaxa_config/
 **__pycache__

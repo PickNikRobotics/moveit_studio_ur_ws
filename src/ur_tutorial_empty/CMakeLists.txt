@@ -1,14 +1,12 @@
 cmake_minimum_required(VERSION 3.22)
-project(tutorial_solution)
+project(ur_tutorial_empty)
 
 find_package(ament_cmake REQUIRED)
 
 install(
   DIRECTORY
     config
-    description
     launch
-    meshes
     objectives
     waypoints
   DESTINATION

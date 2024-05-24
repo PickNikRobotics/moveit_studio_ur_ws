@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="3">
-  <name>tutorial_new</name>
+  <name>ur_tutorial_empty</name>
   <version>5.1.0</version>
 
   <description>Solution for tutorials</description>
@@ -11,7 +11,7 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>ur_base_config</depend>
+  <depend>ur_tutorial_base</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

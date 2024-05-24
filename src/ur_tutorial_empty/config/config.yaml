@@ -1,4 +1,4 @@
-based_on_package: "ur_base_config"
+based_on_package: "ur_tutorial_base"
 
 hardware:
 
@@ -9,11 +9,11 @@ hardware:
 
 objectives:
   waypoints_file:
-    package_name: "ur_base_config"
+    package_name: "ur_tutorial_base"
     relative_path: "waypoints/ur5e_waypoints.yaml"
   objective_library_paths:
     # You must use a unique key for each package.
-    # The ur_base_config uses "core"
+    # The ur_tutorial_base uses "core"
     mock_hardware_objectives:
-      package_name: "tutorial_new"
+      package_name: "ur_tutorial_empty"
       relative_path: "objectives"

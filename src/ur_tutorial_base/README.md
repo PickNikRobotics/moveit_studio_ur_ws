@@ -1,4 +1,4 @@
-# ur_base_config
+# ur_tutorial_base
 
 A MoveIt Pro base configuration for PickNik's UR5e simulation.
 

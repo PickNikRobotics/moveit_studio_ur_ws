@@ -22,7 +22,7 @@
   <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro" />
 
   <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
-  <xacro:arg name="initial_positions_file" default="$(find ur_base_config)/config/initial_positions.yaml"/>
+  <xacro:arg name="initial_positions_file" default="$(find ur_tutorial_base)/config/initial_positions.yaml"/>
   <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
   
   <!-- Import environment macros -->

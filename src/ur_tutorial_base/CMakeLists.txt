@@ -1,11 +1,12 @@
-cmake_minimum_required(VERSION 3.22)
-project(tutorial_new)
+cmake_minimum_required(VERSION 3.16.3)
+project(ur_tutorial_base)
 
 find_package(ament_cmake REQUIRED)
 
 install(
   DIRECTORY
     config
+    description
     launch
     objectives
     waypoints

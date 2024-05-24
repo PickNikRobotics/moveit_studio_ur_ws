@@ -15,12 +15,12 @@
   <xacro:arg name="use_tool_communication" default="false"/>
   <xacro:arg name="tool_voltage" default="0"/>
   <xacro:arg name="tool_device_name" default="/dev/ttyUSB0"/>
-  <xacro:arg name="initial_positions_file" default="$(find ur_base_config)/config/initial_positions.yaml"/>
-  <xacro:arg name="environment_xacro" default="$(find ur_base_config)/description/environment.xacro"/>
+  <xacro:arg name="initial_positions_file" default="$(find ur_tutorial_base)/config/initial_positions.yaml"/>
+  <xacro:arg name="environment_xacro" default="$(find ur_tutorial_base)/description/environment.xacro"/>
 
   <!-- Import UR and environment macros -->
-  <xacro:include filename="$(find ur_base_config)/description/picknik_ur_macro.xacro"/>
-  <xacro:include filename="$(find ur_base_config)/description/picknik_ur_attachments_macro.xacro"/>
+  <xacro:include filename="$(find ur_tutorial_base)/description/picknik_ur_macro.xacro"/>
+  <xacro:include filename="$(find ur_tutorial_base)/description/picknik_ur_attachments_macro.xacro"/>
   <xacro:include filename="$(arg environment_xacro)"/>
 
   <!-- Robot: contains robot description from the world frame to the tool frame -->

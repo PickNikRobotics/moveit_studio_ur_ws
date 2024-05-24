@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="3">
-  <name>ur_base_config</name>
+  <name>ur_tutorial_base</name>
   <version>5.1.0</version>
 
   <description>Base configuration package for a UR5e that can be simulated with mock hardware</description>
@@ -20,6 +20,7 @@
   <exec_depend>ur_description</exec_depend>
   <exec_depend>ur_robot_driver</exec_depend>
   <exec_depend>kinematics_interface_kdl</exec_depend>
+  <exec_depend>moveit_pro_controllers</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
 

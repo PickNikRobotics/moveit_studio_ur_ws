@@ -23,7 +23,7 @@
         <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro"/>
         <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro"/>
         <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro"/>
-        <xacro:include filename="$(find ur_base_config)/description/pinch_links.xacro"/>
+        <xacro:include filename="$(find ur_tutorial_base)/description/pinch_links.xacro"/>
 
         <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
         <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/>
