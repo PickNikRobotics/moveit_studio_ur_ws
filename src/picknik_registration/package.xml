@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>picknik_registration</name>
+  <version>0.0.0</version>
+  <description>Finds the pose of a target point cloud relative to the base frame of a base point cloud using the Normal Distributions Transform (NDT) algoritm</description>
+
+  <maintainer email="john@doe.com">John Doe</maintainer>
+  <author email="john@doe.com">John Doe</author>
+
+  <license>TODO</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <build_depend>moveit_studio_common</build_depend>
+
+  <depend>moveit_studio_behavior_interface</depend>
+  <depend>perception_pcl</depend>
+  <depend>moveit_studio_vision_msgs</depend>
+  <depend>moveit_studio_vision</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_cmake_gtest</test_depend>
+  <test_depend>ament_clang_format</test_depend>
+  <test_depend>ament_clang_tidy</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

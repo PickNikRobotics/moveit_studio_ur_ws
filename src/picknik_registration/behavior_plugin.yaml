@@ -1,0 +1,4 @@
+objectives:
+  behavior_loader_plugins:
+    picknik_registration:
+      - "picknik_registration::PicknikRegistrationBehaviorsLoader"

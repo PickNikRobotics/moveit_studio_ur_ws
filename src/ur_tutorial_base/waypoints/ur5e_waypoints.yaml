@@ -53,7 +53,7 @@
     velocity: []
   name: Forward Down
 - description: ''
-  favorite: true
+  favorite: false
   joint_group_names:
   - manipulator
   joint_state:
@@ -107,7 +107,37 @@
     velocity: []
   name: Home
 - description: ''
-  favorite: true
+  favorite: false
+  joint_group_names:
+  - gripper
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - robotiq_85_left_knuckle_joint
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - 0.7929
+    - 0.4218414712357743
+    - -0.9240316668677442
+    - -0.5711986642890532
+    - -2.2029566502979163
+    - 0.5426387310746001
+    - 0.2239712170394671
+    velocity: []
+  name: New
+- description: ''
+  favorite: false
   joint_group_names:
   - manipulator
   joint_state:
@@ -160,3 +190,33 @@
     - 0.06085157834607742
     velocity: []
   name: Grasp Forward
+- description: ''
+  favorite: false
+  joint_group_names:
+  - gripper
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - robotiq_85_left_knuckle_joint
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - 0.7929
+    - -1.2417405936866993e-05
+    - -1.41002484589722
+    - -0.700088018640643
+    - -2.119900367113063
+    - 1.670015923053492
+    - -5.671971226111055e-05
+    velocity: []
+  name: Second Home

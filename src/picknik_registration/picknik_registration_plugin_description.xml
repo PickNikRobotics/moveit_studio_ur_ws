@@ -1,0 +1,5 @@
+<library path="picknik_registration">
+  <class type="picknik_registration::PicknikRegistrationBehaviorsLoader"
+         base_class_type="moveit_studio::behaviors::SharedResourcesNodeLoaderBase">
+  </class>
+</library>

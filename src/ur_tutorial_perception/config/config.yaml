@@ -1,0 +1,54 @@
+based_on_package: "ur_tutorial_base"
+
+hardware:
+
+  # Be sure to set your robot's IP address.
+  ip: "0.0.0.0"
+  simulated: True
+
+# Optional parameters that can be read in your launch files for specific functionality
+optional_feature_params:
+  gazebo_world_package_name: "ur_tutorial_perception"
+  gazebo_world_path: "description/simulation_worlds/whack_a_mole_world.sdf"
+  # gazebo_world_path: "description/simulation_worlds/scan_and_plan_world.sdf"
+  gazebo_gui: False
+  gazebo_verbose: True
+
+# Enable simulation time so nodes are synced with the Gazebo block.
+ros_global_params:
+  use_sim_time: True
+
+hardware:
+  # The following launch file is started when hardware.simulated is True
+  # This is the only option for this site_config
+  simulated: True
+
+  # Gazebo starts its own controller manager through the ros2_control plugin, so set this to False
+  launch_control_node: False
+  simulated_hardware_launch_file:
+    package: "picknik_ur_gazebo_config"
+    path: "launch/sim/hardware_sim.launch.py"  
+  robot_description:
+    urdf:
+      package: "picknik_ur_gazebo_config"
+      path: "description/picknik_ur_gazebo.xacro"
+    srdf:
+      package: "picknik_ur_gazebo_config"
+      path: "config/moveit/picknik_ur_gazebo.srdf.xacro"  
+moveit_params:
+  sensors_3d:
+    package: "picknik_ur_gazebo_config"
+    path: "config/moveit/sensors_3d.yaml"
+  servo:
+    package: "picknik_ur_gazebo_config"
+    path: "config/moveit/ur_servo.yaml"   
+objectives:
+  waypoints_file:
+    package_name: "ur_tutorial_base"
+    relative_path: "waypoints/ur5e_waypoints.yaml"  
+  objective_library_paths:
+    # You must use a unique key for each package.
+    # The ur_tutorial_base uses "core"
+    ur_tutorial_perception_objectives:
+      package_name: "ur_tutorial_perception" # Override MoveIt parameters   
+      relative_path: "objectives"

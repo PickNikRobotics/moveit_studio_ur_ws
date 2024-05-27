@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Estimate Object Pose Chained Bunny">
+  <!--//////////-->
+  <BehaviorTree ID="Estimate Object Pose Chained Bunny" _description="Estimate an object pose from a reference mesh file using ICP on live point cloud data." _favorite="true" _hardcoded="false">
+    <Control ID="Sequence">
+      <Action ID="ClearSnapshot"/>
+      <Action ID="LoadPointCloudFromFile" file_path="~/user_ws/install/ur_tutorial_perception/share/ur_tutorial_perception/meshes/Utah_teapot_scaled.stl" frame_id="world" num_sampled_points="10000" random_seed="1234" point_cloud="{model_point_cloud}" scale="1.0" color="255;0;0"/>
+      <Action ID="GetPointsFromUser"/>
+      <Action ID="GetSyncedImageAndPointCloud" point_cloud_topic_name="/wrist_mounted_camera/depth/color/points" rgb_image_topic_name="/wrist_mounted_camera/color/image_raw" rgb_camera_info_topic_name="/wrist_mounted_camera/color/camera_info" point_cloud="{point_cloud}" rgb_image="{rgb_image}" rgb_camera_info="{rgb_camera_info}"/>
+      <Action ID="GetPoseFromPixelCoords" output_poses="{object_stamped_pose_estimates}"/>
+      <Action ID="SwitchUIPrimaryView"/>
+      <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"/>
+      <Action ID="TransformPointCloudFrame" input_cloud="{point_cloud}" target_frame="world" output_cloud="{point_cloud}"/>
+      <!--<Action ID="CreateStampedPose" reference_frame="world" position_xyz="{guess_position}" orientation_xyzw="{guess_orientation}" stamped_pose="{object_stamped_pose_estimate}"/>-->
+      <Action ID="LoadPointCloudFromFile" file_path="~/user_ws/install/ur_tutorial_perception/share/ur_tutorial_perception/meshes/Utah_teapot_scaled.stl" frame_id="world" num_sampled_points="10000" random_seed="1234" point_cloud="{initial_point_cloud}" scale="1.0" color="0;255;0"/>
+      <Action ID="AdjustPoseWithIMarker" initial_poses="{object_stamped_pose_estimates}" adjusted_poses="{object_stamped_pose_estimates}"/>
+      <Decorator ID="ForEachPoseStamped" vector_in="{object_stamped_pose_estimates}" out="{object_stamped_pose_estimate}">
+        <Control ID="Sequence">
+          <Action ID="TransformPoseFrame" input_pose="{object_stamped_pose_estimate}" output_pose="{object_stamped_pose_estimate}" target_frame_id="world"/>
+          <Action ID="TransformPointCloud" input_cloud="{initial_point_cloud}" transform_pose="{object_stamped_pose_estimate}" output_cloud="{initial_point_cloud}"/>
+        </Control>
+      </Decorator>
+      <Action ID="SendPointCloudToUI" point_cloud="{initial_point_cloud}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"/>
+      <Action ID="TransformPoseFrame" input_pose="{object_stamped_pose_estimate}" output_pose="{object_stamped_pose_estimate}" target_frame_id="world"/>
+      <Action ID="TransformPointCloud" input_cloud="{model_point_cloud}" transform_pose="{object_stamped_pose_estimate}" output_cloud="{model_point_cloud}"/>
+      <Action ID="RANSACRegistration" base_point_cloud="{model_point_cloud}" target_point_cloud="{point_cloud}" target_pose_in_base_frame="{model_to_real_pose}" uniform_sampling_radius="0.01" max_iterations="1000" inlier_threshold="1.5" feature_radius="0.1"/>
+      <Action ID="TransformPointCloud" input_cloud="{model_point_cloud}" transform_pose="{model_to_real_pose}" output_cloud="{aligned_model_cloud}"/>
+      <Action ID="SendPointCloudToUI" point_cloud="{aligned_model_cloud}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"/>
+      <Action ID="RegisterPointClouds" target_pose_in_base_frame="{model_to_real_pose}" target_point_cloud="{point_cloud}" base_point_cloud="{aligned_model_cloud}" max_correspondence_distance="1"/>
+      <Action ID="TransformPointCloud" input_cloud="{aligned_model_cloud}" transform_pose="{model_to_real_pose}" output_cloud="{chain_aligned_model_cloud}"/>
+      <Action ID="SendPointCloudToUI" point_cloud="{chain_aligned_model_cloud}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"/>
+      <Action ID="TransformPoseWithPose" input_pose="{object_stamped_pose_estimate}" transform_pose="{model_to_real_pose}" output_pose="{model_to_real_pose}"/>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Estimate Object Pose Chained Bunny"/>
+  </TreeNodesModel>
+</root>
