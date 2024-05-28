@@ -12,7 +12,10 @@ moveit_studio_vision
 moveit_studio_vision_msgs
 PCL
 pcl_conversions
-pcl_ros)
+pcl_ros
+moveit_ros_planning_interface
+geometric_shapes
+shape_msgs)
 foreach(package IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
   find_package(${package} REQUIRED)
 endforeach()
@@ -21,6 +24,7 @@ add_library(
   picknik_registration
   SHARED
   src/ndt_registration.cpp
+  src/spawn_mesh.cpp
   src/ransac_registration.cpp
   src/register_behaviors.cpp)
 target_include_directories(

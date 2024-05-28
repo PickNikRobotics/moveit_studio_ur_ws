@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="spawn_stl">
+  <!--//////////-->
+  <BehaviorTree ID="spawn_stl" _description="" _favorite="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="CreateStampedPose" orientation_xyzw="0;0;0;1" position_xyz="1;1;1" stamped_pose="{pose}"/>
+      <Action ID="SpawnSTL" file_name="/home/michael/user_ws/install/ur_tutorial_perception/share/ur_tutorial_perception/meshes/Bunny_scaled.stl"/>
+    </Control>
+  </BehaviorTree>
+</root>

@@ -4,8 +4,11 @@
 
 #include <picknik_registration/ndt_registration.hpp>
 #include <picknik_registration/ransac_registration.hpp>
+#include <picknik_registration/spawn_mesh.hpp>
 
 #include <pluginlib/class_list_macros.hpp>
+
+#include <moveit_msgs/msg/collision_object.hpp>
 
 namespace picknik_registration
 {
@@ -17,6 +20,7 @@ public:
   {
     moveit_studio::behaviors::registerBehavior<NDTRegistration>(factory, "NDTRegistration", shared_resources);
     moveit_studio::behaviors::registerBehavior<RANSACRegistration>(factory, "RANSACRegistration", shared_resources);
+    moveit_studio::behaviors::registerBehavior<SpawnSTL>(factory, "SpawnSTL", shared_resources);
     
   }
 };

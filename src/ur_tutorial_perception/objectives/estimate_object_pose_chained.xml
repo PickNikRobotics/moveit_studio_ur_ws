@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Estimate Object Pose Chained">
   <!--//////////-->
-  <BehaviorTree ID="Estimate Object Pose Chained" _description="Estimate an object pose from a reference mesh file using ICP on live point cloud data." _favorite="true" _hardcoded="false">
+  <BehaviorTree ID="Estimate Object Pose Chained" _description="Estimate an object pose from a reference mesh file using ICP on live point cloud data." _favorite="false" _hardcoded="false">
     <Control ID="Sequence">
       <Action ID="ClearSnapshot"/>
       <Action ID="LoadPointCloudFromFile" file_path="~/user_ws/install/picknik_ur_gazebo_scan_and_plan_config/share/picknik_ur_gazebo_scan_and_plan_config/objectives/Utah_teapot.stl" frame_id="world" num_sampled_points="10000" random_seed="1234" point_cloud="{model_point_cloud}" scale="0.01" color="255;0;0"/>
