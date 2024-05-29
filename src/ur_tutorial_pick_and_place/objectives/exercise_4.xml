@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Exercise_4">
+  <!--//////////-->
+  <BehaviorTree ID="Exercise_4" _description="" _favorite="false" _hardcoded="false">
+    <Control ID="Sequence">
+      <Action ID="LoadObjectiveParameters" config_file_name="pick_place_object_config.yaml"/>
+      <Control ID="Sequence">
+        <Action ID="ResetPlanningSceneObjects"/>
+        <Action ID="CreateStampedPose" reference_frame="base" position_xyz="0.5; 0; 0.025" orientation_xyzw="0; 0; 0; 1" stamped_pose="{box_centroid_pose}"/>
+        <Action ID="GenerateObjectsInBox" name="Perception mocking" object_count="1" object_dimensions="0.04;0.04;0.04" box_dimensions="0.15;0.15;0.04" box_centroid_pose="{box_centroid_pose}"/>
+      </Control>
+      <Decorator ID="ForEachGraspableObject">
+        <Control ID="Sequence" name="TopLevelSequence">
+          <Action ID="ModifyObjectInPlanningScene"/>
+          <Action ID="RetrieveWaypoint" joint_group_name="manipulator" waypoint_name="Inspect" name="Inspect Waypoint"/>
+          <Action ID="InitializeMTCTask" task_id="my_task"/>
+          <Control ID="Sequence">
+            <Action ID="SetupMTCCurrentState"/>
+            <Action ID="SetupMTCMoveToJointState" joint_state="{target_joint_state}" name="inspect"/>
+            <Action ID="SetupMTCMoveToNamedState" planning_group_name="gripper" goal_state_name="open" name="open gripper"/>
+            <Action ID="SetupMTCApproachGrasp" parameters="{parameters}"/>
+            <Action ID="SetupMTCGenerateCuboidGrasps" parameters="{parameters}"/>
+            <Action ID="SetupMTCUpdateGroupCollisionRule" object_name="object_1" group_name="gripper" allow_collision="true"/>
+            <Action ID="SetupMTCMoveToNamedState" planning_group_name="gripper" goal_state_name="close"/>
+            <Action ID="SetupMTCAttachObject"/>
+            <Action ID="SetupMTCMoveAlongFrameAxis"/>
+            <Action ID="SetupMTCMoveToNamedState" goal_state_name="open" planning_group_name="gripper"/>
+            <Action ID="SetupMTCDetachObject"/>
+          </Control>
+          <Action ID="PlanMTCTask"/>
+          <Action ID="ExecuteMTCTask"/>
+          <SubTree ID="Move to Home Waypoint" _collapsed="true"/>
+        </Control>
+      </Decorator>
+    </Control>
+  </BehaviorTree>
+</root>

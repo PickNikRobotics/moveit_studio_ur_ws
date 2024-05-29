@@ -1,0 +1,4 @@
+objectives:
+  behavior_loader_plugins:
+    setup_mtc_place_pose:
+      - "setup_mtc_place_pose::SetupMtcPlacePoseBehaviorsLoader"

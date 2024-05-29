@@ -6,7 +6,15 @@
       <Control ID="Sequence" name="TopLevelSequence">
         <SubTree ID="Move to Pick" _collapsed="true"/>
         <Control ID="Fallback">
-          <SubTree ID="Move to Waypoint" _collapsed="true" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" waypoint_name="Place"/>
+          <Control ID="Sequence">
+            <Action ID="RetrieveWaypoint"/>
+            <Action ID="InitializeMTCTask" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task_id="custom_move_to_joint_state"/>
+            <Action ID="SetupMTCCurrentState"/>
+            <Action ID="SetupMTCMoveToJointState" joint_state="{target_joint_state}"/>
+            <Action ID="PlanMTCTask"/>
+            <Action ID="ExecuteMTCTask"/>
+          </Control>
+          <SubTree ID="Move to Waypoint" _collapsed="false" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false" waypoint_name="Place"/>
           <SubTree ID="Request Teleoperation" _collapsed="true" enable_user_interaction="true" user_interaction_prompt="Please move to Pick" initial_teleop_mode="3"/>
         </Control>
       </Control>
