@@ -6,4 +6,7 @@
       <Action ID="AlwaysSuccess"/>
     </Control>
   </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Move to Pick"/>
+  </TreeNodesModel>
 </root>

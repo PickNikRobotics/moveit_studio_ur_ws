@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Exercise_0">
+  <!--//////////-->
+  <BehaviorTree ID="Exercise_0" _description="Start from scratch" _favorite="true" _hardcoded="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="AlwaysSuccess"/>
+    </Control>
+  </BehaviorTree>
+</root>
