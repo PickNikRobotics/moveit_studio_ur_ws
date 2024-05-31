@@ -21,6 +21,7 @@
   <xacro:arg name="epick_tcp_stroke_compensation" default="-0.025" /> <!--  Setting this to a negative value will actually move the TCP away from the gripper  -->
 
   <xacro:arg name="overhead_camera_calibration_file" default="$(find picknik_ur_bin_picking_config)/calibration/nominal_overhead_camera_calibration.yaml"/>
+  <xacro:arg name="wrist_camera_calibration_file" default="$(find ur_epick_base_config)/calibration/nominal_wrist_camera_calibration.yaml"/>
 
   <!-- Import macros for main hardware components -->
   <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro" />
@@ -71,9 +72,12 @@
   <!-- wrist camera adapter and camera-->
   <xacro:ur_realsense_camera_adapter prefix="" parent="tool0" child_camera="d415_mount_link" child_tool="realsense_camera_adapter_tool0" rotation="0" camera_mount_pitch_offset="${7.0 * pi / 180}"/>
 
-  <xacro:realsense_d415 parent="d415_mount_link" name="wrist_mounted_camera">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-  </xacro:realsense_d415>
+  <!-- Wrist Camera -->
+  <xacro:load_extrinsic_calibrated_realsense
+    name="wrist_mounted_camera"
+    parent="d415_mount_link"
+    model="d415"
+    extrinsic_calibration_parameter_file="$(arg wrist_camera_calibration_file)" />
 
   <!-- Gripper and UR adapter-->
   <xacro:ur_to_robotiq prefix="" parent="realsense_camera_adapter_tool0" child="gripper_mount_link" rotation="0" />
@@ -109,7 +113,7 @@
   <xacro:load_extrinsic_calibrated_realsense
     name="overhead_camera"
     parent="base_link"
-    model="d435"
+    model="d415"
     extrinsic_calibration_parameter_file="$(arg overhead_camera_calibration_file)" />
 
   <!-- Tote Frames -->
