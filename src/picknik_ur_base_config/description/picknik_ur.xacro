@@ -5,6 +5,7 @@
   <xacro:arg name="external_camera" default="false"/>
   <xacro:arg name="has_tool_changer" default="true"/>
   <xacro:arg name="use_pinch_links" default="true"/>
+  <xacro:arg name="generate_ros2_control_tag" default="true"/>
   <xacro:arg name="name" default=""/>
   <xacro:arg name="joint_limits_parameters_file" default=""/>
   <xacro:arg name="kinematics_parameters_file" default=""/>
@@ -16,7 +17,6 @@
   <xacro:arg name="tool_voltage" default="0"/>
   <xacro:arg name="tool_device_name" default="/dev/ttyUSB0"/>
   <xacro:arg name="initial_positions_file" default="$(find picknik_ur_base_config)/config/initial_positions.yaml"/>
-  <xacro:arg name="environment_xacro" default="$(find picknik_ur_base_config)/description/environment.xacro"/>
 
   <!-- Import UR and environment macros -->
   <xacro:include filename="$(find picknik_ur_base_config)/description/picknik_ur_macro.xacro"/>
@@ -24,14 +24,11 @@
   <xacro:include filename="$(arg environment_xacro)"/>
 
   <!-- Robot: contains robot description from the world frame to the tool frame -->
-  <xacro:picknik_ur parent="world"  child="tool0" initial_positions_file="$(arg initial_positions_file)" >
+  <xacro:picknik_ur parent="world"  child="tool0" initial_positions_file="$(arg initial_positions_file)" generate_ros2_control_tag="$(arg generate_ros2_control_tag)" >
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:picknik_ur>
 
   <!-- Gripper and UR adapter and realsense camera -->
   <xacro:picknik_ur_attachments parent="tool0" child="grasp_link" has_tool_changer="$(arg has_tool_changer)"/>
-
-  <!-- Environment: contains scene geometry and external sensors, e.g. cameras -->
-  <xacro:environment parent="world"/>
 
 </robot>

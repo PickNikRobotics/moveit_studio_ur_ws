@@ -5,6 +5,7 @@
     <xacro:arg name="external_camera" default="false"/>
     <xacro:arg name="has_tool_changer" default="true"/>
     <xacro:arg name="use_pinch_links" default="true"/>
+    <xacro:arg name="generate_ros2_control_tag" default="true"/>
     <xacro:arg name="name" default=""/>
     <xacro:arg name="joint_limits_parameters_file" default=""/>
     <xacro:arg name="kinematics_parameters_file" default=""/>
@@ -24,7 +25,7 @@
     <xacro:include filename="$(arg environment_xacro)"/>
 
     <!-- Robot: contains robot description from the world frame to the tool frame -->
-    <xacro:picknik_ur parent="world"  child="tool0" initial_positions_file="$(arg initial_positions_file)">
+    <xacro:picknik_ur parent="world"  child="tool0" initial_positions_file="$(arg initial_positions_file)" generate_ros2_control_tag="$(arg generate_ros2_control_tag)">
       <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
     </xacro:picknik_ur>
 

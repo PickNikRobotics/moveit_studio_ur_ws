@@ -5,6 +5,7 @@
   <xacro:arg name="external_camera" default="false"/>
   <xacro:arg name="has_tool_changer" default="true"/>
   <xacro:arg name="use_pinch_links" default="true"/>
+  <xacro:arg name="generate_ros2_control_tag" default="true"/>
   <xacro:arg name="name" default=""/>
   <xacro:arg name="joint_limits_parameters_file" default=""/>
   <xacro:arg name="kinematics_parameters_file" default=""/>
@@ -32,7 +33,7 @@
   </xacro:picknik_ur>
 
   <!-- Gripper and UR adapter and realsense camera -->
-  <xacro:picknik_ur_attachments parent="tool0" child="grasp_link" has_tool_changer="$(arg has_tool_changer)"/>
+  <xacro:picknik_ur_attachments parent="tool0" child="grasp_link" has_tool_changer="$(arg has_tool_changer)" generate_ros2_control_tag="$(arg generate_ros2_control_tag)"/>
 
   <!-- Environment: contains scene geometry and external sensors, e.g. cameras -->
   <xacro:environment parent="world"/>
