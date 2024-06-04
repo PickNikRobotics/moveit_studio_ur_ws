@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<root BTCPP_format="4" main_tree_to_execute="take snap">
+<root BTCPP_format="4" main_tree_to_execute="Take snapshot">
   <!--//////////-->
-  <BehaviorTree ID="take snap" _description="" _favorite="true">
+  <BehaviorTree ID="Take snapshot" _description="" _favorite="true">
     <Control ID="Sequence" name="TopLevelSequence">
       <Action ID="ClearSnapshot"/>
       <Action ID="GetPointCloud" topic_name="/scene_camera/points"/>
@@ -9,6 +9,6 @@
     </Control>
   </BehaviorTree>
   <TreeNodesModel>
-    <SubTree ID="take snap"/>
+    <SubTree ID="Take snapshot"/>
   </TreeNodesModel>
 </root>

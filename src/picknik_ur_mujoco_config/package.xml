@@ -3,7 +3,7 @@
   <name>picknik_ur_mujoco_config</name>
   <version>5.1.0</version>
 
-  <description>Base configuration package for Picknik's UR robot arms</description>
+  <description>MuJoCo simulation configuration package for Picknik's UR robot arm in a kitchen</description>
 
   <maintainer email="support@picknik.ai">MoveIt Pro Maintainer</maintainer>
 
