@@ -47,7 +47,7 @@
                 kinematics_parameters_file="$(arg kinematics_parameters_file)"
                 physical_parameters_file="$(arg physical_parameters_file)"
                 visual_parameters_file="$(arg visual_parameters_file)"
-                use_fake_hardware="false"
+                use_fake_hardware="${use_fake_hardware}"
                 initial_positions="${xacro.load_yaml(initial_positions_file)}"
                 sim_ignition="${simulation == 'gazebo'}"
                 headless_mode="$(arg headless_mode)"
