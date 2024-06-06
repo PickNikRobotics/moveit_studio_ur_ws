@@ -28,12 +28,12 @@
   <xacro:include filename="$(arg environment_xacro)"/>
 
   <!-- Robot: contains robot description from the world frame to the tool frame -->
-  <xacro:picknik_ur parent="world"  child="tool0" initial_positions_file="$(arg initial_positions_file)">
+  <xacro:picknik_ur parent="world"  child="tool0" initial_positions_file="$(arg initial_positions_file)" generate_ros2_control_tag="$(arg generate_ros2_control_tag)">
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:picknik_ur>
 
   <!-- Gripper and UR adapter and realsense camera -->
-  <xacro:picknik_ur_attachments parent="tool0" child="grasp_link" has_tool_changer="$(arg has_tool_changer)" generate_ros2_control_tag="$(arg generate_ros2_control_tag)"/>
+  <xacro:picknik_ur_attachments parent="tool0" child="grasp_link" has_tool_changer="$(arg has_tool_changer)"/>
 
   <!-- Environment: contains scene geometry and external sensors, e.g. cameras -->
   <xacro:environment parent="world"/>
