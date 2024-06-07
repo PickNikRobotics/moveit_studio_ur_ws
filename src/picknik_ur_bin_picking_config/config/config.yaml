@@ -13,12 +13,6 @@ hardware:
   # [Required]
   ip: "0.0.0.0"
 
-  # Configuration details for cameras and scene planning.
-  # [Required]
-  camera_config_file:
-    package: "picknik_ur_bin_picking_config"
-    path: "config/cameras.yaml"
-
   # Parameters used to configure the robot description through XACRO.
   # A URDF and SRDF are both required.
   # [Required]
