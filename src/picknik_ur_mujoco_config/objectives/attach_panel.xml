@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Attach Panel">
+  <!-- ////////// -->
+  <BehaviorTree ID="Attach Panel">
+    <Control ID="Sequence">
+      <Action ID="Attach Panel 1" />
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Attach Panel">
+      <input_port name="panel_number" default="1"/>
+    </SubTree>
+  </TreeNodesModel>
+</root>

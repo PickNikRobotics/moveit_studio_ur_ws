@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="gcbz">
+  <!--//////////-->
+  <BehaviorTree ID="gcbz" _description="" _favorite="false">
+    <SubTree ID="Prepare to Drive"/>
+  </BehaviorTree>
+</root>
