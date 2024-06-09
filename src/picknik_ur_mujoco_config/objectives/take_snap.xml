@@ -5,7 +5,7 @@
     <Control ID="Sequence" name="TopLevelSequence">
       <Action ID="ClearSnapshot"/>
       <Action ID="GetPointCloud" topic_name="/scene_camera/points"/>
-      <Action ID="BetterSendpointcloudtoui" sensor_name="world"/>
+      <Action ID="SendPointCloudToUI" sensor_name="scene_scan_camera"/>
     </Control>
   </BehaviorTree>
   <TreeNodesModel>

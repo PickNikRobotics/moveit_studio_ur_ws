@@ -3,14 +3,27 @@
 
 <mujoco model="ur5e scene">
   <include file="ur5e.xml"/>
-    <include file="assets/franka_assets/assets.xml"/>
-    <include file="assets/item_assets/oven_asset.xml"/>
-    <include file="assets/item_assets/counters_asset.xml"/>
-    <include file="assets/item_assets/backwall_asset.xml"/>
-    <include file="assets/item_assets/slidecabinet_asset.xml"/>
-    <include file="assets/item_assets/hingecabinet_asset.xml"/>
-    <include file="assets/item_assets/microwave_asset.xml"/>
-    <include file="assets/item_assets/kettle_asset.xml"/>
+
+    <asset>
+        <!-- Define textures and materials -->
+        <texture name="wood" type="cube" file="assets/wood.png"/>
+        <material name="wood" texture="wood" texrepeat="1 1"/>
+
+        <!-- Define AprilTag textures -->
+        <texture name="apriltag1" type="2d" file="assets/tag36_11_00000.png"/>
+        <texture name="apriltag2" type="2d" file="assets/tag36_11_00001.png"/>
+        <texture name="apriltag3" type="2d" file="assets/tag36_11_00002.png"/>
+
+        <!-- Define block materials with AprilTags -->
+        <material name="apriltag_material1" texture="apriltag1" texuniform="false" texrepeat="1 1"/>
+        <material name="apriltag_material2" texture="apriltag2" texuniform="false" texrepeat="1 1"/>
+        <material name="apriltag_material3" texture="apriltag3" texuniform="false" texrepeat="1 1"/>
+    </asset>
+
+
+
+
+
 
 
   <statistic center="0.3 0 0.4" extent="0.8"/>
@@ -34,33 +47,26 @@
 
   <worldbody>
     <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
-    <geom name="floor" pos="0 0 -1.626" size="0 0 0.05" type="plane" material="groundplane"/>
-
-
-        <body name='desk' pos='-0.1 0.75 -1.626'>
-
-            <body name="counters1" pos="0 0 0" >
-                <include file="assets/item_assets/counters_chain.xml"/>
-            </body>
-            <body name="oven" pos="0 0 0" >
-                <include file="assets/item_assets/oven_chain.xml"/>
-            </body>
-            <body name="backwall" pos="0 0 0" >
-                <include file="assets/item_assets/backwall_chain.xml"/>
-            </body>
-            <body name="slidecabinet" pos="0.4 0.3 2.6" >
-                <include file="assets/item_assets/slidecabinet_chain.xml"/>
-            </body>
-            <body name="hingecabinet" pos="-0.504 0.28 2.6" >
-                <include file="assets/item_assets/hingecabinet_chain.xml"/>
-            </body>
-            <body name="microwave" pos="-0.750 -0.025 1.6" euler="0 0 0.3">
-                <include file="assets/item_assets/microwave_chain.xml"/>
-            </body>
+    <geom name="floor" pos="0 0 -1.626" size="0 0 0.05" type="plane" material="groundplane"/>   
+    <!-- Define the table -->
+    <body name="table" pos="1 0 0.5">
+        <geom type="box" size="0.5 0.5 0.025" pos="0 0 0.025" material="wood"/>
+    </body>
+        <!-- Define the blocks with AprilTags on each face -->
+        
+        <!-- Define the block with AprilTags on each face -->
+        <body name="block1" pos="0.75 0.2 0.575">
+            <freejoint name="block1"/>
+            <geom type="box" size="0.025 0.025 0.025" rgba="1 0 0 1" material="apriltag_material1"/>
         </body>
-        <body name="kettle" pos="-0.269 0.35 0">
-            <freejoint name="kettle"/>
-            <include file="assets/item_assets/kettle_chain.xml"/>
+        <body name="block2" pos="0.75 0.0 0.575">
+            <freejoint name="block2"/>
+            <geom type="box" size="0.025 0.025 0.025" rgba="0 1 0 1" material="apriltag_material2"/>
         </body>
+        <body name="block3" pos="0.75 -0.2 0.575">
+            <freejoint name="block3"/>
+            <geom type="box" size="0.025 0.025 0.025" rgba="0 0 1 1" material="apriltag_material3"/>
+        </body>
+
   </worldbody>
 </mujoco>

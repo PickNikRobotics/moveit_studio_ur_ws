@@ -3,41 +3,25 @@ controller_manager:
     update_rate: 600  # Hz
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
-    io_and_status_controller:
-      type: ur_controllers/GPIOController
-    force_torque_sensor_broadcaster:
-      type: force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster
     joint_trajectory_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
-    robotiq_gripper_controller:
-      type: position_controllers/GripperActionController
-    robotiq_activation_controller:
-      type: robotiq_controllers/RobotiqActivationController
-    servo_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
-    admittance_controller_open_door:
-      type: admittance_controller/AdmittanceController
-    joint_trajectory_controller_chained_open_door:
       type: joint_trajectory_controller/JointTrajectoryController
     joint_trajectory_admittance_controller:
       type: joint_trajectory_admittance_controller/JointTrajectoryAdmittanceController
 
-io_and_status_controller:
-  ros__parameters:
-    tf_prefix: ""
+    twist_controller:
+      type: picknik_twist_controller/PicknikTwistController
+    robotiq_gripper_controller:
+      type: position_controllers/GripperActionController
+    servo_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
 
-force_torque_sensor_broadcaster:
-  ros__parameters:
-    sensor_name: tcp_fts_sensor
-    state_interface_names:
-      - force.x
-      - force.y
-      - force.z
-      - torque.x
-      - torque.y
-      - torque.z
-    frame_id: tool0
-    topic_name: ft_data
+    force_torque_sensor_broadcaster:
+      type: force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster
+
+    admittance_controller_open_door:
+      type: admittance_controller/AdmittanceController
+    joint_trajectory_controller_chained_open_door:
+      type: joint_trajectory_controller/JointTrajectoryController
 
 joint_trajectory_controller:
   ros__parameters:
@@ -82,7 +66,119 @@ joint_trajectory_controller:
         goal: 0.05
       wrist_3_joint:
         goal: 0.05
+    acceleration_limits:
+      linear_rail_joint: 10.0
+      shoulder_pan_joint: 10.0
+      shoulder_lift_joint: 10.0
+      elbow_joint: 10.0
+      wrist_1_joint: 10.0
+      wrist_2_joint: 10.0
+      wrist_3_joint: 10.0
 
+twist_controller:
+  ros__parameters:
+    joint: tcp
+    interface_names:
+      - twist.linear.x
+      - twist.linear.y
+      - twist.linear.z
+      - twist.angular.x
+      - twist.angular.y
+      - twist.angular.z
+
+robotiq_gripper_controller:
+  ros__parameters:
+    default: true
+    joint: robotiq_85_left_knuckle_joint
+    allow_stalling: true
+servo_controller:
+  ros__parameters:
+    joints:
+      - linear_rail_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    command_joints:
+      - linear_rail_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.0
+      goal_time: 0.0
+      linear_rail_joint:
+        goal: 0.05
+      shoulder_pan_joint:
+        goal: 0.05
+      shoulder_lift_joint:
+        goal: 0.05
+      elbow_joint:
+        goal: 0.05
+      wrist_1_joint:
+        goal: 0.05
+      wrist_2_joint:
+        goal: 0.05
+      wrist_3_joint:
+        goal: 0.05
+    acceleration_limits:
+      linear_rail_joint: 10.0
+      shoulder_pan_joint: 10.0
+      shoulder_lift_joint: 10.0
+      elbow_joint: 10.0
+      wrist_1_joint: 10.0
+      wrist_2_joint: 10.0
+      wrist_3_joint: 10.0
+
+force_torque_sensor_broadcaster:
+  ros__parameters:
+    sensor_name: robotiq_ft_sensor
+    state_interface_names:
+      - force.x
+      - force.y
+      - force.z
+      - torque.x
+      - torque.y
+      - torque.z
+    frame_id: fts_link
+
+joint_trajectory_admittance_controller:
+  ros__parameters:
+    joints:
+      - linear_rail_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    base_frame: base_link
+    sensor_frame: tool0
+    ee_frame: grasp_link
+    ft_sensor_name: robotiq_ft_sensor
+    # Joint accelerations chosen to match MoveIt configs.
+    stop_accelerations:
+      - 30.0
+      - 30.0
+      - 30.0
+      - 30.0
+      - 30.0
+      - 30.0
+      - 30.0
 joint_trajectory_controller_chained_open_door:
   ros__parameters:
     joints:
@@ -100,6 +196,7 @@ joint_trajectory_controller_chained_open_door:
       - position
       - velocity
     command_joints:
+      - admittance_controller_open_door/linear_rail_joint
       - admittance_controller_open_door/shoulder_pan_joint
       - admittance_controller_open_door/shoulder_lift_joint
       - admittance_controller_open_door/elbow_joint
@@ -113,7 +210,7 @@ joint_trajectory_controller_chained_open_door:
       stopped_velocity_tolerance: 0.0
       goal_time: 0.0
       linear_rail_joint:
-        goal: 0.05
+        goal: 0.25
       shoulder_pan_joint:
         goal: 0.25
       shoulder_lift_joint:
@@ -126,60 +223,14 @@ joint_trajectory_controller_chained_open_door:
         goal: 0.25
       wrist_3_joint:
         goal: 0.25
-
-servo_controller:
-  ros__parameters:
-    joints:
-      - linear_rail_joint
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
-    command_interfaces:
-      - position
-    state_interfaces:
-      - position
-      - velocity
-    command_joints:
-      - linear_rail_joint
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
-    state_publish_rate: 100.0
-    action_monitor_rate: 20.0
-    allow_partial_joints_goal: false
-    constraints:
-      stopped_velocity_tolerance: 0.0
-      goal_time: 0.0
-      linear_rail_joint:
-        goal: 0.05
-      shoulder_pan_joint:
-        goal: 0.05
-      shoulder_lift_joint:
-        goal: 0.05
-      elbow_joint:
-        goal: 0.05
-      wrist_1_joint:
-        goal: 0.05
-      wrist_2_joint:
-        goal: 0.05
-      wrist_3_joint:
-        goal: 0.05
-
-robotiq_gripper_controller:
-  ros__parameters:
-    default: true
-    joint: robotiq_85_left_knuckle_joint
-    allow_stalling: true
-
-robotiq_activation_controller:
-  ros__parameters:
-    default: true
+    acceleration_limits:
+      linear_rail_joint: 10.0
+      shoulder_pan_joint: 10.0
+      shoulder_lift_joint: 10.0
+      elbow_joint: 10.0
+      wrist_1_joint: 10.0
+      wrist_2_joint: 10.0
+      wrist_3_joint: 10.0
 
 admittance_controller_open_door:
   ros__parameters:
@@ -211,7 +262,7 @@ admittance_controller_open_door:
       alpha: 0.05
 
     ft_sensor:
-      name: tcp_fts_sensor
+      name: robotiq_ft_sensor
       frame:
         id: wrist_3_link  # Wrench measurements are in this frame
       filter_coefficient: 0.1
@@ -272,27 +323,3 @@ admittance_controller_open_door:
 
     # general settings
     enable_parameter_update_without_reactivation: true
-
-joint_trajectory_admittance_controller:
-  ros__parameters:
-    joints:
-      - linear_rail_joint
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
-    base_frame: base_link
-    sensor_frame: tool0
-    ee_frame: grasp_link
-    ft_sensor_name: tcp_fts_sensor
-    # Joint accelerations chosen to match MoveIt configs.
-    stop_accelerations:
-      - 30.0
-      - 30.0
-      - 30.0
-      - 30.0
-      - 30.0
-      - 30.0
-      - 30.0

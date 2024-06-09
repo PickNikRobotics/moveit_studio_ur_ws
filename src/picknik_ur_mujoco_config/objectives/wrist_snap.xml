@@ -4,7 +4,7 @@
   <BehaviorTree ID="Wrist camera snapshot" _description="" _favorite="true">
     <Control ID="Sequence" name="TopLevelSequence">
       <Action ID="GetPointCloud" topic_name="/wrist_camera/points"/>
-      <Action ID="BetterSendpointcloudtoui" sensor_name="world"/>
+      <Action ID="SendPointCloudToUI" sensor_name="wrist_camera"/>
     </Control>
   </BehaviorTree>
   <TreeNodesModel>

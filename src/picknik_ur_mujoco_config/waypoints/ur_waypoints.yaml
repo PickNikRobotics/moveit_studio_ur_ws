@@ -1,8 +1,54 @@
 - description: ''
+  favorite: true
+  joint_group_names:
+  - gripper
+  - linear_actuator
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - robotiq_85_left_knuckle_joint
+      - robotiq_85_left_finger_joint
+      - robotiq_85_right_finger_joint
+      - linear_rail_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    position:
+      - 0.020245453224196325
+      - 0.0005415388257121767
+      - 0.0005306876682870235
+      - -0.00011033504734190273
+      - -0.13859121021629586
+      - -1.3509959277068897
+      - -1.6101997349577886
+      - -1.5916281041629357
+      - 1.3250396160331166
+      - -6.706858539261985e-05
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Inspect
+- description: ''
   favorite: false
   joint_group_names:
-    - gripper
-    - manipulator
+  - gripper
   joint_state:
     effort: []
     header:
@@ -45,8 +91,7 @@
 - description: ''
   favorite: true
   joint_group_names:
-    - gripper
-    - manipulator
+  - gripper
   joint_state:
     effort: []
     header:

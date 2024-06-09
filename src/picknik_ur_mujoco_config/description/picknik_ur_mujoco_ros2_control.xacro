@@ -89,26 +89,10 @@
           <state_interface name="position"/>
           <state_interface name="velocity"/>
       </joint>
-      <joint name="robotiq_85_left_inner_knuckle_joint">
-          <state_interface name="position"/>
-          <state_interface name="velocity"/>
-      </joint>
-      <joint name="robotiq_85_right_inner_knuckle_joint">
-          <state_interface name="position"/>
-          <state_interface name="velocity"/>
-      </joint>
-      <joint name="robotiq_85_left_finger_tip_joint">
-          <state_interface name="position"/>
-          <state_interface name="velocity"/>
-      </joint>
-      <joint name="robotiq_85_right_finger_tip_joint">
-          <state_interface name="position"/>
-          <state_interface name="velocity"/>
-      </joint>
       <hardware>
           <plugin>picknik_mujoco_ros/MujocoSystem</plugin>
           <param name="mujoco_model">description/scene.xml</param>
-          <param name="mujoco_model_package">picknik_ur_mujoco_kitchen_config</param>
+          <param name="mujoco_model_package">picknik_ur_mujoco_config</param>
           <param name="render_publish_rate">10</param>
           <param name="tf_publish_rate">60</param>
           <param name="lidar_publish_rate">10</param>

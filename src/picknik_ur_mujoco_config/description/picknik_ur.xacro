@@ -34,7 +34,7 @@
     <visual>
       <origin xyz="0 0 0.05" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://picknik_ur_mujoco_config/meshes/rail.stl" scale="0.9 0.6 0.9" />
+        <mesh filename="package://picknik_ur_mujoco_config/description/assets/rail.stl" scale="0.9 0.6 0.9" />
       </geometry>
       <material name="grey">
           <color rgba="0.1 0.1 0.1 1.0"/>
@@ -43,7 +43,7 @@
     <collision>
       <origin xyz="0 0 0.05" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://picknik_ur_mujoco_config/meshes/rail.stl" scale="0.9 0.6 0.9"/>
+        <mesh filename="package://picknik_ur_mujoco_config/description/assets/rail.stl" scale="0.9 0.6 0.9"/>
       </geometry>
     </collision>
   </link>
@@ -64,7 +64,7 @@
     <parent link="linear_rail" />
     <child link="ur_linear_rail_base" />
     <origin xyz="0 0 0" rpy="0 0 0" />
-    <limit effort="1000.0" lower="-1.0" upper="1.0" velocity="0.175"/>
+    <limit effort="1000.0" lower="-1.0" upper="1.0" velocity="0.175" acceleration="10.0"/>
     <dynamics damping="20.0" friction="500.0" />
   </joint>
   <!-- MuJoCo Hardware interface -->

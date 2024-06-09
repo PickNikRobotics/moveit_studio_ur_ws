@@ -9,7 +9,7 @@
 #    retrieved: 2020-06-16, last modified: 2020-06-09
 #
 # NOTE: Acceleration limits are not publicly available so we have picked a reasonable upper limit
-joint_limits:  
+joint_limits:
   linear_rail_joint:
     has_acceleration_limits: true
     has_effort_limits: true
