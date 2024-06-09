@@ -48,7 +48,7 @@
 - description: ''
   favorite: false
   joint_group_names:
-  - gripper
+    - gripper
   joint_state:
     effort: []
     header:
@@ -91,7 +91,7 @@
 - description: ''
   favorite: true
   joint_group_names:
-  - gripper
+    - gripper
   joint_state:
     effort: []
     header:
