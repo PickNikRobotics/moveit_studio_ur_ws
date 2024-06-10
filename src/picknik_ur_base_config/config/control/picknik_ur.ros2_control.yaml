@@ -285,7 +285,8 @@ joint_trajectory_admittance_controller:
       - 30.0
       - 30.0
 
-  velocity_force_controller:
+velocity_force_controller:
+  ros__parameters:
     joints:
       - shoulder_pan_joint
       - shoulder_lift_joint
@@ -305,12 +306,12 @@ joint_trajectory_admittance_controller:
       - 1.047
       - 1.047
     max_joint_acceleration:
-      - 0.524
-      - 0.524
-      - 0.524
-      - 0.524
-      - 0.524
-      - 0.524
+      - 52.4
+      - 52.4
+      - 52.4
+      - 52.4
+      - 52.4
+      - 52.4
     max_cartesian_velocity:
       - 0.25
       - 0.25
@@ -319,9 +320,9 @@ joint_trajectory_admittance_controller:
       - 1.5707
       - 1.5707
     max_cartesian_acceleration:
-      - 2.0
-      - 2.0
-      - 2.0
-      - 4.0
-      - 4.0
-      - 4.0
+      - 20.0
+      - 20.0
+      - 20.0
+      - 40.0
+      - 40.0
+      - 40.0
