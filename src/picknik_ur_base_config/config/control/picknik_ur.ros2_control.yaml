@@ -21,6 +21,8 @@ controller_manager:
       type: joint_trajectory_controller/JointTrajectoryController
     joint_trajectory_admittance_controller:
       type: joint_trajectory_admittance_controller/JointTrajectoryAdmittanceController
+    velocity_force_controller:
+      type: velocity_force_controller/VelocityForceController
 
 io_and_status_controller:
   ros__parameters:
@@ -282,3 +284,47 @@ joint_trajectory_admittance_controller:
       - 30.0
       - 30.0
       - 30.0
+
+velocity_force_controller:
+  ros__parameters:
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    base_frame: base_link
+    sensor_frame: tool0
+    ee_frame: grasp_link
+    ft_sensor_name: tcp_fts_sensor
+    ft_force_deadband: 2.0
+    ft_torque_deadband: 1.0
+    max_joint_velocity:
+      - 0.524
+      - 0.524
+      - 0.524
+      - 1.047
+      - 1.047
+      - 1.047
+    max_joint_acceleration:
+      - 52.4
+      - 52.4
+      - 52.4
+      - 52.4
+      - 52.4
+      - 52.4
+    max_cartesian_velocity:
+      - 0.25
+      - 0.25
+      - 0.25
+      - 1.5707
+      - 1.5707
+      - 1.5707
+    max_cartesian_acceleration:
+      - 20.0
+      - 20.0
+      - 20.0
+      - 40.0
+      - 40.0
+      - 40.0
