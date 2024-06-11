@@ -298,6 +298,8 @@ velocity_force_controller:
     sensor_frame: tool0
     ee_frame: grasp_link
     ft_sensor_name: tcp_fts_sensor
+    ft_force_deadband: 2.0
+    ft_torque_deadband: 1.0
     max_joint_velocity:
       - 0.524
       - 0.524
