@@ -13,8 +13,6 @@
         sec: 0
     name:
       - robotiq_85_left_knuckle_joint
-      - robotiq_85_left_finger_joint
-      - robotiq_85_right_finger_joint
       - linear_rail_joint
       - shoulder_pan_joint
       - shoulder_lift_joint
@@ -24,8 +22,6 @@
       - wrist_3_joint
     position:
       - 0.020245453224196325
-      - 0.0005415388257121767
-      - 0.0005306876682870235
       - -0.00011033504734190273
       - -0.13859121021629586
       - -1.3509959277068897
@@ -58,8 +54,6 @@
         sec: 0
     name:
       - robotiq_85_left_knuckle_joint
-      - robotiq_85_left_finger_joint
-      - robotiq_85_right_finger_joint
       - shoulder_pan_joint
       - shoulder_lift_joint
       - elbow_joint
@@ -69,8 +63,6 @@
     position:
       - 0.026399761364054454
       - 0.0005346488256179494
-      - 0.0005240255579395953
-      - -0.6967272065940483
       - -2.949595900898272
       - -0.5895961580620083
       - 0.26264708889440197
@@ -101,8 +93,6 @@
         sec: 0
     name:
       - robotiq_85_left_knuckle_joint
-      - robotiq_85_left_finger_joint
-      - robotiq_85_right_finger_joint
       - shoulder_pan_joint
       - shoulder_lift_joint
       - elbow_joint
@@ -112,8 +102,6 @@
     position:
       - 0.023582614559591448
       - 0.0005380412138387984
-      - 0.0005273762927040758
-      - -0.024998530840439872
       - -1.3338949001231715
       - -1.81678917975904
       - -0.00021972258299880371
