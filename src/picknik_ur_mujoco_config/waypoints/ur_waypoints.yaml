@@ -1,7 +1,7 @@
 - description: ''
   favorite: false
   joint_group_names:
-  - gripper
+    - gripper
   - linear_actuator
   - manipulator
   joint_state:
@@ -12,21 +12,21 @@
         nanosec: 0
         sec: 0
     name:
-    - robotiq_85_left_knuckle_joint
-    - linear_rail_joint
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
-    position:
-    - 0.020245581959532896
-    - 0.09566114195503216
-    - 0.02372699717992017
-    - -1.9160700852798618
-    - -0.9786031007791618
-    - -1.7392072440356476
+      - robotiq_85_left_knuckle_joint
+      - linear_rail_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+      position:
+      - 0.020245581959532896
+      - 0.09566114195503216
+      - 0.02372699717992017
+      - -1.9160700852798618
+      - -0.9786031007791618
+      - -1.7392072440356476
     - 1.3044383056713318
     - 0.16637148499350124
     velocity: []
@@ -44,7 +44,7 @@
 - description: ''
   favorite: true
   joint_group_names:
-  - gripper
+    - gripper
   joint_state:
     effort: []
     header:
@@ -53,21 +53,21 @@
         nanosec: 0
         sec: 0
     name:
-    - robotiq_85_left_knuckle_joint
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - robotiq_85_left_knuckle_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - 0.023582614559591448
-    - 0.0005380412138387984
-    - -1.3338949001231715
-    - -1.81678917975904
-    - -0.00021972258299880371
-    - 2.4623657241099992e-05
-    - 8.851738735466307e-08
+      - 0.023582614559591448
+      - 0.0005380412138387984
+      - -1.3338949001231715
+      - -1.81678917975904
+      - -0.00021972258299880371
+      - 2.4623657241099992e-05
+      - 8.851738735466307e-08
     velocity: []
   multi_dof_joint_state:
     header:
@@ -83,7 +83,7 @@
 - description: ''
   favorite: false
   joint_group_names:
-  - gripper
+    - gripper
   joint_state:
     effort: []
     header:
@@ -92,21 +92,21 @@
         nanosec: 0
         sec: 0
     name:
-    - robotiq_85_left_knuckle_joint
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+      - robotiq_85_left_knuckle_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
     position:
-    - 0.026399761364054454
-    - 0.0005346488256179494
-    - -2.949595900898272
-    - -0.5895961580620083
-    - 0.26264708889440197
-    - 1.097480278759817
-    - -0.008044777955408507
+      - 0.026399761364054454
+      - 0.0005346488256179494
+      - -2.949595900898272
+      - -0.5895961580620083
+      - 0.26264708889440197
+      - 1.097480278759817
+      - -0.008044777955408507
     velocity: []
   multi_dof_joint_state:
     header:
@@ -122,7 +122,7 @@
 - description: ''
   favorite: true
   joint_group_names:
-  - gripper
+    - gripper
   - linear_actuator
   - manipulator
   joint_state:
@@ -133,21 +133,21 @@
         nanosec: 0
         sec: 0
     name:
-    - robotiq_85_left_knuckle_joint
-    - linear_rail_joint
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
+      - robotiq_85_left_knuckle_joint
+      - linear_rail_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
     - wrist_3_joint
-    position:
-    - 0.020245453224196325
-    - -0.00011033504734190273
-    - -0.13859121021629586
-    - -1.3509959277068897
-    - -1.6101997349577886
-    - -1.5916281041629357
+      position:
+      - 0.020245453224196325
+      - -0.00011033504734190273
+      - -0.13859121021629586
+      - -1.3509959277068897
+      - -1.6101997349577886
+      - -1.5916281041629357
     - 1.3250396160331166
     - -6.706858539261985e-05
     velocity: []
