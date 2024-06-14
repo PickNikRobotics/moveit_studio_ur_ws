@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Open Cabinet Door">
-  <BehaviorTree ID="Open Cabinet Door" _description="Open a cabinet door by grasping and pulling its handle" _favorite="true">
+  <BehaviorTree ID="Open Cabinet Door" _description="Open a cabinet door by grasping and pulling its handle" _favorite="false">
     <Control ID="Sequence" name="Setup">
       <!--Load the parameters needed for this Objective-->
       <Action ID="LoadObjectiveParameters" config_file_name="open_door_fixed_handle_MTC_config.yaml" parameters="{parameters}"/>
