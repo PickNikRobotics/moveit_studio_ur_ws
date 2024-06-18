@@ -8,6 +8,12 @@
                 <Action ID="GetPointsFromUser" view_name="/wrist_mounted_camera/color/image_raw" point_names="grasp_pose" point_prompts="Select the object you wish to pick" pixel_coords="{pixel_coords}"/>
                 <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
                 <Action ID="GetPoseFromPixelCoords" point_cloud="{point_cloud}" pixel_coords="{pixel_coords}" downsample_fraction="0.1" neighbor_radius="0.1" output_poses="{output_poses}"/>
+                <Decorator ID="ForEachPoseStamped" vector_in="{output_poses}">
+                    <Control ID="Sequence">
+                        <Action ID="TransformPose" quaternion_xyzw="1;0;0;0" translation_xyz="0;0;0" input_pose="{pose}" output_pose="{output_poses_flipped}"/>
+                        <Action ID="AddPoseStampedToVector" input="{output_poses_flipped}" vector="{pose_stamped_vector}"/>
+                    </Control>
+                </Decorator>
                 <Action ID="AdjustPoseWithIMarker" prompts="Adjust IMarker to desired pose" initial_poses="{output_poses}" adjusted_poses="{adjusted_poses}"/>
             </Control>
             <Decorator ID="ForEachPoseStamped" vector_in="{adjusted_poses}" out="{grasp_pose}">
