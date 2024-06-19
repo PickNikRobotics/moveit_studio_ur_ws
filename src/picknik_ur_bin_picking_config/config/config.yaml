@@ -55,7 +55,7 @@ hardware:
           package: "picknik_ur_bin_picking_config"
           path: "calibration/nominal_overhead_camera_calibration.yaml"
       - wrist_camera_calibration_file:
-          package: "ur_epick_base_config"
+          package: "picknik_ur_bin_picking_config"
           path: "calibration/nominal_wrist_camera_calibration.yaml"
 
 # Configuration for launching ros2_control processes.

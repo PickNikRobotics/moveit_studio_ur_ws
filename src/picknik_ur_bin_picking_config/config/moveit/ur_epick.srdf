@@ -11,9 +11,11 @@
         <link name="epick_body"/>
         <link name="epick_extension"/>
         <link name="epick_suction_cup"/>
+        <link name="epick_tip"/>
         <link name="epick_tcp"/>
         <link name="epick_vacuum_state"/>
         <link name="grasp_link"/>
+        <joint name="gripper"/>
     </group>
 
     <!-- Define states for the gripper group to allow actuating the gripper by planning to a named state. -->

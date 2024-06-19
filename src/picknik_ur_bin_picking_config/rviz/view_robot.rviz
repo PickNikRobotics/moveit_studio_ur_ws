@@ -233,10 +233,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        manual_grasp_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         realsense_camera_adapter_link:
           Alpha: 1
           Show Axes: false
