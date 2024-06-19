@@ -1,0 +1,47 @@
+LiftObject:
+  arm_group_name: manipulator
+  hand_frame_name: grasp_link
+  velocity_acceleration_scaling_factor: 1
+SetupMTCApproachGrasp:
+  approach_distance: 0
+  arm_group_name: manipulator
+  camera_field_of_view_angle: 1.0472
+  camera_optical_frame_id: wrist_mounted_camera_color_optical_frame
+  end_effector_group_name: gripper
+  end_effector_name: moveit_ee
+  enforce_visibility_constraint: true
+  hand_frame_name: grasp_link
+  sensor_z_offset: 0.02
+  target_diameter: 0
+  world_frame_name: world
+SetupMTCGenerateVacuumGrasps:
+  end_effector_closed_pose_name: close
+  end_effector_group_name: gripper
+  end_effector_name: moveit_ee
+  grasp_candidate_config:
+    generate_centroid_grasps: false
+    num_orientation_samples: 4
+    padding_dimension: 0.02
+    samples_per_plane: 1
+  grasp_data:
+    eef_mount_to_tcp_transform:
+      pitch: 0
+      roll: 0
+      x: 0
+      y: 0
+      yaw: 1.57
+      z: 0
+  hand_frame_name: grasp_link
+  ui_grasp_link: grasp_link
+SetupMTCMoveAlongFrameAxis:
+  arm_group_name: manipulator
+  hand_frame_name: grasp_link
+  velocity_acceleration_scaling_factor: 0.5
+SetupMTCRetractFromGrasp:
+  approach_distance: 0.15
+  arm_group_name: manipulator
+  end_effector_closed_pose_name: close
+  end_effector_group_name: gripper
+  hand_frame_name: grasp_link
+  lift_distance: 0.1
+  world_frame_name: world

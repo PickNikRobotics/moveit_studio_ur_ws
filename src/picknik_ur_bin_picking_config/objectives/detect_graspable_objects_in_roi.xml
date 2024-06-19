@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Detect Graspable Objects In ROI">
+  <!-- ////////// -->
+  <BehaviorTree ID="Detect Graspable Objects In ROI">
+    <Control ID="Sequence">
+      <Action ID="GetPointCloud" topic_name="{point_cloud_topic}" message_out="{point_cloud}"/>
+      <Action ID="GetImage" topic_name="{rgb_image_topic}" message_out="{image}"/>
+      <Action ID="GetCameraInfo" topic_name="{rgb_info_topic}" message_out="{camera_info}"/>
+      <Action ID="GetMasks2DAction" image="{image}" action_name="{get_masks_2d_action}" min_confidence="0.9" max_nms_iou="0.8" min_relative_area="0" max_relative_area="0.2" masks2d="{masks2d}"/>
+      <Action ID="CropPointsInBox" point_cloud="{point_cloud}" crop_box_centroid_pose="{roi_pose}" crop_box_size="{roi_size}" point_cloud_cropped="{point_cloud_cropped}"/>
+      <Action ID="FindMaskedObjects" point_cloud="{point_cloud_cropped}" camera_info="{camera_info}" masks2d="{masks2d}" detected_shapes="{objects}" base_frame="world" plane_inlier_threshold="0.01" minimum_face_area="0.000625" face_separation_threshold="0.01"/>
+    </Control>
+  </BehaviorTree>
+</root>

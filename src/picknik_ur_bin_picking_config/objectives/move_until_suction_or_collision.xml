@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Move Until Suction or Collision">
+  <!--//////////-->
+  <BehaviorTree ID="Move Until Suction or Collision" _description="Execute an MTC solution until it succeeds, until the object detection status of an Epick gripper matches a specific value, or until a wrench measurement exceeds a specific force threshold. If trajectory execution succeeds, set the value of the trajectory_execution_succeeded port to 1, and if trajectory execution fails or is interrupted set it to 0.">
+    <Control ID="Sequence">
+      <Action ID="Script" code="trajectory_execution_succeeded := 0"/>
+      <Decorator ID="ForceSuccess">
+        <Control ID="Parallel" success_count="1" failure_count="1">
+          <Control ID="Sequence">
+            <Action ID="ExecuteMTCTask" solution="{solution}"/>
+            <Action ID="Script" code="trajectory_execution_succeeded = 1" name="Set Trajectory Execution Succeeded"/>
+          </Control>
+          <Decorator ID="KeepRunningUntilFailure">
+            <Control ID="Sequence">
+              <Action ID="GetEpickObjectDetectionStatus" topic_name="/object_detection_status" message_out="{status}"/>
+              <Decorator ID="Inverter">
+                <Action ID="CompareEpickObjectDetectionStatus" value1="{status}" value2="{expected_vacuum_status}"/>
+              </Decorator>
+            </Control>
+          </Decorator>
+          <Decorator ID="KeepRunningUntilFailure">
+            <Control ID="IfThenElse">
+              <Action ID="ForceExceedsThreshold" minimum_consecutive_wrench_values="20" wrench_frame_name="tool0" hand_frame_name="grasp_link" wrench_topic_name="/force_torque_sensor_broadcaster/wrench" force_threshold="{force_threshold}"/>
+              <Control ID="Sequence">
+                <Action ID="Script" code="trajectory_execution_succeeded = 1" name="Set Trajectory Execution Succeeded"/>
+                <Action ID="AlwaysFailure"/>
+              </Control>
+              <Action ID="AlwaysSuccess"/>
+            </Control>
+          </Decorator>
+        </Control>
+      </Decorator>
+    </Control>
+  </BehaviorTree>
+</root>

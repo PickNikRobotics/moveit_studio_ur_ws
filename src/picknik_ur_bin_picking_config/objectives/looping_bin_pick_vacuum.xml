@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Looping Bin Pick Vacuum">
+    <!-- ////////// -->
+    <BehaviorTree ID="Looping Bin Pick Vacuum" _favorite="true" _description="">
+        <Control ID="Sequence" name="TopLevelSequence">
+            <Action ID="LoadObjectiveParameters" config_file_name="looping_bin_pick_vacuum_config.yaml" parameters="{parameters}"/>
+            <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.0"/>
+            <Decorator ID="KeepRunningUntilFailure">
+                <Decorator ID="ForEachString" vector_in="Left;Right" out="{bin_name}">
+                    <Control ID="Sequence">
+                        <Control ID="Sequence">
+                            <Control ID="IfThenElse">
+                                <Decorator ID="Precondition" if="bin_name == 'Left'" else="FAILURE">
+                                    <Action ID="AlwaysSuccess"/>
+                                </Decorator>
+                                <Control ID="Sequence">
+                                    <Action ID="LoadObjectiveParameters" config_file_name="pick_left_bin_config.yaml" parameters="{bin_parameters}"/>
+                                    <Action ID="Script" code="look_at_bin_waypoint := 'Look at Left Box'"/>
+                                    <Action ID="Script" code="place_waypoint := 'Place in Right Box'"/>
+                                    <Action ID="Script" code="pre_grasp_waypoint := 'Place in Left Box'"/>
+                                </Control>
+                                <Control ID="Sequence">
+                                    <Action ID="LoadObjectiveParameters" config_file_name="pick_right_bin_config.yaml" parameters="{bin_parameters}"/>
+                                    <Action ID="Script" code="look_at_bin_waypoint := 'Look at Right Box'"/>
+                                    <Action ID="Script" code="place_waypoint := 'Place in Left Box'"/>
+                                    <Action ID="Script" code="pre_grasp_waypoint := 'Place in Right Box'"/>
+                                </Control>
+                            </Control>
+                            <Action ID="RetrieveWaypoint" waypoint_name="{place_waypoint}" waypoint_joint_state="{joint_state_place}"/>
+                            <Action ID="RetrieveWaypoint" waypoint_name="{look_at_bin_waypoint}" waypoint_joint_state="{joint_state_box}"/>
+                            <Action ID="RetrieveWaypoint" waypoint_name="{pre_grasp_waypoint}" waypoint_joint_state="{joint_state_pre_grasp}"/>
+                        </Control>
+                        <Decorator ID="ForceSuccess">
+                            <Decorator ID="RetryUntilSuccessful" num_attempts="3">
+                                <Control ID="Sequence">
+                                    <Action ID="Script" code="is_done:=false"/>
+                                    <Action ID="Script" code="failed_pick:=false"/>
+                                    <Action ID="ClearSnapshot"/>
+                                    <Action ID="ResetPlanningSceneObjects" apply_planning_scene_service="apply_planning_scene"/>
+                                    <Control ID="Sequence">
+                                        <Action ID="InitializeMTCTask" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{task}" task_id=""/>
+                                        <Action ID="SetupMTCCurrentState" task="{task}"/>
+                                        <Action ID="SetupMTCInterpolateToJointState" joint_state="{joint_state_box}" planning_group_name="manipulator" task="{task}"/>
+                                        <Action ID="PlanMTCTask" solution="{solution}" task="{task}"/>
+                                        <Action ID="ExecuteMTCTask" solution="{solution}"/>
+                                    </Control>
+                                    <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
+                                    <Action ID="FindSingularCuboids" point_cloud="{point_cloud}" parameters="{bin_parameters}" detected_shapes="{cuboid_objects}"/>
+                                    <Decorator ID="ForEachGraspableObject" vector_in="{cuboid_objects}" out="{cuboid_object}">
+                                        <Action ID="ModifyObjectInPlanningScene" object="{cuboid_object}" apply_planning_scene_service="/apply_planning_scene"/>
+                                    </Decorator>
+                                    <Action ID="UpdatePlanningSceneService" point_cloud="{point_cloud}" point_cloud_service="/point_cloud_service"/>
+                                    <Action ID="GetCurrentPlanningScene" planning_scene_msg="{planning_scene}"/>
+                                    <Control ID="Parallel" success_count="2" failure_count="1">
+                                        <Control ID="Sequence">
+                                            <Decorator ID="ForEachGraspableObject" vector_in="{cuboid_objects}" out="{cuboid_object}">
+                                                <Control ID="Fallback">
+                                                    <Control ID="Sequence">
+                                                        <Action ID="InitializeMTCTask" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{task}" task_id=""/>
+                                                        <Action ID="SetupMTCFixedJointState" planning_scene_msg="{planning_scene}" joint_state_msg="{joint_state_pre_grasp}" task="{task}"/>
+                                                        <Action ID="SetupMTCApproachGrasp" parameters="{parameters}" target_object="{cuboid_object}" monitored_stage="{monitored_stage}" task="{task}"/>
+                                                        <Action ID="SetupMTCGenerateVacuumGrasps" parameters="{parameters}" target_object="{cuboid_object}" monitored_stage="{monitored_stage}" task="{task}"/>
+                                                        <Action ID="SetupMTCRetractFromGrasp" parameters="{parameters}" target_object="{cuboid_object}" task="{task}"/>
+                                                        <Action ID="SetupMTCInterpolateToJointState" joint_state="{joint_state_place}" planning_group_name="manipulator" task="{task}"/>
+                                                        <Action ID="SetupMTCMoveToNamedState" planning_group_name="gripper" goal_state_name="open" task="{task}"/>
+                                                        <Action ID="SetupMTCInterpolateToJointState" joint_state="{joint_state_pre_grasp}" planning_group_name="manipulator" task="{task}"/>
+                                                        <Action ID="PlanMTCTask" solution="{solution}" task="{task}"/>
+                                                        <Action ID="PushToSolutionQueue" solution="{solution}" solution_queue="{solution_queue}"/>
+                                                    </Control>
+                                                    <Control ID="Sequence">
+                                                        <Action ID="Script" code="failed_pick:=true"/>
+                                                    </Control>
+                                                </Control>
+                                            </Decorator>
+                                            <Action ID="Script" code="is_done := true"/>
+                                        </Control>
+                                        <Control ID="Fallback">
+                                            <Decorator ID="KeepRunningUntilFailure">
+                                                <Control ID="Sequence">
+                                                    <Control ID="Sequence">
+                                                        <Action ID="InitializeMTCTask" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{reset_task}" task_id=""/>
+                                                        <Action ID="SetupMTCCurrentState" task="{reset_task}"/>
+                                                        <Action ID="SetupMTCInterpolateToJointState" joint_state="{joint_state_pre_grasp}" planning_group_name="manipulator" task="{reset_task}"/>
+                                                        <Action ID="PlanMTCTask" solution="{reset_solution}" task="{reset_task}"/>
+                                                        <Action ID="ExecuteMTCTask" solution="{reset_solution}"/>
+                                                    </Control>
+                                                    <Action ID="WaitAndPopSolutionQueue" fail_if_queue_empty="{is_done}" solution="{next_solution}" solution_queue="{solution_queue}"/>
+                                                    <Action ID="ExecuteMTCTask" solution="{next_solution}"/>
+                                                </Control>
+                                            </Decorator>
+                                            <Decorator ID="Precondition" if="is_done" else="FAILURE">
+                                                <Action ID="AlwaysSuccess"/>
+                                            </Decorator>
+                                        </Control>
+                                    </Control>
+                                    <Decorator ID="Precondition" if="failed_pick" else="SUCCESS">
+                                        <Action ID="AlwaysFailure"/>
+                                    </Decorator>
+                                </Control>
+                            </Decorator>
+                        </Decorator>
+                    </Control>
+                </Decorator>
+            </Decorator>
+        </Control>
+    </BehaviorTree>
+</root>

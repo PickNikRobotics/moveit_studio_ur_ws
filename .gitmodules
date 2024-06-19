@@ -9,3 +9,7 @@
 	path = src/external_dependencies/serial
 	url = https://github.com/tylerjw/serial.git
 	branch = ros2
+[submodule "src/external_dependencies/ros2_epick_gripper"]
+	path = src/external_dependencies/ros2_epick_gripper
+	url = https://github.com/PickNikRobotics/ros2_epick_gripper.git
+	branch = main

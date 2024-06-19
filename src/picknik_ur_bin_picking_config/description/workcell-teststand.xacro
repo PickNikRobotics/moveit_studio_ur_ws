@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="workcell_teststand"
+               params="parent_link">
+  
+    <!-- Required links -->
+    <link name="robot_mount"/>
+    <link name="workcell">
+      <inertial>
+        <origin xyz="-0.21532237190851 -0.0141736832924712 -0.260788412821976" rpy="0 0 0" />
+        <mass
+          value="91.5358603597796" />
+        <inertia
+          ixx="7.81074867328656"
+          ixy="-1.09302822090161E-05"
+          ixz="0.00692604055447685"
+          iyy="17.1703520310853"
+          iyz="-0.00123522300931403"
+          izz="20.2266696847712" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://picknik_ur_bin_picking_config/meshes/workcell_no_totes.stl" />
+        </geometry>
+        <material name="">
+          <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://picknik_ur_bin_picking_config/meshes/workcell_no_totes.stl" />
+        </geometry>
+      </collision>
+    </link>
+  
+    <!-- Joints -->
+    <joint name="${parent_link}_to_workcell" type="fixed">
+      <parent link="${parent_link}"/>
+      <child link="workcell"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </joint>
+  
+    <joint name="workcell_to_robot_mount" type="fixed">
+      <parent link="workcell"/>
+      <child link="robot_mount"/>
+      <origin xyz="0.28 -0.026 -0.2" rpy="0 0 ${pi/2}" />
+    </joint>
+  
+  </xacro:macro>
+</robot>

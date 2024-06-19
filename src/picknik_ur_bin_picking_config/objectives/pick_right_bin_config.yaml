@@ -1,0 +1,10 @@
+FindSingularCuboids:
+  base_frame: right_bin_crop_origin
+  cluster_distance_threshold: 0.01
+  crop_box_origin_x: 0.0
+  crop_box_origin_y: 0.0
+  crop_box_origin_z: 0.0
+  crop_box_size_x: 0.45
+  crop_box_size_y: 0.25
+  crop_box_size_z: 0.25
+  plane_model_threshold: 0.01

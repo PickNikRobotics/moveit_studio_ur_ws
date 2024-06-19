@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Execute Trajectory Until Epick Gripper State">
+  <!-- ////////// -->
+  <BehaviorTree ID="Execute Trajectory Until Epick Gripper State">
+    <Control ID="Sequence">
+      <Action ID="Script" code="trajectory_execution_succeeded := 0"/>
+      <Decorator ID="ForceSuccess">
+        <Control ID="Parallel" success_count="1" failure_count="1">
+          <Control ID="Sequence">
+            <Action ID="ExecuteMTCTask" solution="{solution}"/>
+            <Action ID="Script" code="trajectory_execution_succeeded = 1" name="Set Trajectory Execution Succeeded"/>
+          </Control>
+          <Decorator ID="KeepRunningUntilFailure">
+            <Control ID="Sequence">
+              <Action ID="GetEpickObjectDetectionStatus" topic_name="/object_detection_status" message_out="{status}"/>
+              <Decorator ID="Inverter">
+                <Action ID="CompareEpickObjectDetectionStatus" value1="{status}" value2="{expected_vacuum_status}"/>
+              </Decorator>
+            </Control>
+          </Decorator>
+        </Control>
+      </Decorator>
+    </Control>
+  </BehaviorTree>
+</root>
