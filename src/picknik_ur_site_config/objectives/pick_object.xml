@@ -14,7 +14,7 @@
                         <Action ID="AddPoseStampedToVector" input="{output_poses_flipped}" vector="{pose_stamped_vector}"/>
                     </Control>
                 </Decorator>
-                <Action ID="AdjustPoseWithIMarker" prompts="Adjust IMarker to desired pose" initial_poses="{output_poses}" adjusted_poses="{adjusted_poses}"/>
+                <Action ID="AdjustPoseWithIMarker" prompts="Adjust IMarker to desired pose" initial_poses="{pose_stamped_vector}" adjusted_poses="{adjusted_poses}"/>
             </Control>
             <Decorator ID="ForEachPoseStamped" vector_in="{adjusted_poses}" out="{grasp_pose}">
                 <Control ID="Sequence">
