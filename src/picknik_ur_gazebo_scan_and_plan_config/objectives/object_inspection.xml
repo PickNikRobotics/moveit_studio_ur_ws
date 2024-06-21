@@ -18,7 +18,7 @@
       </Decorator>
       <Action ID="ClearSnapshot"/>
       <Action ID="MergePointClouds" point_clouds="{point_cloud_vector}" grid_resolution_meters="0.001" merged_cloud="{merged_cloud}"/>
-      <Action ID="SendPointCloudToUI" point_cloud="{merged_cloud}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"/>
+      <Action ID="SendPointCloudToUI" point_cloud="{merged_cloud}" pcd_topic="/pcd_pointcloud_captures"/>
       <Action ID="SavePointCloudToFile" point_cloud="{merged_cloud}" file_path="~/.config/moveit_pro/saved_behavior_data" file_prefix="pointcloud"/>
     </Control>
   </BehaviorTree>
