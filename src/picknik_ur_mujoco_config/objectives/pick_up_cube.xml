@@ -3,7 +3,6 @@
   <!--//////////-->
   <BehaviorTree ID="Pick up Cube" _description="" _favorite="true">
     <Control ID="Sequence" name="TopLevelSequence">
-      <SubTree ID="Move to Waypoint" _collapsed="false" waypoint_name="Look at Table" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
       <SubTree ID="Wrist camera snapshot" _collapsed="true"/>
       <SubTree ID="Pick object" _collapsed="true"/>
     </Control>
