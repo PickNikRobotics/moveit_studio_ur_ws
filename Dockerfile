@@ -16,7 +16,7 @@ ARG USER_GID=1000
 ##################################################
 # The image tag is specified in the argument itself.
 # hadolint ignore=DL3006
-FROM ${MOVEIT_STUDIO_BASE_IMAGE} as base
+FROM ${MOVEIT_STUDIO_BASE_IMAGE} AS base
 
 # Create a non-root user
 ARG USERNAME
@@ -77,7 +77,7 @@ USER root
 ###################################################################
 # Target for the developer build which does not compile any code. #
 ###################################################################
-FROM base as user-overlay-dev
+FROM base AS user-overlay-dev
 
 ARG USERNAME
 ARG USER_WS=/home/${USERNAME}/user_ws
@@ -99,7 +99,7 @@ CMD ["/usr/bin/bash"]
 #########################################
 # Target for compiled, deployable image #
 #########################################
-FROM base as user-overlay
+FROM base AS user-overlay
 
 ARG USERNAME
 ARG USER_WS=/home/${USERNAME}/user_ws
