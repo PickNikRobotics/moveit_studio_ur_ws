@@ -15,16 +15,10 @@
         <texture name="apriltag3" type="2d" file="assets/tag36_11_00002.png"/>
 
         <!-- Define block materials with AprilTags -->
-        <material name="apriltag_material1" texture="apriltag1" texuniform="false" texrepeat="1 1"/>
-        <material name="apriltag_material2" texture="apriltag2" texuniform="false" texrepeat="1 1"/>
-        <material name="apriltag_material3" texture="apriltag3" texuniform="false" texrepeat="1 1"/>
+        <material name="apriltag_material1" texture="apriltag1" texuniform="false" />
+        <material name="apriltag_material2" texture="apriltag2" texuniform="false" />
+        <material name="apriltag_material3" texture="apriltag3" texuniform="false" />
     </asset>
-
-
-
-
-
-
 
   <statistic center="0.3 0 0.4" extent="0.8"/>
 

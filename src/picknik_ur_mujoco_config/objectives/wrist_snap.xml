@@ -3,6 +3,7 @@
   <!--//////////-->
   <BehaviorTree ID="Wrist camera snapshot" _description="" _favorite="true">
     <Control ID="Sequence" name="TopLevelSequence">
+      <!-- Do not clear snapshots first, so we can take multiple snapshots from different angles -->
       <Action ID="GetPointCloud" topic_name="/wrist_camera/points"/>
       <Action ID="SendPointCloudToUI" />
     </Control>
