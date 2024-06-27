@@ -3,6 +3,7 @@
   <!--//////////-->
   <BehaviorTree ID="Pick April Tag Labeled Object" _description="Picks up an object that has an AprilTag marker." _favorite="true">
     <Control ID="Sequence" name="TopLevelSequence">
+      <SubTree ID="Wrist camera snapshot" _collapsed="true"/>
       <Control ID="Sequence" name="Setup">
         <SubTree ID="Open Gripper"/>
       </Control>
@@ -13,8 +14,7 @@
       <Action ID="GetDetectionPose"/>
       <Action ID="TransformPoseFrame" input_pose="{detection_pose}"/>
       <Action ID="AddPoseStampedToVector" vector="{initial_poses}" input="{output_pose}"/>
-      <Action ID="AdjustPoseWithIMarker"/>
-      <SubTree ID="Pick first object in vector" _collapsed="true" pose_vector="{adjusted_poses}"/>
+      <SubTree ID="Pick first object in vector" _collapsed="true" pose_vector="{initial_poses}"/>
     </Control>
   </BehaviorTree>
 </root>

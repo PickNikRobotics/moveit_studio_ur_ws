@@ -328,7 +328,6 @@
 
   <keyframe>
     <!-- ur_base_pan ur_shoulder ur_elbow ur_wrist_1 ur_wrist_2 ur_wrist_3 gripper linear_rail-->
-    <!-- <key qpos='0 -1.2 1 -1.57 -1.57 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0'/> -->
-    <key qpos='0 -1.8 1.2 -1.8 -1.9 0 0 1.5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0'/>
+    <key qpos='0 -2.1 1.2 -1.9 -1.9 0 0 1.5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0'/>
   </keyframe>
 </mujoco>
