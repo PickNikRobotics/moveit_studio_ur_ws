@@ -126,7 +126,7 @@
 
     <geom type="mesh" rgba="0 0.4 0.8 1" mesh="rail" pos="0 0 .6" euler="0 0 0"/>
     <body name="base_platform" pos="0 0 .6" euler="0 0 0">
-      <joint name="linear_rail_joint" type="slide" axis="0 1 0" range="-1.0 1.0"/>
+      <joint name="linear_rail_joint" type="slide" axis="0 1 0" range="-5.0 5.0"/>
       <body name="base" pos="0.0 -0.4 0" euler="0 0 0" childclass="ur5e">
         <inertial mass="4.0" pos="0 0 0" diaginertia="0.00443333156 0.00443333156 0.0072"/>
         <geom mesh="base_0" material="black" class="visual"/>
