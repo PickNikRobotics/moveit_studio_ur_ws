@@ -14,8 +14,7 @@ hardware:
   type: ur5e
 
   # Set simulated to false if you are using this as a configuration for real hardware.
-  # Override-able by setting the $MOCK_HARDWARE environment variable to 'True'.
-  # This allows users to switch between mock and real hardware using the same configuration.
+  # This allows users to switch between mock and real hardware by changing a single parameter with config inheritance.
   # [Required]
   simulated: true
 
