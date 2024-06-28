@@ -67,9 +67,6 @@ hardware:
       - gripper_name: "robotiq_85"
       - use_pinch_links: "true"
       - simulation: "gazebo"
-      # Using the ogre renderer as it is compatible with most host hardware.
-      # ogre2 (which is the Gazebo default) is also an option if your system supports it.
-      - gazebo_renderer: ${GAZEBO_RENDERER:-ogre}
       - fake_sensor_commands: "false"
       - headless_mode: "true"
       - robot_ip: "%>> hardware.ip"

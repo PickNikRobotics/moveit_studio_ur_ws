@@ -11,7 +11,7 @@ hardware:
   # Override-able by setting the $MOCK_HARDWARE environment variable to 'True'.
   # This allows users to switch between mock and real hardware using the same configuration.
   # [Required]
-  simulated: ${MOCK_HARDWARE:-true}
+  simulated: true
 
   # If the MoveIt Pro Agent should launch the ros2 controller node.
   # [Optional, default=True]
