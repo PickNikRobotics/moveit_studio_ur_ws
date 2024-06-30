@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://wiki.ros.org/xacro" name="ur10e">
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
     <!-- parameters -->
     <xacro:arg name="use_fake_hardware" default="false"/>
     <xacro:arg name="external_camera" default="false"/>
