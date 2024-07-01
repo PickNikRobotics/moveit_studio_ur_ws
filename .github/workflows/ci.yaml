@@ -19,3 +19,11 @@ jobs:
     with:
       image_tag: ${{ github.event.inputs.image_tag || null }}
     secrets: inherit
+
+  ensure-no-ssh-in-gitmodules:
+    name: Ensure no SSH URLs in .gitmodules
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check .gitmodules file for Git-over-SSH URLs
+        run: "! grep 'git@' .gitmodules"
