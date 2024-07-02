@@ -1,0 +1,39 @@
+#
+#  This contains information for a unique instance of a robot.
+#
+
+# Name of the package to specialize
+based_on_package: "picknik_ur_base_config"
+hardware:
+  # Parameters used to configure the robot description through XACRO.
+  # A URDF and SRDF are both required.
+  # [Required]
+  robot_description:
+    urdf:
+      package: "picknik_ur_mujoco_config"
+      path: "description/picknik_ur.xacro"
+
+# Configuration for loading behaviors and objectives.
+# [Required]
+objectives:
+  # List of plugins for loading custom behaviors.
+  # [Required]
+  behavior_loader_plugins:
+    # This plugin will load the core MoveIt Pro Behaviors.
+    # Add additional plugin loaders as needed.
+    core:
+      - "moveit_studio::behaviors::CoreBehaviorsLoader"
+      - "moveit_studio::behaviors::MTCCoreBehaviorsLoader"
+      - "moveit_studio::behaviors::ServoBehaviorsLoader"
+      - "moveit_studio::behaviors::VisionBehaviorsLoader"
+  # Specify source folder for objectives
+  # [Required]
+  objective_library_paths:
+    sim_objectives:
+      package_name: "picknik_ur_mujoco_config"
+      relative_path: "objectives"
+  # Specify the location of the saved waypoints file.
+  # [Required]
+  waypoints_file:
+    package_name: "picknik_ur_mujoco_config"
+    relative_path: "waypoints/ur_waypoints.yaml"
