@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Pick first object in vector">
+  <!--//////////-->
+  <BehaviorTree ID="Pick first object in vector">
+    <Decorator ID="ForEachPoseStamped" vector_in="{pose_vector}" out="{grasp_pose}">
+      <Control ID="Sequence">
+        <Action ID="LoadObjectiveParameters" config_file_name="pick_object_config.yaml"/>
+        <Action ID="InitializeMTCTask" task_id="pick_object" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" task="{pick_object_task}"/>
+        <Action ID="SetupMTCCurrentState" task="{pick_object_task}"/>
+        <Action ID="SetupMTCPickObject" grasp_pose="{grasp_pose}" task="{pick_object_task}" parameters="{parameters}"/>
+        <Action ID="PlanMTCTask" solution="{pick_object_solution}" task="{pick_object_task}"/>
+        <SubTree ID="Wait for Trajectory Approval if User Available" solution="{pick_object_solution}"/>
+        <Action ID="ExecuteMTCTask" solution="{pick_object_solution}"/>
+      </Control>
+    </Decorator>
+  </BehaviorTree>
+</root>

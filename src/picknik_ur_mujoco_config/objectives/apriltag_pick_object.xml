@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Pick April Tag Labeled Object">
+  <!--//////////-->
+  <BehaviorTree ID="Pick April Tag Labeled Object" _description="Picks up an object that has an AprilTag marker." _favorite="true">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <SubTree ID="Wrist camera snapshot" _collapsed="true"/>
+      <Control ID="Sequence" name="Setup">
+        <SubTree ID="Open Gripper"/>
+      </Control>
+      <Action ID="LoadObjectiveParameters" config_file_name="apriltag_detection_config.yaml" parameters="{parameters}"/>
+      <Action ID="GetCameraInfo" topic_name="/wrist_camera/camera_info" message_out="{camera_info}"/>
+      <Action ID="GetImage" topic_name="/wrist_camera/color" message_out="{image}"/>
+      <Action ID="DetectAprilTags" image="{image}" camera_info="{camera_info}" parameters="{parameters}" detections="{detections}"/>
+      <Action ID="GetDetectionPose"/>
+      <Action ID="TransformPoseFrame" input_pose="{detection_pose}"/>
+      <Action ID="AddPoseStampedToVector" vector="{initial_poses}" input="{output_pose}"/>
+      <SubTree ID="Pick first object in vector" _collapsed="true" pose_vector="{initial_poses}"/>
+    </Control>
+  </BehaviorTree>
+</root>

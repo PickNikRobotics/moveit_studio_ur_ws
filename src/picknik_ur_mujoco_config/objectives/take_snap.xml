@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Scene camera snapshot">
+  <!--//////////-->
+  <BehaviorTree ID="Scene camera snapshot" _description="" _favorite="true">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <!-- Clear out old snapshot data -->
+      <Action ID="ClearSnapshot"/>
+      <Action ID="GetPointCloud" topic_name="/scene_camera/points"/>
+      <Action ID="SendPointCloudToUI" />
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Scene camera snapshot"/>
+  </TreeNodesModel>
+</root>
