@@ -11,5 +11,5 @@
 	branch = ros2
 [submodule "src/external_dependencies/gz_ros2_control"]
 	path = src/external_dependencies/gz_ros2_control
-	url = git@github.com:PickNikRobotics/gz_ros2_control.git
+	url = https://github.com/PickNikRobotics/gz_ros2_control.git
 	branch = mimic-joint-feature-humble
