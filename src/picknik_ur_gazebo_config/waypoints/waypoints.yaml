@@ -23,6 +23,16 @@
       - -0.045145903387218154
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Place Right
 - description: ''
   favorite: true
@@ -49,6 +59,16 @@
       - 0
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Home
 - description: ''
   favorite: false
@@ -75,6 +95,16 @@
       - 0
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Left Corner
 - description: ''
   favorite: false
@@ -101,6 +131,16 @@
       - 0
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Right Corner
 - description: ''
   favorite: false
@@ -127,6 +167,16 @@
       - 0
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Forward Down
 - description: ''
   favorite: true
@@ -153,6 +203,16 @@
       - 0
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Look at Table
 - description: ''
   favorite: false
@@ -179,6 +239,16 @@
       - 0
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Look at Pick and Place Zone
 - description: ''
   favorite: false
@@ -205,6 +275,16 @@
       - 0.4674808859060223
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Place Left
 - description: ''
   favorite: true
@@ -231,6 +311,16 @@
       - -0.1093947632696369
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Place
 - description: ''
   favorite: true
@@ -257,6 +347,16 @@
       - 0.6922835016976157
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Pick
 - description: ''
   favorite: false
@@ -283,6 +383,16 @@
       - 2.282092208042741e-05
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Wrist 2 Min
 - description: ''
   favorite: false
@@ -309,6 +419,16 @@
       - 2.282092208042741e-05
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Wrist 2 Max
 - description: Move here and run Take Snapshot again!
   favorite: true
@@ -335,6 +455,16 @@
       - 0.06380173312555455
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Right Wall
 - description: ''
   favorite: true
@@ -361,6 +491,16 @@
       - 3.878003640148636e-05
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Monitor View
 - description: ''
   favorite: false
@@ -387,6 +527,16 @@
       - 1.809151380399623
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Extended Right
 - description: ''
   favorite: false
@@ -413,6 +563,16 @@
       - 1.3589808032170339
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Extended Right 2
 - description: ''
   favorite: false
@@ -439,4 +599,14 @@
       - 0.21460700974263816
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Hinge View

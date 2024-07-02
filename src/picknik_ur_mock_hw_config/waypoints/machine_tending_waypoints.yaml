@@ -24,6 +24,16 @@
       - 1.5924748792504824
       - 0.1385336124548016
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Grasp Right
 - description: ''
   favorite: false
@@ -51,6 +61,16 @@
       - 1.5615168254863208
       - -1.3999864602892913
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Gripper Down
 - description: ''
   favorite: true
@@ -78,6 +98,16 @@
       - 1.67
       - 0
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Forward Down
 - description: ''
   favorite: true
@@ -105,6 +135,16 @@
       - 1.5642496598380444
       - 0.37040650512506323
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Grasp Left
 - description: ''
   favorite: false
@@ -132,6 +172,16 @@
       - -3.141592653589793
       - 2.282092208042741e-05
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Wrist 2 Min
 - description: ''
   favorite: true
@@ -159,6 +209,16 @@
       - 1.5707963267948966
       - 0
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Look at Right Table
 - description: ''
   favorite: true
@@ -186,6 +246,16 @@
       - 1.65
       - 0
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Home
 - description: ''
   favorite: true
@@ -213,6 +283,16 @@
       - 1.5452251290161947
       - 0.12328727782236398
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Look at Left Table
 - description: ''
   favorite: true
@@ -240,6 +320,16 @@
       - 1.1424099505908154
       - 0.2545176268195681
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Look at Machine
 - description: ''
   favorite: false
@@ -267,6 +357,16 @@
       - 3.141592653589793
       - 2.282092208042741e-05
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Wrist 2 Max
 - description: ''
   favorite: true
@@ -294,4 +394,14 @@
       - 1.454618253084769
       - 0.06085157834607742
     velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Grasp Machine

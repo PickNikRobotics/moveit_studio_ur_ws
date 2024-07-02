@@ -23,6 +23,16 @@
       - -0.3257925328124284
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Look at Object
 - description: ''
   favorite: false
@@ -49,6 +59,16 @@
       - 0
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Right Corner
 - description: ''
   favorite: true
@@ -75,6 +95,16 @@
       - 0
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Home
 - description: ''
   favorite: false
@@ -101,6 +131,16 @@
       - 0
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Left Corner
 - description: ''
   favorite: false
@@ -127,4 +167,14 @@
       - 0
     velocity: []
   joint_group_names: [manipulator]
+  multi_dof_joint_state:
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
   name: Forward Down
