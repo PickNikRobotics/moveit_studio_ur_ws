@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Test IMarkerPose With Viz Mesh">
+  <!--//////////-->
+  <BehaviorTree ID="Test IMarkerPose With Viz Mesh" _description="" _favorite="true">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="CreateStampedPose" orientation_xyzw="0.0;0.0;0.0;1.0" position_xyz="0.0;-0.5;0.5" stamped_pose="{mesh_pose}"/>
+      <SubTree ID="Get IMarker Pose From Mesh Visualization" _collapsed="false" adjusted_poses="{adjusted_poses}" mesh_path="package://picknik_ur_mock_hw_config/meshes/cylinder-item.dae" mesh_pose="{mesh_pose}" target_poses="{adjusted_poses}"/>
+      <Decorator ID="ForEachPoseStamped" vector_in="{adjusted_poses}" out="{target_pose}">
+        <SubTree ID="Move to Pose copy" _collapsed="false" target_pose="{target_pose}" controller_names="/joint_trajectory_controller"/>
+      </Decorator>
+    </Control>
+  </BehaviorTree>
+</root>
