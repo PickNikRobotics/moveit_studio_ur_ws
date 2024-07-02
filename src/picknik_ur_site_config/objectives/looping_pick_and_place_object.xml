@@ -10,7 +10,7 @@
             
             <!-- Open the gripper and move to a consistent state. -->
             <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.0"/>
-            <SubTree ID="Move to Waypoint" waypoint_name="Look at Pick and Place Zone" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
+            <SubTree ID="Move to Waypoint" waypoint_name="Look at Pick and Place Zone" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" planner_interface="moveit_default"/>
             
             <!-- This loops forever because the behavior tree under this decorator never returns FAILURE. -->
             <Decorator ID="KeepRunningUntilFailure">
@@ -71,14 +71,14 @@
                                     </Control>
                                 </Decorator>
                                 <!-- Move home. -->
-                                <SubTree ID="Move to Waypoint" waypoint_name="Look at Pick and Place Zone" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
+                                <SubTree ID="Move to Waypoint" waypoint_name="Look at Pick and Place Zone" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" planner_interface="moveit_default"/>
                                 
                                 <!-- Move to the current place waypoint set by IterateThroughPlaceWaypoints, then open the gripper. -->
-                                <SubTree ID="Move to Waypoint" waypoint_name="{place_waypoint}" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
+                                <SubTree ID="Move to Waypoint" waypoint_name="{place_waypoint}" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" planner_interface="moveit_default"/>
                                 <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.0"/>
 
                                 <!-- Finally, return home. -->
-                                <SubTree ID="Move to Waypoint" waypoint_name="Look at Pick and Place Zone" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
+                                <SubTree ID="Move to Waypoint" waypoint_name="Look at Pick and Place Zone" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" planner_interface="moveit_default"/>
                             </Control>
                         </Decorator>
                     </Decorator>
