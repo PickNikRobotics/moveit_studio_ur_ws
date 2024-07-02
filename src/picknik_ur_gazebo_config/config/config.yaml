@@ -47,22 +47,22 @@ hardware:
       package: "picknik_ur_gazebo_config"
       path: "config/moveit/picknik_ur_gazebo.srdf.xacro"
     urdf_params:
-      - name: "%>> hardware.type"
+      - name: "ur5e"
       - gripper_name: "robotiq_85"
       - use_pinch_links: "false"
       - simulation: "gazebo"
       - kinematics_parameters_file:
           # Load default_kinematics.yaml from ur_description/config/<ur_type>
           package: "ur_description"
-          path: "config/%>> hardware.type <<%/default_kinematics.yaml"
+          path: "config/ur5e/default_kinematics.yaml"
       - physical_parameters_file:
           # Load physical_parameters.yaml from ur_description/config/<ur_type>
           package: "ur_description"
-          path: "config/%>> hardware.type <<%/physical_parameters.yaml"
+          path: "config/ur5e/physical_parameters.yaml"
       - visual_parameters_file:
           # Load visual_parameters.yaml from ur_description/config/<ur_type>
           package: "ur_description"
-          path: "config/%>> hardware.type <<%/visual_parameters.yaml"
+          path: "config/ur5e/visual_parameters.yaml"
 
 # Override MoveIt parameters
 moveit_params:

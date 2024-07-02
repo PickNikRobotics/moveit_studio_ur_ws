@@ -60,11 +60,11 @@ hardware:
     urdf_params:
       - name: "multi_arm_ur"
       - prefix: ""
-      - use_fake_hardware: "%>> hardware.simulated"
+      - use_fake_hardware: "true"
       - use_pinch_links: "true"
       - fake_sensor_commands: "false"
       - headless_mode: "true"
-      - robot_ip: "%>> hardware.ip"
+      - robot_ip: "0.0.0.0"
       - joint_limits_parameters_file:
           package: "picknik_ur_base_config"
           path: "config/moveit/joint_limits.yaml"
@@ -74,15 +74,15 @@ hardware:
       - kinematics_parameters_file:
       # Load default_kinematics.yaml from ur_description/config/<ur_type>
           package: "ur_description"
-          path: "config/%>> hardware.type <<%/default_kinematics.yaml"
+          path: "config/ur5e/default_kinematics.yaml"
       - physical_parameters_file:
       # Load physical_parameters.yaml from ur_description/config/<ur_type>
           package: "ur_description"
-          path: "config/%>> hardware.type <<%/physical_parameters.yaml"
+          path: "config/ur5e/physical_parameters.yaml"
       - visual_parameters_file:
       # Load visual_parameters.yaml from ur_description/config/<ur_type>
           package: "ur_description"
-          path: "config/%>> hardware.type <<%/visual_parameters.yaml"
+          path: "config/ur5e/visual_parameters.yaml"
   # Set advanced camera settings to improve point cloud accuracy
   json_file_path:
     package: "picknik_ur_base_config"
