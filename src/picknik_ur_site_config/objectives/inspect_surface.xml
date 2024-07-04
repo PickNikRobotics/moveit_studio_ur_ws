@@ -10,7 +10,7 @@
       <Decorator ID="ForEachPoseStamped" vector_in="{output_poses}" out="{pose}">
         <Control ID="Sequence">
           <Action ID="TransformPose" output_pose="{target_pose}" quaternion_xyzw="0.7071;0.7071;0;0" translation_xyz="0;0;0.15" input_pose="{pose}"/>
-          <Action ID="SetupMTCMoveToPose" ik_frame="grasp_link" planning_group_name="manipulator" target_pose="{target_pose}" task="{move_to_pose_task}" use_all_planners="false"/>
+          <Action ID="SetupMTCMoveToPose" ik_frame="grasp_link" planning_group_name="manipulator" target_pose="{target_pose}" task="{move_to_pose_task}" planner_interface="moveit_default"/>
         </Control>
       </Decorator>
       <Action ID="PlanMTCTask" solution="{move_to_pose_solution}" task="{move_to_pose_task}"/>
