@@ -19,7 +19,9 @@
         <chain base_link="robotiq_85_base_link" tip_link="robotiq_85_right_finger_link"/>
         <chain base_link="robotiq_85_base_link" tip_link="grasp_link"/>
     </group>
-    <end_effector name="gripper" important_links="robotiq_85_left_finger_tip_joint, robotiq_85_right_finger_tip_joint, grasp_link"/>
+    <end_effector name="gripper"/>
+    <!-- Favorite links could change often and might introduce a lot of git history changes on the SRDF file which aren't meaningful. This should probably live somewhere else. -->
+    <favorite_links links="robotiq_85_left_finger_tip_joint, robotiq_85_right_finger_tip_joint, grasp_link"/>
     <!-- Until we resolve dynamic loading from the SRDF, shouldn't we consolidate all our named groups in the waypoints.yaml file? -->
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="fixed_base" type="fixed" parent_frame="world" child_link="base_link"/>
