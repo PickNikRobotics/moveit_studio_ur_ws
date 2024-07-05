@@ -9,7 +9,6 @@ request_adapters:
 response_adapters:
   - default_planning_response_adapters/AddTimeOptimalParameterization
   - default_planning_response_adapters/ValidateSolution
-  - default_planning_response_adapters/DisplayMotionPath
 
 stomp_moveit:
   num_timesteps: 60

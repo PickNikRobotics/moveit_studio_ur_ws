@@ -8,7 +8,6 @@ request_adapters:
   - default_planning_request_adapters/CheckStartStateCollision
 response_adapters:
   - default_planning_response_adapters/ValidateSolution
-  - default_planning_response_adapters/DisplayMotionPath
 capabilities: >-
     pilz_industrial_motion_planner/MoveGroupSequenceAction
     pilz_industrial_motion_planner/MoveGroupSequenceService

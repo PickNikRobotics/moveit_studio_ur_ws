@@ -90,10 +90,6 @@
     <origin rpy="0 0 0" xyz="1 0 0.5" />
   </joint>
 
-
-
-
-
   <!-- MuJoCo Hardware interface -->
   <xacro:picknik_ur_mujoco_ros2_control />
 </robot>
