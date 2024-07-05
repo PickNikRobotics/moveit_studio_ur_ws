@@ -1,0 +1,7 @@
+linear_rail_joint: 1.5
+shoulder_pan_joint: 0.0
+shoulder_lift_joint: -1.41
+elbow_joint: -0.7
+wrist_1_joint: -2.12
+wrist_2_joint: 1.67
+wrist_3_joint: 0.0
