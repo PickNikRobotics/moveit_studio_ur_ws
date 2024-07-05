@@ -5,11 +5,6 @@ controller_manager:
       type: joint_state_broadcaster/JointStateBroadcaster
     joint_trajectory_controller:
       type: joint_trajectory_controller/JointTrajectoryController
-    joint_trajectory_admittance_controller:
-      type: joint_trajectory_admittance_controller/JointTrajectoryAdmittanceController
-
-    twist_controller:
-      type: picknik_twist_controller/PicknikTwistController
     robotiq_gripper_controller:
       type: position_controllers/GripperActionController
     servo_controller:
@@ -17,11 +12,6 @@ controller_manager:
 
     force_torque_sensor_broadcaster:
       type: force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster
-
-    admittance_controller_open_door:
-      type: admittance_controller/AdmittanceController
-    joint_trajectory_controller_chained_open_door:
-      type: joint_trajectory_controller/JointTrajectoryController
 
 joint_state_broadcaster:
   ros__parameters:
@@ -92,17 +82,6 @@ joint_trajectory_controller:
       wrist_2_joint: 10.0
       wrist_3_joint: 10.0
 
-twist_controller:
-  ros__parameters:
-    joint: tcp
-    interface_names:
-      - twist.linear.x
-      - twist.linear.y
-      - twist.linear.z
-      - twist.angular.x
-      - twist.angular.y
-      - twist.angular.z
-
 robotiq_gripper_controller:
   ros__parameters:
     default: true
@@ -172,171 +151,3 @@ force_torque_sensor_broadcaster:
       - torque.y
       - torque.z
     frame_id: fts_link
-
-joint_trajectory_admittance_controller:
-  ros__parameters:
-    joints:
-      - linear_rail_joint
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
-    base_frame: base_link
-    sensor_frame: tool0
-    ee_frame: grasp_link
-    ft_sensor_name: robotiq_ft_sensor
-    # Joint accelerations chosen to match MoveIt configs.
-    stop_accelerations:
-      - 30.0
-      - 30.0
-      - 30.0
-      - 30.0
-      - 30.0
-      - 30.0
-      - 30.0
-joint_trajectory_controller_chained_open_door:
-  ros__parameters:
-    joints:
-      - linear_rail_joint
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
-    command_interfaces:
-      - position
-      - velocity
-    state_interfaces:
-      - position
-      - velocity
-    command_joints:
-      - admittance_controller_open_door/linear_rail_joint
-      - admittance_controller_open_door/shoulder_pan_joint
-      - admittance_controller_open_door/shoulder_lift_joint
-      - admittance_controller_open_door/elbow_joint
-      - admittance_controller_open_door/wrist_1_joint
-      - admittance_controller_open_door/wrist_2_joint
-      - admittance_controller_open_door/wrist_3_joint
-    state_publish_rate: 100.0
-    action_monitor_rate: 20.0
-    allow_partial_joints_goal: false
-    constraints:
-      stopped_velocity_tolerance: 0.0
-      goal_time: 0.0
-      linear_rail_joint:
-        goal: 0.25
-      shoulder_pan_joint:
-        goal: 0.25
-      shoulder_lift_joint:
-        goal: 0.25
-      elbow_joint:
-        goal: 0.25
-      wrist_1_joint:
-        goal: 0.25
-      wrist_2_joint:
-        goal: 0.25
-      wrist_3_joint:
-        goal: 0.25
-    acceleration_limits:
-      linear_rail_joint: 10.0
-      shoulder_pan_joint: 10.0
-      shoulder_lift_joint: 10.0
-      elbow_joint: 10.0
-      wrist_1_joint: 10.0
-      wrist_2_joint: 10.0
-      wrist_3_joint: 10.0
-
-admittance_controller_open_door:
-  ros__parameters:
-    joints:
-      - linear_rail_joint
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
-
-    command_interfaces:
-      - position
-
-    state_interfaces:
-      - position
-      - velocity
-
-    chainable_command_interfaces:
-      - position
-      - velocity
-
-    kinematics:
-      plugin_name: kinematics_interface_kdl/KinematicsInterfaceKDL
-      plugin_package: kinematics_interface
-      base: base_link  # Assumed to be stationary
-      tip: grasp_link  # The end effector frame
-      alpha: 0.05
-
-    ft_sensor:
-      name: robotiq_ft_sensor
-      frame:
-        id: wrist_3_link  # Wrench measurements are in this frame
-      filter_coefficient: 0.1
-
-    control:
-      frame:
-        id: grasp_link  # Admittance calcs (displacement etc) are done in this frame. Usually the tool or end-effector
-
-    fixed_world_frame:
-      frame:            # Gravity points down (neg. Z) in this frame (Usually: world or base_link)
-        id: base_link   # Admittance calcs (displacement etc) are done in this frame. Usually the tool or end-effector
-
-    gravity_compensation:
-      frame:
-        id: wrist_3_link
-
-      CoG:  # specifies the center of gravity of the end effector
-        pos:
-          - 0.1  # x
-          - 0.0  # y
-          - 0.0  # z
-        force: 0.0  # mass * 9.81
-
-    admittance:
-      selected_axes:
-        - true  # x
-        - true  # y
-        - true  # z
-        - true  # rx
-        - true  # ry
-        - true  # rz
-
-      # Having ".0" at the end is MUST, otherwise there is a loading error
-      # F = M*a + D*v + S*(x - x_d)
-      mass:
-        - 10.0  # x
-        - 10.0  # y
-        - 10.0  # z
-        - 5.0  # rx
-        - 5.0  # ry
-        - 5.0  # rz
-
-      damping_ratio:  # damping can be used instead: zeta = D / (2 * sqrt( M * S ))
-        - 5.0  # x
-        - 5.0  # y
-        - 5.0  # z
-        - 5.0  # rx
-        - 5.0  # ry
-        - 5.0  # rz
-
-      stiffness:
-        - 500.0  # x
-        - 500.0  # y
-        - 500.0  # z
-        - 100.0  # rx
-        - 100.0  # ry
-        - 100.0  # rz
-
-    # general settings
-    enable_parameter_update_without_reactivation: true

@@ -74,7 +74,6 @@ ros2_control:
     - "servo_controller"
   # Load but do not start these controllers so they can be activated later if needed.
   controllers_inactive_at_startup:
-    - "joint_trajectory_admittance_controller"
     - "joint_trajectory_controller"
     - "admittance_controller_open_door"
     - "joint_trajectory_controller_chained_open_door"
