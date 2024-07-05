@@ -109,9 +109,6 @@ optional_feature_params:
 # For more information, refer to https://moveit.picknik.ai/main/doc/how_to_guides/moveit_configuration/moveit_configuration_tutorial.html
 # [Required]
 moveit_params:
-  # Used by the Waypoint Manager to save joint states from this joint group.
-  joint_group_name: "manipulator"
-
   ompl_planning:
     package: "picknik_ur_base_config"
     path: "config/moveit/ompl_planning.yaml"
@@ -154,13 +151,6 @@ moveit_params:
     allowed_execution_duration_scaling: 2.0
     allowed_goal_duration_margin: 5.0
     allowed_start_tolerance: 0.01
-
-# Additional configurable parameters for the MoveIt Pro user interface.
-# [Required]
-ui_params:
-  # By default, we use a frame named "grasp_link" for tool grasp pose rendering and planning.
-  # [Required]
-  servo_endpoint_frame_id: "grasp_link"
 
 # Configuration for launching ros2_control processes.
 # [Required, if using ros2_control]

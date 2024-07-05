@@ -1,3 +1,34 @@
+- name: open
+  description: ""
+  favorite: true
+  joint_group_names:
+    - gripper
+  joint_state:
+    header:
+      frame_id: world
+      stamp:
+        sec: 0
+        nanosec: 0
+    name: [robotiq_85_left_finger_tip_joint, robotiq_85_left_inner_knuckle_joint, robotiq_85_left_knuckle_joint, robotiq_85_right_finger_tip_joint, robotiq_85_right_inner_knuckle_joint, robotiq_85_right_knuckle_joint]
+    position: [0, 0, 0, 0, 0, 0]
+    velocity: []
+    effort: []
+
+- name: close
+  description: ""
+  favorite: true
+  joint_group_names:
+    - gripper
+  joint_state:
+    header:
+      frame_id: world
+      stamp:
+        sec: 0
+        nanosec: 0
+    name: [robotiq_85_left_finger_tip_joint, robotiq_85_left_inner_knuckle_joint, robotiq_85_left_knuckle_joint, robotiq_85_right_finger_tip_joint, robotiq_85_right_inner_knuckle_joint, robotiq_85_right_knuckle_joint]
+    position: [-0.7929, 0.7929, 0.7929, 0.7929, -0.7929, -0.7929]
+    velocity: []
+    effort: []
 - name: Grab
   description: ""
   favorite: true
