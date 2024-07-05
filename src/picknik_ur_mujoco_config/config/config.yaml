@@ -16,9 +16,7 @@ hardware:
       package: "picknik_ur_mujoco_config"
       path: "config/moveit/picknik_ur.srdf"
     urdf_params:
-      - joint_limits_parameters_file:
-          package: "picknik_ur_mujoco_config"
-          path: "config/moveit/joint_limits.yaml"
+      - mujoco_model: "description/scene.xml"
 
 moveit_params:
   servo:
