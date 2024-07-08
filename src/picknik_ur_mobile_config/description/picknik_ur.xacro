@@ -22,6 +22,7 @@
   <xacro:include filename="$(find picknik_ur_base_config)/description/picknik_ur_macro.xacro"/>
   <xacro:include filename="$(find picknik_ur_mujoco_config)/description/picknik_ur_attachments_macro.xacro"/>
   <xacro:include filename="$(find picknik_ur_mujoco_config)/description/picknik_ur_mujoco_ros2_control.xacro"/>
+  <xacro:include filename="$(find ridgeback_description)/urdf/ridgeback.urdf.xacro"/>
 
 
   <link name="world"/>
@@ -30,7 +31,7 @@
   <xacro:picknik_ur_attachments parent="tool0" child="grasp_link" has_tool_changer="$(arg has_tool_changer)"/>
 
   <!-- Linear rail -->
-  <link name="linear_rail">
+  <!--<link name="linear_rail">
     <visual>
       <origin xyz="0 0 0.05" rpy="0 0 0"/>
       <geometry>
@@ -46,49 +47,28 @@
         <mesh filename="package://picknik_ur_mujoco_config/description/assets/rail.stl" />
       </geometry>
     </collision>
-  </link>
+  </link>-->
 
-  <joint name="world-rail" type="fixed">
+  <!-- Ridgeback -->
+  <xacro:ridgeback/>
+
+  <!--<joint name="world-rail" type="fixed">
     <parent link="world" />
     <child link="linear_rail" />
     <origin xyz="0.0 0 0.6" rpy="0 0 0" />
+  </joint>-->
+
+  <joint name="arm_mount_joint" type="fixed">
+    <parent link="mid_mount" />
+    <child link="ur_arm_base_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
 
   <!-- Robot: contains robot description from the world frame to the tool frame -->
-  <xacro:picknik_ur parent="ur_linear_rail_base"  child="tool0" initial_positions_file="$(arg initial_positions_file)" generate_ros2_control_tag="$(arg generate_ros2_control_tag)" >
+  <xacro:picknik_ur parent="ur_arm_base_link"  child="tool0" initial_positions_file="$(arg initial_positions_file)" generate_ros2_control_tag="$(arg generate_ros2_control_tag)" >
     <!-- Guesstimates below -->
     <origin xyz="0 -0.4 0.0" rpy="0 0 0" />
   </xacro:picknik_ur>
-  <joint name="linear_rail_joint" type="prismatic">
-    <axis xyz="0 1 0"/>
-    <parent link="linear_rail" />
-    <child link="ur_linear_rail_base" />
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <limit effort="1000.0" lower="-5.0" upper="5.0" velocity="0.175" acceleration="10.0"/>
-    <dynamics damping="20.0" friction="500.0" />
-  </joint>
-
-  <!-- Table -->
-  <link name="table">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="package://picknik_accessories/descriptions/furniture/generic_table/wood_block.dae" scale="0.125 0.125 0.00625"/>
-      </geometry>
-    </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="package://picknik_accessories/descriptions/furniture/generic_table/wood_block.dae" scale="0.125 0.125 0.00625"/>
-      </geometry>
-    </collision>
-  </link>
-
-  <joint name="table_joint" type="fixed">
-    <parent link="world" />
-    <child link="table" />
-    <origin rpy="0 0 0" xyz="1 0 0.5" />
-  </joint>
 
   <!-- MuJoCo Hardware interface -->
   <xacro:picknik_ur_mujoco_ros2_control />

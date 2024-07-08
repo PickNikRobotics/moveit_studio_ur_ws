@@ -13,22 +13,22 @@ hardware:
       package: "picknik_ur_mobile_config"
       path: "description/picknik_ur.xacro"
     srdf:
-      package: "picknik_ur_mobile_config"
+      package: "picknik_ur_mujoco_config"
       path: "config/moveit/picknik_ur.srdf"
     urdf_params:
       - joint_limits_parameters_file:
-          package: "picknik_ur_mobile_config"
+          package: "picknik_ur_mujoco_config"
           path: "config/moveit/joint_limits.yaml"
 
 moveit_params:
   servo:
-    package: "picknik_ur_mobile_config"
+    package: "picknik_ur_mujoco_config"
     path: "config/moveit/ur_servo.yaml"
   joint_limits:
-    package: "picknik_ur_mobile_config"
+    package: "picknik_ur_mujoco_config"
     path: "config/moveit/joint_limits.yaml"
   servo_joint_limits:
-    package: "picknik_ur_mobile_config"
+    package: "picknik_ur_mujoco_config"
     path: "config/moveit/hard_joint_limits.yaml"
 
 # Configuration for loading behaviors and objectives.
@@ -48,12 +48,12 @@ objectives:
   # [Required]
   objective_library_paths:
     sim_objectives:
-      package_name: "picknik_ur_mobile_config"
+      package_name: "picknik_ur_mujoco_config"
       relative_path: "objectives"
   # Specify the location of the saved waypoints file.
   # [Required]
   waypoints_file:
-    package_name: "picknik_ur_mobile_config"
+    package_name: "picknik_ur_mujoco_config"
     relative_path: "waypoints/ur_waypoints.yaml"
 
 
@@ -61,7 +61,7 @@ objectives:
 # [Required, if using ros2_control]
 ros2_control:
   config:
-    package: "picknik_ur_mobile_config"
+    package: "picknik_ur_mujoco_config"
     path: "config/control/picknik_ur.ros2_control.yaml"
   # MoveIt Pro will load and activate these controllers at start up to ensure they are available.
   # If not specified, it is up to the user to ensure the appropriate controllers are active and available
