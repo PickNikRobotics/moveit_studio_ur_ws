@@ -52,10 +52,12 @@
   <!-- Ridgeback -->
   <xacro:ridgeback parent="ridgeback_base_link"/>
 
-  <joint name="world-rail" type="fixed">
+  <joint name="linear_rail_joint" type="prismatic">
     <parent link="world" />
     <child link="ridgeback_base_link" />
-    <origin xyz="0.0 0 0.6" rpy="0 0 0" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <limit effort="1000.0" lower="-5.0" upper="5.0" velocity="0.175" acceleration="10.0"/>
+    <dynamics damping="20.0" friction="500.0" />
   </joint>
 
   <!-- Robot: contains robot description from the world frame to the tool frame -->
@@ -64,13 +66,11 @@
     <origin xyz="0 0.0 0.0" rpy="0 0 0" />
   </xacro:picknik_ur>
 
-  <joint name="linear_rail_joint" type="prismatic">
+  <joint name="ur_ridgeback_mount" type="fixed">
     <axis xyz="0 1 0"/>
     <parent link="mid_mount" />
     <child link="ur_linear_rail_base" />
     <origin xyz="0 0 0" rpy="0 0 0" />
-    <limit effort="1000.0" lower="-5.0" upper="5.0" velocity="0.175" acceleration="10.0"/>
-    <dynamics damping="20.0" friction="500.0" />
   </joint>
 
   <!-- MuJoCo Hardware interface -->
