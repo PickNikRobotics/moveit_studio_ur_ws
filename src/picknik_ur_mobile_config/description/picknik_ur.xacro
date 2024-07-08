@@ -50,25 +50,28 @@
   </link>-->
 
   <!-- Ridgeback -->
-  <xacro:ridgeback/>
+  <xacro:ridgeback parent="ridgeback_base_link"/>
 
-  <!--<joint name="world-rail" type="fixed">
+  <joint name="world-rail" type="fixed">
     <parent link="world" />
-    <child link="linear_rail" />
+    <child link="ridgeback_base_link" />
     <origin xyz="0.0 0 0.6" rpy="0 0 0" />
-  </joint>-->
-
-  <joint name="arm_mount_joint" type="fixed">
-    <parent link="mid_mount" />
-    <child link="ur_arm_base_link" />
-    <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
 
   <!-- Robot: contains robot description from the world frame to the tool frame -->
-  <xacro:picknik_ur parent="ur_arm_base_link"  child="tool0" initial_positions_file="$(arg initial_positions_file)" generate_ros2_control_tag="$(arg generate_ros2_control_tag)" >
+  <xacro:picknik_ur parent="ur_linear_rail_base"  child="tool0" initial_positions_file="$(arg initial_positions_file)" generate_ros2_control_tag="$(arg generate_ros2_control_tag)" >
     <!-- Guesstimates below -->
-    <origin xyz="0 -0.4 0.0" rpy="0 0 0" />
+    <origin xyz="0 0.0 0.0" rpy="0 0 0" />
   </xacro:picknik_ur>
+
+  <joint name="linear_rail_joint" type="prismatic">
+    <axis xyz="0 1 0"/>
+    <parent link="mid_mount" />
+    <child link="ur_linear_rail_base" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <limit effort="1000.0" lower="-5.0" upper="5.0" velocity="0.175" acceleration="10.0"/>
+    <dynamics damping="20.0" friction="500.0" />
+  </joint>
 
   <!-- MuJoCo Hardware interface -->
   <xacro:picknik_ur_mujoco_ros2_control />
