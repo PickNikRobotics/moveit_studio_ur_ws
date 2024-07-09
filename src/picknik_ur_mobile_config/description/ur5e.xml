@@ -86,7 +86,6 @@
     <material class="ur5e" name="linkgray" rgba="0.82 0.82 0.82 1"/>
     <material class="ur5e" name="urblue" rgba="0.49 0.678 0.8 1"/>
     <mesh name="base" file="assets/base.stl" scale="0.001 0.001 0.001"/>
-    <mesh name="rail" file="assets/rail.stl"/>
     <mesh name="base_platform" file="assets/base_platform.stl"/>
     <mesh file="assets/base_0.obj"/>
     <mesh file="assets/base_1.obj"/>
@@ -123,8 +122,6 @@
 
     <site name="scene_camera_optical_frame" pos="0.0 -2.0 3.5" euler="3.64 0.0 0.0"/>
     <camera name="scene_camera" pos="0.0 -2.0 3.5" fovy="58" mode="fixed" resolution="640 480" euler="0.5 0.0 0.0"/>
-
-    <geom type="mesh" rgba="0 0.4 0.8 1" mesh="rail" pos="0 0 .6" euler="0 0 0"/>
     <body name="base_platform" pos="0 0 .6" euler="0 0 0">
       <joint name="linear_rail_joint" type="slide" axis="0 1 0" range="-5.0 5.0"/>
       <body name="base" pos="0.0 -0.4 0" euler="0 0 0" childclass="ur5e">

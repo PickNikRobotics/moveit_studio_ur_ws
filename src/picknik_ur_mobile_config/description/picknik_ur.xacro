@@ -20,8 +20,8 @@
 
   <!-- Import UR and environment macros -->
   <xacro:include filename="$(find picknik_ur_base_config)/description/picknik_ur_macro.xacro"/>
-  <xacro:include filename="$(find picknik_ur_mujoco_config)/description/picknik_ur_attachments_macro.xacro"/>
-  <xacro:include filename="$(find picknik_ur_mujoco_config)/description/picknik_ur_mujoco_ros2_control.xacro"/>
+  <xacro:include filename="$(find picknik_ur_mobile_config)/description/picknik_ur_attachments_macro.xacro"/>
+  <xacro:include filename="$(find picknik_ur_mobile_config)/description/picknik_ur_mujoco_ros2_control.xacro"/>
   <xacro:include filename="$(find ridgeback_description)/urdf/ridgeback.urdf.xacro"/>
 
 
@@ -29,25 +29,6 @@
 
   <!-- Gripper and UR adapter and realsense camera -->
   <xacro:picknik_ur_attachments parent="tool0" child="grasp_link" has_tool_changer="$(arg has_tool_changer)"/>
-
-  <!-- Linear rail -->
-  <!--<link name="linear_rail">
-    <visual>
-      <origin xyz="0 0 0.05" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://picknik_ur_mujoco_config/description/assets/rail.stl" />
-      </geometry>
-      <material name="grey">
-          <color rgba="0.1 0.1 0.1 1.0"/>
-        </material>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0.05" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://picknik_ur_mujoco_config/description/assets/rail.stl" />
-      </geometry>
-    </collision>
-  </link>-->
 
   <!-- Ridgeback -->
   <xacro:ridgeback parent="ridgeback_base_link"/>
