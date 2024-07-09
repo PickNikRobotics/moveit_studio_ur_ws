@@ -120,6 +120,36 @@
   <worldbody>
     <light name="spotlight" mode="targetbodycom" target="wrist_2_link" pos="0 -1 2"/>
 
+    <body name="ridgeback_base_link">
+      <geom name="chassis_link" size="0.999999 0.0395" type="cylinder" rgba="0.15 0.15 0.15 1"/>
+      <geom name="riser_link" size="0.2465 0.2465 0.0275" pos="0 0 0.2475" quat="0.92388 0 0 0.382683" type="box" rgba="0.4 0.4 0.4 1"/>
+      <geom name="top_link" size="0.999999 0.0395" type="cylinder" rgba="0.15 0.15 0.15 1"/>
+      <body name="front_rocker_link" pos="0.319 0 0.05">
+        <inertial pos="0 0 0" quat="0.475329 0.523511 0.47531 0.523526" mass="10.267" diaginertia="0.432583 0.412817 0.0288"/>
+        <joint name="front_rocker" pos="0 0 0" axis="1 0 0" range="-0.08726 0.08726"/>
+        <body name="front_left_wheel_link" pos="0 0.2755 0">
+          <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.3" diaginertia="0.0066424 0.0033212 0.0033212"/>
+          <joint name="front_left_wheel" pos="0 0 0" axis="0 1 0"/>
+          <geom name="front_left_wheel_link" size="0.0759 0.0395" quat="0.707107 0.707107 0 0" type="cylinder" rgba="0.15 0.15 0.15 1"/>
+        </body>
+        <body name="front_right_wheel_link" pos="0 -0.2755 0">
+          <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.3" diaginertia="0.0066424 0.0033212 0.0033212"/>
+          <joint name="front_right_wheel" pos="0 0 0" axis="0 1 0"/>
+          <geom name="front_right_wheel_link" size="0.0759 0.0395" quat="0.707107 0.707107 0 0" type="cylinder" rgba="0.15 0.15 0.15 1"/>
+        </body>
+      </body>
+      <body name="rear_left_wheel_link" pos="-0.319 0.2755 0.05">
+        <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.3" diaginertia="0.0066424 0.0033212 0.0033212"/>
+        <joint name="rear_left_wheel" pos="0 0 0" axis="0 1 0"/>
+        <geom name="rear_left_wheel_link" size="0.0759 0.0395" quat="0.707107 0.707107 0 0" type="cylinder" rgba="0.15 0.15 0.15 1"/>
+      </body>
+      <body name="rear_right_wheel_link" pos="-0.319 -0.2755 0.05">
+        <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.3" diaginertia="0.0066424 0.0033212 0.0033212"/>
+        <joint name="rear_right_wheel" pos="0 0 0" axis="0 1 0"/>
+        <geom name="rear_right_wheel_link" size="0.0759 0.0395" quat="0.707107 0.707107 0 0" type="cylinder" rgba="0.15 0.15 0.15 1"/>
+      </body>
+    </body>
+
     <site name="scene_camera_optical_frame" pos="0.0 -2.0 3.5" euler="3.64 0.0 0.0"/>
     <camera name="scene_camera" pos="0.0 -2.0 3.5" fovy="58" mode="fixed" resolution="640 480" euler="0.5 0.0 0.0"/>
     <body name="base_platform" pos="0 0 .6" euler="0 0 0">
@@ -325,6 +355,6 @@
 
   <keyframe>
     <!-- ur_base_pan ur_shoulder ur_elbow ur_wrist_1 ur_wrist_2 ur_wrist_3 gripper linear_rail-->
-    <key qpos='0 -2.1 1.2 -1.9 -1.9 0 0 1.5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0'/>
+    <key qpos='0 0 0 0 0 0 -2.1 1.2 -1.9 -1.9 0 0 1.5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0'/>
   </keyframe>
 </mujoco>
