@@ -14,7 +14,7 @@ services:
       target: user-overlay
       args:
         - USER_UID=${STUDIO_USER_UID:-1000}
-        - USER_GID=${STUDIO_USER_UID:-1000}
+        - USER_GID=${STUDIO_USER_GID:-1000}
         - USERNAME=${STUDIO_USERNAME:-studio-user}
         - MOVEIT_STUDIO_BASE_IMAGE=picknikciuser/moveit-studio:${STUDIO_DOCKER_TAG:-main}
 
