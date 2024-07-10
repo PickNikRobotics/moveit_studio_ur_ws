@@ -17,7 +17,9 @@ joint_state_broadcaster:
   ros__parameters:
     use_local_topics: false
     joints:
-      - linear_rail_joint
+      - linear_x_joint
+      - linear_y_joint
+      - rotational_yaw_joint
       - shoulder_pan_joint
       - shoulder_lift_joint
       - elbow_joint
@@ -33,7 +35,9 @@ joint_state_broadcaster:
 joint_trajectory_controller:
   ros__parameters:
     joints:
-      - linear_rail_joint
+      - linear_x_joint
+      - linear_y_joint
+      - rotational_yaw_joint
       - shoulder_pan_joint
       - shoulder_lift_joint
       - elbow_joint
@@ -46,7 +50,9 @@ joint_trajectory_controller:
       - position
       - velocity
     command_joints:
-      - linear_rail_joint
+      - linear_x_joint
+      - linear_y_joint
+      - rotational_yaw_joint
       - shoulder_pan_joint
       - shoulder_lift_joint
       - elbow_joint
@@ -59,7 +65,11 @@ joint_trajectory_controller:
     constraints:
       stopped_velocity_tolerance: 0.0
       goal_time: 0.0
-      linear_rail_joint:
+      linear_x_joint:
+        goal: 0.05
+      linear_y_joint:
+        goal: 0.05
+      rotational_yaw_joint:
         goal: 0.05
       shoulder_pan_joint:
         goal: 0.05
@@ -74,7 +84,9 @@ joint_trajectory_controller:
       wrist_3_joint:
         goal: 0.05
     acceleration_limits:
-      linear_rail_joint: 10.0
+      linear_x_joint: 10.0
+      linear_y_joint: 10.0
+      rotational_yaw_joint: 10.0
       shoulder_pan_joint: 10.0
       shoulder_lift_joint: 10.0
       elbow_joint: 10.0
@@ -90,7 +102,9 @@ robotiq_gripper_controller:
 servo_controller:
   ros__parameters:
     joints:
-      - linear_rail_joint
+      - linear_x_joint
+      - linear_y_joint
+      - rotational_yaw_joint
       - shoulder_pan_joint
       - shoulder_lift_joint
       - elbow_joint
@@ -104,7 +118,9 @@ servo_controller:
       - position
       - velocity
     command_joints:
-      - linear_rail_joint
+      - linear_x_joint
+      - linear_y_joint
+      - rotational_yaw_joint
       - shoulder_pan_joint
       - shoulder_lift_joint
       - elbow_joint
@@ -117,7 +133,11 @@ servo_controller:
     constraints:
       stopped_velocity_tolerance: 0.0
       goal_time: 0.0
-      linear_rail_joint:
+      linear_x_joint:
+        goal: 0.05
+      linear_y_joint:
+        goal: 0.05
+      rotational_yaw_joint:
         goal: 0.05
       shoulder_pan_joint:
         goal: 0.05
@@ -132,7 +152,9 @@ servo_controller:
       wrist_3_joint:
         goal: 0.05
     acceleration_limits:
-      linear_rail_joint: 10.0
+      linear_x_joint: 10.0
+      linear_y_joint: 10.0
+      rotational_yaw_joint: 10.0
       shoulder_pan_joint: 10.0
       shoulder_lift_joint: 10.0
       elbow_joint: 10.0

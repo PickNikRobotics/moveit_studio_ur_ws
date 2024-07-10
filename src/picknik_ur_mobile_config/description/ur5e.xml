@@ -125,6 +125,9 @@
 
     <site name="scene_camera_optical_frame" pos="0.0 -2.0 3.5" euler="3.64 0.0 0.0"/>
     <camera name="scene_camera" pos="0.0 -2.0 3.5" fovy="58" mode="fixed" resolution="640 480" euler="0.5 0.0 0.0"/>
+    <body name="base_platform_rotation" pos="0 0 0" euler="0 0 0">
+    <inertial mass="10.0" pos="0 0 0" diaginertia="0.001 0.001 0.001"/>
+    <joint name="rotational_yaw_joint" class="size3" axis="0 0 1"/>
     <body name="base_platform" pos="0 0 0" euler="0 0 0">
       <body name="ridgeback_base_link">
         <geom name="chassis_link" mesh="chassis_link" material="black" type="mesh" contype="0" conaffinity="0" group="2"/>
@@ -154,7 +157,8 @@
           <joint name="rear_right_wheel" pos="0 0 0" axis="0 1 0"/>
           <geom name="rear_right_wheel_link" size="0.0759 0.0395" quat="0.707107 0.707107 0 0" type="cylinder" rgba="0.15 0.15 0.15 1"/>
         </body>
-        <joint name="linear_rail_joint" type="slide" axis="0 1 0" range="-5.0 5.0"/>
+        <joint name="linear_x_joint" type="slide" axis="1 0 0" range="-5.0 5.0"/>
+        <joint name="linear_y_joint" type="slide" axis="0 1 0" range="-5.0 5.0"/>
         <body name="base" pos="0.0 0.0 0.28" euler="0 0 0" childclass="ur5e">
           <inertial mass="4.0" pos="0 0 0" diaginertia="0.00443333156 0.00443333156 0.0072"/>
           <geom mesh="base_0" material="black" class="visual"/>
@@ -305,6 +309,7 @@
         </body>
       </body>
     </body>
+    </body>
   </worldbody>
 
   <actuator>
@@ -324,7 +329,9 @@
     </contact>
 
     <actuator>
-        <general class="robot" name="linear_rail_joint" joint="linear_rail_joint" gainprm="2500" biasprm="0 -2500 -2000"/>
+        <general class="robot" name="linear_x_joint" joint="linear_x_joint" gainprm="2500" biasprm="0 -2500 -2000"/>
+        <general class="robot" name="linear_y_joint" joint="linear_y_joint" gainprm="2500" biasprm="0 -2500 -2000"/>
+        <general class="size3" name="rotational_yaw_joint" joint="rotational_yaw_joint"/>
   </actuator>
   
     <!-- Robotiq gripper contact -->
@@ -355,7 +362,7 @@
     <torque name="ee_torque_sensor" site="robotiq_ft_sensor" />
   </sensor>
 
-  <keyframe>
-    <key qpos='-4.15817e-22 5.08394e-12 2.74488e-10 2.74488e-10 -3.73952e-10 -3.73952e-10 -0.31415 -1.37115 0.981361 -1.75672 -1.57075 -3.26716 0.0203697 0.000532128 0.0216355 -0.0224045 0.0203839 0.000542834 0.0216769 -0.0224794'/>
-  </keyframe>
+  <!--<keyframe>
+    <key qpos='0.0 0.0 0.0 2.74488e-10 2.74488e-10 -3.73952e-10 -3.73952e-10 -0.31415 -1.37115 0.981361 -1.75672 -1.57075 -3.26716 0.0203697 0.000532128 0.0216355 -0.0224045 0.0203839 0.000542834 0.0216769 -0.0224794'/>
+  </keyframe> -->
 </mujoco>

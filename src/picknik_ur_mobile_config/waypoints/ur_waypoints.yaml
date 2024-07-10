@@ -13,7 +13,9 @@
         sec: 0
     name:
       - robotiq_85_left_knuckle_joint
-      - linear_rail_joint
+      - linear_x_joint
+      - linear_y_joint
+      - rotational_yaw_joint
       - shoulder_pan_joint
       - shoulder_lift_joint
       - elbow_joint
@@ -22,7 +24,9 @@
       - wrist_3_joint
     position:
       - 0.0
-      - 0.29608248868337067
+      - 0.4
+      - 0.4
+      - 0.0
       - 0.0
       - -1.5708
       - 0.785398
