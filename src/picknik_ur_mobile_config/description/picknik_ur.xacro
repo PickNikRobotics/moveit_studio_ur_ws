@@ -33,6 +33,14 @@
   <!-- Ridgeback -->
   <xacro:ridgeback parent="ridgeback_base_link"/>
 
+  <joint name="rotational_yaw_joint" type="revolute">
+    <parent link="world"/>
+    <child link="virual_rail_link_1"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="150.0" lower="-3.141592653589793" upper="3.141592653589793" velocity="0.5235987755982988"/>
+    <dynamics damping="0" friction="0"/>
+  </joint>
 
   <link name="virual_rail_link_1"/>
 
