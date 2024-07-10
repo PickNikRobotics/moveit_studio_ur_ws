@@ -155,7 +155,7 @@
           <geom name="rear_right_wheel_link" size="0.0759 0.0395" quat="0.707107 0.707107 0 0" type="cylinder" rgba="0.15 0.15 0.15 1"/>
         </body>
         <joint name="linear_rail_joint" type="slide" axis="0 1 0" range="-5.0 5.0"/>
-        <body name="base" pos="0.0 0.0 0.25" euler="0 0 0" childclass="ur5e">
+        <body name="base" pos="0.0 0.0 0.28" euler="0 0 0" childclass="ur5e">
           <inertial mass="4.0" pos="0 0 0" diaginertia="0.00443333156 0.00443333156 0.0072"/>
           <geom mesh="base_0" material="black" class="visual"/>
           <geom mesh="base_1" material="jointgray" class="visual"/>
