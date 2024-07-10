@@ -26,6 +26,7 @@
   <exec_depend>ur_description</exec_depend>
   <exec_depend>ur_robot_driver</exec_depend>
   <exec_depend>picknik_mujoco_ros</exec_depend>
+  <exec_depend>ridgeback</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
 
