@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Joint Diagnostic">
   <!-- ////////// -->
-  <BehaviorTree ID="Joint Diagnostic" _description="Example of cycliing through the min and max limits of a single joint, for hardware testing" _favorite="true">
+  <BehaviorTree ID="Joint Diagnostic" _description="Example of cycling through the min and max limits of a single joint, for hardware testing" _favorite="true">
     <Control ID="Sequence" name="TopLevelSequence">
       <!--Setup by moving home-->
       <SubTree ID="Move to Waypoint" waypoint_name="Home" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" planner_interface="moveit_default"/>
