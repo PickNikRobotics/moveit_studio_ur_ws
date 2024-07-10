@@ -12,6 +12,7 @@
     <group name="linear_actuator">
         <joint name="linear_x_joint" />
         <joint name="linear_y_joint" />
+        <joint name="rotational_yaw_joint" />
     </group>
     <group name="manipulator">
         <chain base_link="base_link" tip_link="grasp_link"/>
