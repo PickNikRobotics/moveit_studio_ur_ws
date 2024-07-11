@@ -1,0 +1,89 @@
+#
+#  This contains information for a unique instance of a robot.
+#
+
+# Name of the package to specialize
+based_on_package: "picknik_ur_base_config"
+hardware:
+  # Parameters used to configure the robot description through XACRO.
+  # A URDF and SRDF are both required.
+  # [Required]
+  robot_description:
+    urdf:
+      package: "picknik_ur_mobile_config"
+      path: "description/picknik_ur.xacro"
+    srdf:
+      package: "picknik_ur_mobile_config"
+      path: "config/moveit/picknik_ur.srdf"
+    urdf_params:
+      - joint_limits_parameters_file:
+          package: "picknik_ur_mobile_config"
+          path: "config/moveit/joint_limits.yaml"
+
+moveit_params:
+  servo:
+    package: "picknik_ur_mobile_config"
+    path: "config/moveit/ur_servo.yaml"
+  joint_limits:
+    package: "picknik_ur_mobile_config"
+    path: "config/moveit/joint_limits.yaml"
+  servo_joint_limits:
+    package: "picknik_ur_mobile_config"
+    path: "config/moveit/hard_joint_limits.yaml"
+
+# Configuration for loading behaviors and objectives.
+# [Required]
+objectives:
+  # List of plugins for loading custom behaviors.
+  # [Required]
+  behavior_loader_plugins:
+    # This plugin will load the core MoveIt Pro Behaviors.
+    # Add additional plugin loaders as needed.
+    core:
+      - "moveit_studio::behaviors::CoreBehaviorsLoader"
+      - "moveit_studio::behaviors::MTCCoreBehaviorsLoader"
+      - "moveit_studio::behaviors::ServoBehaviorsLoader"
+      - "moveit_studio::behaviors::VisionBehaviorsLoader"
+  # Specify source folder for objectives
+  # [Required]
+  objective_library_paths:
+    sim_objectives:
+      package_name: "picknik_ur_mobile_config"
+      relative_path: "objectives"
+  # Specify the location of the saved waypoints file.
+  # [Required]
+  waypoints_file:
+    package_name: "picknik_ur_mobile_config"
+    relative_path: "waypoints/ur_waypoints.yaml"
+
+
+# Configuration for launching ros2_control processes.
+# [Required, if using ros2_control]
+ros2_control:
+  config:
+    package: "picknik_ur_mobile_config"
+    path: "config/control/picknik_ur.ros2_control.yaml"
+  # MoveIt Pro will load and activate these controllers at start up to ensure they are available.
+  # If not specified, it is up to the user to ensure the appropriate controllers are active and available
+  # for running the application.
+  # [Optional, default=[]]
+  controllers_active_at_startup:
+    - "force_torque_sensor_broadcaster"
+    - "robotiq_gripper_controller"
+    - "joint_state_broadcaster"
+    - "servo_controller"
+  # Load but do not start these controllers so they can be activated later if needed.
+  controllers_inactive_at_startup:
+    - "joint_trajectory_controller"
+  # Any controllers here will not be spawned by MoveIt Pro.
+  # [Optional, default=[]]
+  controllers_not_managed: []
+  # Optionally configure remapping rules to let multiple controllers receive commands on the same topic.
+  # [Optional, default=[]]
+  controller_shared_topics: []
+
+# Octomap manager configuration parameters
+octomap_manager:
+  # Input point cloud topic name. The *output* point cloud topic published by
+  # the Octomap manager node is defined in sensors_3d.yaml.
+  input_point_cloud_topic: "/wrist_camera/points"
