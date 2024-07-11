@@ -34,10 +34,10 @@
   <xacro:ridgeback parent="ridgeback_base_link"/>
 
   <joint name="rotational_yaw_joint" type="revolute">
+    <axis xyz="0 0 1"/>
     <parent link="world"/>
     <child link="virual_rail_link_1"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
-    <axis xyz="0 0 1"/>
     <limit effort="150.0" lower="-3.141592653589793" upper="3.141592653589793" velocity="0.5235987755982988"/>
     <dynamics damping="0" friction="0"/>
   </joint>
@@ -45,6 +45,7 @@
   <link name="virual_rail_link_1"/>
 
   <joint name="linear_x_joint" type="prismatic">
+    <axis xyz="1 0 0"/>
     <parent link="virual_rail_link_1" />
     <child link="virual_rail_link_2" />
     <origin xyz="0 0 0" rpy="0 0 0" />
@@ -55,9 +56,10 @@
   <link name="virual_rail_link_2"/>
 
   <joint name="linear_y_joint" type="prismatic">
+    <axis xyz="0 1 0"/>
     <parent link="virual_rail_link_2" />
     <child link="ridgeback_base_link" />
-    <origin xyz="0 0 0" rpy="0 0 -1.5707963267948966" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
     <limit effort="1000.0" lower="-5.0" upper="5.0" velocity="0.175" acceleration="10.0"/>
     <dynamics damping="20.0" friction="500.0" />
   </joint>
