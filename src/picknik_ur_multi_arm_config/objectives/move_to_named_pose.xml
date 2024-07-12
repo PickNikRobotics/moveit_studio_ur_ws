@@ -5,7 +5,7 @@
             <Action ID="RetrieveWaypoint" waypoint_joint_state="{target_joint_state}" waypoint_name="{waypoint_name}" joint_group_name="{joint_group_name}"/>
             <Action ID="InitializeMTCTask" task_id="move_to_named_pose" controller_names="/multi_arm_joint_trajectory_controller" task="{move_to_waypoint_task}"/>
             <Action ID="SetupMTCCurrentState" task="{move_to_waypoint_task}"/>
-            <Action ID="SetupMTCMoveToJointState" joint_state="{target_joint_state}" name="SetupMTCMoveToJointState" planning_group_name="multi_arm_manipulator" use_all_planners="{use_all_planners}" constraints="{constraints}" task="{move_to_waypoint_task}"/>
+            <Action ID="SetupMTCMoveToJointState" joint_state="{target_joint_state}" name="SetupMTCMoveToJointState" planning_group_name="multi_arm_manipulator" use_all_planners="false" constraints="{constraints}" task="{move_to_waypoint_task}"/>
             <Action ID="PlanMTCTask" solution="{move_to_waypoint_solution}" task="{move_to_waypoint_task}"/>
             <Action ID="ExecuteMTCTask" solution="{move_to_waypoint_solution}"/>
         </Control>
