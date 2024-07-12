@@ -1,13 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Load initial guess">
   <!--//////////-->
-  <BehaviorTree ID="Load initial guess" _description="" _favorite="false">
+  <BehaviorTree ID="Load initial guess" _description="" _favorite="true">
     <Control ID="Sequence" name="TopLevelSequence">
-      <Action ID="ClearSnapshot"/>
-      <Action ID="CreateStampedPose" position_xyz="1;-0.4;0.575" orientation_xyzw=".5;.5;.5;.5"/>
-      <Action ID="LoadPointCloudFromFile" color="0;255;0" file_path="~/user_ws/install/picknik_ur_mujoco_config/share/picknik_ur_mujoco_config/description/assets/generic_mockup.stl" point_cloud="{point_cloud}"/>
+      <Action ID="CreateStampedPose" position_xyz="1;0.02;0.575" orientation_xyzw="0;0;0;1"/>
+      <Action ID="LoadPointCloudFromFile" color="0;255;0" file_path="~/user_ws/install/picknik_ur_mujoco_config/share/picknik_ur_mujoco_config/description/assets/Bunny_scaled.stl" point_cloud="{point_cloud}"/>
+      <Action ID="TransformPointCloudFrame" input_cloud="{point_cloud}" output_cloud="{point_cloud}"/>
       <Action ID="TransformPointCloud" input_cloud="{point_cloud}" transform_pose="{stamped_pose}"/>
       <Action ID="SendPointCloudToUI" point_cloud="{output_cloud}"/>
     </Control>
   </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Load initial guess">
+      <output_port name="unaligned_cloud" default="{guess_cloud}"/>
+      <input_port name="_collapsed" default="false"/>
+    </SubTree>
+  </TreeNodesModel>
 </root>

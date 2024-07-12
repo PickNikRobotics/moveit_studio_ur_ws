@@ -1,9 +1,9 @@
 - description: ''
   favorite: false
   joint_group_names:
-    - gripper
-    - linear_actuator
-    - manipulator
+  - gripper
+  - linear_actuator
+  - manipulator
   joint_state:
     effort: []
     header:
@@ -12,23 +12,66 @@
         nanosec: 0
         sec: 0
     name:
-      - robotiq_85_left_knuckle_joint
-      - linear_rail_joint
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
+    - robotiq_85_left_knuckle_joint
+    - linear_rail_joint
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
     position:
-      - 0.0
-      - 0.29608248868337067
-      - 0.0
-      - -1.5708
-      - 0.785398
-      - -1.2948195437205516
-      - -1.5708
-      - 0.0
+    - 0.03938944161533654
+    - 0.3876592346144604
+    - -0.0050005587173510835
+    - -1.1752051452705052
+    - 1.8029488349907186
+    - -2.1729925715096288
+    - -1.575714284602068
+    - -0.004887015002229125
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Place Block
+- description: ''
+  favorite: false
+  joint_group_names:
+  - gripper
+  - linear_actuator
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - robotiq_85_left_knuckle_joint
+    - linear_rail_joint
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - 0
+    - 0.29608248868337067
+    - 0
+    - -1.5708
+    - 0.785398
+    - -1.2948195437205516
+    - -1.5708
+    - 0
     velocity: []
   multi_dof_joint_state:
     header:
@@ -41,3 +84,46 @@
     twist: []
     wrench: []
   name: Look at Table
+- description: ''
+  favorite: false
+  joint_group_names:
+  - gripper
+  - linear_actuator
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - robotiq_85_left_knuckle_joint
+    - linear_rail_joint
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - 0.03938937577314369
+    - 0.34917809525387683
+    - 0.15466727463418634
+    - -0.7016389372168735
+    - 1.136851665103602
+    - -2.00353230192142
+    - -1.575271843483329
+    - 0.15480750967840481
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Pick Block

@@ -1,17 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Register CAD Part">
   <!--//////////-->
-  <BehaviorTree ID="Register CAD Part" _description="" _favorite="false">
+  <BehaviorTree ID="Register CAD Part" _description="" _favorite="true">
     <Control ID="Sequence" name="TopLevelSequence">
-      <Action ID="ClearSnapshot"/>
-      <Action ID="CreateStampedPose" position_xyz="1;-0.45;0.575" orientation_xyzw=".5;.5;.5;.5"/>
-      <Action ID="LoadPointCloudFromFile" color="0;255;0" file_path="~/user_ws/install/picknik_ur_mujoco_config/share/picknik_ur_mujoco_config/description/assets/generic_mockup.stl" point_cloud="{point_cloud}"/>
-      <Action ID="TransformPointCloud" input_cloud="{point_cloud}" transform_pose="{stamped_pose}"/>
-      <Action ID="SendPointCloudToUI" point_cloud="{output_cloud}"/>
+      <SubTree ID="Load initial guess" _collapsed="false" output_cloud="{guess_cloud}" unaligned_cloud="{guess_cloud}"/>
       <Action ID="GetPointCloud" topic_name="/wrist_camera/points" message_out="{wrist_point_cloud}"/>
+      <Action ID="TransformPointCloudFrame" input_cloud="{wrist_point_cloud}" output_cloud="{wrist_point_cloud}"/>
+      <Action ID="CreateStampedPose" orientation_xyzw="0;0;0;1" position_xyz="1;0;0.92"/>
+      <Action ID="CropPointsInBox" crop_box_centroid_pose="{stamped_pose}" point_cloud="{wrist_point_cloud}" point_cloud_cropped="{wrist_point_cloud}" crop_box_size="0.4;0.4;0.7"/>
       <Action ID="SendPointCloudToUI" point_cloud="{wrist_point_cloud}"/>
-      <Action ID="RegisterPointClouds" target_point_cloud="{wrist_point_cloud}" base_point_cloud="{output_cloud}" max_correspondence_distance="1.0"/>
-      <Action ID="TransformPointCloud" input_cloud="{output_cloud}" transform_pose="{target_pose}" output_cloud="{output_cloud_aligned}"/>
+      <Action ID="RegisterPointClouds" target_point_cloud="{wrist_point_cloud}" base_point_cloud="{guess_cloud}" max_correspondence_distance="0.005" max_iterations="100"/>
+      <Action ID="TransformPointCloud" input_cloud="{guess_cloud}" transform_pose="{target_pose}" output_cloud="{output_cloud_aligned}"/>
       <Action ID="SendPointCloudToUI" point_cloud="{output_cloud_aligned}"/>
     </Control>
   </BehaviorTree>
