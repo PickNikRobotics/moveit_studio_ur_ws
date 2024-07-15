@@ -14,7 +14,7 @@
     <SubTree ID="Move to Waypoint">
       <input_port name="waypoint_name" default=""/>
       <input_port name="joint_group_name" default="manipulator"/>
-      <input_port name="use_all_planners" default="false"/>
+      <input_port name="planner_interface" default="moveit_default"/>
       <input_port name="controller_names" default="/joint_trajectory_controller"/>
     </SubTree>
   </TreeNodesModel>
