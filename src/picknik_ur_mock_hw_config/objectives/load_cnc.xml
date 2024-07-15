@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Load CNC">
   <!--//////////-->
-  <BehaviorTree ID="Load CNC">
+  <BehaviorTree ID="Load CNC" _favorite="false">
     <Control ID="Sequence">
       <!--ASSUMPTION: Gripper is open-->
       <SubTree ID="Move to Waypoint" waypoint_input="Grasp Left" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
