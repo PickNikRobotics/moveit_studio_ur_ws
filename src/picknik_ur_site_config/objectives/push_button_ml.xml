@@ -3,7 +3,7 @@
   <BehaviorTree ID="Push Button ML" _description="Move to a waypoint, and then push a button detected by a image segmentation network with the end effector" _favorite="false">
     <Control ID="Sequence">
       <SubTree ID="Re-Zero Force-Torque Sensors" _collapsed="true"/>
-      <SubTree ID="Move to Waypoint" waypoint_name="Hinge View" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
+      <SubTree ID="Move to Waypoint" waypoint_input="Hinge View" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
       <SubTree ID="Clear Snapshot" _collapsed="true"/>
       <SubTree ID="Reset Planning Scene" _collapsed="true"/>
       <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>

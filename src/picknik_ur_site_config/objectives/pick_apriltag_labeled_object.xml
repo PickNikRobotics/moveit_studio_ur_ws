@@ -5,7 +5,7 @@
     <Control ID="Sequence" name="TopLevelSequence">
       <Control ID="Sequence" name="Setup">
         <SubTree ID="Open Gripper"/>
-        <SubTree ID="Move to Waypoint" waypoint_name="Look at April Tag" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
+        <SubTree ID="Move to Waypoint" waypoint_input="Look at April Tag" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" use_all_planners="false"/>
       </Control>
       <SubTree ID="Sample April Tag" num_samples="5" tag_id="1" apriltag_config="51mm_apriltag_detection_config.yaml" max_distance="0.02" max_rotation="0.2" avg_pose="{tag_pose}"/>
       <Action ID="LoadObjectiveParameters" config_file_name="apriltag1_grasp_offset.yaml" parameters="{pose_parameters}"/>
