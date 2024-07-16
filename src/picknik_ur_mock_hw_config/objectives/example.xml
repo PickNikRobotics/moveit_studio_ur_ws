@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Example">
+  <!--//////////-->
+  <BehaviorTree ID="Example" _description="" _favorite="false">
+    <Control ID="Sequence">
+      <Action ID="CreateStampedPose" orientation_xyzw="1;0;0;0" position_xyz="0.6;0;0.5"/>
+      <SubTree ID="Move to Pose" _collapsed="false" target_pose="{stamped_pose}"/>
+      <Action ID="TransformPose" quaternion_xyzw="0;0;0;1" translation_xyz="0;-0.1;0" input_pose="{stamped_pose}"/>
+      <SubTree ID="Move to Pose" _collapsed="false" target_pose="{output_pose}"/>
+    </Control>
+  </BehaviorTree>
+</root>

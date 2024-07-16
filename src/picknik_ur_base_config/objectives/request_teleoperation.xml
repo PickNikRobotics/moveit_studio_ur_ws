@@ -26,7 +26,7 @@
             <Decorator ID="ForceSuccess" _while="teleop_mode == 4">
               <Control ID="Sequence">
                 <Action ID="SwitchUIPrimaryView" primary_view_name="Visualization"/>
-                <SubTree ID="Move to Pose" controller_names="/joint_trajectory_controller"/>
+                <SubTree ID="SubTree Only Move to Pose" controller_names="/joint_trajectory_controller"/>
               </Control>
             </Decorator>
             <!-- Waypoint buttons move to joint state -->

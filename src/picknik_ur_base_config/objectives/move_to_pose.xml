@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<root BTCPP_format="4" main_tree_to_execute="TELEOPERATE Move to Pose">
-  <BehaviorTree ID="TELEOPERATE Move to Pose" _description="Uses inverse kinematics to move the robot to a set gripper position">
+<root BTCPP_format="4" main_tree_to_execute="SubTree Only Move to Pose">
+  <BehaviorTree ID="SubTree Only Move to Pose" _description="Uses inverse kinematics to move the robot to a set gripper position">
     <Control ID="Fallback" name="root">
       <Control ID="Sequence">
         <Action ID="RetrievePoseParameter" timeout_sec="-1" pose="{target_pose}"/>
@@ -19,6 +19,6 @@
     </Control>
   </BehaviorTree>
   <TreeNodesModel>
-    <SubTree ID="Move to Pose"/>
+    <SubTree ID="SubTree Only Move to Pose"/>
   </TreeNodesModel>
 </root>
