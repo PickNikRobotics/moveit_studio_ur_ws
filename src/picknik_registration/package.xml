@@ -4,10 +4,9 @@
   <version>0.0.0</version>
   <description>Finds the pose of a target point cloud relative to the base frame of a base point cloud using the Normal Distributions Transform (NDT) algoritm</description>
 
-  <maintainer email="john@doe.com">John Doe</maintainer>
-  <author email="john@doe.com">John Doe</author>
+  <maintainer email="support@picknik.ai">MoveIt Pro Maintainer</maintainer>
 
-  <license>TODO</license>
+  <license>BSD-3-Clause</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
