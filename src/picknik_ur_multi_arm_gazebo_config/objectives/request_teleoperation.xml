@@ -19,21 +19,51 @@
             <Decorator ID="ForceSuccess" _while="teleop_mode == 5">
               <Control ID="Sequence">
                 <Action ID="SwitchUIPrimaryView" primary_view_name="Visualization"/>
-                <SubTree ID="Interpolate to Joint State"/>
+                <Control ID="Fallback" name="root">
+                  <Control ID="Sequence">
+                    <Action ID="RetrieveJointStateParameter" timeout_sec="-1" joint_state="{target_joint_state}"/>
+                    <SubTree ID="Interpolate to Joint State" _collapsed="false" target_joint_state="{target_joint_state}"/>
+                    <Action ID="PublishEmpty" topic="/studio_ui/motion_ended" queue_size="1" use_best_effort="false"/>
+                  </Control>
+                  <Control ID="Sequence">
+                    <Action ID="PublishEmpty" topic="/studio_ui/motion_ended" queue_size="1" use_best_effort="false"/>
+                    <Action ID="AlwaysFailure"/>
+                  </Control>
+                </Control>
               </Control>
             </Decorator>
             <!--Interactive markers move to pose-->
             <Decorator ID="ForceSuccess" _while="teleop_mode == 4">
               <Control ID="Sequence">
                 <Action ID="SwitchUIPrimaryView" primary_view_name="Visualization"/>
-                <SubTree ID="Move to Pose"/>
+                <Control ID="Fallback" name="root">
+                  <Control ID="Sequence">
+                    <Action ID="RetrievePoseParameter" timeout_sec="-1" pose="{target_pose}"/>
+                    <SubTree ID="Move to Pose" _collapsed="false" target_pose="{target_pose}"/>
+                    <Action ID="PublishEmpty" topic="/studio_ui/motion_ended" queue_size="1" use_best_effort="false"/>
+                  </Control>
+                  <Control ID="Sequence">
+                    <Action ID="PublishEmpty" topic="/studio_ui/motion_ended" queue_size="1" use_best_effort="false"/>
+                    <Action ID="AlwaysFailure"/>
+                  </Control>
+                </Control>
               </Control>
             </Decorator>
             <!--Waypoint buttons move to joint state-->
             <Decorator ID="ForceSuccess" _while="teleop_mode == 3">
               <Control ID="Sequence">
                 <Action ID="SwitchUIPrimaryView" primary_view_name="Visualization"/>
-                <SubTree ID="Move to Joint State"/>
+                <Control ID="Fallback" name="root">
+                  <Control ID="Sequence">
+                    <Action ID="RetrieveJointStateParameter" timeout_sec="-1" joint_state="{target_joint_state}"/>
+                    <SubTree ID="Move to Joint State" _collapsed="false" target_joint_state="{target_joint_state}"/>
+                    <Action ID="PublishEmpty" topic="/studio_ui/motion_ended" queue_size="1" use_best_effort="false"/>
+                  </Control>
+                  <Control ID="Sequence">
+                    <Action ID="PublishEmpty" topic="/studio_ui/motion_ended" queue_size="1" use_best_effort="false"/>
+                    <Action ID="AlwaysFailure"/>
+                  </Control>
+                </Control>
               </Control>
             </Decorator>
             <!--Cartesian and joint jogging-->
