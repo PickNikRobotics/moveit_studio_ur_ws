@@ -1,9 +1,9 @@
 based_on_package: "picknik_ur_base_config"
 
-hardware:
+# hardware:
 
   # Be sure to set your robot's IP address.
-  ip: "0.0.0.0"
+  # ip: "0.0.0.0"
 
 objectives:
   behavior_loader_plugins: {}
