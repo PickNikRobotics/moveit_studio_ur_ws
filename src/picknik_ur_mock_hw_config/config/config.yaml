@@ -1,9 +1,6 @@
 based_on_package: "picknik_ur_base_config"
 
 hardware:
-
-  # Be sure to set your robot's IP address.
-  ip: "0.0.0.0"
   simulated: True
 
   # Update robot description for machine tending world.
