@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Pick object">
+  <!--//////////-->
+  <BehaviorTree ID="Pick object" _description="" _favorite="false">
+    <Control ID="Sequence" name="root">
+      <SubTree ID="Open Gripper"/>
+      <Control ID="Sequence">
+        <Action ID="GetPointsFromUser" view_name="/wrist_camera/color" point_names="grasp_pose" point_prompts="Select the object you wish to pick" pixel_coords="{pixel_coords}"/>
+        <Action ID="GetPointCloud" topic_name="/wrist_camera/points" message_out="{point_cloud}"/>
+        <Action ID="GetPoseFromPixelCoords" point_cloud="{point_cloud}" pixel_coords="{pixel_coords}" downsample_fraction="0.1" neighbor_radius="0.1" output_poses="{output_poses}"/>
+        <!--Flip the direction of the grasp pose-->
+        <Decorator ID="ForEachPoseStamped" vector_in="{output_poses}" out="{flipped_pose}">
+          <Action ID="TransformPose" output_pose="{corrected_pose}" translation_xyz="0;0;0" input_pose="{flipped_pose}" quaternion_xyzw="0;1;0;0"/>
+        </Decorator>
+        <!--Create a vector of poses to match the input of AdjustPoseWithIMarker-->
+        <Action ID="AddPoseStampedToVector" input="{corrected_pose}" vector="{corrected_poses}"/>
+        <Action ID="AdjustPoseWithIMarker" prompts="Adjust IMarker to desired pose" initial_poses="{corrected_poses}" adjusted_poses="{adjusted_poses}"/>
+      </Control>
+      <!--Use the ForEach decorator to get a pose from our vector of poses-->
+      <SubTree ID="Pick first object in vector" pose_vector="{adjusted_poses}"/>
+    </Control>
+  </BehaviorTree>
+</root>
