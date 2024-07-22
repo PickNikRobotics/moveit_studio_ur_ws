@@ -6,21 +6,16 @@
 based_on_package: "picknik_ur_site_config"
 
 # Optional parameters that can be read in your launch files for specific functionality
-optional_feature_params:
-  gazebo_world_name: "space_station_blocks_world.sdf"
-  gazebo_gui: False
-  gazebo_verbose: True
+# optional_feature_params:
+#   gazebo_world_name: "space_station_blocks_world.sdf"
+#   gazebo_gui: False
+#   gazebo_verbose: True
 
 # Enable simulation time so nodes are synced with the Gazebo block.
 ros_global_params:
   use_sim_time: True
 
 hardware:
-  # Used by the ur_description package to set kinematics and geometry for a specific robot type.
-  # You can change this to another UR model but you must update any configuration affected by the different arm size
-  # UR models in the ur_description package are ur3, ur3e, ur5, ur5e, ur10, ur10e, and ur16e.
-  type: "ur5e"
-
   # This is the only option for this site_config
   simulated: True
 
@@ -30,9 +25,6 @@ hardware:
   # If the MoveIt Pro Agent should launch the robot state publisher
   # This should be false if you are launching the robot state publisher as part of drivers.
   launch_robot_state_publisher: True
-
-  # The robot's IP address
-  ip: "0.0.0.0"
 
   # The following launch file is started when hardware.simulated is True
   simulated_hardware_launch_file:
@@ -72,11 +64,6 @@ moveit_params:
   servo:
     package: "picknik_ur_gazebo_config"
     path: "config/moveit/ur_servo.yaml"
-
-octomap_manager:
-  # Input point cloud topic name. The *output* point cloud topic published by
-  # the Octomap manager node is defined in sensors_3d.yaml.
-  input_point_cloud_topic: "/wrist_mounted_camera/depth/color/points"
 
 # This configures what controllers gets run at startup
 ros2_control:
