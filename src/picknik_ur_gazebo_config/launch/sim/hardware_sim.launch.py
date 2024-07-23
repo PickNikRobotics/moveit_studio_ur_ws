@@ -53,15 +53,8 @@ def path_pattern_change_for_gazebo(urdf_string):
 
 
 def generate_simulation_description(context, *args, **settings):
-    # world_path = settings.get(
-    #     "gazebo_world_path",
-    #     "description/simulation_worlds/space_station_blocks_world.sdf",
-    # )
-    # use_gui = settings.get("gazebo_gui", False)
-    # is_verbose = settings.get("gazebo_verbose", False)
-
     world_path = "description/simulation_worlds/space_station_blocks_world.sdf"
-    use_gui = True
+    use_gui = False
     is_verbose = False
 
     # Create a Gazebo world file that swaps out package:// paths with absolute path.
