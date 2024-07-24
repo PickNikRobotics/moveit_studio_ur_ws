@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<package format="3">
+  <name>translate_pose</name>
+  <version>0.0.0</version>
+  <description>Translates a PoseStamped, given x,y,z</description>
+
+  <maintainer email="john@doe.com">
+    John Doe
+  </maintainer>
+  <author email="john@doe.com">
+    John Doe
+  </author>
+
+  <license>TODO</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <build_depend>moveit_studio_common</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+
+  <depend>moveit_studio_behavior_interface</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_cmake_gtest</test_depend>
+  <test_depend>ament_cmake_gmock</test_depend>
+  <test_depend>ament_clang_format</test_depend>
+  <test_depend>ament_clang_tidy</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
