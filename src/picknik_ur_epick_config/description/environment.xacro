@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="environment" params="parent">
+
+  <!-- Import environment macros -->
+  <xacro:include filename="$(find picknik_ur_epick_config)/description/generic_bin.xacro" />
+
+  <!-- Bin Frames -->
+  <link name="left_bin_origin"/>
+  <joint name="left_bin_origin_joint" type="fixed">
+    <parent link="${parent}"/>
+    <child link = "left_bin_origin"/>
+    <origin xyz="-0.029 0.272 -0.010" rpy="0 0 ${pi/2}"/>
+  </joint>
+  <link name="right_bin_origin"/>
+  <joint name="right_bin_origin_joint" type="fixed">
+    <parent link="${parent}"/>
+    <child link = "right_bin_origin"/>
+    <origin xyz="0.426 0.272 -0.010" rpy="0 0 ${pi/2}"/>
+  </joint>
+
+  <xacro:property name="bin_x" value="${24 * 0.0254}" />
+  <xacro:property name="bin_y" value="${15 * 0.0254}" />
+  <xacro:property name="bin_z" value="${7.5 * 0.0254}" />
+  <xacro:property name="bin_wall" value="0.025" />
+  <xacro:property name="bin_bottom" value="0.005" />
+
+  <!-- Left bin -->
+  <xacro:generic_bin
+    parent="left_bin_origin"
+    prefix="left_"
+    x_length="${bin_x}"
+    y_length="${bin_y}"
+    z_length="${bin_z}"
+    side_wall_thickness="${bin_wall}"
+    bottom_thickness="${bin_bottom}"/>
+
+  <!-- Right bin -->
+  <xacro:generic_bin
+    parent="right_bin_origin"
+    prefix="right_"
+    x_length="${bin_x}"
+    y_length="${bin_y}"
+    z_length="${bin_z}"
+    side_wall_thickness="${bin_wall}"
+    bottom_thickness="${bin_bottom}"/>
+
+  <!-- These links are used to help visualize the left and right bin crop box settings configured 
+  in pick_left/right_bin_config.yaml -->
+  <xacro:property name="crop_box_size_x" value="${bin_x - 2 * bin_wall - 0.04}" />
+  <xacro:property name="crop_box_size_y" value="${bin_y - 2 * bin_wall - 0.04}" />
+  <xacro:property name="crop_box_size_z" value="${bin_z + 0.03}" />
+  <link name="left_bin_crop_box">
+    <visual>
+      <geometry>
+        <box size="${crop_box_size_x} ${crop_box_size_y} ${crop_box_size_z} "/>
+      </geometry>
+      <material name="green">
+        <color rgba="0 1 0 0.5"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="left_bin_crop_box_joint" type="fixed">
+    <parent link="left_bin_origin"/>
+    <child link="left_bin_crop_box"/>
+    <origin xyz="${bin_x/2} ${bin_y/2} ${crop_box_size_z/2 + bin_bottom}" rpy="0 0 0"/>
+  </joint>
+  
+  <link name="right_bin_crop_box">
+    <visual>
+      <geometry>
+        <box size="${crop_box_size_x} ${crop_box_size_y} ${crop_box_size_z} "/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 1 0.5"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="right_bin_crop_box_joint" type="fixed">
+    <parent link="right_bin_origin"/>
+    <child link = "right_bin_crop_box"/>
+    <origin xyz="${bin_x/2} ${bin_y/2} ${crop_box_size_z/2 + bin_bottom}" rpy="0 0 0"/>
+  </joint>
+
+  </xacro:macro>
+</robot>

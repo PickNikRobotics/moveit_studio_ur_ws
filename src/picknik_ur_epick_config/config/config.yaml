@@ -1,0 +1,73 @@
+###############################################################
+#
+#  This configures the robot to work with MoveIt Studio
+#
+###############################################################
+
+based_on_package: "picknik_ur_base_config"
+
+# Baseline hardware configuration parameters for MoveIt Studio.
+# [Required]
+hardware:
+  # Parameters used to configure the robot description through XACRO.
+  # A URDF and SRDF are both required.
+  # [Required]
+  robot_description:
+    urdf:
+      package: "picknik_ur_epick_config"
+      path: "description/picknik_ur_epick.xacro"
+    srdf:
+      package: "picknik_ur_epick_config"
+      path: "config/moveit/picknik_ur_epick.srdf"
+
+# Configuration for launching ros2_control processes.
+# [Required, if using ros2_control]
+ros2_control:
+  config:
+    package: "picknik_ur_epick_config"
+    path: "config/control/ur_epick.ros2_control.yaml"
+  # MoveIt Studio will load and activate these controllers at start up to ensure they are available.
+  # If not specified, it is up to the user to ensure the appropriate controllers are active and available
+  # for running the application.
+  # [Optional, default=[]]
+  controllers_active_at_startup:
+    - "force_torque_sensor_broadcaster"
+    - "robotiq_gripper_controller"
+    - "robotiq_gripper_status_publisher_controller"
+    - "joint_state_broadcaster"
+    - "servo_controller"
+    - "io_and_status_controller"
+  # Load but do not start these controllers so they can be activated later if needed.
+  # [Optional, default=[]]
+  controllers_inactive_at_startup:
+    - "joint_trajectory_controller"
+  # Any controllers here will not be spawned by MoveIt Studio.
+  # [Optional, default=[]]
+  controllers_not_managed: []
+  # Optionally configure remapping rules to let multiple controllers receive commands on the same topic.
+  # [Optional, default=[]]
+  controller_shared_topics: []
+
+# Configuration for loading behaviors and objectives.
+# [Required]
+objectives:
+  # List of plugins for loading custom behaviors.
+  # [Required]
+  behavior_loader_plugins:
+    # This plugin will load the core MoveIt Studio behaviors.
+    # Add additional plugin loaders as needed.
+    core:
+      - "moveit_studio::behaviors::CoreBehaviorsLoader"
+    epick:
+      - "epick_moveit_studio::BehaviorLoader"
+  # Specify source folder for objectives
+  # [Required]
+  objective_library_paths:
+    epick:
+      package_name: "picknik_ur_epick_config"
+      relative_path: "objectives"
+  # Specify the location of the saved waypoints file.
+  # [Required]
+  waypoints_file:
+    package_name: "picknik_ur_epick_config"
+    relative_path: "waypoints/waypoints.yaml"

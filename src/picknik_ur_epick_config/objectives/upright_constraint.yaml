@@ -1,0 +1,11 @@
+AppendOrientationConstraint:
+  constraint_frame: world
+  link_frame: grasp_link
+  orientation:
+    x: 0
+    y: 3.14
+    z: 0
+  tolerance:
+    x: 1.64
+    y: 1.68
+    z: 3.14

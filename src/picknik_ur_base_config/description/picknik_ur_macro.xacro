@@ -83,6 +83,7 @@
       <xacro:insert_block name="origin" />
     </xacro:ur_robot>
 
+    <!--  Ensure we have a tool0 link -->
     <xacro:unless value="$(arg has_tool_changer)">
       <xacro:property name="child" default="$(arg child)" />
       <xacro:if value="${not child == 'tool0'}">

@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <!-- 
+  This macro follows the coordinate convenstion set by https://www.ros.org/reps/rep-0105.html
+  X = Forward
+  Y = Left
+  Z = Up 
+  With the origin located in the bottom right corner such that the enitire bin is in positive XYZ space.
+  Dimensions in meters-->
+  <xacro:macro name="generic_bin" params="
+    parent
+    prefix
+    x_length:=0.5
+    y_length:=0.5
+    z_length:=0.5
+    side_wall_thickness:=0.02
+    bottom_thickness:=0.005">
+
+    <link name="${prefix}bin_link">
+      <!-- Bottom -->
+      <visual>
+        <geometry>
+          <box size="${x_length} ${y_length} ${bottom_thickness}"/>
+        </geometry>
+        <origin xyz="${x_length/2} ${y_length/2} ${bottom_thickness/2}"/>
+        <material name="bin_color">
+          <color rgba="0.5 0.5 0.5 1.0"/>
+        </material>
+      </visual>
+      <!-- This is removed because the collision objects created by 
+           "Looping Pick and Place Object SAM" are frequently in collision with it
+      <collision>
+        <geometry>
+          <box size="${x_length} ${y_length} ${bottom_thickness}"/>
+        </geometry>
+        <origin xyz="${x_length/2} ${y_length/2} ${bottom_thickness/2}"/>
+      </collision> -->
+      <!-- Back -->
+      <visual>
+        <geometry>
+          <box size="${side_wall_thickness} ${y_length} ${z_length}"/>
+        </geometry>
+        <origin xyz="${side_wall_thickness/2} ${y_length/2} ${z_length/2}"/>
+        <material name="bin_color"/>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="${side_wall_thickness} ${y_length} ${z_length}"/>
+        </geometry>
+        <origin xyz="${side_wall_thickness/2} ${y_length/2} ${z_length/2}"/>
+      </collision>
+      <!-- Front -->
+      <visual>
+        <geometry>
+          <box size="${side_wall_thickness} ${y_length} ${z_length}"/>
+        </geometry>
+        <origin xyz="${x_length - side_wall_thickness/2} ${y_length/2} ${z_length/2}"/>
+        <material name="bin_color"/>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="${side_wall_thickness} ${y_length} ${z_length}"/>
+        </geometry>
+        <origin xyz="${x_length - side_wall_thickness/2} ${y_length/2} ${z_length/2}"/>
+      </collision>
+      <!-- Right -->
+      <visual>
+        <geometry>
+          <box size="${x_length} ${side_wall_thickness} ${z_length}"/>
+        </geometry>
+        <origin xyz="${x_length/2} ${side_wall_thickness/2} ${z_length/2}"/>
+        <material name="bin_color"/>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="${x_length} ${side_wall_thickness} ${z_length}"/>
+        </geometry>
+        <origin xyz="${x_length/2} ${side_wall_thickness/2} ${z_length/2}"/>
+      </collision>
+      <!-- Left -->
+      <visual>
+        <geometry>
+          <box size="${x_length} ${side_wall_thickness} ${z_length}"/>
+        </geometry>
+        <origin xyz="${x_length/2} ${y_length - side_wall_thickness/2} ${z_length/2}"/>
+        <material name="bin_color"/>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="${x_length} ${side_wall_thickness} ${z_length}"/>
+        </geometry>
+        <origin xyz="${x_length/2} ${y_length - side_wall_thickness/2} ${z_length/2}"/>
+      </collision>
+
+      <inertial>
+        <mass value="1"/>
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}bin_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${prefix}bin_link"/>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    </joint>
+
+  </xacro:macro>
+</robot>

@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
+  <!-- parameters -->
+  <xacro:arg name="use_fake_hardware" default="false"/>
+  <xacro:arg name="external_camera" default="false"/>
+  <xacro:arg name="has_tool_changer" default="true"/>
+  <xacro:arg name="use_pinch_links" default="true"/>
+  <xacro:arg name="name" default=""/>
+  <xacro:arg name="joint_limits_parameters_file" default=""/>
+  <xacro:arg name="kinematics_parameters_file" default=""/>
+  <xacro:arg name="physical_parameters_file" default=""/>
+  <xacro:arg name="visual_parameters_file" default=""/>
+  <xacro:arg name="headless_mode" default="false"/>
+  <xacro:arg name="robot_ip" default="0.0.0.0"/>
+  <xacro:arg name="use_tool_communication" default="false"/>
+  <xacro:arg name="tool_voltage" default="0"/>
+  <xacro:arg name="tool_device_name" default="/dev/ttyUSB0"/>
+  <xacro:arg name="initial_positions_file" default="$(find picknik_ur_base_config)/config/initial_positions.yaml"/>
+  <xacro:arg name="environment_xacro" default="$(find picknik_ur_epick_config)/description/environment.xacro"/>
+
+  <!-- EPick information -->
+  <xacro:arg name="usb_port" default="/dev/ttyUSB0" />
+  <xacro:arg name="epick_extension_radius" default="0.01" />
+  <xacro:arg name="epick_extension_length" default="0.09" />
+  <xacro:arg name="epick_suction_cup_radius" default="0.02" />
+  <xacro:arg name="epick_suction_cup_height" default="0.036" />
+  <!--  Setting epick_tcp_stroke_compensation to a negative value will actually move the TCP away from the gripper  -->
+  <xacro:arg name="epick_tcp_stroke_compensation" default="-0.025" />
+
+  <!-- Import macros -->
+  <xacro:include filename="$(find picknik_ur_base_config)/description/picknik_ur_macro.xacro"/>
+  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur_camera_adapter.urdf.xacro"/>
+  <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/mtc_ur_tool_changer/mtc_ur_tool_changer.urdf.xacro"/>
+  <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d415.urdf.xacro"/>
+  <xacro:include filename="$(find epick_description)/urdf/epick_single_suction_cup.xacro"/>
+    <xacro:include filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro" />
+
+  <!-- TODO: Environment xacro should be moved into a serialized planning scene -->
+  <xacro:include filename="$(arg environment_xacro)"/>
+
+  <!-- UR description from 'world' frame to 'tool0' frame -->
+  <xacro:picknik_ur parent="world"  child="tool0" initial_positions_file="$(arg initial_positions_file)" >
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:picknik_ur>
+
+  <!-- <xacro:property name="prefix_" value="" /> -->
+
+  <!-- Tool changer, if present -->
+  <xacro:if value="$(arg has_tool_changer)">
+      <xacro:mtc_ur_tool_changer prefix="" parent="tool0" child="tool_changer_tool0" rotation="0"/>
+      <xacro:property name="ur_realsense_camera_adapter_parent" value="tool_changer_tool0" />
+  </xacro:if>
+  <xacro:unless value="$(arg has_tool_changer)">
+      <xacro:property name="ur_realsense_camera_adapter_parent" value="tool0" />
+  </xacro:unless>
+
+  <!-- Realsense wrist mount -->
+  <xacro:ur_realsense_camera_adapter prefix="" parent="${ur_realsense_camera_adapter_parent}" child_tool="realsense_camera_adapter_tool0" child_camera="d415_mount_link" rotation="0"/>
+
+  <!-- D415 wrist camera -->
+  <xacro:property name="simulation" default="$(arg simulation)"/>
+  <xacro:realsense_d415 parent="d415_mount_link" name="wrist_mounted_camera" use_mesh="${not simulation == 'gazebo'}">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:realsense_d415>
+
+  <!-- UR to Robotiq adapter-->
+  <xacro:ur_to_robotiq prefix="" parent="realsense_camera_adapter_tool0" child="gripper_mount_link" rotation="0"/>
+
+  <!-- EPick gripper -->
+  <xacro:epick_single_suction_cup
+    prefix=""
+    parent="gripper_mount_link"
+    extension_radius="$(arg epick_extension_radius)"
+    extension_length="$(arg epick_extension_length)"
+    suction_cup_radius="$(arg epick_suction_cup_radius)"
+    suction_cup_height="$(arg epick_suction_cup_height)"
+    tcp_stroke_compensation="$(arg epick_tcp_stroke_compensation)"
+    use_fake_hardware="$(arg use_fake_hardware)"
+    usb_port="$(arg usb_port)">
+  </xacro:epick_single_suction_cup>
+
+  <!-- Dedicated grasp_link users will be familiar with -->
+  <link name="grasp_link"/>
+  <joint name="grasp_link_joint" type="fixed">
+    <parent link="epick_tcp"/>
+    <child link="grasp_link"/>
+    <origin xyz="0.0 0.0 0" rpy="0.0 0.0 0.0"/>
+  </joint>
+
+  <!-- Environment: contains scene geometry and external sensors, e.g. cameras -->
+  <!-- TODO: Environment xacro should be moved into a serialized planning scene -->
+  <xacro:environment parent="base_link"/>
+
+</robot>

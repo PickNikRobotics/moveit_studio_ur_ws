@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="ur5e">
+    <group name="manipulator">
+        <chain base_link="base_link" tip_link="grasp_link"/>
+    </group>
+    <group name="gripper">
+        <chain base_link="epick_base_link" tip_link="grasp_link"/>
+        <chain base_link="epick_base_link" tip_link="epick_vacuum_state"/>
+    </group>
+
+    <!-- Define states for the gripper group to allow actuating the gripper by planning to a named state. -->
+    <!-- "open" == "vacuum off" -->
+    <group_state name="open" group="gripper">
+      <joint name="gripper" value="0.0"/>
+    </group_state>
+    <!-- "closed" == "vacuum on" -->
+    <group_state name="close" group="gripper">
+      <joint name="gripper" value="1.0"/>
+    </group_state>
+
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <end_effector name="moveit_ee" parent_link="tool0" group="gripper"/>
+    <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
+    <virtual_joint name="fixed_base" type="fixed" parent_frame="world" child_link="base_link"/>
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="base_link_inertia" link2="left_bin_link" reason="Adjacent"/>
+    <disable_collisions link1="base_link_inertia" link2="right_bin_link" reason="Adjacent"/>
+    <disable_collisions link1="base_link_inertia" link2="shoulder_link" reason="Adjacent"/>
+    <disable_collisions link1="epick_body" link2="epick_extension" reason="Adjacent"/>
+    <disable_collisions link1="epick_body" link2="epick_suction_cup" reason="Never"/>
+    <disable_collisions link1="epick_body" link2="realsense_camera_adapter_link" reason="Never"/>
+    <disable_collisions link1="epick_body" link2="tool_changer_link" reason="Never"/>
+    <disable_collisions link1="epick_body" link2="ur_to_robotiq_link" reason="Adjacent"/>
+    <disable_collisions link1="epick_body" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="epick_body" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="epick_body" link2="wrist_3_link" reason="Never"/>
+    <disable_collisions link1="epick_body" link2="wrist_3_pinch_link" reason="Always"/>
+    <disable_collisions link1="epick_body" link2="wrist_mounted_camera_link" reason="Never"/>
+    <disable_collisions link1="epick_extension" link2="epick_suction_cup" reason="Adjacent"/>
+    <disable_collisions link1="epick_extension" link2="realsense_camera_adapter_link" reason="Never"/>
+    <disable_collisions link1="epick_extension" link2="tool_changer_link" reason="Never"/>
+    <disable_collisions link1="epick_extension" link2="ur_to_robotiq_link" reason="Never"/>
+    <disable_collisions link1="epick_extension" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="epick_extension" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="epick_extension" link2="wrist_3_link" reason="Never"/>
+    <disable_collisions link1="epick_extension" link2="wrist_3_pinch_link" reason="Never"/>
+    <disable_collisions link1="epick_extension" link2="wrist_mounted_camera_link" reason="Never"/>
+    <disable_collisions link1="epick_suction_cup" link2="realsense_camera_adapter_link" reason="Never"/>
+    <disable_collisions link1="epick_suction_cup" link2="tool_changer_link" reason="Never"/>
+    <disable_collisions link1="epick_suction_cup" link2="ur_to_robotiq_link" reason="Never"/>
+    <disable_collisions link1="epick_suction_cup" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="epick_suction_cup" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="epick_suction_cup" link2="wrist_3_link" reason="Never"/>
+    <disable_collisions link1="epick_suction_cup" link2="wrist_3_pinch_link" reason="Never"/>
+    <disable_collisions link1="epick_suction_cup" link2="wrist_mounted_camera_link" reason="Never"/>
+    <disable_collisions link1="forearm_link" link2="forearm_pinch_link" reason="Adjacent"/>
+    <disable_collisions link1="forearm_link" link2="upper_arm_link" reason="Adjacent"/>
+    <disable_collisions link1="forearm_link" link2="wrist_1_link" reason="Adjacent"/>
+    <disable_collisions link1="forearm_link" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="forearm_pinch_link" link2="upper_arm_link" reason="Never"/>
+    <disable_collisions link1="forearm_pinch_link" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="forearm_pinch_link" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="left_bin_link" link2="right_bin_link" reason="Adjacent"/>
+    <disable_collisions link1="left_bin_link" link2="shoulder_link" reason="Never"/>
+    <disable_collisions link1="realsense_camera_adapter_link" link2="tool_changer_link" reason="Adjacent"/>
+    <disable_collisions link1="realsense_camera_adapter_link" link2="ur_to_robotiq_link" reason="Adjacent"/>
+    <disable_collisions link1="realsense_camera_adapter_link" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="realsense_camera_adapter_link" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="realsense_camera_adapter_link" link2="wrist_3_link" reason="Never"/>
+    <disable_collisions link1="realsense_camera_adapter_link" link2="wrist_3_pinch_link" reason="Always"/>
+    <disable_collisions link1="realsense_camera_adapter_link" link2="wrist_mounted_camera_link" reason="Adjacent"/>
+    <disable_collisions link1="right_bin_link" link2="shoulder_link" reason="Never"/>
+    <disable_collisions link1="shoulder_link" link2="upper_arm_link" reason="Adjacent"/>
+    <disable_collisions link1="tool_changer_link" link2="ur_to_robotiq_link" reason="Never"/>
+    <disable_collisions link1="tool_changer_link" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="tool_changer_link" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="tool_changer_link" link2="wrist_3_link" reason="Adjacent"/>
+    <disable_collisions link1="tool_changer_link" link2="wrist_3_pinch_link" reason="Always"/>
+    <disable_collisions link1="tool_changer_link" link2="wrist_mounted_camera_link" reason="Never"/>
+    <disable_collisions link1="ur_to_robotiq_link" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="ur_to_robotiq_link" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="ur_to_robotiq_link" link2="wrist_3_link" reason="Never"/>
+    <disable_collisions link1="ur_to_robotiq_link" link2="wrist_3_pinch_link" reason="Always"/>
+    <disable_collisions link1="ur_to_robotiq_link" link2="wrist_mounted_camera_link" reason="Never"/>
+    <disable_collisions link1="wrist_1_link" link2="wrist_2_link" reason="Adjacent"/>
+    <disable_collisions link1="wrist_1_link" link2="wrist_3_link" reason="Never"/>
+    <disable_collisions link1="wrist_1_link" link2="wrist_mounted_camera_link" reason="Never"/>
+    <disable_collisions link1="wrist_2_link" link2="wrist_3_link" reason="Adjacent"/>
+    <disable_collisions link1="wrist_2_link" link2="wrist_3_pinch_link" reason="Always"/>
+    <disable_collisions link1="wrist_2_link" link2="wrist_mounted_camera_link" reason="Never"/>
+    <disable_collisions link1="wrist_3_link" link2="wrist_3_pinch_link" reason="Adjacent"/>
+    <disable_collisions link1="wrist_3_link" link2="wrist_mounted_camera_link" reason="Never"/>
+    <disable_collisions link1="wrist_3_pinch_link" link2="wrist_mounted_camera_link" reason="Never"/>
+</robot>

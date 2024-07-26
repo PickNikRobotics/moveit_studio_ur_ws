@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4" main_tree_to_execute="Re-Zero Force-Torque Sensors">
+  <!-- ////////// -->
+  <BehaviorTree ID="Re-Zero Force-Torque Sensors" _description="Zero the force or torque sensors to mitigate accumulated drift error" _favorite="false" _hardcoded="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <!-- Wrap in a ForceSuccess as Sim does not have the zero_ftsensor service -->
+      <Decorator ID="ForceSuccess">
+        <Action ID="CallTriggerService" service_name="/io_and_status_controller/zero_ftsensor" />
+      </Decorator>
+    </Control>
+  </BehaviorTree>
+</root>
