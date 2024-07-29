@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Object Inspection">
-  <!-- ////////// -->
+  <!--//////////-->
   <BehaviorTree ID="Object Inspection" _description="Estimate the pose of an object using ICP; then, perform a 3D reconstruction of the object from multiple views." _favorite="true" _hardcoded="false">
     <Control ID="Sequence" name="TopLevelSequence">
       <Action ID="ClearSnapshot"/>
@@ -10,7 +10,7 @@
       <Decorator ID="ForEachPoseStamped" vector_in="{pose_stamped_msgs}" out="{trajectory_pose}">
         <Control ID="Sequence">
           <Action ID="TransformPoseWithPose" input_pose="{trajectory_pose}" transform_pose="{model_to_real_pose}" output_pose="{target_pose}"/>
-          <SubTree ID="Move to Pose" target_pose="{target_pose}" ik_frame="grasp_link" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" planner_interface="moveit_default"/>
+          <SubTree ID="Move To Pose" target_pose="{target_pose}" ik_frame="grasp_link" planning_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" planner_interface="moveit_default" _collapsed="false"/>
           <Action ID="GetSyncedImageAndPointCloud" point_cloud_topic_name="/wrist_mounted_camera/depth/color/points" rgb_image_topic_name="/wrist_mounted_camera/color/image_raw" rgb_camera_info_topic_name="/wrist_mounted_camera/color/camera_info" point_cloud="{point_cloud}" rgb_image="{rgb_image}" rgb_camera_info="{rgb_camera_info}"/>
           <Action ID="TransformPointCloudFrame" input_cloud="{point_cloud}" target_frame="world" output_cloud="{point_cloud_world}"/>
           <Action ID="AddPointCloudToVector" point_cloud="{point_cloud_world}" point_cloud_vector="{point_cloud_vector}"/>
@@ -18,8 +18,17 @@
       </Decorator>
       <Action ID="ClearSnapshot"/>
       <Action ID="MergePointClouds" point_clouds="{point_cloud_vector}" grid_resolution_meters="0.001" merged_cloud="{merged_cloud}"/>
-      <Action ID="SendPointCloudToUI" point_cloud="{merged_cloud}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"/>
+      <Action ID="SendPointCloudToUI" point_cloud="{merged_cloud}" pcd_topic="/pcd_pointcloud_captures"/>
       <Action ID="SavePointCloudToFile" point_cloud="{merged_cloud}" file_path="~/.config/moveit_pro/saved_behavior_data" file_prefix="pointcloud"/>
     </Control>
   </BehaviorTree>
+  <BehaviorTree ID="Move To Pose">
+        <Control ID="Sequence">
+            <Action ID="InitializeMTCTask" task_id="move_to_pose" controller_names="{controller_names}" task="{move_to_pose_task}"/>
+            <Action ID="SetupMTCCurrentState" task="{move_to_pose_task}"/>
+            <Action ID="SetupMTCMoveToPose" ik_frame="grasp_link" planning_group_name="manipulator" target_pose="{target_pose}" task="{move_to_pose_task}" planner_interface="moveit_default"/>
+            <Action ID="PlanMTCTask" solution="{move_to_pose_solution}" task="{move_to_pose_task}"/>
+            <Action ID="ExecuteMTCTask" solution="{move_to_pose_solution}" />
+        </Control>
+    </BehaviorTree>
 </root>
