@@ -19,6 +19,12 @@ target_include_directories(
 ament_target_dependencies(trigger_pstop_reset_service
         ${THIS_PACKAGE_INCLUDE_DEPENDS})
 
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  add_subdirectory(test)
+  ament_lint_auto_find_test_dependencies()
+endif()
+
 # Install Libraries
 install(
         TARGETS trigger_pstop_reset_service
