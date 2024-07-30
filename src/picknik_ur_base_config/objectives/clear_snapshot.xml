@@ -1,7 +1,12 @@
-<?xml version="1.0"?>
-  <root BTCPP_format="4" main_tree_to_execute="Clear Snapshot">
-    <!-- ////////// -->
-    <BehaviorTree ID="Clear Snapshot" _description="Clear the point cloud snapshot">
-        <Action ID="ClearSnapshot" />
-    </BehaviorTree>
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Clear Snapshot">
+  <!--//////////-->
+  <BehaviorTree ID="Clear Snapshot" _description="Clear the point cloud snapshot">
+    <Action ID="ClearSnapshot"/>
+    <Action ID="CreateStringMessage" data="Hello!!!"/>
+    <Action ID="TriggerPStopResetService"/>
+    <Action ID="CreateTimeMessage" time="{stamp}" sec="10" nanosec="5"/>
+    <Action ID="CreateHeaderMessage" frame_id="base_frame"/>
+    <Action ID="CreateJointStateMessage" name_="&quot;joint_1&quot;;&quot;joint_2&quot;;&quot;joint_3&quot;" velocity="0;0;0" position="0;0;0" effort="0;0;0" joint_state="{joint_state}"/>
+  </BehaviorTree>
 </root>

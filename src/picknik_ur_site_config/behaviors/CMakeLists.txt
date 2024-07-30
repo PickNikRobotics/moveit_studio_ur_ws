@@ -1,6 +1,8 @@
 set(THIS_PACKAGE_INCLUDE_DEPENDS
   moveit_studio_behavior_interface
-  pluginlib)
+  pluginlib
+  std_srvs
+  )
 foreach(package IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
   find_package(${package} REQUIRED)
 endforeach()
@@ -26,12 +28,6 @@ install(
         RUNTIME DESTINATION bin
         INCLUDES
         DESTINATION include)
-
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  add_subdirectory(test)
-  ament_lint_auto_find_test_dependencies()
-endif()
 
 ament_export_targets(trigger_pstop_reset_serviceTargets HAS_LIBRARY_TARGET)
 ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})

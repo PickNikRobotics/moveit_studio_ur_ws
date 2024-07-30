@@ -8,17 +8,17 @@
 
 namespace trigger_pstop_reset_service
 {
-class TriggerPstopResetServiceBehaviorsLoader : public moveit_studio::behaviors::SharedResourcesNodeLoaderBase
+class TriggerPStopResetServiceBehaviorsLoader : public moveit_studio::behaviors::SharedResourcesNodeLoaderBase
 {
 public:
   void registerBehaviors(BT::BehaviorTreeFactory& factory,
     [[maybe_unused]] const std::shared_ptr<moveit_studio::behaviors::BehaviorContext>& shared_resources) override
   {
-    moveit_studio::behaviors::registerBehavior<TriggerPstopResetService>(factory, "TriggerPstopResetService");
+    moveit_studio::behaviors::registerBehavior<TriggerPStopResetService>(factory, "TriggerPStopResetService", shared_resources);
     
   }
 };
 }  // namespace trigger_pstop_reset_service
 
-PLUGINLIB_EXPORT_CLASS(trigger_pstop_reset_service::TriggerPstopResetServiceBehaviorsLoader,
+PLUGINLIB_EXPORT_CLASS(trigger_pstop_reset_service::TriggerPStopResetServiceBehaviorsLoader,
                        moveit_studio::behaviors::SharedResourcesNodeLoaderBase);
