@@ -21,14 +21,57 @@
       - wrist_2_joint
       - wrist_3_joint
     position:
-      - 0.0
+      - 0.022984122076458047
+      - -0.1783547338244986
+      - 0.3327261011954979
+      - -0.8102383995977968
+      - 1.363185911731811
+      - -2.1105889032002105
+      - -1.5745371438924758
+      - 0.3380935095600871
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: VFC Start
+- description: ''
+  favorite: false
+  joint_group_names:
+    - gripper
+    - linear_actuator
+    - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+      - robotiq_85_left_knuckle_joint
+      - linear_rail_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    position:
+      - 0
       - 0.29608248868337067
-      - 0.0
+      - 0
       - -1.5708
       - 0.785398
       - -1.2948195437205516
       - -1.5708
-      - 0.0
+      - 0
     velocity: []
   multi_dof_joint_state:
     header:
