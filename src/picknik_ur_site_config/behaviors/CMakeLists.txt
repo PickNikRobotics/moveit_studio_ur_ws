@@ -21,6 +21,9 @@ ament_target_dependencies(trigger_pstop_reset_service
 
 if(BUILD_TESTING)
   add_subdirectory(test)
+  # Add coverage flags behavior
+  target_compile_options(trigger_pstop_reset_service PRIVATE -fprofile-arcs -ftest-coverage)
+  target_link_options(trigger_pstop_reset_service PRIVATE -fprofile-arcs -ftest-coverage)
 endif()
 
 # Install Libraries

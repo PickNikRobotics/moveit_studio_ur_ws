@@ -15,7 +15,6 @@
 
   <depend>moveit_studio_behavior_interface</depend>
   <depend>picknik_ur_base_config</depend>
-  <depend>libgtest-dev</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
