@@ -19,6 +19,12 @@
           <Action ID="PublishVelocityForceCommand" velocity_controlled_axes="1;0;0;0;0;0" force_controlled_axes="0;0;1;0;0;0" wrench_gain="0.01"/>
         </Decorator>
       </Decorator>
+      <Action ID="CreateStampedTwist" stamped_twist="{move_up_twist}" linear_velocity_xyz="0;0;-0.1" reference_frame="grasp_link"/>
+      <Decorator ID="ForceSuccess">
+        <Decorator ID="Timeout" msec="1000">
+          <Action ID="PublishVelocityForceCommand" twist_stamped="{move_up_twist}" velocity_controlled_axes="0;0;1;0;0;0" wrench_gain="0.01"/>
+        </Decorator>
+      </Decorator>
     </Control>
   </BehaviorTree>
 </root>
