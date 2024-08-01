@@ -121,7 +121,9 @@ def generate_agent_plus_drivers_launch_description(
     # Additionally, we must convert this list of locations to a comma separated list
     # because standard lists cannot be used as launch arguments.
     objective_library_directories = ",".join(
-        system_config_parser.get_objective_library_paths() + [str(test_objective_path)]
+        str(path)
+        for path in system_config_parser.get_objective_library_paths()
+        + [test_objective_path]
     )
 
     # Get launch description for MoveIt Pro Agent nodes
