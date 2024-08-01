@@ -18,6 +18,7 @@ jobs:
     uses: PickNikRobotics/moveit_pro_ci/.github/workflows/workspace_integration_test.yaml@pr-fix-user-ws
     with:
       image_tag: ${{ github.event.inputs.image_tag || null }}
+      colcon_test_args: "--executor sequential"
     secrets: inherit
 
   ensure-no-ssh-in-gitmodules:
