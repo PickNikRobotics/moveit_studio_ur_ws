@@ -15,7 +15,7 @@ on:
 
 jobs:
   integration-test-in-studio-container:
-    uses: PickNikRobotics/moveit_pro_ci/.github/workflows/workspace_integration_test.yaml@pr-fix-user-ws
+    uses: PickNikRobotics/moveit_pro_ci/.github/workflows/workspace_integration_test.yaml@main
     with:
       image_tag: ${{ github.event.inputs.image_tag || null }}
       colcon_test_args: "--executor sequential"
