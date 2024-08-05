@@ -28,10 +28,6 @@ hardware:
   # If the MoveIt Pro Agent should launch cameras when simulated.
   launch_cameras_when_simulated: True
 
-  # The robot's IP address.
-  # [Required]
-  ip: "0.0.0.0"
-
   # Specify any additional launch files for running the robot in simulation mode.
   # Used when hardware.simulated is True.
   # [Optional, defaults to a blank launch file if not specified]
