@@ -50,7 +50,7 @@ def generate_launch_description():
         name="dashboard_client",
         output="both",
         emulate_tty=True,
-        parameters=[{"robot_ip": hardware_config["ip"]}],
+        # parameters=[{"robot_ip": 192.168.56.101}],
     )
 
     protective_stop_manager_node = Node(
@@ -73,7 +73,7 @@ def generate_launch_description():
     tool_comms_launch = IncludeLaunchDescription(
         AnyLaunchDescriptionSource([ThisLaunchFileDir(), "/ur_tool_comms.launch.xml"]),
         launch_arguments={
-            "robot_ip": hardware_config["ip"],
+            # "robot_ip": 192.168.56.101,
             "tool_tcp_port": "54321",
             "tool_device_name": "/tmp/ttyUR",
         }.items(),
