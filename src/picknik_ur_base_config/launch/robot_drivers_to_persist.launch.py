@@ -28,7 +28,9 @@
 
 
 from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument
 from launch.actions import IncludeLaunchDescription
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch.substitutions import ThisLaunchFileDir
 from launch.launch_description_sources import AnyLaunchDescriptionSource
@@ -44,13 +46,18 @@ def generate_launch_description():
     hardware_config = system_config_parser.get_hardware_config()
     controller_config = system_config_parser.get_ros2_control_config()
 
+    declare_robot_ip = DeclareLaunchArgument(
+        "robot_ip", description="IP address of the robot"
+    )
+    robot_ip = LaunchConfiguration("robot_ip")
+
     dashboard_client_node = Node(
         package="ur_robot_driver",
         executable="dashboard_client",
         name="dashboard_client",
         output="both",
         emulate_tty=True,
-        parameters=[{"robot_ip": hardware_config["ip"]}],
+        parameters=[{"robot_ip": robot_ip}],
     )
 
     protective_stop_manager_node = Node(
@@ -73,7 +80,7 @@ def generate_launch_description():
     tool_comms_launch = IncludeLaunchDescription(
         AnyLaunchDescriptionSource([ThisLaunchFileDir(), "/ur_tool_comms.launch.xml"]),
         launch_arguments={
-            "robot_ip": hardware_config["ip"],
+            "robot_ip": robot_ip,
             "tool_tcp_port": "54321",
             "tool_device_name": "/tmp/ttyUR",
         }.items(),
