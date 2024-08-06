@@ -9,6 +9,7 @@ moveit_studio_package()
 add_subdirectory(behaviors)
 
 install(
+  FILES action_bridge_mapping_rule.yaml
   DIRECTORY
     config
     # Uncomment the following lines if you make use of these directories in you site_config package
