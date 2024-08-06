@@ -9,7 +9,7 @@
       <!--Get the point cloud from the wrist camera-->
       <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}" timeout_sec="5.000000"/>
       <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}" timeout_sec="5.000000"/>
-      <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"/>
+      <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}" pcd_topic="/pcd_pointcloud_captures"/>
       <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}" timeout_sec="5.000000"/>
       <!--Segment out 2D masks and then convert to 3D masks and visualize in UI-->
       <Action ID="GetPointsFromUser" point_prompts="Click on the object you want to pick." point_names="clicked_object" pixel_coords="{pixel_coords}" view_name="/wrist_mounted_camera/color/image_raw"/>
@@ -18,7 +18,7 @@
       <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
         <Control ID="Sequence">
           <Action ID="GetPointCloudFromMask3D" point_cloud="{point_cloud}" mask3d="{mask3d}" point_cloud_fragment="{point_cloud_fragment}"/>
-          <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"/>
+          <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" pcd_topic="/pcd_pointcloud_captures"/>
         </Control>
       </Decorator>
       <!--Convert 3D masks into graspable objects-->
