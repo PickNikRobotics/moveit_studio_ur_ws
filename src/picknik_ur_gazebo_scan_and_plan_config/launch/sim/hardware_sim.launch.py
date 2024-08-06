@@ -53,16 +53,13 @@ def path_pattern_change_for_gazebo(urdf_string):
 
 
 def generate_simulation_description(context, *args, **settings):
-    world_path = settings.get(
-        "gazebo_world_path",
-        "description/simulation_worlds/space_station_blocks_world.sdf",
-    )
-    use_gui = settings.get("gazebo_gui", False)
-    is_verbose = settings.get("gazebo_verbose", False)
+    world_path = "description/simulation_worlds/scan_and_plan_world.sdf"
+    use_gui = False
+    is_verbose = False
 
     # Create a Gazebo world file that swaps out package:// paths with absolute path.
     original_world_file = get_ros_path(
-        settings.get("gazebo_world_package_name", "picknik_ur_multi_arm_gazebo_config"),
+        "picknik_ur_gazebo_scan_and_plan_config",
         world_path,
     )
     modified_world_file = os.path.join(
@@ -161,140 +158,60 @@ def generate_launch_description():
         output="both",
     )
 
-    scene_camera_pointcloud_ignition_bridge = Node(
-        package="ros_gz_bridge",
-        executable="parameter_bridge",
-        name="scene_camera_pointcloud_ignition_bridge",
-        arguments=[
-            "/scene_mounted_camera/points@sensor_msgs/msg/PointCloud2[ignition.msgs.PointCloudPacked",
-        ],
-        remappings=[
-            (
-                "/scene_mounted_camera/points",
-                "/scene_mounted_camera/depth/color/points",
-            ),
-        ],
-        output="both",
-    )
-
     # For the wrist mounted camera, enable RGB and depth topics.
-    left_wrist_image_rgb_ignition_bridge = Node(
+    wrist_image_rgb_ignition_bridge = Node(
         package="ros_gz_image",
         executable="image_bridge",
-        name="left_wrist_image_rgb_ignition_bridge",
+        name="wrist_image_rgb_ignition_bridge",
         arguments=[
-            "/left_wrist_mounted_camera/image",
+            "/wrist_mounted_camera/image",
         ],
         remappings=[
-            (
-                "/left_wrist_mounted_camera/image",
-                "/left_wrist_mounted_camera/color/image_raw",
-            ),
+            ("/wrist_mounted_camera/image", "/wrist_mounted_camera/color/image_raw"),
         ],
         output="both",
     )
-    left_wrist_image_depth_ignition_bridge = Node(
+    wrist_image_depth_ignition_bridge = Node(
         package="ros_gz_image",
         executable="image_bridge",
-        name="left_wrist_image_depth_ignition_bridge",
+        name="wrist_image_depth_ignition_bridge",
         arguments=[
-            "/left_wrist_mounted_camera/depth_image",
+            "/wrist_mounted_camera/depth_image",
         ],
         remappings=[
             (
-                "/left_wrist_mounted_camera/depth_image",
-                "/left_wrist_mounted_camera/depth/image_rect_raw",
+                "/wrist_mounted_camera/depth_image",
+                "/wrist_mounted_camera/depth/image_rect_raw",
             ),
         ],
         output="both",
     )
-    left_wrist_camera_pointcloud_ignition_bridge = Node(
+    wrist_camera_pointcloud_ignition_bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
-        name="left_wrist_camera_pointcloud_ignition_bridge",
+        name="wrist_camera_pointcloud_ignition_bridge",
         arguments=[
-            "/left_wrist_mounted_camera/points@sensor_msgs/msg/PointCloud2[ignition.msgs.PointCloudPacked",
+            "/wrist_mounted_camera/points@sensor_msgs/msg/PointCloud2[ignition.msgs.PointCloudPacked",
         ],
         remappings=[
             (
-                "/left_wrist_mounted_camera/points",
-                "/left_wrist_mounted_camera/depth/color/points",
+                "/wrist_mounted_camera/points",
+                "/wrist_mounted_camera/depth/color/points",
             ),
         ],
         output="both",
     )
-    left_wrist_camera_info_ignition_bridge = Node(
+    wrist_camera_info_ignition_bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
-        name="left_wrist_camera_info_ignition_bridge",
+        name="wrist_camera_info_ignition_bridge",
         arguments=[
-            "/left_wrist_mounted_camera/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo",
+            "/wrist_mounted_camera/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo",
         ],
         remappings=[
             (
-                "/left_wrist_mounted_camera/camera_info",
-                "/left_wrist_mounted_camera/color/camera_info",
-            ),
-        ],
-        output="both",
-    )
-
-    right_wrist_image_rgb_ignition_bridge = Node(
-        package="ros_gz_image",
-        executable="image_bridge",
-        name="right_wrist_image_rgb_ignition_bridge",
-        arguments=[
-            "/right_wrist_mounted_camera/image",
-        ],
-        remappings=[
-            (
-                "/right_wrist_mounted_camera/image",
-                "/right_wrist_mounted_camera/color/image_raw",
-            ),
-        ],
-        output="both",
-    )
-    right_wrist_image_depth_ignition_bridge = Node(
-        package="ros_gz_image",
-        executable="image_bridge",
-        name="right_wrist_image_depth_ignition_bridge",
-        arguments=[
-            "/right_wrist_mounted_camera/depth_image",
-        ],
-        remappings=[
-            (
-                "/right_wrist_mounted_camera/depth_image",
-                "/right_wrist_mounted_camera/depth/image_rect_raw",
-            ),
-        ],
-        output="both",
-    )
-    right_wrist_camera_pointcloud_ignition_bridge = Node(
-        package="ros_gz_bridge",
-        executable="parameter_bridge",
-        name="right_wrist_camera_pointcloud_ignition_bridge",
-        arguments=[
-            "/right_wrist_mounted_camera/points@sensor_msgs/msg/PointCloud2[ignition.msgs.PointCloudPacked",
-        ],
-        remappings=[
-            (
-                "/right_wrist_mounted_camera/points",
-                "/right_wrist_mounted_camera/depth/color/points",
-            ),
-        ],
-        output="both",
-    )
-    right_wrist_camera_info_ignition_bridge = Node(
-        package="ros_gz_bridge",
-        executable="parameter_bridge",
-        name="right_wrist_camera_info_ignition_bridge",
-        arguments=[
-            "/right_wrist_mounted_camera/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo",
-        ],
-        remappings=[
-            (
-                "/right_wrist_mounted_camera/camera_info",
-                "/right_wrist_mounted_camera/color/camera_info",
+                "/wrist_mounted_camera/camera_info",
+                "/wrist_mounted_camera/color/camera_info",
             ),
         ],
         output="both",
@@ -332,15 +249,10 @@ def generate_launch_description():
             scene_image_rgb_ignition_bridge,
             scene_image_depth_ignition_bridge,
             scene_camera_info_ignition_bridge,
-            scene_camera_pointcloud_ignition_bridge,
-            left_wrist_image_rgb_ignition_bridge,
-            left_wrist_camera_info_ignition_bridge,
-            left_wrist_image_depth_ignition_bridge,
-            left_wrist_camera_pointcloud_ignition_bridge,
-            right_wrist_image_rgb_ignition_bridge,
-            right_wrist_camera_info_ignition_bridge,
-            right_wrist_image_depth_ignition_bridge,
-            right_wrist_camera_pointcloud_ignition_bridge,
+            wrist_image_rgb_ignition_bridge,
+            wrist_camera_info_ignition_bridge,
+            wrist_image_depth_ignition_bridge,
+            wrist_camera_pointcloud_ignition_bridge,
             clock_bridge,
             fts_bridge,
             gazebo,

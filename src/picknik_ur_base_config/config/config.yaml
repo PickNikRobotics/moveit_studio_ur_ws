@@ -7,10 +7,8 @@
 # Baseline hardware configuration parameters for MoveIt Pro.
 # [Required]
 hardware:
-
   # Set simulated to false if you are using this as a configuration for real hardware.
-  # Override-able by setting the $MOCK_HARDWARE environment variable to 'True'.
-  # This allows users to switch between mock and real hardware using the same configuration.
+  # This allows users to switch between mock and real hardware by changing a single parameter with config inheritance.
   # [Required]
   simulated: true
 
@@ -22,7 +20,6 @@ hardware:
   # This should be false if you are launching the robot state publisher as part of drivers.
   # [Optional, default=True]
   launch_robot_state_publisher: True
-
 
   # Specify additional launch files for running the robot with real hardware.
   # [Optional, defaults to a blank launch file if not specified]
@@ -165,7 +162,6 @@ ros2_control:
   # Optionally configure remapping rules to let multiple controllers receive commands on the same topic.
   # [Optional, default=[]]
   controller_shared_topics: []
-
 
 # Configuration for loading behaviors and objectives.
 # [Required]
