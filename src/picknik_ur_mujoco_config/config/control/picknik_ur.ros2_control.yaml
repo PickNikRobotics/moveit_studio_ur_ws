@@ -9,12 +9,9 @@ controller_manager:
       type: position_controllers/GripperActionController
     servo_controller:
       type: joint_trajectory_controller/JointTrajectoryController
+
     force_torque_sensor_broadcaster:
       type: force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster
-    joint_trajectory_admittance_controller:
-      type: joint_trajectory_admittance_controller/JointTrajectoryAdmittanceController
-    velocity_force_controller:
-      type: velocity_force_controller/VelocityForceController
 
 joint_state_broadcaster:
   ros__parameters:
@@ -154,75 +151,3 @@ force_torque_sensor_broadcaster:
       - torque.y
       - torque.z
     frame_id: fts_link
-
-
-joint_trajectory_admittance_controller:
-  ros__parameters:
-    joints:
-      - linear_rail_joint
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
-    base_frame: base_link
-    sensor_frame: tool0
-    ee_frame: grasp_link
-    ft_sensor_name: robotiq_ft_sensor
-    # Joint accelerations chosen to match MoveIt configs.
-    stop_accelerations:
-      - 30.0
-      - 30.0
-      - 30.0
-      - 30.0
-      - 30.0
-      - 30.0
-      - 30.0
-
-velocity_force_controller:
-  ros__parameters:
-    joints:
-      - linear_rail_joint
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
-    base_frame: base_link
-    sensor_frame: tool0
-    ee_frame: grasp_link
-    ft_sensor_name: robotiq_ft_sensor
-    ft_force_deadband: 2.0
-    ft_torque_deadband: 1.0
-    max_joint_velocity:
-      - 0.524
-      - 0.524
-      - 0.524
-      - 0.524
-      - 1.047
-      - 1.047
-      - 1.047
-    max_joint_acceleration:
-      - 0.524
-      - 0.524
-      - 0.524
-      - 0.524
-      - 0.524
-      - 0.524
-      - 0.524
-    max_cartesian_velocity:
-      - 0.25
-      - 0.25
-      - 0.25
-      - 1.5707
-      - 1.5707
-      - 1.5707
-    max_cartesian_acceleration:
-      - 2.0
-      - 2.0
-      - 2.0
-      - 4.0
-      - 4.0
-      - 4.0
