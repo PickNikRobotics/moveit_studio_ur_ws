@@ -20,15 +20,15 @@ controller_manager:
     second_robotiq_gripper_controller:
       type: position_controllers/GripperActionController
     second_robotiq_activation_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
+      type: robotiq_controllers/RobotiqActivationController
     third_robotiq_gripper_controller:
       type: position_controllers/GripperActionController
     third_robotiq_activation_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
+      type: robotiq_controllers/RobotiqActivationController
     fourth_robotiq_gripper_controller:
       type: position_controllers/GripperActionController
     fourth_robotiq_activation_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
+      type: robotiq_controllers/RobotiqActivationController
     servo_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
