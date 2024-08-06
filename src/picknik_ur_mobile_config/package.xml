@@ -3,7 +3,7 @@
   <name>picknik_ur_mobile_config</name>
   <version>5.1.0</version>
 
-  <description>MuJoCo simulation configuration package for Picknik's UR robot on a linear rail</description>
+  <description>MuJoCo simulation configuration package for Picknik's UR robot on a mobile base</description>
 
   <maintainer email="support@picknik.ai">MoveIt Pro Maintainer</maintainer>
 
