@@ -57,8 +57,6 @@ hardware:
           package: "picknik_ur_base_config"
           path: "config/moveit/joint_limits.yaml"
       # The following files are loaded based on the ur_description package layout.
-      # To use parameters from a different package, place them in a config/ROBOT_NAME/ directory,
-      # replace ROBOT_NAME with the value used for hardware.type in this file.
       - kinematics_parameters_file:
       # Load default_kinematics.yaml from ur_description/config/<ur_type>
           package: "ur_description"
@@ -71,10 +69,6 @@ hardware:
       # Load visual_parameters.yaml from ur_description/config/<ur_type>
           package: "ur_description"
           path: "config/ur5e/visual_parameters.yaml"
-  # Set advanced camera settings to improve point cloud accuracy
-  json_file_path:
-    package: "picknik_ur_base_config"
-    path: "config/realsense_config_high_accuracy.json"
 
 # Sets ROS global params for launch.
 # [Optional]
