@@ -1,0 +1,71 @@
+SetupMTCApproachGrasp:
+  # The lift vector points to the direction of the positive z-axis of the frame marked as the world frame.
+  world_frame_name: "world"
+  arm_group_name: "manipulator"
+  end_effector_group_name: "gripper"
+  end_effector_name: "moveit_ee"
+  hand_frame_name: "grasp_link"
+
+  approach_distance: 0.15
+
+  # Set to true to make the robot keep the object within view of its camera while reaching to grasp it
+  enforce_visibility_constraint: true
+  camera_optical_frame_id: "wrist_mounted_camera_color_optical_frame"
+  camera_field_of_view_angle: 1.0472  # radians: approx. 60 degrees, which is narrower than the 70 degree diagonal FOV of the D415 camera
+  sensor_z_offset: 0.02
+  target_diameter: 0.0  # Set to 0 to disable the visibility cone constraint -- it's not useful with a single-arm camera-in-hand configuration.
+
+
+SetupMTCGenerateCuboidGrasps:
+  end_effector_group_name: "gripper"
+  end_effector_name: "moveit_ee"
+  hand_frame_name: "grasp_link"
+  end_effector_closed_pose_name: "close"
+  ui_grasp_link: "grasp_link"
+
+  # Grasp candidate configs
+  grasp_candidate_config:
+    generate_x_axis_grasps: true
+    generate_y_axis_grasps: true
+    generate_z_axis_grasps: true
+
+    # Number of samples to generate for each quadrant of the cuboid.
+    samples_per_quadrant: 3
+
+  # Grasp data configs
+  grasp_data:
+    # See https://ros-planning.github.io/moveit_tutorials/_images/finger_gripper_explanation.jpg for description of the following parameters
+    # Note: these parameters are copied from Robotiq gripper without tweaking
+    # min/max values of the grasp depth range in meter.
+    # This should fit to the distance from finger tip to inner palm or the suction cup stroke
+    grasp_min_depth: 0.025 # minimum amount fingers must overlap object
+    grasp_max_depth: 0.065 # Maximum distance from tip of end effector inwards that an object can be for a grasp
+
+    # Maximum allowed finger width for a grasp.
+    # This value should be considerably smaller than max_finger_width
+    # to allow padded collision checks
+    max_grasp_width: 0.4
+
+    # The transform from the arm IK link to the grasp point to align it with the following convention.
+    #
+    # z-axis pointing toward object to grasp
+    # x-axis perpendicular to movement of grippers
+    # y-axis parallel to movement of grippers
+    eef_mount_to_tcp_transform:
+      x: 0.0
+      y: 0.0
+      z: -0.02
+      roll: 0.0
+      pitch: 0.0
+      yaw: 1.57
+
+SetupMTCRetractFromGrasp:
+  world_frame_name: "world"
+  arm_group_name: "manipulator"
+  end_effector_group_name: "gripper"
+  hand_frame_name: "grasp_link"
+  end_effector_closed_pose_name: "close"
+
+  # The lift vector points to the direction of the positive z-axis of the frame marked as the world frame.
+  approach_distance: 0.15
+  lift_distance: 0.1
