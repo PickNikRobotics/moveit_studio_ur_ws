@@ -1,0 +1,32 @@
+planning_plugins:
+  - ompl_interface/OMPLPlanner
+# The order of the elements in the adapter corresponds to the order they are processed by the motion planning pipeline.
+request_adapters:
+  - default_planning_request_adapters/ResolveConstraintFrames
+  - default_planning_request_adapters/ValidateWorkspaceBounds
+  - default_planning_request_adapters/CheckStartStateBounds
+  - default_planning_request_adapters/CheckStartStateCollision
+response_adapters:
+  - default_planning_response_adapters/AddTimeOptimalParameterization
+  - default_planning_response_adapters/ValidateSolution
+
+planner_configs:
+  APSConfigDefault:
+    type: geometric::AnytimePathShortening
+    shortcut: 1  # Attempt to shortcut all new solution paths
+    hybridize: 1  # Compute hybrid solution trajectories
+    max_hybrid_paths: 32  # Number of hybrid paths generated per iteration
+    num_planners: 16  # The number of default planners to use for planning
+    planners: "RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect,RRTConnect"  # A comma-separated list of planner types (e.g., "PRM,EST,RRTConnect"Optionally, planner parameters can be passed to change the default:"PRM[max_nearest_neighbors=5],EST[goal_bias=.5],RRT[range=10. goal_bias=.1]"
+  RRTConnectkConfigDefault:
+    type: geometric::RRTConnect
+    range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
+manipulator:
+  default_planner_config: RRTConnectkConfigDefault
+  planner_configs:
+    - APSConfigDefault
+    - RRTConnectkConfigDefault
+  enforce_constrained_state_space: true
+  ##Note: commenting the following line lets moveit chose RRTConnect as default planner rather than LBKPIECE
+  projection_evaluator: joints(shoulder_pan_joint,shoulder_lift_joint)
+  longest_valid_segment_fraction: 0.01

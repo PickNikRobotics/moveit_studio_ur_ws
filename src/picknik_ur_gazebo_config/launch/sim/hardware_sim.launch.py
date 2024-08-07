@@ -53,17 +53,13 @@ def path_pattern_change_for_gazebo(urdf_string):
 
 
 def generate_simulation_description(context, *args, **settings):
-    world_path = settings.get(
-        "gazebo_world_path",
-        "description/simulation_worlds/space_station_blocks_world.sdf",
-    )
-    use_gui = settings.get("gazebo_gui", False)
-    is_verbose = settings.get("gazebo_verbose", False)
-    gz_renderer = os.environ.get("GAZEBO_RENDERER", "ogre")
+    world_path = "description/simulation_worlds/space_station_blocks_world.sdf"
+    use_gui = False
+    is_verbose = False
 
     # Create a Gazebo world file that swaps out package:// paths with absolute path.
     original_world_file = get_ros_path(
-        settings.get("gazebo_world_package_name", "picknik_ur_gazebo_config"),
+        "picknik_ur_gazebo_config",
         world_path,
     )
     modified_world_file = os.path.join(
@@ -78,7 +74,7 @@ def generate_simulation_description(context, *args, **settings):
     print(f"Starting Gazebo with world at {world_path}")
     print(f"GUI: {use_gui}, Verbose: {is_verbose}")
 
-    sim_args = f"-r --render-engine {gz_renderer}"
+    sim_args = "-r --render-engine ogre"
     if is_verbose:
         sim_args += " -v 4"
     if not use_gui:
@@ -93,16 +89,13 @@ def generate_simulation_description(context, *args, **settings):
 
 def generate_launch_description():
     system_config_parser = SystemConfigParser()
-    optional_feature_setting = system_config_parser.get_optional_feature_configs()
 
     # The path to the auto_created urdf files
     robot_urdf = system_config_parser.get_processed_urdf()
     robot_urdf_ignition = path_pattern_change_for_gazebo(robot_urdf)
 
     # Launch Gazebo
-    gazebo = OpaqueFunction(
-        function=generate_simulation_description, kwargs=optional_feature_setting
-    )
+    gazebo = OpaqueFunction(function=generate_simulation_description)
 
     init_pose_args = shlex.split("-x 0.0 -y 0.0 -z 1.03 -R 0.0 -P 0.0 -Y 0.0")
     spawn_robot = Node(

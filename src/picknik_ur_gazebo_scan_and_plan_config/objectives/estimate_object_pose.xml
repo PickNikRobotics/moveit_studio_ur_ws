@@ -10,7 +10,7 @@
       <Action ID="TransformPointCloud" input_cloud="{model_point_cloud}" transform_pose="{object_stamped_pose_estimate}" output_cloud="{model_point_cloud}"/>
       <Action ID="RegisterPointClouds" base_point_cloud="{model_point_cloud}" target_point_cloud="{point_cloud}" max_iterations="30" max_correspondence_distance="{icp_max_correspondence_distance}" target_pose_in_base_frame="{model_to_real_pose}"/>
       <Action ID="TransformPointCloud" input_cloud="{model_point_cloud}" transform_pose="{model_to_real_pose}" output_cloud="{aligned_model_cloud}"/>
-      <Action ID="SendPointCloudToUI" point_cloud="{aligned_model_cloud}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"/>
+      <Action ID="SendPointCloudToUI" point_cloud="{aligned_model_cloud}" pcd_topic="/pcd_pointcloud_captures"/>
       <Action ID="TransformPoseWithPose" input_pose="{object_stamped_pose_estimate}" transform_pose="{model_to_real_pose}" output_pose="{model_to_real_pose}"/>
     </Control>
   </BehaviorTree>
