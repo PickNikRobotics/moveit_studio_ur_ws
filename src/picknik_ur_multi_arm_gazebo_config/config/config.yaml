@@ -14,6 +14,9 @@ hardware:
   # [Optional, default=True]
   launch_robot_state_publisher: True
 
+  # If the MoveIt Pro Agent should launch cameras when simulated.
+  launch_cameras_when_simulated: True
+
   # Specify any additional launch files for running the robot in simulation mode.
   # Used when hardware.simulated is True.
   # [Optional, defaults to a blank launch file if not specified]

@@ -16,7 +16,6 @@ hardware:
   # [Optional, default=True]
   launch_robot_state_publisher: True
 
-
   # Specify additional launch files for running the robot with real hardware.
   # [Optional, defaults to a blank launch file if not specified]
   robot_driver_persist_launch_file:
