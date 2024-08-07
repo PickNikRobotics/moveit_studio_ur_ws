@@ -26,6 +26,7 @@ hardware:
   robot_driver_persist_launch_file:
     package: "picknik_ur_base_config"
     path: "launch/robot_drivers_to_persist.launch.py"
+
   # Specify any additional launch files for running the robot in simulation mode.
   # Used when hardware.simulated is True.
   # [Optional, defaults to a blank launch file if not specified]

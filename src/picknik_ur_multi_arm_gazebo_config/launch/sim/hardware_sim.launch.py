@@ -92,13 +92,16 @@ def generate_simulation_description(context, *args, **settings):
 
 def generate_launch_description():
     system_config_parser = SystemConfigParser()
+    optional_feature_setting = system_config_parser.get_optional_feature_configs()
 
     # The path to the auto_created urdf files
     robot_urdf = system_config_parser.get_processed_urdf()
     robot_urdf_ignition = path_pattern_change_for_gazebo(robot_urdf)
 
     # Launch Gazebo
-    gazebo = OpaqueFunction(function=generate_simulation_description)
+    gazebo = OpaqueFunction(
+        function=generate_simulation_description, kwargs=optional_feature_setting
+    )
 
     init_pose_args = shlex.split("-x 0.0 -y 0.0 -z 1.03 -R 0.0 -P 0.0 -Y 0.0")
     spawn_robot = Node(
