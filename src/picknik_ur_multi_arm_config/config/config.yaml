@@ -21,15 +21,13 @@ hardware:
   robot_driver_persist_launch_file:
     package: "picknik_ur_base_config"
     path: "launch/robot_drivers_to_persist.launch.py"
+
   # Specify any additional launch files for running the robot in simulation mode.
   # Used when hardware.simulated is True.
   # [Optional, defaults to a blank launch file if not specified]
   simulated_robot_driver_persist_launch_file:
     package: "picknik_ur_base_config"
     path: "launch/sim/robot_drivers_to_persist_sim.launch.py"
-  simulated_hardware_launch_file:
-    package: "moveit_studio_agent"
-    path: "launch/blank.launch.py"
 
   # Parameters used to configure the robot description through XACRO.
   # A URDF and SRDF are both required.
@@ -158,7 +156,6 @@ ros2_control:
   # Optionally configure remapping rules to let multiple controllers receive commands on the same topic.
   # [Optional, default=[]]
   controller_shared_topics: []
-
 
 # Configuration for loading behaviors and objectives.
 # [Required]
