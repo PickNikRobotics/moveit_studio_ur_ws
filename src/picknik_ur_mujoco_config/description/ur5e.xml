@@ -1,5 +1,5 @@
 <mujoco model="ur5e">
-  <compiler angle="radian" meshdir="assets" autolimits="true"/>
+  <compiler angle="radian" autolimits="true"/>
 
   <option integrator="implicitfast"/>
 
@@ -68,7 +68,7 @@
     <default class="robot">
         <material specular="0.5" shininess="0.25"/>
         <joint armature="0.1" damping="1" axis="0 0 1" range="-2.8973 2.8973"/>
-        <general dyntype="none" biastype="affine" ctrlrange="-3.14159 3.14159" forcerange="-5000 5000"/>
+        <general dyntype="none" biastype="affine" ctrlrange="-3.14159 3.14159" forcerange="-50000 50000"/>
         <default class="limitedJoints">
             <joint limited="true"/>
         </default>
@@ -178,9 +178,11 @@
                     <geom material="linkgray" mesh="wrist3" class="visual"/>
                     <!-- <geom class="eef_collision" pos="0 0.08 0" quat="1 1 0 0" size="0.04 0.02"/> -->
                     <site name="attachment_site" pos="0 0.1 0" quat="-1 1 0 0"/>
+                    <!-- site for end effector's f/t sensor right at the base of the robotiq gripper -->
+                    <site name="robotiq_ft_sensor" size="0.01" pos="0 0.1 0" quat="-1 1 0 0"/>
                     <camera name="wrist_camera" pos="0.0 0.2 0.05" fovy="58" mode="fixed" resolution="640 480" euler="1.57 0.0 0.0"/>
                     <site name="wrist_camera_optical_frame" pos="0.0 0.2 0.05" euler="-1.57 0 0"/>
-                    <body childclass="2f85" >                    <!-- site for end effector's f/t sensor right at the base of the robotiq gripper -->                    <site name="robotiq_ft_sensor" size="0.01" pos="0.0 0.0 -0.0615"/>1
+                    <body childclass="2f85" >
                       <!-- Right-hand side 4-bar linkage -->
                       <body name="robotiq_85_base_link" gravcomp="1" pos="0.0 0.1441 0" quat="0.5 -0.5 0.5 0.5">
                         <inertial mass="0.777441" pos="0 -2.70394e-05 0.0354675" quat="1 -0.00152849 0 0"
@@ -279,6 +281,10 @@
   </worldbody>
 
   <actuator>
+    <position class="robot" name="linear_rail_joint" joint="linear_rail_joint" kp="75000" dampratio="1.0"/>
+  </actuator>
+
+  <actuator>
     <general class="size3" name="shoulder_pan_joint" joint="shoulder_pan_joint"/>
     <general class="size3" name="shoulder_lift_joint" joint="shoulder_lift_joint"/>
     <general class="size3_limited" name="elbow_joint" joint="elbow_joint"/>
@@ -289,15 +295,10 @@
              gainprm="100 0 0" biasprm="0 -100 -150"/>
   </actuator>
 
+  <contact>
+    <exclude body1="base_platform" body2="base"/>
+  </contact>
 
-    <contact>
-        <exclude body1="base_platform" body2="base"/>
-    </contact>
-
-    <actuator>
-        <general class="robot" name="linear_rail_joint" joint="linear_rail_joint" gainprm="2500" biasprm="0 -2500 -2000"/>
-  </actuator>
-  
     <!-- Robotiq gripper contact -->
   <contact>
     <exclude body1="robotiq_85_base_link" body2="robotiq_85_left_knuckle_link"/>
@@ -325,9 +326,4 @@
     <force name="ee_force_sensor" site="robotiq_ft_sensor"/>
     <torque name="ee_torque_sensor" site="robotiq_ft_sensor" />
   </sensor>
-
-  <keyframe>
-    <!-- ur_base_pan ur_shoulder ur_elbow ur_wrist_1 ur_wrist_2 ur_wrist_3 gripper linear_rail-->
-    <key qpos='0 -2.1 1.2 -1.9 -1.9 0 0 1.5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0'/>
-  </keyframe>
 </mujoco>

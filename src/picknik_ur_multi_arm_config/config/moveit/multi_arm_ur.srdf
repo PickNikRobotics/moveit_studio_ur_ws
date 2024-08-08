@@ -182,27 +182,6 @@
     <disable_collisions link1="first_forearm_link" link2="first_upper_arm_link" reason="Adjacent"/>
     <disable_collisions link1="first_forearm_link" link2="first_wrist_1_link" reason="Adjacent"/>
     <disable_collisions link1="first_forearm_link" link2="first_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="first_forearm_pinch_link" link2="first_forearm_link" reason="Adjacent"/>
-    <disable_collisions link1="first_forearm_pinch_link" link2="first_tool_changer_link" reason="Never"/>
-    <disable_collisions link1="first_forearm_pinch_link" link2="first_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="first_forearm_pinch_link" link2="first_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="first_forearm_pinch_link" link2="first_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="first_wrist_3_pinch_link" link2="first_realsense_camera_adapter_link" reason="Adjacent"/>
-    <disable_collisions link1="first_wrist_3_pinch_link" link2="first_robotiq_85_base_link" reason="Adjacent"/>
-    <disable_collisions link1="first_wrist_3_pinch_link" link2="first_robotiq_85_left_finger_link" reason="Never"/>
-    <disable_collisions link1="first_wrist_3_pinch_link" link2="first_robotiq_85_left_finger_tip_link" reason="Never"/>
-    <disable_collisions link1="first_wrist_3_pinch_link" link2="first_robotiq_85_left_inner_knuckle_link" reason="Never"/>
-    <disable_collisions link1="first_wrist_3_pinch_link" link2="first_robotiq_85_left_knuckle_link" reason="Never"/>
-    <disable_collisions link1="first_wrist_3_pinch_link" link2="first_robotiq_85_right_finger_link" reason="Never"/>
-    <disable_collisions link1="first_wrist_3_pinch_link" link2="first_robotiq_85_right_finger_tip_link" reason="Never"/>
-    <disable_collisions link1="first_wrist_3_pinch_link" link2="first_robotiq_85_right_inner_knuckle_link" reason="Never"/>
-    <disable_collisions link1="first_wrist_3_pinch_link" link2="first_robotiq_85_right_knuckle_link" reason="Never"/>
-    <disable_collisions link1="first_wrist_3_pinch_link" link2="first_tool_changer_link" reason="Adjacent"/>
-    <disable_collisions link1="first_wrist_3_pinch_link" link2="first_ur_to_robotiq_link" reason="Adjacent"/>
-    <disable_collisions link1="first_wrist_3_pinch_link" link2="first_wrist_1_link" reason="Adjacent"/>
-    <disable_collisions link1="first_wrist_3_pinch_link" link2="first_wrist_2_link" reason="Adjacent"/>
-    <disable_collisions link1="first_wrist_3_pinch_link" link2="first_wrist_3_link" reason="Adjacent"/>
-    <disable_collisions link1="first_wrist_3_pinch_link" link2="first_wrist_mounted_camera_link" reason="Never"/>
     <disable_collisions link1="first_realsense_camera_adapter_link" link2="first_robotiq_85_base_link" reason="Never"/>
     <disable_collisions link1="first_realsense_camera_adapter_link" link2="first_robotiq_85_left_finger_link" reason="Never"/>
     <disable_collisions link1="first_realsense_camera_adapter_link" link2="first_robotiq_85_left_finger_tip_link" reason="Never"/>
@@ -331,27 +310,6 @@
     <disable_collisions link1="second_forearm_link" link2="second_upper_arm_link" reason="Adjacent"/>
     <disable_collisions link1="second_forearm_link" link2="second_wrist_1_link" reason="Adjacent"/>
     <disable_collisions link1="second_forearm_link" link2="second_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="second_forearm_pinch_link" link2="second_forearm_link" reason="Adjacent"/>
-    <disable_collisions link1="second_forearm_pinch_link" link2="second_tool_changer_link" reason="Never"/>
-    <disable_collisions link1="second_forearm_pinch_link" link2="second_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="second_forearm_pinch_link" link2="second_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="second_forearm_pinch_link" link2="second_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="second_wrist_3_pinch_link" link2="second_realsense_camera_adapter_link" reason="Adjacent"/>
-    <disable_collisions link1="second_wrist_3_pinch_link" link2="second_robotiq_85_base_link" reason="Adjacent"/>
-    <disable_collisions link1="second_wrist_3_pinch_link" link2="second_robotiq_85_left_finger_link" reason="Never"/>
-    <disable_collisions link1="second_wrist_3_pinch_link" link2="second_robotiq_85_left_finger_tip_link" reason="Never"/>
-    <disable_collisions link1="second_wrist_3_pinch_link" link2="second_robotiq_85_left_inner_knuckle_link" reason="Never"/>
-    <disable_collisions link1="second_wrist_3_pinch_link" link2="second_robotiq_85_left_knuckle_link" reason="Never"/>
-    <disable_collisions link1="second_wrist_3_pinch_link" link2="second_robotiq_85_right_finger_link" reason="Never"/>
-    <disable_collisions link1="second_wrist_3_pinch_link" link2="second_robotiq_85_right_finger_tip_link" reason="Never"/>
-    <disable_collisions link1="second_wrist_3_pinch_link" link2="second_robotiq_85_right_inner_knuckle_link" reason="Never"/>
-    <disable_collisions link1="second_wrist_3_pinch_link" link2="second_robotiq_85_right_knuckle_link" reason="Never"/>
-    <disable_collisions link1="second_wrist_3_pinch_link" link2="second_tool_changer_link" reason="Adjacent"/>
-    <disable_collisions link1="second_wrist_3_pinch_link" link2="second_ur_to_robotiq_link" reason="Adjacent"/>
-    <disable_collisions link1="second_wrist_3_pinch_link" link2="second_wrist_1_link" reason="Adjacent"/>
-    <disable_collisions link1="second_wrist_3_pinch_link" link2="second_wrist_2_link" reason="Adjacent"/>
-    <disable_collisions link1="second_wrist_3_pinch_link" link2="second_wrist_3_link" reason="Adjacent"/>
-    <disable_collisions link1="second_wrist_3_pinch_link" link2="second_wrist_mounted_camera_link" reason="Never"/>
     <disable_collisions link1="second_realsense_camera_adapter_link" link2="second_robotiq_85_base_link" reason="Never"/>
     <disable_collisions link1="second_realsense_camera_adapter_link" link2="second_robotiq_85_left_finger_link" reason="Never"/>
     <disable_collisions link1="second_realsense_camera_adapter_link" link2="second_robotiq_85_left_finger_tip_link" reason="Never"/>
@@ -480,27 +438,6 @@
     <disable_collisions link1="third_forearm_link" link2="third_upper_arm_link" reason="Adjacent"/>
     <disable_collisions link1="third_forearm_link" link2="third_wrist_1_link" reason="Adjacent"/>
     <disable_collisions link1="third_forearm_link" link2="third_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="third_forearm_pinch_link" link2="third_forearm_link" reason="Adjacent"/>
-    <disable_collisions link1="third_forearm_pinch_link" link2="third_tool_changer_link" reason="Never"/>
-    <disable_collisions link1="third_forearm_pinch_link" link2="third_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="third_forearm_pinch_link" link2="third_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="third_forearm_pinch_link" link2="third_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="third_wrist_3_pinch_link" link2="third_realsense_camera_adapter_link" reason="Adjacent"/>
-    <disable_collisions link1="third_wrist_3_pinch_link" link2="third_robotiq_85_base_link" reason="Adjacent"/>
-    <disable_collisions link1="third_wrist_3_pinch_link" link2="third_robotiq_85_left_finger_link" reason="Never"/>
-    <disable_collisions link1="third_wrist_3_pinch_link" link2="third_robotiq_85_left_finger_tip_link" reason="Never"/>
-    <disable_collisions link1="third_wrist_3_pinch_link" link2="third_robotiq_85_left_inner_knuckle_link" reason="Never"/>
-    <disable_collisions link1="third_wrist_3_pinch_link" link2="third_robotiq_85_left_knuckle_link" reason="Never"/>
-    <disable_collisions link1="third_wrist_3_pinch_link" link2="third_robotiq_85_right_finger_link" reason="Never"/>
-    <disable_collisions link1="third_wrist_3_pinch_link" link2="third_robotiq_85_right_finger_tip_link" reason="Never"/>
-    <disable_collisions link1="third_wrist_3_pinch_link" link2="third_robotiq_85_right_inner_knuckle_link" reason="Never"/>
-    <disable_collisions link1="third_wrist_3_pinch_link" link2="third_robotiq_85_right_knuckle_link" reason="Never"/>
-    <disable_collisions link1="third_wrist_3_pinch_link" link2="third_tool_changer_link" reason="Adjacent"/>
-    <disable_collisions link1="third_wrist_3_pinch_link" link2="third_ur_to_robotiq_link" reason="Adjacent"/>
-    <disable_collisions link1="third_wrist_3_pinch_link" link2="third_wrist_1_link" reason="Adjacent"/>
-    <disable_collisions link1="third_wrist_3_pinch_link" link2="third_wrist_2_link" reason="Adjacent"/>
-    <disable_collisions link1="third_wrist_3_pinch_link" link2="third_wrist_3_link" reason="Adjacent"/>
-    <disable_collisions link1="third_wrist_3_pinch_link" link2="third_wrist_mounted_camera_link" reason="Never"/>
     <disable_collisions link1="third_realsense_camera_adapter_link" link2="third_robotiq_85_base_link" reason="Never"/>
     <disable_collisions link1="third_realsense_camera_adapter_link" link2="third_robotiq_85_left_finger_link" reason="Never"/>
     <disable_collisions link1="third_realsense_camera_adapter_link" link2="third_robotiq_85_left_finger_tip_link" reason="Never"/>
@@ -629,27 +566,6 @@
     <disable_collisions link1="fourth_forearm_link" link2="fourth_upper_arm_link" reason="Adjacent"/>
     <disable_collisions link1="fourth_forearm_link" link2="fourth_wrist_1_link" reason="Adjacent"/>
     <disable_collisions link1="fourth_forearm_link" link2="fourth_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="fourth_forearm_pinch_link" link2="fourth_forearm_link" reason="Adjacent"/>
-    <disable_collisions link1="fourth_forearm_pinch_link" link2="fourth_tool_changer_link" reason="Never"/>
-    <disable_collisions link1="fourth_forearm_pinch_link" link2="fourth_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="fourth_forearm_pinch_link" link2="fourth_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="fourth_forearm_pinch_link" link2="fourth_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="fourth_wrist_3_pinch_link" link2="fourth_realsense_camera_adapter_link" reason="Adjacent"/>
-    <disable_collisions link1="fourth_wrist_3_pinch_link" link2="fourth_robotiq_85_base_link" reason="Adjacent"/>
-    <disable_collisions link1="fourth_wrist_3_pinch_link" link2="fourth_robotiq_85_left_finger_link" reason="Never"/>
-    <disable_collisions link1="fourth_wrist_3_pinch_link" link2="fourth_robotiq_85_left_finger_tip_link" reason="Never"/>
-    <disable_collisions link1="fourth_wrist_3_pinch_link" link2="fourth_robotiq_85_left_inner_knuckle_link" reason="Never"/>
-    <disable_collisions link1="fourth_wrist_3_pinch_link" link2="fourth_robotiq_85_left_knuckle_link" reason="Never"/>
-    <disable_collisions link1="fourth_wrist_3_pinch_link" link2="fourth_robotiq_85_right_finger_link" reason="Never"/>
-    <disable_collisions link1="fourth_wrist_3_pinch_link" link2="fourth_robotiq_85_right_finger_tip_link" reason="Never"/>
-    <disable_collisions link1="fourth_wrist_3_pinch_link" link2="fourth_robotiq_85_right_inner_knuckle_link" reason="Never"/>
-    <disable_collisions link1="fourth_wrist_3_pinch_link" link2="fourth_robotiq_85_right_knuckle_link" reason="Never"/>
-    <disable_collisions link1="fourth_wrist_3_pinch_link" link2="fourth_tool_changer_link" reason="Adjacent"/>
-    <disable_collisions link1="fourth_wrist_3_pinch_link" link2="fourth_ur_to_robotiq_link" reason="Adjacent"/>
-    <disable_collisions link1="fourth_wrist_3_pinch_link" link2="fourth_wrist_1_link" reason="Adjacent"/>
-    <disable_collisions link1="fourth_wrist_3_pinch_link" link2="fourth_wrist_2_link" reason="Adjacent"/>
-    <disable_collisions link1="fourth_wrist_3_pinch_link" link2="fourth_wrist_3_link" reason="Adjacent"/>
-    <disable_collisions link1="fourth_wrist_3_pinch_link" link2="fourth_wrist_mounted_camera_link" reason="Never"/>
     <disable_collisions link1="fourth_realsense_camera_adapter_link" link2="fourth_robotiq_85_base_link" reason="Never"/>
     <disable_collisions link1="fourth_realsense_camera_adapter_link" link2="fourth_robotiq_85_left_finger_link" reason="Never"/>
     <disable_collisions link1="fourth_realsense_camera_adapter_link" link2="fourth_robotiq_85_left_finger_tip_link" reason="Never"/>

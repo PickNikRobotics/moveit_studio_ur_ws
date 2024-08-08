@@ -1,9 +1,9 @@
 - description: ''
-  favorite: false
+  favorite: true
   joint_group_names:
-    - gripper
-    - linear_actuator
-    - manipulator
+  - gripper
+  - linear_actuator
+  - manipulator
   joint_state:
     effort: []
     header:
@@ -13,7 +13,9 @@
         sec: 0
     name:
       - robotiq_85_left_knuckle_joint
-      - linear_rail_joint
+      - linear_x_joint
+      - linear_y_joint
+      - rotational_yaw_joint
       - shoulder_pan_joint
       - shoulder_lift_joint
       - elbow_joint
@@ -21,14 +23,16 @@
       - wrist_2_joint
       - wrist_3_joint
     position:
-      - 0
-      - 0.29608248868337067
-      - 0
-      - -1.5708
-      - 0.785398
-      - -1.2948195437205516
-      - -1.5708
-      - 0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 4.758818847682003e-05
+      - -1.5341106548131833
+      - 0.8197512382602479
+      - -2.268639495454643
+      - -1.5707673068531498
+      - -9.811780847989905e-05
     velocity: []
   multi_dof_joint_state:
     header:
@@ -40,7 +44,7 @@
     transforms: []
     twist: []
     wrench: []
-  name: Look at Table
+  name: Look at Wall
 - description: ''
   favorite: false
   joint_group_names:
@@ -56,7 +60,9 @@
         sec: 0
     name:
       - robotiq_85_left_knuckle_joint
-      - linear_rail_joint
+      - linear_x_joint
+      - linear_y_joint
+      - rotational_yaw_joint
       - shoulder_pan_joint
       - shoulder_lift_joint
       - elbow_joint
@@ -64,14 +70,16 @@
       - wrist_2_joint
       - wrist_3_joint
     position:
-      - 0.020916781481167455
-      - -0.22610599344464546
-      - 0.38969451825539325
-      - -0.7463048667584851
-      - 1.4104637547514023
-      - -2.2350037021105393
-      - -1.5646945626735103
-      - 0.3796920004270002
+      - 0.0
+      - 0.4
+      - 0.4
+      - 1.0
+      - 0.0
+      - -1.5708
+      - 0.785398
+      - -1.2948195437205516
+      - -1.5708
+      - 0.0
     velocity: []
   multi_dof_joint_state:
     header:
@@ -83,4 +91,4 @@
     transforms: []
     twist: []
     wrench: []
-  name: VFC Start
+  name: Look at Table

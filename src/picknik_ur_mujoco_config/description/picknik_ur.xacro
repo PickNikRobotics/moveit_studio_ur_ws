@@ -790,12 +790,6 @@
     <limit effort="28.0" lower="-6.283185307179586" upper="6.283185307179586" velocity="1.0471975511965976"/>
     <dynamics damping="0" friction="0"/>
   </joint>
-  <link name="ft_frame"/>
-  <joint name="wrist_3_link-ft_frame" type="fixed">
-    <parent link="wrist_3_link"/>
-    <child link="ft_frame"/>
-    <origin rpy="3.141592653589793 0 0" xyz="0 0 0"/>
-  </joint>
   <!-- ROS-Industrial 'base' frame - base_link to UR 'Base' Coordinates transform -->
   <link name="base"/>
   <joint name="base_link-base_fixed_joint" type="fixed">
@@ -880,20 +874,20 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://picknik_accessories/descriptions/furniture/generic_table/wood_block.dae" scale="0.125 0.125 0.00625"/>
+        <mesh filename="package://picknik_accessories/descriptions/furniture/generic_table/wood_block.dae" scale="0.125 0.125 0.05"/>
       </geometry>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://picknik_accessories/descriptions/furniture/generic_table/wood_block.dae" scale="0.125 0.125 0.00625"/>
+        <mesh filename="package://picknik_accessories/descriptions/furniture/generic_table/wood_block.dae" scale="0.125 0.125 0.05"/>
       </geometry>
     </collision>
   </link>
   <joint name="table_joint" type="fixed">
     <parent link="world"/>
     <child link="table"/>
-    <origin rpy="0 0 0" xyz="1 0 0.5"/>
+    <origin rpy="0 0 0" xyz="1 0 0.45"/>
   </joint>
   <ros2_control name="ur_mujoco_control" type="system">
     <hardware>
