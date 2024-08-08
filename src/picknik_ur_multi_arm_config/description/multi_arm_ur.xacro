@@ -23,6 +23,23 @@
     <xacro:property name="camera_adapter_parent" value="tool0" />
   </xacro:unless>
 
+    <!-- ur3e -->
+    <xacro:arg name="ur3e_kinematics_parameters_file" default="$(find ur_description)/config/ur3e/default_kinematics.yaml"/>
+    <xacro:arg name="ur3e_physical_parameters_file" default="$(find ur_description)/config/ur3e/physical_parameters.yaml"/>
+    <xacro:arg name="ur3e_visual_parameters_file" default="$(find ur_description)/config/ur3e/visual_parameters.yaml"/>
+    <!-- ur5e -->
+    <xacro:arg name="ur5e_kinematics_parameters_file" default="$(find ur_description)/config/ur5e/default_kinematics.yaml"/>
+    <xacro:arg name="ur5e_physical_parameters_file" default="$(find ur_description)/config/ur5e/physical_parameters.yaml"/>
+    <xacro:arg name="ur5e_visual_parameters_file" default="$(find ur_description)/config/ur5e/visual_parameters.yaml"/>
+    <!-- ur10e -->
+    <xacro:arg name="ur10e_kinematics_parameters_file" default="$(find ur_description)/config/ur10e/default_kinematics.yaml"/>
+    <xacro:arg name="ur10e_physical_parameters_file" default="$(find ur_description)/config/ur10e/physical_parameters.yaml"/>
+    <xacro:arg name="ur10e_visual_parameters_file" default="$(find ur_description)/config/ur10e/visual_parameters.yaml"/>
+    <!-- ur16e -->
+    <xacro:arg name="ur16e_kinematics_parameters_file" default="$(find ur_description)/config/ur16e/default_kinematics.yaml"/>
+    <xacro:arg name="ur16e_physical_parameters_file" default="$(find ur_description)/config/ur16e/physical_parameters.yaml"/>
+    <xacro:arg name="ur16e_visual_parameters_file" default="$(find ur_description)/config/ur16e/visual_parameters.yaml"/>
+
   <!-- Import macros for main hardware components -->
   <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro" />
   <xacro:include filename="$(find picknik_ur_base_config)/description/pinch_links.xacro" />
@@ -38,17 +55,16 @@
   <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/visual/cube_visual.urdf.xacro" />
 
   <link name="world" />
-
   <!-- FIRST ROBOT -->
   <!-- arm -->
   <xacro:ur_robot
-    name="first_$(arg name)"
+    name="ur3e"
     tf_prefix="first_"
     parent="world"
     joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
-    kinematics_parameters_file="$(arg kinematics_parameters_file)"
-    physical_parameters_file="$(arg physical_parameters_file)"
-    visual_parameters_file="$(arg visual_parameters_file)"
+    kinematics_parameters_file="$(arg ur3e_kinematics_parameters_file)"
+    physical_parameters_file="$(arg ur3e_physical_parameters_file)"
+    visual_parameters_file="$(arg ur3e_visual_parameters_file)"
     use_fake_hardware="$(arg use_fake_hardware)"
     initial_positions="${xacro.load_yaml(initial_positions_file)}"
     headless_mode="$(arg headless_mode)"
@@ -59,10 +75,6 @@
     <origin xyz="0.0 -0.6 0" rpy="0 0 0" />
   </xacro:ur_robot>
 
-  <xacro:if value="$(arg use_pinch_links)">
-    <xacro:forearm_pinch_link  prefix="first"/>
-    <xacro:wrist_3_pinch_link  prefix="first"/>
-  </xacro:if>
 
 
   <xacro:picknik_ur_attachments
@@ -75,13 +87,13 @@
   <!-- SECOND ROBOT -->
   <!-- arm -->
   <xacro:ur_robot
-    name="second_$(arg name)"
+    name="ur5e"
     tf_prefix="second_"
     parent="world"
     joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
-    kinematics_parameters_file="$(arg kinematics_parameters_file)"
-    physical_parameters_file="$(arg physical_parameters_file)"
-    visual_parameters_file="$(arg visual_parameters_file)"
+    kinematics_parameters_file="$(arg ur5e_kinematics_parameters_file)"
+    physical_parameters_file="$(arg ur5e_physical_parameters_file)"
+    visual_parameters_file="$(arg ur5e_visual_parameters_file)"
     use_fake_hardware="$(arg use_fake_hardware)"
     initial_positions="${xacro.load_yaml(initial_positions_file)}"
     headless_mode="$(arg headless_mode)"
@@ -91,11 +103,6 @@
     input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
     <origin xyz="0 -0.2 0" rpy="0 0 0" />
   </xacro:ur_robot>
-
-  <xacro:if value="$(arg use_pinch_links)">
-      <xacro:forearm_pinch_link  prefix="second"/>
-      <xacro:wrist_3_pinch_link  prefix="second"/>
-  </xacro:if>
 
   <xacro:picknik_ur_attachments
     prefix="second"
@@ -107,13 +114,13 @@
   <!-- THIRD ROBOT -->
   <!-- arm -->
   <xacro:ur_robot
-    name="third_$(arg name)"
+    name="ur10e"
     tf_prefix="third_"
     parent="world"
     joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
-    kinematics_parameters_file="$(arg kinematics_parameters_file)"
-    physical_parameters_file="$(arg physical_parameters_file)"
-    visual_parameters_file="$(arg visual_parameters_file)"
+    kinematics_parameters_file="$(arg ur10e_kinematics_parameters_file)"
+    physical_parameters_file="$(arg ur10e_physical_parameters_file)"
+    visual_parameters_file="$(arg ur10e_visual_parameters_file)"
     use_fake_hardware="$(arg use_fake_hardware)"
     initial_positions="${xacro.load_yaml(initial_positions_file)}"
     headless_mode="$(arg headless_mode)"
@@ -123,11 +130,6 @@
     input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
     <origin xyz="0 0.2 0" rpy="0 0 0" />
   </xacro:ur_robot>
-
-  <xacro:if value="$(arg use_pinch_links)">
-      <xacro:forearm_pinch_link  prefix="third"/>
-      <xacro:wrist_3_pinch_link  prefix="third"/>
-  </xacro:if>
 
   <xacro:picknik_ur_attachments
     prefix="third"
@@ -139,13 +141,13 @@
   <!-- FOURTH ROBOT -->
   <!-- arm -->
   <xacro:ur_robot
-    name="fourth_$(arg name)"
+    name="ur16e"
     tf_prefix="fourth_"
     parent="world"
     joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
-    kinematics_parameters_file="$(arg kinematics_parameters_file)"
-    physical_parameters_file="$(arg physical_parameters_file)"
-    visual_parameters_file="$(arg visual_parameters_file)"
+    kinematics_parameters_file="$(arg ur16e_kinematics_parameters_file)"
+    physical_parameters_file="$(arg ur16e_physical_parameters_file)"
+    visual_parameters_file="$(arg ur16e_visual_parameters_file)"
     use_fake_hardware="$(arg use_fake_hardware)"
     initial_positions="${xacro.load_yaml(initial_positions_file)}"
     headless_mode="$(arg headless_mode)"
@@ -155,11 +157,6 @@
     input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt">
     <origin xyz="0 0.6 0" rpy="0 0 0" />
   </xacro:ur_robot>
-
-  <xacro:if value="$(arg use_pinch_links)">
-      <xacro:forearm_pinch_link  prefix="fourth"/>
-      <xacro:wrist_3_pinch_link  prefix="fourth"/>
-  </xacro:if>
 
   <xacro:picknik_ur_attachments
     prefix="fourth"
