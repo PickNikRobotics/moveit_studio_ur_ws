@@ -72,14 +72,14 @@
     <!-- ctrl -->
     <!-- linear_rail, shoulder_pan, shoulder_lift, elbow, wrist_1, wrist_2, wrist_3, robotiq_85_left_knuckle_joint -->
     <key qpos="
-      0 0 0 0 0 0 0
+      0 0 -1.5707 1.5707 -1.8 -1.5707 0
       0 0 0 0 0 0 0 0
       0.75 0.2 0.51 1 0 0 0
       0.75 0.0 0.51 1 0 0 0
       0.75 -0.2 0.51 1 0 0 0
     "
     ctrl="
-      0 0 0 0 0 0 0 0
+      0 0 -1.5707 1.5707 -1.8 -1.5707 0 0
     "
     />
   </keyframe>
