@@ -1,11 +1,12 @@
 import sys
+
 from ament_index_python import get_package_share_directory
-
-realsense2_camera_path = get_package_share_directory("realsense2_camera")
-sys.path.append(f"{realsense2_camera_path}/launch")
-
 from launch import LaunchDescription
 from launch.actions import OpaqueFunction
+
+# Add the realsense2_camera/launch directory to the user's path so we can import the realsense2_camera rs_launch module.
+realsense2_camera_path = get_package_share_directory("realsense2_camera")
+sys.path.append(f"{realsense2_camera_path}/launch")
 
 import rs_launch
 
