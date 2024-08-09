@@ -47,18 +47,40 @@
         <geom type="box" size="0.5 0.5 0.025" material="wood"/>
     </body>
     <!-- Define the blocks with AprilTags on each face -->
-    <body name="block1" pos="0.2 0.75 0.51">
+    <body name="block1">
         <freejoint name="block1"/>
         <geom type="box" size="0.025 0.025 0.025" rgba="1 0 0 1" material="apriltag_material1"/>
     </body>
-    <body name="block2" pos="0.0 0.75 0.51">
+    <body name="block2">
         <freejoint name="block2"/>
         <geom type="box" size="0.025 0.025 0.025" rgba="0 1 0 1" material="apriltag_material2"/>
     </body>
-    <body name="block3" pos="-0.2 0.75 0.51">
+    <body name="block3">
         <freejoint name="block3"/>
         <geom type="box" size="0.025 0.025 0.025" rgba="0 0 1 1" material="apriltag_material3"/>
     </body>
 
   </worldbody>
+
+  <keyframe>
+    <!-- qpos -->
+    <!-- linear_rail, shoulder_pan, shoulder_lift, elbow, wrist_1, wrist_2, wrist_3 -->
+    <!-- right_knuckle, right_finger, right_inner_knuckle, right_finger_tip, left_knuckle, left_finger, left_inner_knuckle, left_finger_tip -->
+    <!-- block1 [x, y, z, qw, qx, qy, qz] -->
+    <!-- block2 [x, y, z, qw, qx, qy, qz] -->
+    <!-- block3 [x, y, z, qw, qx, qy, qz] -->
+    <!-- ctrl -->
+    <!-- linear_rail, shoulder_pan, shoulder_lift, elbow, wrist_1, wrist_2, wrist_3, robotiq_85_left_knuckle_joint -->
+    <key qpos="
+      0 0 -1.5707 1.5707 -1.8 -1.5707 0
+      0 0 0 0 0 0 0 0
+      0.2 0.75 0.51 1 0 0 0
+      0.0 0.75 0.51 1 0 0 0
+      -0.2 0.75 0.51 1 0 0 0
+    "
+    ctrl="
+      0 0 -1.5707 1.5707 -1.8 -1.5707 0 0
+    "
+    />
+  </keyframe>
 </mujoco>

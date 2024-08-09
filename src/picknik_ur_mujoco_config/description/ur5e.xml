@@ -284,6 +284,10 @@
   </worldbody>
 
   <actuator>
+    <position class="robot" name="linear_rail_joint" joint="linear_rail_joint" kp="75000" dampratio="1.0"/>
+  </actuator>
+
+  <actuator>
     <general class="size3" name="shoulder_pan_joint" joint="shoulder_pan_joint"/>
     <general class="size3" name="shoulder_lift_joint" joint="shoulder_lift_joint"/>
     <general class="size3_limited" name="elbow_joint" joint="elbow_joint"/>
@@ -294,15 +298,10 @@
              gainprm="100 0 0" biasprm="0 -100 -150"/>
   </actuator>
 
-
   <contact>
     <exclude body1="base_platform" body2="base"/>
   </contact>
 
-  <actuator>
-    <position class="robot" name="linear_rail_joint" joint="linear_rail_joint" kp="75000" dampratio="1.0"/>
-  </actuator>
-  
     <!-- Robotiq gripper contact -->
   <contact>
     <exclude body1="robotiq_85_base_link" body2="robotiq_85_left_knuckle_link"/>
@@ -330,9 +329,4 @@
     <force name="ee_force_sensor" site="robotiq_ft_sensor"/>
     <torque name="ee_torque_sensor" site="robotiq_ft_sensor" />
   </sensor>
-
-  <keyframe>
-    <!-- ur_base_pan ur_shoulder ur_elbow ur_wrist_1 ur_wrist_2 ur_wrist_3 gripper linear_rail-->
-    <key qpos='0 -2.1 1.2 -1.9 -1.9 0 0 1.5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0'/>
-  </keyframe>
 </mujoco>
