@@ -42,7 +42,6 @@
     <body name="table" pos="1 0 0.5">
         <geom type="box" size="0.5 0.5 0.025" pos="0 0 0.025" material="wood"/>
     </body>
-        
         <!-- Define the block with AprilTags on each face -->
         <body name="block1" pos="0.75 0.2 0.575">
             <freejoint name="block1"/>
@@ -58,4 +57,26 @@
         </body>
 
   </worldbody>
+
+  <keyframe>
+    <!-- qpos -->
+    <!-- linear_rail, shoulder_pan, shoulder_lift, elbow, wrist_1, wrist_2, wrist_3 -->
+    <!-- right_knuckle, right_finger, right_inner_knuckle, right_finger_tip, left_knuckle, left_finger, left_inner_knuckle, left_finger_tip -->
+    <!-- block1 [x, y, z, qw, qx, qy, qz] -->
+    <!-- block2 [x, y, z, qw, qx, qy, qz] -->
+    <!-- block3 [x, y, z, qw, qx, qy, qz] -->
+    <!-- ctrl -->
+    <!-- linear_rail, shoulder_pan, shoulder_lift, elbow, wrist_1, wrist_2, wrist_3, robotiq_85_left_knuckle_joint -->
+    <key qpos="
+      0 0 -1.5707 1.5707 -1.8 -1.5707 0
+      0 0 0 0 0 0 0 0
+      0.2 0.75 0.51 1 0 0 0
+      0.0 0.75 0.51 1 0 0 0
+      -0.2 0.75 0.51 1 0 0 0
+    "
+    ctrl="
+      0 0 -1.5707 1.5707 -3.14 -2.25 0 0
+    "
+    />
+  </keyframe>
 </mujoco>
