@@ -7,7 +7,7 @@
 namespace translate_pose
 {
 /**
- * @brief TODO(...)
+ * @brief Takes a pose from the blackboard and translates it by a given offset.
  */
 class TranslatePose : public moveit_studio::behaviors::SharedResourcesNode<BT::SyncActionNode>
 {
