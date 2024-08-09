@@ -55,7 +55,7 @@ hardware:
       - prefix: ""
       - use_fake_hardware: "true"
       - use_pinch_links: "true"
-      - fake_sensor_commands: "false"
+      - mock_sensor_commands: "false"
       - headless_mode: "true"
       - robot_ip: "0.0.0.0"
       - joint_limits_parameters_file:
