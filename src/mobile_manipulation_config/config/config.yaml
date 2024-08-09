@@ -3,7 +3,7 @@
 #
 
 # Name of the package to specialize
-based_on_package: "picknik_ur_base_config"
+based_on_package: "picknik_ur_mobile_config"
 hardware:
   # Parameters used to configure the robot description through XACRO.
   # A URDF and SRDF are both required.
@@ -48,12 +48,12 @@ objectives:
   # [Required]
   objective_library_paths:
     sim_objectives:
-      package_name: "picknik_ur_mobile_config"
+      package_name: "mobile_manipulation_config"
       relative_path: "objectives"
   # Specify the location of the saved waypoints file.
   # [Required]
   waypoints_file:
-    package_name: "picknik_ur_mobile_config"
+    package_name: "mobile_manipulation_config"
     relative_path: "waypoints/ur_waypoints.yaml"
 
 

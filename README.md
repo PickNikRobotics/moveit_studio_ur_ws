@@ -9,7 +9,7 @@ MoveIt Pro can be used with real robots and full simulators such as Gazebo and N
 For testing purposes, you can also use the [ROS 2 Control Mock Components](https://control.ros.org/master/doc/ros2_control/hardware_interface/doc/mock_components_userdoc.html), which is what this repo is configured to use.
 
 This workspace offers a reasonable starting point for those users looking to develop with MoveIt Pro using custom base and site configurations.
-For more information refer to the [online documentation](https://docs.picknik.ai/en/stable/).
+For more information refer to the [online documentation](https://docs.picknik.ai).
 
 ## Universal Robots Configuration Packages
 
