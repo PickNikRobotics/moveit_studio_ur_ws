@@ -41,9 +41,9 @@
 
   <worldbody>
     <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
-    <geom name="floor" pos="0 0 -1.626" size="0 0 0.05" type="plane" material="groundplane"/>   
+    <geom name="floor" pos="0 0 0" size="0 0 0.05" type="plane" material="groundplane"/>
     <!-- Define the table -->
-    <body name="table" pos="1 0 0.45">
+    <body name="table" pos="0 1 0.45">
         <geom type="box" size="0.5 0.5 0.025" material="wood"/>
     </body>
     <!-- Define the blocks with AprilTags on each face -->
@@ -74,9 +74,9 @@
     <key qpos="
       0 0 -1.5707 1.5707 -1.8 -1.5707 0
       0 0 0 0 0 0 0 0
-      0.75 0.2 0.51 1 0 0 0
-      0.75 0.0 0.51 1 0 0 0
-      0.75 -0.2 0.51 1 0 0 0
+      0.2 0.75 0.51 1 0 0 0
+      0.0 0.75 0.51 1 0 0 0
+      -0.2 0.75 0.51 1 0 0 0
     "
     ctrl="
       0 0 -1.5707 1.5707 -1.8 -1.5707 0 0
