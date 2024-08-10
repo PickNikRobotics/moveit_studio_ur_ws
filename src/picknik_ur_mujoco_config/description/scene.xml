@@ -1,5 +1,4 @@
 <!-- UR5e inspired from https://github.com/google-deepmind/mujoco_menagerie/tree/main/universal_robots_ur5e -->
-<!-- Kitchen inspired by https://github.com/Farama-Foundation/Gymnasium-Robotics/tree/main/gymnasium_robotics/envs/franka_kitchen -->
 
 <mujoco model="ur5e scene">
   <include file="ur5e.xml"/>
@@ -12,12 +11,10 @@
         <!-- Define AprilTag textures -->
         <texture name="apriltag1" type="2d" file="assets/tag36_11_00000.png"/>
         <texture name="apriltag2" type="2d" file="assets/tag36_11_00001.png"/>
-        <texture name="apriltag3" type="2d" file="assets/tag36_11_00002.png"/>
 
         <!-- Define block materials with AprilTags -->
         <material name="apriltag_material1" texture="apriltag1" texuniform="false" />
         <material name="apriltag_material2" texture="apriltag2" texuniform="false" />
-        <material name="apriltag_material3" texture="apriltag3" texuniform="false" />
     </asset>
 
   <statistic center="0.3 0 0.4" extent="0.8"/>
@@ -33,28 +30,34 @@
     <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3"
       markrgb="0.8 0.8 0.8" width="300" height="300"/>
     <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
+  </asset>  
+  <asset>
+    <mesh name="cube" file="Cube.stl"/>
   </asset>
+
 
   <worldbody>
     <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
     <geom name="floor" pos="0 0 0" size="0 0 0.05" type="plane" material="groundplane"/>
     <!-- Define the table -->
-    <body name="table" pos="1 0 0.5">
-        <geom type="box" size="0.5 0.5 0.025" pos="0 0 0.025" material="wood"/>
+    <body name="table" pos="0 1 0.45">
+        <geom type="box" size="0.5 0.5 0.025" material="wood"/>
     </body>
         <!-- Define the block with AprilTags on each face -->
-        <body name="block1" pos="0.75 0.2 0.575">
+        <body name="block1" pos="0.2 0.75 0.575">
             <freejoint name="block1"/>
-            <geom type="box" size="0.025 0.025 0.025" rgba="1 0 0 1" material="apriltag_material1"/>
+            <geom type="box" size="0.025 0.025 0.025" rgba="1 1 1 1" material="apriltag_material1"/>
         </body>
-        <body name="block2" pos="0.75 0.0 0.575">
+        <body name="block2" pos="0.0 0.75 0.575">
             <freejoint name="block2"/>
-            <geom type="box" size="0.025 0.025 0.025" rgba="0 1 0 1" material="apriltag_material2"/>
+            <geom class="visual" mesh="cube" pos="0 0 -0.03"/>
+            <geom class="collision" type="box" size="0.0325 0.0325 0.0325" pos="0 0 0"/>
         </body>
-        <body name="block3" pos="0.75 -0.2 0.575">
+        <body name="block3" pos="-0.2 0.75 0.575">
             <freejoint name="block3"/>
-            <geom type="box" size="0.025 0.025 0.025" rgba="0 0 1 1" material="apriltag_material3"/>
+            <geom type="box" size="0.025 0.025 0.025" rgba="1 1 1 1" material="apriltag_material2"/>
         </body>
+
 
   </worldbody>
 
@@ -75,7 +78,7 @@
       -0.2 0.75 0.51 1 0 0 0
     "
     ctrl="
-      0 0 -1.5707 1.5707 -3.14 -2.25 0 0
+      2.5 0 -1.5707 1.5707 -2.25 -1.57 0 0
     "
     />
   </keyframe>

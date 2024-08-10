@@ -67,8 +67,8 @@
     </default>
     <default class="robot">
         <material specular="0.5" shininess="0.25"/>
-        <joint armature="0.1" damping="1" axis="0 0 1" range="-2.8973 2.8973"/>
-        <general dyntype="none" biastype="affine" ctrlrange="-3.14159 3.14159" forcerange="-5000 5000"/>
+        <joint armature="1.0" damping="0.75" axis="0 0 1" range="-5.0 5.0"/>
+        <general dyntype="none" biastype="affine" ctrlrange="-5.0 5.0" forcerange="-100000 100000"/>
         <default class="limitedJoints">
             <joint limited="true"/>
         </default>
@@ -126,11 +126,11 @@
     <site name="scene_camera_optical_frame" pos="0.0 1.6 1.6" euler="2.2415 0 3.1415"/>
     <camera name="scene_camera" pos="0.0 1.6 1.6" fovy="58" mode="fixed" resolution="640 480" euler="-0.9 0 3.1415"/>
 
-    <geom type="mesh" rgba="0 0.4 0.8 1" mesh="rail" pos="0 0 .6" euler="0 0 1.5707"/>
+    <geom type="mesh" rgba="0.4 0.4 0.4 1" mesh="rail" pos="0 0 .6" euler="0 0 1.5707"/>
     <body name="base_platform" pos="0 0 .6" euler="0 0 1.5707">
       <joint name="linear_rail_joint" type="slide" axis="0 1 0" range="-5.0 5.0"/>
       <body name="adapter" pos="-0.06 -0.4 -0.2" euler="0 0 0">
-        <geom type="box" size="0.08 0.1 0.2" material="jointgray"/>
+        <geom type="box" size="0.08 0.1 0.2" rgba="1 1 1 1"/>
         <body name="base" pos="0.0 0.0 0.2" euler="0 0 0" childclass="ur5e">
           <inertial mass="4.0" pos="0 0 0" diaginertia="0.00443333156 0.00443333156 0.0072"/>
           <geom mesh="base_0" material="black" class="visual"/>
@@ -286,7 +286,8 @@
   </worldbody>
 
   <actuator>
-    <position class="robot" name="linear_rail_joint" joint="linear_rail_joint" kp="75000" dampratio="1.0"/>
+    <!-- <general class="robot" name="linear_rail_joint" joint="linear_rail_joint" gainprm="25000" biasprm="0 -25000 -20000"/> -->
+    <position class="robot" name="linear_rail_joint" joint="linear_rail_joint" kp="1500000" />
   </actuator>
 
   <actuator>

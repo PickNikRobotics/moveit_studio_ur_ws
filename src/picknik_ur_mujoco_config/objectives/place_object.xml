@@ -15,7 +15,7 @@
         <Action ID="AddPoseStampedToVector" input="{corrected_pose}" vector="{corrected_poses}"/>
       </Control>
       <!--Use the ForEach decorator to get a pose from our vector of poses-->
-      <SubTree ID="Place first object in vector" pose_vector="{corrected_poses}"/>
+      <SubTree ID="Place first object in vector" pose_vector="{corrected_poses}" _collapsed="false"/>
     </Control>
   </BehaviorTree>
   <TreeNodesModel>
