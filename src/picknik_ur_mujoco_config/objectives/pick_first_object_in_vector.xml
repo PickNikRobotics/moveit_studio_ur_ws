@@ -14,4 +14,7 @@
       </Control>
     </Decorator>
   </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Pick first object in vector"/>
+  </TreeNodesModel>
 </root>

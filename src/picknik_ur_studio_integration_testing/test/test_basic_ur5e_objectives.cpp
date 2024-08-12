@@ -62,23 +62,14 @@ TEST_F(ObjectiveFixture, Trivial)
   ASSERT_TRUE(true);
 }
 
-TEST_F(ObjectiveFixture, TestCloseGripper)
-{
-  ASSERT_TRUE(setupDoObjectiveSequenceClient());
-
-  auto do_objective_goal = std::make_unique<DoObjectiveSequence::Goal>();
-  do_objective_goal->objective_name = "Close Gripper";
-
-  EXPECT_TRUE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal)));
-}
 
 // TODO(schornakj): re-enable this test when we can generate simulated point clouds in the test environment
-TEST_F(ObjectiveFixture, DISABLED_TestPickObject)
+TEST_F(ObjectiveFixture, TestPickObject)
 {
   ASSERT_TRUE(setupDoObjectiveSequenceClient());
 
   auto do_objective_goal = std::make_unique<DoObjectiveSequence::Goal>();
-  do_objective_goal->objective_name = "Pick Object";
+  do_objective_goal->objective_name = "Pick April Tag Labeled Object";
 
   // Set a grasp pose based on a user-selected grasp originally picked in simulation
   const auto grasp_pose = [] {
@@ -98,7 +89,16 @@ TEST_F(ObjectiveFixture, DISABLED_TestPickObject)
 
   do_objective_goal->parameter_overrides.insert(do_objective_goal->parameter_overrides.end(), { pose_name_parameter });
 
-  EXPECT_TRUE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal), 30.0));
+  EXPECT_TRUE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal), 45.0));
+}
+TEST_F(ObjectiveFixture, TestOpenGripper)
+{
+  ASSERT_TRUE(setupDoObjectiveSequenceClient());
+
+  auto do_objective_goal = std::make_unique<DoObjectiveSequence::Goal>();
+  do_objective_goal->objective_name = "Open Gripper";
+
+  EXPECT_TRUE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal),20));
 }
 
 TEST_F(ObjectiveFixture, DISABLED_TestInspectSurface)
