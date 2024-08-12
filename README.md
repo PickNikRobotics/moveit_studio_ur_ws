@@ -20,7 +20,7 @@ graph TB
 Base[picknik_ur_base_config] --> Site[picknik_ur_site_config]
 Base --> Mock[picknik_ur_mock_hw_config]
 Base --> Simulation[picknik_ur_mujoco_config]
-Site --> Gazebo Simulation[picknik_ur_gazebo_config]
+Site --> Gazebo[picknik_ur_gazebo_config]
 Site --> Picknik[Other PickNik configs]
 Gazebo --> ScanAndPlan[picknik_ur_gazebo_scan_and_plan_config]
 ```
