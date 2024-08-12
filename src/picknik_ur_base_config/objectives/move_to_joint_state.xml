@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <root BTCPP_format="4" main_tree_to_execute="Move to Joint State">
-    <BehaviorTree ID="Move to Joint State" _description="Move to a specified joint state">
+    <BehaviorTree ID="Move to Joint State" _description="Move to a specified joint state" _subtreeOnly="true">
         <Control ID="Fallback" name="root">
             <Control ID="Sequence">
                 <Action ID="RetrieveJointStateParameter" timeout_sec="-1" joint_state="{target_joint_state}"/>

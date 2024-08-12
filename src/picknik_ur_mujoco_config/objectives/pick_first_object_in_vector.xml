@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Pick first object in vector">
   <!--//////////-->
-  <BehaviorTree ID="Pick first object in vector">
+  <BehaviorTree ID="Pick first object in vector" _subtreeOnly="true" _description="">
     <Decorator ID="ForEachPoseStamped" vector_in="{pose_vector}" out="{grasp_pose}">
       <Control ID="Sequence">
         <Action ID="LoadObjectiveParameters" config_file_name="pick_object_config.yaml"/>

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Pick object">
   <!--//////////-->
-  <BehaviorTree ID="Pick object" _description="" _favorite="false">
+  <BehaviorTree ID="Pick object" _description="" _favorite="false" _subtreeOnly="true">
     <Control ID="Sequence" name="root">
       <SubTree ID="Open Gripper"/>
       <Control ID="Sequence">
