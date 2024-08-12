@@ -21,14 +21,14 @@
     - wrist_2_joint
     - wrist_3_joint
     position:
-    - 0.02316228240339542
-    - 0.26526269235355276
-    - 0.06918649089844202
-    - -1.5729824444914329
-    - 1.2134037738852805
-    - -1.6874591635191964
-    - -1.6035387748059573
-    - 0.06082618431700606
+    - 0.025621968556683264
+    - 0.044673059948412905
+    - -0.10146991441880095
+    - -0.9509090911969026
+    - 1.0216611447530934
+    - -2.069727343165092
+    - -1.5279010549932621
+    - -0.09225799142414147
     velocity: []
   multi_dof_joint_state:
     header:
@@ -40,7 +40,50 @@
     transforms: []
     twist: []
     wrench: []
-  name: Look at Table
+  name: Right Corner
+- description: ''
+  favorite: false
+  joint_group_names:
+  - gripper
+  - linear_actuator
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - robotiq_85_left_knuckle_joint
+    - linear_rail_joint
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - 0.03938944161533654
+    - 0.3876592346144604
+    - -0.0050005587173510835
+    - -1.1752051452705052
+    - 1.8029488349907186
+    - -2.1729925715096288
+    - -1.575714284602068
+    - -0.004887015002229125
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Place
 - description: ''
   favorite: false
   joint_group_names:
@@ -107,14 +150,14 @@
     - wrist_2_joint
     - wrist_3_joint
     position:
-    - 0.03938944161533654
-    - 0.3876592346144604
-    - -0.0050005587173510835
-    - -1.1752051452705052
-    - 1.8029488349907186
-    - -2.1729925715096288
-    - -1.575714284602068
-    - -0.004887015002229125
+    - 0.02316228240339542
+    - 0.26526269235355276
+    - 0.06918649089844202
+    - -1.5729824444914329
+    - 1.2134037738852805
+    - -1.6874591635191964
+    - -1.6035387748059573
+    - 0.06082618431700606
     velocity: []
   multi_dof_joint_state:
     header:
@@ -126,4 +169,4 @@
     transforms: []
     twist: []
     wrench: []
-  name: Place Block
+  name: Look at Table

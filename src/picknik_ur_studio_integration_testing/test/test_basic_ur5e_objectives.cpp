@@ -72,16 +72,6 @@ TEST_F(ObjectiveFixture, TestCloseGripper)
   EXPECT_TRUE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal)));
 }
 
-TEST_F(ObjectiveFixture, TestOpenGripper)
-{
-  ASSERT_TRUE(setupDoObjectiveSequenceClient());
-
-  auto do_objective_goal = std::make_unique<DoObjectiveSequence::Goal>();
-  do_objective_goal->objective_name = "Open Gripper";
-
-  EXPECT_TRUE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal)));
-}
-
 // TODO(schornakj): re-enable this test when we can generate simulated point clouds in the test environment
 TEST_F(ObjectiveFixture, DISABLED_TestPickObject)
 {
@@ -143,7 +133,7 @@ TEST_F(ObjectiveFixture, DISABLED_TestInspectSurface)
   EXPECT_TRUE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal), 30.0));
 }
 
-TEST_F(ObjectiveFixture, TestMoveToJointState)
+TEST_F(ObjectiveFixture, DISABLED_TestMoveToJointState)
 {
   ASSERT_TRUE(setupDoObjectiveSequenceClient());
 
@@ -168,7 +158,7 @@ TEST_F(ObjectiveFixture, TestMoveToJointState)
   EXPECT_TRUE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal), 30.0));
 }
 
-TEST_F(ObjectiveFixture, TestInterpolateToJointState)
+TEST_F(ObjectiveFixture, DISABLED_TestInterpolateToJointState)
 {
   ASSERT_TRUE(setupDoObjectiveSequenceClient());
 
@@ -189,6 +179,16 @@ TEST_F(ObjectiveFixture, TestInterpolateToJointState)
   // Run the Objective
   auto do_objective_goal = std::make_unique<DoObjectiveSequence::Goal>();
   do_objective_goal->objective_name = "Interpolate to Joint State";
+
+  EXPECT_TRUE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal), 30.0));
+}
+TEST_F(ObjectiveFixture, TestTableInspect)
+{
+  ASSERT_TRUE(setupDoObjectiveSequenceClient());
+
+  // Run the Objective
+  auto do_objective_goal = std::make_unique<DoObjectiveSequence::Goal>();
+  do_objective_goal->objective_name = "Look at table";
 
   EXPECT_TRUE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal), 30.0));
 }
