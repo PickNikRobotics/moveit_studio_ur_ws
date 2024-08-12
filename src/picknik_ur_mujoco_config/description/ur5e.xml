@@ -292,7 +292,6 @@
   </worldbody>
 
   <actuator>
-    <!-- <general class="robot" name="linear_rail_joint" joint="linear_rail_joint" gainprm="25000" biasprm="0 -25000 -20000"/> -->
     <position class="robot" name="linear_rail_joint" joint="linear_rail_joint" kp="1500000" />
   </actuator>
 
