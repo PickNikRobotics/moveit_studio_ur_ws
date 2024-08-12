@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<root BTCPP_format="4" main_tree_to_execute="Move Until Contact Example">
+<root BTCPP_format="4" main_tree_to_execute="Move Until Contact">
   <!--//////////-->
-  <BehaviorTree ID="Move Until Contact Example" _description="An example for how to use the VFC to move in a direction until contact is made." _favorite="false">
+  <BehaviorTree ID="Move Until Contact" _description="An example for how to use the VFC to move in a direction until contact is made." _favorite="false">
     <Control ID="Sequence" name="TopLevelSequence">
       <SubTree ID="Move to Waypoint" _collapsed="true" waypoint_name="Place" joint_group_name="manipulator" planner_interface="pro_rrt" controller_names="/joint_trajectory_controller"/>
       <Action ID="ActivateControllers" controller_names="/velocity_force_controller"/>

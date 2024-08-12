@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Pick April Tag Object With Approval">
   <!--//////////-->
-  <BehaviorTree ID="Pick April Tag Object With Approval" _description="Picks up an object that has an AprilTag marker." _favorite="true">
+  <BehaviorTree ID="Pick April Tag Object With Approval" _description="Picks up an object that has an AprilTag marker." _favorite="false">
     <Control ID="Sequence" name="TopLevelSequence">
       <SubTree ID="Wrist camera snapshot" _collapsed="true"/>
       <Control ID="Sequence" name="Setup">

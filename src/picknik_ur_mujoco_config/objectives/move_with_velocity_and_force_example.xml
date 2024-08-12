@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<root BTCPP_format="4" main_tree_to_execute="Move With Velocity and Distance Example">
+<root BTCPP_format="4" main_tree_to_execute="Move With Velocity and Force">
   <!--//////////-->
-  <BehaviorTree ID="Move With Velocity and Distance Example" _description="An example for how to use the VFC to move with a velocity / force reference until a given distance is travelled" _favorite="false">
+  <BehaviorTree ID="Move With Velocity and Force" _description="An example for how to use the VFC to move with a velocity / force reference" _favorite="true">
     <Control ID="Sequence" name="TopLevelSequence">
       <SubTree ID="Move to Waypoint" _collapsed="true" waypoint_name="VFC Start" joint_group_name="manipulator" planner_interface="pro_rrt" controller_names="/joint_trajectory_controller"/>
       <Action ID="ActivateControllers" controller_names="/velocity_force_controller"/>
