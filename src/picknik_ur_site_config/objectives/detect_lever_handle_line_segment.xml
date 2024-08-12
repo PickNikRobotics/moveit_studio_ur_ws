@@ -16,7 +16,7 @@
       <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
         <Control ID="Sequence">
           <Action ID="GetPointCloudFromMask3D" point_cloud="{point_cloud}" mask3d="{mask3d}" point_cloud_fragment="{point_cloud_fragment}"/>
-          <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"/>
+          <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" pcd_topic="/pcd_pointcloud_captures"/>
         </Control>
       </Decorator>
       <!-- Fit a line segment to the 3D mask -->
