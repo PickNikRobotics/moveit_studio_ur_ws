@@ -13,9 +13,17 @@
             <Action ID="CreateStampedPose" reference_frame="{tip_link}" stamped_pose="{current_pose}"/>
             <Action ID="TransformPoseFrame" output_pose="{current_pose}" input_pose="{current_pose}"/>
             <Action ID="CalculatePoseOffset" source_pose="{initial_pose}" destination_pose="{current_pose}" source_to_destination_pose="{initial_pose_current}"/>
+            <Action ID="UnpackPoseMessage" pose="{initial_pose_current}"/>
+            <Action ID="UnpackPointMessage" point="{position}"/>
           </Control>
         </Decorator>
         <Action ID="ForceExceedsThreshold" minimum_consecutive_wrench_values="5" wrench_frame_name="tool0" hand_frame_name="{tip_link}" force_threshold="{force_threshold}"/>
+        <Decorator ID="Precondition" if="{distance_exit_condition}" else="RUNNING">
+          <Control ID="Sequence">
+            <Action ID="LogMessage" log_level="info" message="Distance exit conditions met"/>
+            <Action ID="AlwaysSuccess"/>
+          </Control>
+        </Decorator>
         <Action ID="PublishVelocityForceCommand" force_controlled_axes="{force_controlled_axes}" wrench_gain="{wrench_gain}" velocity_controlled_axes="{velocity_controlled_axes}" publish_rate="50"/>
       </Control>
     </Control>
