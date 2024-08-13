@@ -32,33 +32,90 @@
     <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
   </asset>  
   <asset>
-    <mesh name="cube" file="Cube.stl"/>
+    <texture type="2d" name="desk_texture" file="assets/desk.png"/>
+    <texture type="2d" name="shelf_texture" file="assets/shelf.png"/>
+    <texture type="2d" name="microscope_texture" file="assets/microscope.png"/>
+    <texture type="2d" name="stirrer_texture" file="assets/stirrer.png"/>
+    <texture type="2d" name="test_tubes_stand_texture" file="assets/test_tubes_stand.png"/>
+    <texture type="2d" name="bottle_texture" file="assets/bottle.png"/>
+
+    <material name="desk" texture="desk_texture" specular="0.5" shininess="0.5"/>
+    <material name="shelf" texture="shelf_texture" specular="0.5" shininess="0.5"/>
+    <material name="microscope" texture="microscope_texture" specular="0.5" shininess="0.5"/>
+    <material name="glass" rgba="0.659 0.800 0.843 0.3"/>
+    <material name="stirrer" texture="stirrer_texture" specular="0.5" shininess="0.5"/>
+    <material name="test_tubes_stand" texture="test_tubes_stand_texture" specular="0.5" shininess="0.5"/>
+    <material name="bottle" texture="bottle_texture" specular="0.5" shininess="0.5"/>
+
+    <mesh file="desk.obj"/>
+    <mesh file="shelf.obj"/>
+    <mesh file="shelf_glass.obj"/>
+    <mesh file="microscope.obj"/>
+    <mesh file="beaker.obj"/>
+    <mesh file="stirrer.obj"/>
+    <mesh file="test_tubes.obj"/>
+    <mesh file="test_tubes_stand.obj"/>
+    <mesh file="flask.obj"/>
+    <mesh file="bottle.obj"/>
   </asset>
+
 
 
   <worldbody>
     <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
     <geom name="floor" pos="0 0 0" size="0 0 0.05" type="plane" material="groundplane"/>
-    <!-- Define the table -->
-    <body name="table" pos="0 1 0.45">
-        <geom type="box" size="0.5 0.5 0.025" material="wood"/>
+
+    <body name="desk" pos="0 0 0" euler="0 0 0">
+      <geom material="desk" mesh="desk" class="visual"/>
     </body>
-        <!-- Define the block with AprilTags on each face -->
-        <body name="block1" pos="0.2 0.75 0.575">
-            <freejoint name="block1"/>
-            <geom type="box" size="0.025 0.025 0.025" rgba="1 1 1 1" material="apriltag_material1"/>
-        </body>
-        <body name="block2" pos="0.0 0.75 0.575">
-            <freejoint name="block2"/>
-            <geom class="visual" mesh="cube" pos="0 0 -0.03"/>
-            <geom class="collision" type="box" size="0.0325 0.0325 0.0325" pos="0 0 0"/>
-        </body>
-        <body name="block3" pos="-0.2 0.75 0.575">
-            <freejoint name="block3"/>
-            <geom type="box" size="0.025 0.025 0.025" rgba="1 1 1 1" material="apriltag_material2"/>
-        </body>
-
-
+    <body name="shelf" pos="-2.78335 0.27681 0" euler="0 0 0">
+      <geom material="shelf" mesh="shelf" class="visual"/>
+    </body>
+      <body name="shelf_glass" pos="-2.78335 0.27681 0" euler="0 0 0">
+      <geom material="glass" mesh="shelf_glass" class="visual"/>
+    </body>
+    <body name="microscope" pos="-1.168 -0.3233 0.98385" euler="0 0 0">
+      <geom material="microscope" mesh="microscope" class="visual"/>
+    </body>
+    <body name="beaker-1" pos="-1.34591 -0.022235 1.40977" euler="0 0 0">
+      <geom material="glass" mesh="beaker" class="visual"/>
+    </body>
+    <body name="beaker-2" pos="-1.1503 -0.022235 1.40977" euler="0 0 45">
+      <geom material="glass" mesh="beaker" class="visual"/>
+    </body>
+    <body name="beaker-3" pos="-0.871046 -0.370397 0.986592" euler="0 0 20">
+      <geom material="glass" mesh="beaker" class="visual"/>
+    </body>
+    <body name="stirrer" pos="0.305 -0.339 0.985827" euler="0 0 0">
+      <geom material="stirrer" mesh="stirrer" class="visual"/>
+    </body>
+    <body name="test_tubes_stand" pos="-0.7 -0.25 0.984476" euler="0 0 -30">
+      <geom material="test_tubes_stand" mesh="test_tubes_stand" class="visual"/>
+    </body>
+      <body name="test_tubes" pos="-0.7 -0.25 0.984476" euler="0 0 -30">
+      <geom material="glass" mesh="test_tubes" class="visual"/>
+    </body>
+    <body name="flask_1" pos="-0.5 -0.41 0.984476" euler="0 0 -30">
+      <geom material="glass" mesh="flask" class="visual"/>
+    </body>
+    <body name="flask_2" pos="-0.36 -0.49 0.984476" euler="0 0 -30">
+      <geom material="glass" mesh="flask" class="visual"/>
+    </body>
+    <body name="flask_3" pos="-0.3 -0.4 0.984476" euler="0 0 -30">
+      <geom material="glass" mesh="flask" class="visual"/>
+    </body>
+    <body name="flask_4" pos="0.251 -0.428 1.0242" euler="0 0 -30">
+      <geom material="glass" mesh="flask" class="visual"/>
+    </body>
+    <body name="bottle_1" pos="0 -0.4 0.985807" euler="0 0 -20">
+      <geom material="bottle" mesh="bottle" class="visual"/>
+    </body>
+    <body name="bottle_2" pos="-0.1 -0.45 0.985807" euler="0 0 10">
+      <geom material="bottle" mesh="bottle" class="visual"/>
+    </body>
+    <body name="bottle_3" pos="0.05 -0.45 0.985807" euler="0 0 -30">
+      <geom material="bottle" mesh="bottle" class="visual"/>
+    </body>
   </worldbody>
 
   <keyframe>
@@ -73,12 +130,9 @@
     <key qpos="
       0 0 -1.5707 1.5707 -1.8 -1.5707 0
       0 0 0 0 0 0 0 0
-      0.2 0.75 0.51 1 0 0 0
-      0.0 0.75 0.51 1 0 0 0
-      -0.2 0.75 0.51 1 0 0 0
     "
     ctrl="
-      2.5 0 -1.0 1.0 -1.57 -1.57 0 0
+      0.8 0.126 -1.51 1.79 -2.2 -1.51 0 0
     "
     />
   </keyframe>

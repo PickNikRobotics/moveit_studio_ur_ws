@@ -123,11 +123,11 @@
   <worldbody>
     <light name="spotlight" mode="targetbodycom" target="wrist_2_link" pos="0 -1 2"/>
 
-    <site name="scene_camera_optical_frame" pos="0.0 1.6 1.6" euler="2.2415 0 3.1415"/>
-    <camera name="scene_camera" pos="0.0 1.6 1.6" fovy="58" mode="fixed" resolution="640 480" euler="-0.9 0 3.1415"/>
+    <site name="scene_camera_optical_frame" pos="0.0 1.6 2.6" euler="2.7415 0 3.1415"/>
+    <camera name="scene_camera" pos="0.0 1.6 2.6" fovy="58" mode="fixed" resolution="640 480" euler="-0.9 0 3.1415"/>
 
-    <geom type="mesh" rgba="0.4 0.4 0.4 1" mesh="rail" pos="0 0 .6" euler="0 0 1.5707"/>
-    <body name="base_platform" pos="0 0 .6" euler="0 0 1.5707">
+    <geom type="mesh" rgba="0.4 0.4 0.4 1" mesh="rail" pos="0 -1 1" euler="0 0 1.5707"/>
+    <body name="base_platform" pos="0 -1 1" euler="0 0 1.5707">
       <joint name="linear_rail_joint" type="slide" axis="0 1 0" range="-5.0 5.0"/>
       <body name="adapter" pos="-0.06 -0.4 -0.2" euler="0 0 0">
         <geom type="box" size="0.08 0.1 0.2" rgba="1 1 1 1"/>
