@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Get IMarker Pose From Mesh Visualization">
   <!--//////////-->
-  <BehaviorTree ID="Get IMarker Pose From Mesh Visualization" _description="Visualize a mesh in the UI and use an IMarker to get a grasp pose based on that mesh" _favorite="false">
+  <BehaviorTree ID="Get IMarker Pose From Mesh Visualization" _description="Visualize a mesh in the UI and use an IMarker to get a grasp pose based on that mesh" _favorite="false" _subtreeOnly="true">
     <Control ID="Sequence" name="TopLevelSequence">
       <Action ID="VisualizeMesh" marker_lifetime="0.0"/>
       <Action ID="AddPoseStampedToVector" input="{mesh_pose}"/>
@@ -13,7 +13,7 @@
       <output_port name="adjusted_poses" default="{adjusted_poses}"/>
       <input_port name="mesh_path" default="{mesh_path}"/>
       <input_port name="mesh_pose" default="{mesh_pose}"/>
-      <input_port name="_collapsed" default="false"/>
+      <input_port name="_collapsed" default="true"/>
     </SubTree>
   </TreeNodesModel>
 </root>
