@@ -17,9 +17,9 @@ joint_limits:
     has_velocity_limits: true
     max_acceleration: 10.0
     max_effort: 1500.0
-    max_position: 5.0
+    max_position: 2.9
     max_velocity: 1.0
-    min_position: -5.0
+    min_position: -2.1
   shoulder_pan_joint:
     has_acceleration_limits: true
     has_effort_limits: true

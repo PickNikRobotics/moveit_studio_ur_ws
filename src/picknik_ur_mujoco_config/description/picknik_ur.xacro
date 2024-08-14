@@ -512,25 +512,64 @@
   <!-- Linear rail -->
   <link name="linear_rail">
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 0.05"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://picknik_ur_mujoco_config/description/assets/rail.stl"/>
+        <box size="5.0 0.6 0.30"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 0.1 1.0"/>
+      </material>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0.14 0.125"/>
+      <geometry>
+        <box size="5.0 0.2 0.5"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 0.1 1.0"/>
+      </material>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 -0.22 0.125"/>
+      <geometry>
+        <box size="5.0 0.12 0.5"/>
       </geometry>
       <material name="grey">
         <color rgba="0.1 0.1 0.1 1.0"/>
       </material>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0 0 0.05"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://picknik_ur_mujoco_config/description/assets/rail.stl"/>
+        <box size="5.0 0.6 0.3"/>
       </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 0.1 1.0"/>
+      </material>
+    </collision>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0.14 0.125"/>
+      <geometry>
+        <box size="5.0 0.2 0.5"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 0.1 1.0"/>
+      </material>
+    </collision>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 -0.22 0.125"/>
+      <geometry>
+        <box size="5.0 0.12 0.5"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 0.1 1.0"/>
+      </material>
     </collision>
   </link>
   <joint name="world-rail" type="fixed">
     <parent link="world"/>
     <child link="linear_rail"/>
-    <origin rpy="0 0 1.5707" xyz="0.0 0 0.6"/>
+    <origin rpy="0 0 0" xyz="0.0 0 0.0"/>
   </joint>
   <!--
     Base UR robot series xacro macro.
@@ -734,7 +773,7 @@
   </link>
   <!-- base_joint fixes base_link to the environment -->
   <joint name="base_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="-0.06 -0.4 0.0"/>
+    <origin rpy="0 0 1.5707" xyz="0.4 -0.06 0.6"/>
     <parent link="ur_linear_rail_base"/>
     <child link="base_link"/>
   </joint>
@@ -875,11 +914,11 @@
     <origin rpy="0 0 0.19634954084936207" xyz="0 0 0"/>
   </joint>
   <joint name="linear_rail_joint" type="prismatic">
-    <axis xyz="0 1 0"/>
+    <axis xyz="-1 0 0"/>
     <parent link="linear_rail"/>
     <child link="ur_linear_rail_base"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
-    <limit acceleration="10.0" effort="1000.0" lower="-5.0" upper="5.0" velocity="0.175"/>
+    <limit acceleration="10.0" effort="1000.0" lower="-2.1" upper="2.9" velocity="0.175"/>
     <dynamics damping="20.0" friction="500.0"/>
   </joint>
   <!-- Table -->
