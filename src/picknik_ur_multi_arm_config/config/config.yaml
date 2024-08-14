@@ -54,8 +54,6 @@ hardware:
           package: "picknik_ur_base_config"
           path: "config/moveit/joint_limits.yaml"
       # The following files are loaded based on the ur_description package layout.
-      # To use parameters from a different package, place them in a config/ROBOT_NAME/ directory,
-      # replace ROBOT_NAME with the value used for hardware.type in this file.
       - kinematics_parameters_file:
       # Load default_kinematics.yaml from ur_description/config/<ur_type>
           package: "ur_description"
@@ -68,7 +66,6 @@ hardware:
       # Load visual_parameters.yaml from ur_description/config/<ur_type>
           package: "ur_description"
           path: "config/ur5e/visual_parameters.yaml"
-
 
 # Sets ROS global params for launch.
 # [Optional]
@@ -123,7 +120,6 @@ moveit_params:
     allowed_execution_duration_scaling: 2.0
     allowed_goal_duration_margin: 5.0
     allowed_start_tolerance: 0.01
-
 
 # Configuration for launching ros2_control processes.
 # [Required, if using ros2_control]

@@ -1,6 +1,4 @@
-#!/usr/bin/env python3
-
-# Copyright 2023 PickNik Inc.
+# Copyright 2024 PickNik Inc.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -28,37 +26,35 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+import sys
 
-import unittest
+from ament_index_python import get_package_share_directory
+from launch import LaunchDescription
+from launch.actions import OpaqueFunction
 
-import launch_testing
+# Add the realsense2_camera/launch directory to the user's path so we can import the realsense2_camera rs_launch module.
+realsense2_camera_path = get_package_share_directory("realsense2_camera")
+sys.path.append(f"{realsense2_camera_path}/launch")
 
-from picknik_ur_studio_integration_testing.generate_agent_plus_drivers_launch_description import (
-    generate_agent_plus_drivers_launch_description,
-)
+import rs_launch.configurable_parameters as rs_configurable_parameters
 
 
-def generate_test_description():
-    return generate_agent_plus_drivers_launch_description(
-        gtest_name="test_basic_ur5e_objectives",
-        env_vars={
-            # Load site config for simulated UR-5e
-            "STUDIO_CONFIG_PACKAGE": "picknik_ur_mujoco_config",
-            "MOCK_HARDWARE": "true",
-        },
+def generate_launch_description():
+    rs_configurable_parameters.extend(
+        [
+            {
+                "name": "color_qos",
+                "default": "SENSOR_DATA",
+                "description": "Color stream QoS settings",
+            },
+            {
+                "name": "depth_qos",
+                "default": "SENSOR_DATA",
+                "description": "Depth stream QoS settings",
+            },
+        ]
     )
-
-
-class TestGTestWaitForCompletion(unittest.TestCase):
-    # Waits for test to complete, then waits a bit to make sure result files are generated
-    def test_gtest_run_complete(self, objective_client_gtest):
-        self.proc_info.assertWaitForShutdown(objective_client_gtest, timeout=4000.0)
-
-
-@launch_testing.post_shutdown_test()
-class TestGTestProcessPostShutdown(unittest.TestCase):
-    # Checks if the test has been completed with acceptable exit codes (successful codes)
-    def test_gtest_pass(self, proc_info, objective_client_gtest):
-        launch_testing.asserts.assertExitCodes(
-            proc_info, process=objective_client_gtest
-        )
+    return LaunchDescription(
+        rs_launch.declare_configurable_parameters(rs_launch.configurable_parameters)
+        + [OpaqueFunction(function=rs_launch.launch_setup)]
+    )

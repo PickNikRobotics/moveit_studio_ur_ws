@@ -19,7 +19,7 @@
               <!-- Get the latest point cloud from the target topic-->
               <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
               <!-- Publish point cloud for display by UI -->
-              <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"/>
+              <Action ID="SendPointCloudToUI" point_cloud="{point_cloud}" pcd_topic="/pcd_pointcloud_captures"/>
               <!-- Detect all cuboids in that point cloud-->
               <Action ID="FindSingularCuboids" point_cloud="{point_cloud}" parameters="{parameters}" detected_shapes="{cuboids}"/>
               <!-- Find the closest cuboid to the pose calculated from the user's original click -->
