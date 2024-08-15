@@ -6,7 +6,6 @@
       <Control ID="Sequence">
         <Action ID="SwitchUIPrimaryView" primary_view_name="Visualization"/>
         <Action ID="CreateStampedPose" orientation_xyzw="0;1;0;0" position_xyz="0.01;.75;0.5.15"/>
-        <!--Create a vector of poses to match the input of AdjustPoseWithIMarker-->
         <Action ID="AddPoseStampedToVector" input="{stamped_pose}" vector="{corrected_poses}"/>
       </Control>
       <!--Use the ForEach decorator to get a pose from our vector of poses-->
