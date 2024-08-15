@@ -32,7 +32,7 @@
     <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
   </asset>  
   <asset>
-    <mesh name="cube" file="assets/Cube.stl"/>
+    <mesh name="cube" file="Cube.stl"/>
   </asset>
 
 
@@ -51,7 +51,7 @@
         <body name="block2" pos="0.0 0.75 0.575">
             <freejoint name="block2"/>
             <geom class="visual" mesh="cube" pos="0 0 -0.03"/>
-            <geom class="collision" type="box" size="0.0325 0.0325 0.0325" pos="0 0 0"/>
+            <geom class="collision" type="box" size="0.025 0.025 0.025" pos="0 0 0"/>
         </body>
         <body name="block3" pos="-0.2 0.75 0.575">
             <freejoint name="block3"/>
@@ -78,7 +78,7 @@
       -0.2 0.75 0.51 1 0 0 0
     "
     ctrl="
-      2.5 0 -1.0 1.0 -1.57 -1.57 0 0
+      0 0 -1.0 1.0 -1.57 -1.57 0 0
     "
     />
   </keyframe>
