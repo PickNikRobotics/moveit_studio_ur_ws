@@ -1,4 +1,4 @@
-# picknik_ur_mujoco_config
+# arm_on_rail_sim
 
 A MoveIt Pro MuJoCo simulation for PickNik's Universal Robots (UR) arms.
 
