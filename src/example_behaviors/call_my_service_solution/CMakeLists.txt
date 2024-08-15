@@ -36,8 +36,10 @@ install(DIRECTORY config DESTINATION share/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
-  add_subdirectory(test)
   ament_lint_auto_find_test_dependencies()
+  add_subdirectory(test)
+  target_compile_options(call_my_service PRIVATE -fprofile-arcs -ftest-coverage)
+  target_link_options(call_my_service PRIVATE -fprofile-arcs -ftest-coverage)
 endif()
 
 # Export the behavior plugins defined in this package so they are available to
