@@ -36,11 +36,11 @@ from launch.actions import OpaqueFunction
 realsense2_camera_path = get_package_share_directory("realsense2_camera")
 sys.path.append(f"{realsense2_camera_path}/launch")
 
-import rs_launch.configurable_parameters as rs_configurable_parameters
+import rs_launch
 
 
 def generate_launch_description():
-    rs_configurable_parameters.extend(
+    rs_launch.configurable_parameters.extend(
         [
             {
                 "name": "color_qos",

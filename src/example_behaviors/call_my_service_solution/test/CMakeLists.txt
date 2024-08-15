@@ -1,4 +1,6 @@
+find_package(ament_cmake_auto REQUIRED)
 find_package(ament_cmake_gtest REQUIRED)
+find_package(ament_cmake_gmock REQUIRED)
 
-ament_add_gtest(test_behavior_plugins test_behavior_plugins.cpp)
+ament_auto_add_gtest(test_behavior_plugins test_behavior_plugins.cpp)
 ament_target_dependencies(test_behavior_plugins ${THIS_PACKAGE_INCLUDE_DEPENDS})
