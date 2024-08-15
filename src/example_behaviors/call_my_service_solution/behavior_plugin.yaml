@@ -1,0 +1,4 @@
+objectives:
+  behavior_loader_plugins:
+    call_my_service:
+      - "call_my_service::CallMyServiceBehaviorsLoader"
