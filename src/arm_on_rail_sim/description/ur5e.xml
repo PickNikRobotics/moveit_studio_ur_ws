@@ -304,7 +304,7 @@
     <general class="size1" name="wrist_2_joint" joint="wrist_2_joint"/>
     <general class="size1" name="wrist_3_joint" joint="wrist_3_joint"/>
     <general class="2f85" name="robotiq_85_left_knuckle_joint" tendon="split" forcerange="-5 5" ctrlrange="0 .8"
-             gainprm="100 0 0" biasprm="0 -100 -150"/>
+             gainprm="100 0 0" biasprm="0 -100 -25"/>
   </actuator>
 
   <contact>
