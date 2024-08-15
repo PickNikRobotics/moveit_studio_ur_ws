@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(picknik_ur_mujoco_config)
+project(arm_on_rail_sim)
 
 find_package(ament_cmake REQUIRED)
 
