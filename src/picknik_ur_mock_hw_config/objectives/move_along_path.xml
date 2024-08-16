@@ -21,7 +21,7 @@
           <!--Move to starting position, before planning and executing Cartesian path-->
           <SubTree ID="Move to Waypoint" waypoint_name="Look at Right Table" joint_group_name="manipulator" controller_names="/joint_trajectory_controller" planner_interface="moveit_default"/>
           <!--Plan and validate the trajectory-->
-          <Action ID="PlanCartesianPath" path="{pose_stamped_vector}" planning_group_name="manipulator" tip_link="grasp_link" tip_offset="0.0;0.0;0.0" position_only="false" blending_radius="0.02" velocity_scale_factor="1.0" acceleration_scale_factor="1.0" trajectory_sampling_rate="100" joint_trajectory_msg="{joint_trajectory_msg}"/>
+          <Action ID="PlanCartesianPath" path="{pose_stamped_vector}" planning_group_name="manipulator" tip_link="grasp_link" tip_offset="0.0;0.0;0.0;0.0;0.0;0.0" position_only="false" blending_radius="0.02" velocity_scale_factor="1.0" acceleration_scale_factor="1.0" trajectory_sampling_rate="100" joint_trajectory_msg="{joint_trajectory_msg}" ik_joint_space_density="0.05000" ik_cartesian_space_density="0.01000"/>
           <Action ID="GetCurrentPlanningScene" planning_scene_msg="{planning_scene_msg}"/>
           <Action ID="ValidateTrajectory" planning_scene_msg="{planning_scene_msg}" planning_group_name="manipulator" joint_trajectory_msg="{joint_trajectory_msg}" joint_space_step="0.05" cartesian_space_step="0.02"/>
           <!--Finally, execute the trajectory on the actual robot-->
