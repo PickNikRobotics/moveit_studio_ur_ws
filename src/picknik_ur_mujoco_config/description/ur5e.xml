@@ -119,12 +119,11 @@
     <mesh name="robotiq_85_pad" class="2f85" file="assets/robotiq_2f85/pad.stl"/>
     <mesh name="robotiq_85_silicone_pad" class="2f85" file="assets/robotiq_2f85/silicone_pad.stl"/>
   </asset>
-
   <worldbody>
     <light name="spotlight" mode="targetbodycom" target="wrist_2_link" pos="0 -1 2"/>
 
-    <site name="scene_camera_optical_frame" pos="0.0 1.6 2.6" euler="2.7415 0 3.1415"/>
-    <camera name="scene_camera" pos="0.0 1.6 2.6" fovy="58" mode="fixed" resolution="640 480" euler="-0.9 0 3.1415"/>
+    <site name="scene_camera_optical_frame" pos="-0.931 -4.874 5.097" euler="4.01411065 9.97582907e-05 -4.21396792e-03"/>
+    <camera name="scene_camera" fovy="58" mode="fixed" resolution="640 480" pos="-0.931 -4.874 5.097" euler="0.872518150 9.97582907e-05 -4.21396792e-03"/>
 
     <geom type="mesh" rgba="0.4 0.4 0.4 1" mesh="rail" pos="0 -1 1" euler="0 0 1.5707"/>
     <body name="base_platform" pos="0 -1 1" euler="0 0 1.5707">

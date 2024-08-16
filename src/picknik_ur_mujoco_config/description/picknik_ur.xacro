@@ -530,7 +530,7 @@
   <joint name="world-rail" type="fixed">
     <parent link="world"/>
     <child link="linear_rail"/>
-    <origin rpy="0 0 1.5707" xyz="0.0 0 0.6"/>
+    <origin rpy="0 0 1.5707" xyz="0.0 -1 1"/>
   </joint>
   <!--
     Base UR robot series xacro macro.
