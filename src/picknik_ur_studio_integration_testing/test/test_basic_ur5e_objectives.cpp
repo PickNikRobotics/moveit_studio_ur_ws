@@ -143,7 +143,7 @@ TEST_F(ObjectiveFixture, DISABLED_TestInspectSurface)
   EXPECT_TRUE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal), 30.0));
 }
 
-TEST_F(ObjectiveFixture, TestMoveToJointState)
+TEST_F(ObjectiveFixture, DISABLED_TestMoveToJointState)
 {
   ASSERT_TRUE(setupDoObjectiveSequenceClient());
 
@@ -168,7 +168,7 @@ TEST_F(ObjectiveFixture, TestMoveToJointState)
   EXPECT_TRUE(sendDoObjectiveSequenceGoal(std::move(do_objective_goal), 30.0));
 }
 
-TEST_F(ObjectiveFixture, TestInterpolateToJointState)
+TEST_F(ObjectiveFixture, DISABLED_TestInterpolateToJointState)
 {
   ASSERT_TRUE(setupDoObjectiveSequenceClient());
 

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package format="3">
-  <name>picknik_ur_mobile_config</name>
-  <version>6.0.0</version>
+  <name>mobile_manipulation_config</name>
+  <version>5.1.0</version>
 
-  <description>MuJoCo simulation configuration package for Picknik's UR robot on a mobile base</description>
+  <description>MuJoCo simulation configuration package for scan and spray application</description>
 
   <maintainer email="support@picknik.ai">MoveIt Pro Maintainer</maintainer>
 
@@ -20,8 +20,6 @@
   <exec_depend>picknik_accessories</exec_depend>
   <exec_depend>realsense2_camera</exec_depend>
   <exec_depend>realsense2_description</exec_depend>
-  <exec_depend>robotiq_description</exec_depend>
-  <exec_depend>robotiq_controllers</exec_depend>
   <exec_depend>trac_ik_kinematics_plugin</exec_depend>
   <exec_depend>ur_description</exec_depend>
   <exec_depend>ur_robot_driver</exec_depend>
