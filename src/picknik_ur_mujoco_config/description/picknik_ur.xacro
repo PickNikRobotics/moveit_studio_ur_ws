@@ -883,7 +883,7 @@
     <dynamics damping="20.0" friction="500.0"/>
   </joint>
   <!-- Table -->
-  <link name="table">
+  <!-- <link name="table">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0.025"/>
       <geometry>
@@ -937,7 +937,7 @@
     <parent link="world"/>
     <child link="table"/>
     <origin rpy="0 0 0" xyz="0 1 0.45"/>
-  </joint>
+  </joint> -->
   <ros2_control name="ur_mujoco_control" type="system">
     <hardware>
       <plugin>picknik_mujoco_ros/MujocoSystem</plugin>

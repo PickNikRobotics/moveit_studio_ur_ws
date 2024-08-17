@@ -30,7 +30,7 @@
     <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3"
       markrgb="0.8 0.8 0.8" width="300" height="300"/>
     <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
-  </asset>  
+  </asset>
   <asset>
     <texture type="2d" name="desk_texture" file="assets/desk.png"/>
     <texture type="2d" name="shelf_texture" file="assets/shelf.png"/>
@@ -74,7 +74,7 @@
       <body name="shelf_glass" pos="-2.78335 0.27681 0" euler="0 0 0">
       <geom material="glass" mesh="shelf_glass" class="visual"/>
     </body>
-    <body name="microscope" pos="-1.168 -0.3233 0.98385" euler="0 0 0">
+<!--     <body name="microscope" pos="-1.168 -0.3233 0.98385" euler="0 0 0">
       <geom material="microscope" mesh="microscope" class="visual"/>
     </body>
     <body name="beaker-1" pos="-1.34591 -0.022235 1.40977" euler="0 0 0">
@@ -115,7 +115,7 @@
     </body>
     <body name="bottle_3" pos="0.05 -0.45 0.985807" euler="0 0 -30">
       <geom material="bottle" mesh="bottle" class="visual"/>
-    </body>
+    </body> -->
   </worldbody>
 
   <keyframe>
