@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Register CAD Part">
   <!--//////////-->
-  <BehaviorTree ID="Register CAD Part" _description="" _favorite="true">
+  <BehaviorTree ID="Register CAD Part" _description="" _favorite="false">
     <Control ID="Sequence" name="TopLevelSequence">
       <Action ID="CreateStampedPose" position_xyz="0.02;.75;0.48" orientation_xyzw="0;0;0;1"/>
       <SubTree ID="Load Mesh as Red Pointcloud" _collapsed="false" output_cloud="{red_cloud}" initial_pose="{stamped_pose}"/>

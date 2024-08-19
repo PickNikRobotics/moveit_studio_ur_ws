@@ -12,10 +12,10 @@
   </BehaviorTree>
   <TreeNodesModel>
     <SubTree ID="Move to Waypoint">
-      <input_port name="waypoint_name" default=""/>
+      <input_port name="waypoint_name" default="Right"/>
       <input_port name="joint_group_name" default="manipulator"/>
       <input_port name="planner_interface" default="moveit_default"/>
-      <input_port name="controller_names" default="/joint_trajectory_controller"/>
+      <input_port name="controller_names" default="/joint_trajectory_controller /robotiq_gripper_controller"/>
     </SubTree>
   </TreeNodesModel>
 </root>

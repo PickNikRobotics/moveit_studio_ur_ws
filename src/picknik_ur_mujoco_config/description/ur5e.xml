@@ -2,6 +2,8 @@
   <compiler angle="radian" meshdir="assets" autolimits="true"/>
 
   <option integrator="implicitfast"/>
+  <!-- Model timestep default is 0.002 -->
+  <option timestep="0.02"/>
 
   <default>
     <default class="ur5e">
@@ -120,12 +122,16 @@
     <mesh name="robotiq_85_silicone_pad" class="2f85" file="assets/robotiq_2f85/silicone_pad.stl"/>
   </asset>
   <worldbody>
+
+
     <light name="spotlight" mode="targetbodycom" target="wrist_2_link" pos="0 -1 2"/>
 
-    <site name="scene_camera_optical_frame" pos="-0.931 -4.874 5.097" euler="4.01411065 9.97582907e-05 -4.21396792e-03"/>
-    <camera name="scene_camera" fovy="58" mode="fixed" resolution="640 480" pos="-0.931 -4.874 5.097" euler="0.872518150 9.97582907e-05 -4.21396792e-03"/>
 
-    <geom type="mesh" rgba="0.4 0.4 0.4 1" mesh="rail" pos="0 -1 1" euler="0 0 1.5707"/>
+    <site name="scene_camera_optical_frame" pos="-0.931 -4.874 5.097" euler="4.01411065 9.97582907e-05 -4.21396792e-03"/>
+
+    <!-- <camera name="scene_camera" fovy="58" mode="fixed" resolution="800 600" pos="-0.931 -9.874 10.097" euler="0.872518150 9.97582907e-05 -4.21396792e-03"/> -->
+
+    <geom type="mesh" rgba="0.4 0.4 0.4 1" mesh="rail" pos="0 -1 0.75" euler="0 0 1.5707"/>
     <body name="base_platform" pos="0 -1 1" euler="0 0 1.5707">
       <joint name="linear_rail_joint" type="slide" axis="0 1 0" range="-5.0 5.0"/>
       <body name="adapter" pos="-0.06 -0.4 -0.2" euler="0 0 0">
@@ -183,13 +189,15 @@
                       <site name="attachment_site" pos="0 0.1 0" quat="-1 1 0 0"/>
                       <!-- site for end effector's f/t sensor right at the base of the robotiq gripper -->
                       <site name="robotiq_ft_sensor" size="0.01" pos="0 0.1 0" quat="-1 1 0 0"/>
-                      <body name="tool_changer" gravcomp="1" pos="0.0 0.1 0" euler="-1.57 0 0">   
-                        <geom mesh="mtc_ur3510_ur_toolchanger_collision" material="black" class="visual"/>   
-                      </body>  
-                      <body name="camera_adapter" gravcomp="1" pos="0.0 0.135 0" euler="-1.57 3.14 0">   
-                        <geom mesh="camera_adapter" material="linkgray" class="visual"/>     
-                      </body>   
-                      <camera name="wrist_camera" pos="0.0 0.2 0.05" fovy="58" mode="fixed" resolution="640 480" euler="1.57 0.0 0.0"/>
+                      <body name="tool_changer" gravcomp="1" pos="0.0 0.1 0" euler="-1.57 0 0">
+                        <geom mesh="mtc_ur3510_ur_toolchanger_collision" material="black" class="visual"/>
+                      </body>
+                      <body name="camera_adapter" gravcomp="1" pos="0.0 0.135 0" euler="-1.57 3.14 0">
+                        <geom mesh="camera_adapter" material="linkgray" class="visual"/>
+                      </body>
+
+                      <camera name="wrist_camera" pos="0.0 0.2 0.05" fovy="58" mode="fixed" resolution="800 600" euler="1.57 0.0 0.0"/>
+
                       <site name="wrist_camera_optical_frame" pos="0.0 0.2 0.05" euler="-1.57 0 0"/>
                       <body childclass="2f85" >
                         <!-- Right-hand side 4-bar linkage -->
@@ -324,7 +332,7 @@
       <joint joint="robotiq_85_left_knuckle_joint" coef="0.5"/>
     </fixed>
   </tendon>
-  
+
   <equality>
     <connect anchor="0 0 0" body1="robotiq_85_right_finger_tip_link" body2="robotiq_85_right_finger_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
     <connect anchor="0 0 0" body1="robotiq_85_left_finger_tip_link" body2="robotiq_85_left_finger_link" solimp="0.95 0.99 0.001" solref="0.005 1"/>
