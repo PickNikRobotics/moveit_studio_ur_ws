@@ -44,7 +44,7 @@
     transforms: []
     twist: []
     wrench: []
-  name: Look at Wall
+  name: Look at Airfoil
 - description: ''
   favorite: false
   joint_group_names:
