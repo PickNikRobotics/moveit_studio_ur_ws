@@ -1,55 +1,89 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <launch>
   <arg name="scene_camera_serial_no" default="'0'" />
   <arg name="wrist_mounted_camera_serial_no" default="'0'" />
 
   <!-- Scene camera  -->
-  <node pkg="realsense2_camera" exec="realsense2_camera_node" name="scene_camera" namespace="scene_camera">
-    <param name="camera_name" value="scene_camera"/>
-    <param name="serial_no" value="$(var scene_camera_serial_no)"/>
-    <param name="device_type" value="D415"/>
-    <param name="depth_module.profile" value="640x480x6"/>
-    <param name="rgb_camera.profile" value="640x480x6"/>
-    <param name="pointcloud.enable" value="True"/>
-    <param name="pointcloud.ordered_pc" value="True"/>
-    <param name="decimation_filter.enable" value="False"/>
+  <node
+    pkg="realsense2_camera"
+    exec="realsense2_camera_node"
+    name="scene_camera"
+    namespace="scene_camera"
+  >
+    <param name="camera_name" value="scene_camera" />
+    <param name="serial_no" value="$(var scene_camera_serial_no)" />
+    <param name="device_type" value="D415" />
+    <param name="depth_module.profile" value="640x480x6" />
+    <param name="rgb_camera.profile" value="640x480x6" />
+    <param name="pointcloud.enable" value="True" />
+    <param name="pointcloud.ordered_pc" value="True" />
+    <param name="decimation_filter.enable" value="False" />
 
     <!--# information about the topics the camera publishes the raw image and info-->
-    <param name="rgb_info" value="/scene_camera/color/camera_info"/>
-    <param name="rgb_image" value="/scene_camera/color/image_raw"/>
-    <param name="registered_rgb_depth_pair.depth_info" value="/scene_camera/color/camera_info"/>
-    <param name="registered_rgb_depth_pair.depth_image" value="/scene_camera/depth/image_rect_raw"/>
-    <param name="registered_rgb_depth_pair.registered_info" value="/scene_camera/color/camera_info"/>
-    <param name="registered_rgb_depth_pair.registered_image" value="/scene_camera/depth/image_rect_raw"/>
+    <param name="rgb_info" value="/scene_camera/color/camera_info" />
+    <param name="rgb_image" value="/scene_camera/color/image_raw" />
+    <param
+      name="registered_rgb_depth_pair.depth_info"
+      value="/scene_camera/color/camera_info"
+    />
+    <param
+      name="registered_rgb_depth_pair.depth_image"
+      value="/scene_camera/depth/image_rect_raw"
+    />
+    <param
+      name="registered_rgb_depth_pair.registered_info"
+      value="/scene_camera/color/camera_info"
+    />
+    <param
+      name="registered_rgb_depth_pair.registered_image"
+      value="/scene_camera/depth/image_rect_raw"
+    />
 
     <!-- QoS settings -->
-    <param name="color_qos" value="SENSOR_DATA"/>
-    <param name="depth_qos" value="SENSOR_DATA"/>
+    <param name="color_qos" value="SENSOR_DATA" />
+    <param name="depth_qos" value="SENSOR_DATA" />
   </node>
 
   <!-- Wrist camera  -->
-  <node pkg="realsense2_camera" exec="realsense2_camera_node" name="wrist_mounted_camera" namespace="wrist_mounted_camera">
-    <param name="camera_name" value="wrist_mounted_camera"/>
-    <param name="serial_no" value="$(var wrist_mounted_camera_serial_no)"/>
-    <param name="device_type" value="D415"/>
-    <param name="depth_module.profile" value="640x480x6"/>
-    <param name="rgb_camera.profile" value="640x480x6"/>
-    <param name="pointcloud.enable" value="True"/>
-    <param name="pointcloud.ordered_pc" value="True"/>
-    <param name="decimation_filter.enable" value="False"/>
+  <node
+    pkg="realsense2_camera"
+    exec="realsense2_camera_node"
+    name="wrist_mounted_camera"
+    namespace="wrist_mounted_camera"
+  >
+    <param name="camera_name" value="wrist_mounted_camera" />
+    <param name="serial_no" value="$(var wrist_mounted_camera_serial_no)" />
+    <param name="device_type" value="D415" />
+    <param name="depth_module.profile" value="640x480x6" />
+    <param name="rgb_camera.profile" value="640x480x6" />
+    <param name="pointcloud.enable" value="True" />
+    <param name="pointcloud.ordered_pc" value="True" />
+    <param name="decimation_filter.enable" value="False" />
 
     <!-- information about the topics the camera publishes the raw image and info -->
-    <param name="rgb_info" value="/wrist_mounted_camera/color/camera_info"/>
-    <param name="rgb_image" value="/wrist_mounted_camera/color/image_raw"/>
+    <param name="rgb_info" value="/wrist_mounted_camera/color/camera_info" />
+    <param name="rgb_image" value="/wrist_mounted_camera/color/image_raw" />
 
     <!-- By adding registered_rgb_depth_pair, This camera can be used for "Set Transform From Click" -->
-    <param name="registered_rgb_depth_pair.depth_info" value="/wrist_mounted_camera/depth/camera_info"/>
-    <param name="registered_rgb_depth_pair.depth_image" value="/wrist_mounted_camera/depth/image_rect_raw"/>
-    <param name="registered_rgb_depth_pair.registered_info" value="/wrist_mounted_camera/depth_registered/camera_info"/>
-    <param name="registered_rgb_depth_pair.registered_image" value="/wrist_mounted_camera/depth_registered/image_rect"/>
+    <param
+      name="registered_rgb_depth_pair.depth_info"
+      value="/wrist_mounted_camera/depth/camera_info"
+    />
+    <param
+      name="registered_rgb_depth_pair.depth_image"
+      value="/wrist_mounted_camera/depth/image_rect_raw"
+    />
+    <param
+      name="registered_rgb_depth_pair.registered_info"
+      value="/wrist_mounted_camera/depth_registered/camera_info"
+    />
+    <param
+      name="registered_rgb_depth_pair.registered_image"
+      value="/wrist_mounted_camera/depth_registered/image_rect"
+    />
 
     <!-- QoS settings -->
-    <param name="color_qos" value="SENSOR_DATA"/>
-    <param name="depth_qos" value="SENSOR_DATA"/>
+    <param name="color_qos" value="SENSOR_DATA" />
+    <param name="depth_qos" value="SENSOR_DATA" />
   </node>
 </launch>
