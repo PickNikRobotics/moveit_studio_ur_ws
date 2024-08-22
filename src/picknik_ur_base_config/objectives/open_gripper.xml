@@ -1,9 +1,13 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <root BTCPP_format="4" main_tree_to_execute="Open Gripper">
-    <!-- ////////// -->
-    <BehaviorTree ID="Open Gripper" _description="Open the gripper">
-        <Control ID="Sequence" name="root">
-            <Action ID="MoveGripperAction" gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd" position="0.0"/>
-        </Control>
-    </BehaviorTree>
+  <!-- ////////// -->
+  <BehaviorTree ID="Open Gripper" _description="Open the gripper">
+    <Control ID="Sequence" name="root">
+      <Action
+        ID="MoveGripperAction"
+        gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd"
+        position="0.0"
+      />
+    </Control>
+  </BehaviorTree>
 </root>

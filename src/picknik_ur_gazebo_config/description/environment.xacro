@@ -1,10 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:macro name="environment" params="parent">
     <!-- Import environment macros -->
-    <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
-    <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/visual/cube_visual.urdf.xacro" />
-    <xacro:include filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro" />
+    <xacro:include
+      filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro"
+    />
+    <xacro:include
+      filename="$(find picknik_accessories)/descriptions/geometry/visual/cube_visual.urdf.xacro"
+    />
+    <xacro:include
+      filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro"
+    />
 
     <!-- Environment -->
     <link name="environment">
@@ -29,7 +35,12 @@
       <origin xyz="1.1 -1.1 1.3" rpy="0.0 0.4 2.4" />
     </joint>
 
-    <xacro:realsense_d435 parent="external_camera_link" name="scene_camera" visible="false" simulate_depth="true">
+    <xacro:realsense_d435
+      parent="external_camera_link"
+      name="scene_camera"
+      visible="false"
+      simulate_depth="true"
+    >
       <origin xyz="0 0 0" rpy="0 0 0" />
     </xacro:realsense_d435>
 
@@ -41,10 +52,14 @@
         <child link="extra_scene_camera_link" />
         <origin xyz="-0.3 0.3 0.5" rpy="0.0 0.0 -3.14" />
       </joint>
-      <xacro:realsense_d435 parent="extra_scene_camera_link" name="extra_camera" visible="false" simulate_depth="false">
+      <xacro:realsense_d435
+        parent="extra_scene_camera_link"
+        name="extra_camera"
+        visible="false"
+        simulate_depth="false"
+      >
         <origin xyz="0 0 0" rpy="0 0 0" />
       </xacro:realsense_d435>
     </xacro:if>
-
   </xacro:macro>
 </robot>
