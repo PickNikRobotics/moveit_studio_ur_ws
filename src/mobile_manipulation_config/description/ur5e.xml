@@ -314,6 +314,12 @@
   </worldbody>
 
   <actuator>
+    <position class="rail" name="linear_x_joint" joint="linear_x_joint" kp="75000" dampratio="1.0"/>
+    <position class="rail" name="linear_y_joint" joint="linear_y_joint" kp="75000" dampratio="1.0"/>
+    <position class="robot" name="rotational_yaw_joint" joint="rotational_yaw_joint" kp="75000" dampratio="1.0"/>
+  </actuator>
+
+  <actuator>
     <general class="size3" name="shoulder_pan_joint" joint="shoulder_pan_joint" gainprm="75000" biasprm="0 -75000 -15000"/>
     <general class="size3" name="shoulder_lift_joint" joint="shoulder_lift_joint" gainprm="75000" biasprm="0 -75000 -15000"/>
     <general class="size3_limited" name="elbow_joint" joint="elbow_joint" gainprm="75000" biasprm="0 -75000 -15000"/>
@@ -325,15 +331,9 @@
   </actuator>
 
 
-    <contact>
-        <exclude body1="base_platform" body2="base"/>
-    </contact>
-
-    <actuator>
-        <position class="rail" name="linear_x_joint" joint="linear_x_joint" kp="75000" dampratio="1.0"/>
-        <position class="rail" name="linear_y_joint" joint="linear_y_joint" kp="75000" dampratio="1.0"/>
-        <position class="robot" name="rotational_yaw_joint" joint="rotational_yaw_joint" kp="75000" dampratio="1.0"/>
-  </actuator>
+  <contact>
+    <exclude body1="base_platform" body2="base"/>
+  </contact>
   
     <!-- Robotiq gripper contact -->
   <contact>
@@ -363,7 +363,21 @@
     <torque name="ee_torque_sensor" site="robotiq_ft_sensor" />
   </sensor>
 
-  <!--<keyframe>
-    <key qpos='0.0 0.0 0.0 2.74488e-10 2.74488e-10 -3.73952e-10 -3.73952e-10 -0.31415 -1.37115 0.981361 -1.75672 -1.57075 -3.26716 0.0203697 0.000532128 0.0216355 -0.0224045 0.0203839 0.000542834 0.0216769 -0.0224794'/>
-  </keyframe> -->
+  <keyframe>
+    <!-- qpos -->
+    <!-- front_rocker, front_left_wheel, front_right_wheel, rear_left_wheel, rear_right_wheel -->
+    <!-- linear_x_joint, linear_y_joint, rotational_yaw_joint, shoulder_pan, shoulder_lift, elbow, wrist_1, wrist_2, wrist_3 -->
+    <!-- right_knuckle, right_finger, right_inner_knuckle, right_finger_tip, left_knuckle, left_finger, left_inner_knuckle, left_finger_tip -->
+    <!-- ctrl -->
+    <!-- linear_x_joint, linear_y_joint, rotational_yaw_joint, shoulder_pan, shoulder_lift, elbow, wrist_1, wrist_2, wrist_3, robotiq_85_left_knuckle_joint -->
+    <key qpos="
+      0 0 0 0 0
+      0 0 0 0 -1.534 0.8197 -2.2686 -1.57076 0
+      0 0 0 0 0 0 0 0
+    "
+    ctrl="
+      0 0 0 0 -1.534 0.8197 -2.2686 -1.57076 0 0
+    "
+    />
+  </keyframe>
 </mujoco>
