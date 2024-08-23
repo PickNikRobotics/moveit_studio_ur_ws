@@ -10,7 +10,7 @@ hardware:
   # [Required]
   robot_description:
     urdf:
-      package: "picknik_ur_mobile_config"
+      package: "mobile_manipulation_config"
       path: "description/picknik_ur.xacro"
     srdf:
       package: "picknik_ur_mobile_config"
