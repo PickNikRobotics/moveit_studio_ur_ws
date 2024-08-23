@@ -3,6 +3,7 @@
   <!--//////////-->
   <BehaviorTree ID="00 Solution - Move to Initial Pose" _description="Move to a pre-defined waypoint" _favorite="true" _hardcoded="false">
     <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="ActivateControllers" controller_names="/joint_trajectory_controller"/>
       <SubTree ID="Move to Waypoint" waypoint_name="Look at Airfoil" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" planner_interface="moveit_default"/>
     </Control>
   </BehaviorTree>
