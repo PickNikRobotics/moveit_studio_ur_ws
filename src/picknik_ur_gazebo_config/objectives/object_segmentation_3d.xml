@@ -1,95 +1,25 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Object Segmentation 3D">
   <!-- ////////// -->
-  <BehaviorTree
-    ID="Object Segmentation 3D"
-    _description="Detect objects using a 2D image segmentation model and convert them to 3D masks and graspable objects."
-    _favorite="false"
-    _hardcoded="false"
-  >
+  <BehaviorTree ID="Object Segmentation 3D" _description="Detect objects using a 2D image segmentation model and convert them to 3D masks and graspable objects." _favorite="false" _hardcoded="false">
     <Control ID="Sequence" name="TopLevelSequence">
-      <Action ID="ClearSnapshot" />
-      <Action
-        ID="ResetPlanningSceneObjects"
-        apply_planning_scene_service="/apply_planning_scene"
-      />
-      <SubTree
-        ID="Move to Waypoint"
-        waypoint_name="Extended Right"
-        joint_group_name="manipulator"
-        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
-        planner_interface="moveit_default"
-      />
-      <Action
-        ID="GetCameraInfo"
-        topic_name="/wrist_mounted_camera/color/camera_info"
-        message_out="{camera_info}"
-      />
-      <Action
-        ID="GetPointCloud"
-        topic_name="/wrist_mounted_camera/depth/color/points"
-        message_out="{point_cloud}"
-      />
-      <Action
-        ID="GetImage"
-        topic_name="/wrist_mounted_camera/color/image_raw"
-        message_out="{image}"
-      />
-      <Action
-        ID="GetMasks2DAction"
-        image="{image}"
-        action_name="/get_masks_2d_maskrcnn"
-        min_confidence="0.8"
-        max_nms_iou="0.8"
-        min_relative_area="0"
-        max_relative_area="0.8"
-        timeout_sec="-1"
-        masks2d="{masks2d}"
-        valid_classes=""
-      />
-      <Action
-        ID="GetMasks3DFromMasks2D"
-        point_cloud="{point_cloud}"
-        masks2d="{masks2d}"
-        camera_info="{camera_info}"
-        masks3d="{masks3d}"
-      />
+      <Action ID="ClearSnapshot"/>
+      <Action ID="ResetPlanningSceneObjects" apply_planning_scene_service="/apply_planning_scene"/>
+      <SubTree ID="Move to Waypoint" waypoint_name="Extended Right" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" planner_interface="moveit_default"/>
+      <Action ID="GetCameraInfo" topic_name="/wrist_mounted_camera/color/camera_info" message_out="{camera_info}"/>
+      <Action ID="GetPointCloud" topic_name="/wrist_mounted_camera/depth/color/points" message_out="{point_cloud}"/>
+      <Action ID="GetImage" topic_name="/wrist_mounted_camera/color/image_raw" message_out="{image}"/>
+      <Action ID="GetMasks2DAction" image="{image}" action_name="/get_masks_2d_maskrcnn" min_confidence="0.8" max_nms_iou="0.8" min_relative_area="0" max_relative_area="0.8" timeout_sec="-1" masks2d="{masks2d}" valid_classes=""/>
+      <Action ID="GetMasks3DFromMasks2D" point_cloud="{point_cloud}" masks2d="{masks2d}" camera_info="{camera_info}" masks3d="{masks3d}"/>
       <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
         <Control ID="Sequence">
-          <Action
-            ID="GetPointCloudFromMask3D"
-            point_cloud="{point_cloud}"
-            mask3d="{mask3d}"
-            point_cloud_fragment="{point_cloud_fragment}"
-          />
-          <Action
-            ID="SendPointCloudToUI"
-            point_cloud="{point_cloud_fragment}"
-            sensor_name="scene_scan_camera"
-            pcd_topic="/pcd_pointcloud_captures"
-          />
+          <Action ID="GetPointCloudFromMask3D" point_cloud="{point_cloud}" mask3d="{mask3d}" point_cloud_fragment="{point_cloud_fragment}"/>
+          <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" sensor_name="scene_scan_camera" pcd_topic="/pcd_pointcloud_captures"/>
         </Control>
       </Decorator>
-      <Action
-        ID="GetGraspableObjectsFromMasks3D"
-        point_cloud="{point_cloud}"
-        masks3d="{masks3d}"
-        base_frame="world"
-        plane_inlier_threshold="0.01"
-        minimum_face_area="0.000625"
-        face_separation_threshold="0.01"
-        graspable_objects="{graspable_objects}"
-      />
-      <Decorator
-        ID="ForEachGraspableObject"
-        vector_in="{graspable_objects}"
-        out="{object}"
-      >
-        <Action
-          ID="ModifyObjectInPlanningScene"
-          object="{object}"
-          apply_planning_scene_service="/apply_planning_scene"
-        />
+      <Action ID="GetGraspableObjectsFromMasks3D" point_cloud="{point_cloud}" masks3d="{masks3d}" base_frame="world" plane_inlier_threshold="0.01" minimum_face_area="0.000625" face_separation_threshold="0.01" graspable_objects="{graspable_objects}"/>
+      <Decorator ID="ForEachGraspableObject" vector_in="{graspable_objects}" out="{object}">
+        <Action ID="ModifyObjectInPlanningScene" object="{object}" apply_planning_scene_service="/apply_planning_scene"/>
       </Decorator>
     </Control>
   </BehaviorTree>

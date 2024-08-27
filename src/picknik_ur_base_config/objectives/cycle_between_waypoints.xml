@@ -1,26 +1,11 @@
-<?xml version="1.0" ?>
-<root BTCPP_format="4" main_tree_to_execute="Cycle Between Waypoints">
-  <BehaviorTree
-    ID="Cycle Between Waypoints"
-    _description="Cycles between two waypoints until failure"
-  >
-    <Decorator ID="KeepRunningUntilFailure">
-      <Control ID="Sequence">
-        <SubTree
-          ID="Move to Waypoint"
-          waypoint_name="Right Corner"
-          joint_group_name="manipulator"
-          controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
-          planner_interface="moveit_default"
-        />
-        <SubTree
-          ID="Move to Waypoint"
-          waypoint_name="Place"
-          joint_group_name="manipulator"
-          controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
-          planner_interface="moveit_default"
-        />
-      </Control>
-    </Decorator>
-  </BehaviorTree>
+<?xml version="1.0"?>
+  <root BTCPP_format="4" main_tree_to_execute="Cycle Between Waypoints">
+    <BehaviorTree ID="Cycle Between Waypoints" _description="Cycles between two waypoints until failure">
+        <Decorator ID="KeepRunningUntilFailure">
+            <Control ID="Sequence">
+                <SubTree ID="Move to Waypoint" waypoint_name="Right Corner" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" planner_interface="moveit_default"/>
+                <SubTree ID="Move to Waypoint" waypoint_name="Place" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" planner_interface="moveit_default"/>
+            </Control>
+        </Decorator>
+    </BehaviorTree>
 </root>

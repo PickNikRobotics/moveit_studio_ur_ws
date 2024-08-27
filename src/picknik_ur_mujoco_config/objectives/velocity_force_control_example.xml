@@ -1,73 +1,29 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Velocity Force Control Example">
   <!--//////////-->
-  <BehaviorTree
-    ID="Velocity Force Control Example"
-    _description="An example showing how to use the Velocity Force Controller (VFC). Moves sideways on a table while applying a force."
-    _favorite="false"
-  >
+  <BehaviorTree ID="Velocity Force Control Example" _description="An example showing how to use the Velocity Force Controller (VFC). Moves sideways on a table while applying a force." _favorite="false">
     <Control ID="Sequence" name="TopLevelSequence">
       <!--Move to the starting configuration.-->
-      <SubTree
-        ID="Move to Waypoint"
-        _collapsed="true"
-        waypoint_name="VFC Start"
-        joint_group_name="manipulator"
-        planner_interface="moveit_default"
-        controller_names="/joint_trajectory_controller"
-      />
+      <SubTree ID="Move to Waypoint" _collapsed="true" waypoint_name="VFC Start" joint_group_name="manipulator" planner_interface="moveit_default" controller_names="/joint_trajectory_controller"/>
       <!--Activate the Velocity Force Controller.-->
-      <Action
-        ID="ActivateControllers"
-        controller_names="velocity_force_controller"
-      />
+      <Action ID="ActivateControllers" controller_names="velocity_force_controller"/>
       <!--Tare the force/torque sensor right before starting motion.-->
-      <Action
-        ID="CallTriggerService"
-        service_name="/velocity_force_controller/zero_fts"
-      />
+      <Action ID="CallTriggerService" service_name="/velocity_force_controller/zero_fts"/>
       <!--Create a StampedWrench message with the force/torque to apply.-->
-      <Action
-        ID="CreateStampedWrench"
-        stamped_wrench="{desired_wrench}"
-        reference_frame="grasp_link"
-        torque_xyz="0;0;0"
-        force_xyz="0;0;-2"
-      />
+      <Action ID="CreateStampedWrench" stamped_wrench="{desired_wrench}" reference_frame="grasp_link" torque_xyz="0;0;0" force_xyz="0;0;-2"/>
       <!--Create a StampedTwist message with the Cartesian velocity to move with.-->
-      <Action
-        ID="CreateStampedTwist"
-        linear_velocity_xyz="0.05;0.0;0.0"
-        reference_frame="grasp_link"
-        stamped_twist="{desired_twist}"
-        angular_velocity_xyz="0;0;0"
-      />
+      <Action ID="CreateStampedTwist" linear_velocity_xyz="0.05;0.0;0.0" reference_frame="grasp_link" stamped_twist="{desired_twist}" angular_velocity_xyz="0;0;0"/>
       <!--Publish the controller command in a loop during 5s.-->
       <Decorator ID="ForceSuccess">
         <Decorator ID="Timeout" msec="5000">
-          <Action
-            ID="PublishVelocityForceCommand"
-            velocity_controlled_axes="1;0;0;0;0;0"
-            force_controlled_axes="0;0;1;0;0;0"
-            wrench_gain="0.01"
-          />
+          <Action ID="PublishVelocityForceCommand" velocity_controlled_axes="1;0;0;0;0;0" force_controlled_axes="0;0;1;0;0;0" wrench_gain="0.01"/>
         </Decorator>
       </Decorator>
       <!-- Move up away from the table for 1 second.-->
-      <Action
-        ID="CreateStampedTwist"
-        stamped_twist="{move_up_twist}"
-        linear_velocity_xyz="0;0;-0.1"
-        reference_frame="grasp_link"
-      />
+      <Action ID="CreateStampedTwist" stamped_twist="{move_up_twist}" linear_velocity_xyz="0;0;-0.1" reference_frame="grasp_link"/>
       <Decorator ID="ForceSuccess">
         <Decorator ID="Timeout" msec="1000">
-          <Action
-            ID="PublishVelocityForceCommand"
-            twist_stamped="{move_up_twist}"
-            velocity_controlled_axes="0;0;1;0;0;0"
-            wrench_gain="0.01"
-          />
+          <Action ID="PublishVelocityForceCommand" twist_stamped="{move_up_twist}" velocity_controlled_axes="0;0;1;0;0;0" wrench_gain="0.01"/>
         </Decorator>
       </Decorator>
     </Control>

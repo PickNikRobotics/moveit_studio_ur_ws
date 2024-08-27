@@ -1,12 +1,9 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <package format="3">
   <name>picknik_ur_gazebo_scan_and_plan_config</name>
   <version>6.0.0</version>
 
-  <description>
-    Site configuration package for the UR5e simulated in Gazebo to show "scan
-    and plan" applications.
-  </description>
+  <description>Site configuration package for the UR5e simulated in Gazebo to show "scan and plan" applications.</description>
 
   <maintainer email="support@picknik.ai">MoveIt Pro Maintainer</maintainer>
 

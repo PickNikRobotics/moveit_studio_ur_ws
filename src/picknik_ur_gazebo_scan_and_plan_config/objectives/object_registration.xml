@@ -1,29 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version='1.0' encoding='UTF-8'?>
 <root BTCPP_format="4" main_tree_to_execute="Object Registration">
   <!-- ////////// -->
-  <BehaviorTree
-    ID="Object Registration"
-    _description="Estimate the pose of an object using ICP."
-    _favorite="true"
-    _hardcoded="false"
-  >
+  <BehaviorTree ID="Object Registration" _description="Estimate the pose of an object using ICP." _favorite="true" _hardcoded="false">
     <Control ID="Sequence" name="TopLevelSequence">
-      <Action ID="ClearSnapshot" />
-      <SubTree
-        ID="Move to Waypoint"
-        waypoint_name="Look at Object"
-        joint_group_name="manipulator"
-        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
-        planner_interface="moveit_default"
-      />
-      <SubTree
-        ID="Estimate Object Pose"
-        object_model_file_path="~/user_ws/install/picknik_accessories/share/picknik_accessories/descriptions/miscellaneous/farnese-hercules-head.stl"
-        guess_position="-0.5;0.0;0.0"
-        guess_orientation="0.0;0.0;0.6442177;0.7648422"
-        icp_max_correspondence_distance="0.5"
-        model_to_real_pose="{model_to_real_pose}"
-      />
+      <Action ID="ClearSnapshot"/>
+      <SubTree ID="Move to Waypoint" waypoint_name="Look at Object" joint_group_name="manipulator" controller_names="/joint_trajectory_controller /robotiq_gripper_controller" planner_interface="moveit_default"/>
+      <SubTree ID="Estimate Object Pose" object_model_file_path="~/user_ws/install/picknik_accessories/share/picknik_accessories/descriptions/miscellaneous/farnese-hercules-head.stl" guess_position="-0.5;0.0;0.0" guess_orientation="0.0;0.0;0.6442177;0.7648422" icp_max_correspondence_distance="0.5" model_to_real_pose="{model_to_real_pose}"/>
     </Control>
   </BehaviorTree>
 </root>
