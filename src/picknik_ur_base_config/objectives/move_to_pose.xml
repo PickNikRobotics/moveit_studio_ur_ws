@@ -3,6 +3,7 @@
   <BehaviorTree
     ID="Move to Pose"
     _description="Uses inverse kinematics to move the robot to a set gripper position"
+    _subtreeOnly="true"
   >
     <Control ID="Sequence">
       <Action

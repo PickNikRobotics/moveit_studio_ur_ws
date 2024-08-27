@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Move until Force Contact">
+  <!--//////////-->
+  <BehaviorTree
+    ID="Move until Force Contact"
+    _description="An example for how to use the VFC to move with a velocity / force reference until it collides"
+    _favorite="true"
+  >
+    <Control ID="Sequence" name="TopLevelSequence">
+      <SubTree
+        ID="Move to Waypoint"
+        _collapsed="true"
+        waypoint_name="VFC Start"
+        joint_group_name="manipulator"
+        planner_interface="pro_rrt"
+        controller_names="/joint_trajectory_controller"
+      />
+      <Action
+        ID="ActivateControllers"
+        controller_names="/velocity_force_controller"
+      />
+      <Action
+        ID="CallTriggerService"
+        service_name="/velocity_force_controller/zero_fts"
+      />
+      <Action
+        ID="CreateStampedWrench"
+        stamped_wrench="{desired_wrench}"
+        reference_frame="grasp_link"
+        torque_xyz="0;0;0"
+        force_xyz="0;0;0"
+      />
+      <Action
+        ID="CreateStampedTwist"
+        reference_frame="grasp_link"
+        stamped_twist="{desired_twist}"
+        angular_velocity_xyz="0;0;0"
+        linear_velocity_xyz="0.0;0;0.05"
+      />
+      <Action
+        ID="CreateStampedPose"
+        reference_frame="grasp_link"
+        stamped_pose="{initial_pose}"
+      />
+      <Action
+        ID="TransformPoseFrame"
+        output_pose="{initial_pose}"
+        input_pose="{initial_pose}"
+      />
+      <Control ID="Parallel" failure_count="1" success_count="1">
+        <Action
+          ID="ForceExceedsThreshold"
+          minimum_consecutive_wrench_values="5"
+          wrench_frame_name="tool0"
+          hand_frame_name="grasp_link"
+          force_threshold="20"
+        />
+        <Action
+          ID="PublishVelocityForceCommand"
+          force_controlled_axes="0;0;0;0;0;0"
+          wrench_gain="0.01"
+          velocity_controlled_axes="0;0;1;0;0;0"
+          publish_rate="50"
+        />
+      </Control>
+      <!--Relax the arm for 500ms to just stay in contact without applying force.-->
+      <SubTree
+        ID="Force Relaxation"
+        _collapsed="true"
+        wrench_gain="0.01"
+        relaxation_time_ms="500"
+        tip_link="grasp_link"
+      />
+    </Control>
+  </BehaviorTree>
+</root>

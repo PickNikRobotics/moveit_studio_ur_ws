@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Pick object">
+  <!--//////////-->
+  <BehaviorTree
+    ID="Pick object"
+    _description=""
+    _favorite="false"
+    _subtreeOnly="true"
+  >
+    <Control ID="Sequence" name="root">
+      <SubTree ID="Open Gripper" />
+      <Control ID="Sequence">
+        <Action ID="SwitchUIPrimaryView" primary_view_name="Visualization" />
+        <Action
+          ID="CreateStampedPose"
+          orientation_xyzw="0;1;0;0"
+          position_xyz="0.01;.75;0.515"
+        />
+        <Action
+          ID="AddPoseStampedToVector"
+          input="{stamped_pose}"
+          vector="{pose_vector}"
+        />
+      </Control>
+      <SubTree
+        ID="Pick first object in vector"
+        pose_vector="{pose_vector}"
+        _collapsed="false"
+      />
+    </Control>
+  </BehaviorTree>
+</root>

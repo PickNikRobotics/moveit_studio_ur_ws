@@ -3,6 +3,7 @@
   <BehaviorTree
     ID="Interpolate to Joint State"
     _description="Move to a specified joint state using joint interpolation"
+    _subtreeOnly="true"
   >
     <Control ID="Sequence">
       <Action

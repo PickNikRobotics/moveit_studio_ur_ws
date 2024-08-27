@@ -6,6 +6,7 @@
     _description="Handles the different variations of teleoperation from the web UI, with the option of interactive user prompts and choosing the initial mode. Should be used as a subtree with port remapping as part of an another Objective."
     _favorite="false"
     _hardcoded="false"
+    _subtreeOnly="true"
   >
     <Control ID="Sequence">
       <Action ID="Script" code="teleop_mode := 0" />

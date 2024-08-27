@@ -4,7 +4,7 @@
   <BehaviorTree
     ID="Teleoperate"
     _description="Handles the different variations of teleoperation from the web UI. Can be used standalone."
-    _favorite="true"
+    _favorite="false"
     _hardcoded="false"
   >
     <SubTree

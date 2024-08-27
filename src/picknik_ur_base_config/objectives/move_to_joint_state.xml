@@ -3,6 +3,7 @@
   <BehaviorTree
     ID="Move to Joint State"
     _description="Move to a specified joint state"
+    _subtreeOnly="true"
   >
     <Control ID="Sequence">
       <Action

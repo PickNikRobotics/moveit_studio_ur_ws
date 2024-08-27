@@ -3,6 +3,7 @@
   <BehaviorTree
     ID="Move to Waypoint"
     _description="This Objective is used when moving to one of the saved waypoints in your site configuration"
+    _subtreeOnly="true"
   >
     <Control ID="Sequence" name="root">
       <Action

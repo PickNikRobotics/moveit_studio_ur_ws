@@ -26,7 +26,6 @@
       <Action
         ID="SendPointCloudToUI"
         point_cloud="{point_cloud}"
-        sensor_name="scene_scan_camera"
         pcd_topic="/pcd_pointcloud_captures"
       />
       <Action
@@ -65,7 +64,6 @@
           <Action
             ID="SendPointCloudToUI"
             point_cloud="{point_cloud_fragment}"
-            sensor_name="scene_scan_camera"
             pcd_topic="/pcd_pointcloud_captures"
           />
         </Control>
