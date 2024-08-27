@@ -1,9 +1,12 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <package format="3">
   <name>arm_on_rail_sim</name>
   <version>6.0.0</version>
 
-  <description>MuJoCo simulation configuration package for Picknik's UR robot on a linear rail</description>
+  <description>
+    MuJoCo simulation configuration package for Picknik's UR robot on a linear
+    rail
+  </description>
 
   <maintainer email="support@picknik.ai">MoveIt Pro Maintainer</maintainer>
 
@@ -27,7 +30,7 @@
   <exec_depend>ur_robot_driver</exec_depend>
   <exec_depend>picknik_mujoco_ros</exec_depend>
   <exec_depend>velocity_force_controller</exec_depend>
-  
+
   <test_depend>ament_lint_auto</test_depend>
 
   <test_depend>ament_clang_format</test_depend>
