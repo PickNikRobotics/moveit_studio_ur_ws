@@ -15,9 +15,10 @@ on:
 
 jobs:
   integration-test-in-studio-container:
-    uses: PickNikRobotics/moveit_pro_ci/.github/workflows/workspace_integration_test.yaml@main
+    uses: PickNikRobotics/moveit_pro_ci/.github/workflows/workspace_integration_test.yaml@virtual-buffer
     with:
       image_tag: ${{ github.event.inputs.image_tag || null }}
+      colcon_test_args: "--executor sequential"
     secrets: inherit
 
   ensure-no-ssh-in-gitmodules:

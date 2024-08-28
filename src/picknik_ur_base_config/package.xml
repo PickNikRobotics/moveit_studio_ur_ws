@@ -1,9 +1,11 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <package format="3">
   <name>picknik_ur_base_config</name>
-  <version>5.1.0</version>
+  <version>6.0.0</version>
 
-  <description>Base configuration package for Picknik's UR robot arms</description>
+  <description>
+    Base configuration package for Picknik's UR robot arms
+  </description>
 
   <maintainer email="support@picknik.ai">MoveIt Pro Maintainer</maintainer>
 

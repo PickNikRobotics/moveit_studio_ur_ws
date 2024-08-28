@@ -5,10 +5,11 @@
 # Name of the package to specialize
 based_on_package: "picknik_ur_gazebo_config"
 
-# Optional parameters that can be read in your launch files for specific functionality
-optional_feature_params:
-  gazebo_world_package_name: "picknik_ur_gazebo_scan_and_plan_config"
-  gazebo_world_path: "description/simulation_worlds/scan_and_plan_world.sdf"
+hardware:
+  # The following launch file is started when hardware.simulated is True
+  simulated_hardware_launch_file:
+    package: "picknik_ur_gazebo_scan_and_plan_config"
+    path: "launch/sim/hardware_sim.launch.py"
 
 objectives:
   # Override with a new set of waypoints based on the Gazebo world.

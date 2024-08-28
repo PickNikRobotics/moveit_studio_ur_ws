@@ -1,17 +1,11 @@
 # Baseline hardware configuration parameters for MoveIt Pro.
 # [Required]
 hardware:
-  # Used by the ur_description package to set kinematics and geometry for a specific robot type.
-  # You can change this to another UR model but you must update any configuration affected by the different arm size.
-  # UR models in the ur_description package are ur3, ur3e, ur5, ur5e, ur10, ur10e, and ur16e.
-  # [Required]
-  type: ur5e
 
   # Set simulated to false if you are using this as a configuration for real hardware.
-  # Override-able by setting the $MOCK_HARDWARE environment variable to 'True'.
-  # This allows users to switch between mock and real hardware using the same configuration.
+  # This allows users to switch between mock and real hardware by changing a single parameter with config inheritance.
   # [Required]
-  simulated: ${MOCK_HARDWARE:-true}
+  simulated: true
 
   # If the MoveIt Pro Agent should launch the ros2 controller node.
   # [Optional, default=True]
@@ -22,18 +16,11 @@ hardware:
   # [Optional, default=True]
   launch_robot_state_publisher: True
 
-  # The robot's IP address.
-  # [Required]
-  ip: "0.0.0.0"
-
   # Specify additional launch files for running the robot with real hardware.
   # [Optional, defaults to a blank launch file if not specified]
   robot_driver_persist_launch_file:
     package: "picknik_ur_base_config"
     path: "launch/robot_drivers_to_persist.launch.py"
-  hardware_launch_file:
-    package: "moveit_studio_agent"
-    path: "launch/blank.launch.py"
 
   # Specify any additional launch files for running the robot in simulation mode.
   # Used when hardware.simulated is True.
@@ -41,9 +28,6 @@ hardware:
   simulated_robot_driver_persist_launch_file:
     package: "picknik_ur_base_config"
     path: "launch/sim/robot_drivers_to_persist_sim.launch.py"
-  simulated_hardware_launch_file:
-    package: "moveit_studio_agent"
-    path: "launch/blank.launch.py"
 
   # Parameters used to configure the robot description through XACRO.
   # A URDF and SRDF are both required.
@@ -61,33 +45,27 @@ hardware:
     urdf_params:
       - name: "multi_arm_ur"
       - prefix: ""
-      - use_fake_hardware: "%>> hardware.simulated"
+      - use_fake_hardware: "true"
       - use_pinch_links: "true"
-      - fake_sensor_commands: "false"
+      - mock_sensor_commands: "false"
       - headless_mode: "true"
-      - robot_ip: "%>> hardware.ip"
+      - robot_ip: "0.0.0.0"
       - joint_limits_parameters_file:
           package: "picknik_ur_base_config"
           path: "config/moveit/joint_limits.yaml"
       # The following files are loaded based on the ur_description package layout.
-      # To use parameters from a different package, place them in a config/ROBOT_NAME/ directory,
-      # replace ROBOT_NAME with the value used for hardware.type in this file.
       - kinematics_parameters_file:
       # Load default_kinematics.yaml from ur_description/config/<ur_type>
           package: "ur_description"
-          path: "config/%>> hardware.type <<%/default_kinematics.yaml"
+          path: "config/ur5e/default_kinematics.yaml"
       - physical_parameters_file:
       # Load physical_parameters.yaml from ur_description/config/<ur_type>
           package: "ur_description"
-          path: "config/%>> hardware.type <<%/physical_parameters.yaml"
+          path: "config/ur5e/physical_parameters.yaml"
       - visual_parameters_file:
       # Load visual_parameters.yaml from ur_description/config/<ur_type>
           package: "ur_description"
-          path: "config/%>> hardware.type <<%/visual_parameters.yaml"
-  # Set advanced camera settings to improve point cloud accuracy
-  json_file_path:
-    package: "picknik_ur_base_config"
-    path: "config/realsense_config_high_accuracy.json"
+          path: "config/ur5e/visual_parameters.yaml"
 
 # Sets ROS global params for launch.
 # [Optional]
@@ -143,14 +121,6 @@ moveit_params:
     allowed_goal_duration_margin: 5.0
     allowed_start_tolerance: 0.01
 
-# Additional configurable parameters for the MoveIt Pro user interface.
-# [Required]
-ui_params:
-  # By default, MoveIt Pro uses a frame called "grasp_link" for tool grasp pose rendering
-  # and planning.
-  # [Required]
-  servo_endpoint_frame_id: "first_grasp_link"
-
 # Configuration for launching ros2_control processes.
 # [Required, if using ros2_control]
 ros2_control:
@@ -186,12 +156,6 @@ ros2_control:
   # Optionally configure remapping rules to let multiple controllers receive commands on the same topic.
   # [Optional, default=[]]
   controller_shared_topics: []
-
-# Octomap manager configuration parameters
-octomap_manager:
-  # Input point cloud topic name. The *output* point cloud topic published by
-  # the Octomap manager node is defined in sensors_3d.yaml.
-  input_point_cloud_topic: "/wrist_mounted_camera/depth/color/points"
 
 # Configuration for loading behaviors and objectives.
 # [Required]

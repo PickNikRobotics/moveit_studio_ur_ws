@@ -1,0 +1,6 @@
+<library path="call_my_service">
+  <class
+    type="call_my_service::CallMyServiceBehaviorsLoader"
+    base_class_type="moveit_studio::behaviors::SharedResourcesNodeLoaderBase"
+  />
+</library>
