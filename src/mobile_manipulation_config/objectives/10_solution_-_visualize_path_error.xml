@@ -3,7 +3,7 @@
   <!--//////////-->
   <BehaviorTree ID="10 Solution - Visualize path error" _description="How to visualize what's going on with an infeasible path" _favorite="true">
     <Control ID="Sequence" name="TopLevelSequence">
-      <Action ID="CreateStampedPose" orientation_xyzw="0;0;0;1" position_xyz="1;0;-0.5" reference_frame="world"/>
+      <Action ID="CreateStampedPose" orientation_xyzw="0;0;0;1" position_xyz="1;0;-1" reference_frame="world"/>
       <Action ID="AddPoseStampedToVector" input="{stamped_pose}"/>
       <Action ID="VisualizePose"/>
       <Control ID="Fallback">

@@ -3,7 +3,7 @@
   <!--//////////-->
   <BehaviorTree ID="15 Solution - A path that collides" _description="An example of a path kinematically feasible, but colliding" _favorite="true">
     <Control ID="Sequence" name="TopLevelSequence">
-      <Action ID="CreateStampedPose" orientation_xyzw="0;0;0;1" position_xyz="0;0;5" reference_frame="grasp_link"/>
+      <Action ID="CreateStampedPose" orientation_xyzw="0;0;0;1" position_xyz="0;-1;0" reference_frame="grasp_link"/>
       <Action ID="AddPoseStampedToVector" input="{stamped_pose}"/>
       <Action ID="VisualizePose"/>
       <Action ID="PlanCartesianPath" ik_cartesian_space_density="0.01000" ik_joint_space_density="0.01000" position_only="false"/>
