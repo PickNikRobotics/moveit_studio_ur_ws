@@ -25,7 +25,7 @@
       <!--Run pick and place on loop-->
       <Decorator ID="KeepRunningUntilFailure">
         <Control ID="Sequence">
-          <!--Pick object from left, put it down at the CNC machine, and go back to center pose-->
+          <!--Pick object from original location, put it down at a different part of the table, and go back to center pose-->
           <Control ID="Sequence">
             <SubTree
               ID="Move to Waypoint"
@@ -70,7 +70,7 @@
               constraints="{constraints}"
             />
           </Control>
-          <!--Pick object from the CNC machine, put it down on the right, and go back to center pose-->
+          <!--Pick object from where it was placed, put it down on the original location, and go back to center pose-->
           <Control ID="Sequence">
             <SubTree
               ID="Move to Waypoint"
