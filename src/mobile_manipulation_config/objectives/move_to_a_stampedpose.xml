@@ -3,6 +3,7 @@
   <BehaviorTree
     ID="Move to a StampedPose"
     _description="Uses inverse kinematics to move the robot tip to a given pose"
+    _subtreeOnly="true"
   >
     <Control ID="Fallback" name="root">
       <Control ID="Sequence">
