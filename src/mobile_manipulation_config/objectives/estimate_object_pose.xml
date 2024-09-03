@@ -6,6 +6,7 @@
     _description="Estimate an object pose from a reference mesh file using ICP on live point cloud data."
     _favorite="false"
     _hardcoded="false"
+    _subtreeOnly="true"
   >
     <Control ID="Sequence">
       <Action
