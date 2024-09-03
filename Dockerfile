@@ -56,7 +56,10 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # After rebuilding via `moveit_pro build` verify the drivers are active in your container by running `nvidia_smi` inside of `moveit_pro shell`.
 # ENV DEBIAN_FRONTEND=noninteractive
 # RUN apt update && apt install -y software-properties-common
-# RUN add-apt-repository ppa:graphics-drivers/ppa && apt update && apt upgrade -y && apt install -y nvidia-driver-555
+# RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+#     --mount=type=cache,target=/var/lib/apt,sharing=locked \ 
+#    add-apt-repository ppa:graphics-drivers/ppa && \
+#    apt update && apt upgrade -y && apt install -y nvidia-driver-555
 
 # Install additional dependencies
 # You can also add any necessary apt-get install, pip install, etc. commands at this point.
