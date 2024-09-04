@@ -1,7 +1,7 @@
 # Contains colcon default settings for user overlay containers.
 build:
   # Enable this for bidirectional syncing from the UI
-  symlink-install: true
+  symlink-install: false
   mixin:
     # Enable ccache support
     - ccache

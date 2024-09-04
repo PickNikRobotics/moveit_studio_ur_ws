@@ -25,9 +25,10 @@ services:
     # Allow the user to use the host's network video4linux and usb_device devices.
     # "c 81:* rmw": This rule specifies that the container has read, write, and mknod access (rmw) to all character devices (c) with a major number of 81 (video4linux).
     # "c 189:* rmw": This rule gives the container read, write, and mknod access (rmw) to all character devices (c) with a major number of 189 (usb_device).
-    device_cgroup_rules:
-      - "c 81:* rmw"
-      - "c 189:* rmw"
+    # Not sure why I got errors from this line...
+    # device_cgroup_rules:
+    #   - "c 81:* rmw"
+    #   - "c 189:* rmw"
     depends_on:
       rest_api:
         condition: service_healthy
@@ -93,11 +94,7 @@ services:
     tty: true
     privileged: true
     volumes:
-      # Mount the source code, colcon generated artifacts, and ccache
-      - ./src/:/home/${STUDIO_USERNAME:-studio-user}/user_ws/src:rw
-      - ./build/:/home/${STUDIO_USERNAME:-studio-user}/user_ws/build:rw
-      - ./install/:/home/${STUDIO_USERNAME:-studio-user}/user_ws/install:rw
-      - ./log/:/home/${STUDIO_USERNAME:-studio-user}/user_ws/log:rw
+      # Don't mount the source code or colcon generated artifacts, just ccache (or maybe not even that?)
       - ./.ccache/:/home/${STUDIO_USERNAME:-studio-user}/.ccache:rw
       - ${HOME}/.ros/log_moveit_pro:/home/${STUDIO_USERNAME:-studio-user}/.ros/log
       # Allow access to host hardware e.g. RealSense cameras
@@ -106,6 +103,27 @@ services:
     # Making a separate profile prevents this service from being built when using `docker compose build`
     # and launched when using `docker compose up`.
     profiles: ["dev"]
+  deploy:
+    # Extend the installed MoveIt Pro docker compose file.
+    # Change this to match your environment, if MoveIt Pro was installed to a different location.
+    extends:
+      file: /opt/moveit_pro/docker-compose.yaml
+      service: base
+    image: moveit-pro-deploy
+    build:
+      context: .
+      target: deploy
+      args:
+        - USER_UID=${STUDIO_USER_UID:-1000}
+        - USER_GID=${STUDIO_USER_UID:-1000}
+        - USERNAME=${STUDIO_USERNAME:-studio-user}
+        - MOVEIT_STUDIO_BASE_IMAGE=picknikciuser/moveit-studio:${STUDIO_DOCKER_TAG:-main}
+
+    environment:
+      - STUDIO_USERNAME=${STUDIO_USERNAME}
+      - STUDIO_USER_UID=${STUDIO_USER_UID}
+      - STUDIO_USER_GID=${STUDIO_USER_GID}
+    command: /bin/bash
 
 volumes:
   ignition_resources:
