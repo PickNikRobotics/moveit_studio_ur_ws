@@ -892,8 +892,8 @@
   </equality>
 
   <sensor>
-    <force name="ee_force_sensor" site="robotiq_ft_sensor" />
-    <torque name="ee_torque_sensor" site="robotiq_ft_sensor" />
+    <force site="robotiq_ft_sensor" />
+    <torque site="robotiq_ft_sensor" />
   </sensor>
 
   <keyframe>

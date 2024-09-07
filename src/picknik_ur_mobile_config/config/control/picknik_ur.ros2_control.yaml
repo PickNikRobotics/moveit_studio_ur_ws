@@ -172,4 +172,4 @@ force_torque_sensor_broadcaster:
       - torque.x
       - torque.y
       - torque.z
-    frame_id: fts_link
+    frame_id: robotiq_ft_sensor
