@@ -354,6 +354,12 @@
                         pos="0 0.1 0"
                         quat="-1 1 0 0"
                       />
+                      <site
+                        name="duplicate_robotiq_ft_sensor"
+                        size="0.01"
+                        pos="0 0.1 0"
+                        quat="-1 1 0 0"
+                      />
                       <body
                         name="tool_changer"
                         gravcomp="1"
@@ -773,5 +779,10 @@
   <sensor>
     <force site="robotiq_ft_sensor" />
     <torque site="robotiq_ft_sensor" />
+  </sensor>
+
+  <sensor>
+    <force site="duplicate_robotiq_ft_sensor" />
+    <torque site="duplicate_robotiq_ft_sensor" />
   </sensor>
 </mujoco>

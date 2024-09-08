@@ -11,6 +11,8 @@ controller_manager:
       type: joint_trajectory_controller/JointTrajectoryController
     force_torque_sensor_broadcaster:
       type: force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster
+    duplicate_force_torque_sensor_broadcaster:
+      type: force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster
     joint_trajectory_admittance_controller:
       type: joint_trajectory_admittance_controller/JointTrajectoryAdmittanceController
     velocity_force_controller:
@@ -147,15 +149,12 @@ servo_controller:
 force_torque_sensor_broadcaster:
   ros__parameters:
     sensor_name: robotiq_ft_sensor
-    state_interface_names:
-      - force.x
-      - force.y
-      - force.z
-      - torque.x
-      - torque.y
-      - torque.z
     frame_id: robotiq_ft_sensor
 
+duplicate_force_torque_sensor_broadcaster:
+  ros__parameters:
+    sensor_name: duplicate_robotiq_ft_sensor
+    frame_id: duplicate_robotiq_ft_sensor
 
 joint_trajectory_admittance_controller:
   ros__parameters:
