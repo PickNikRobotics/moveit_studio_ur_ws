@@ -125,7 +125,8 @@
       name="ign_ros2_control::IgnitionROS2ControlPlugin"
     >
       <parameters>
-        $(find picknik_ur_gazebo_config)/config/control/picknik_ur5e.ros2_control.yaml
+        $(find
+        picknik_ur_gazebo_config)/config/control/picknik_ur5e.ros2_control.yaml
       </parameters>
       <ros>
         <remapping>

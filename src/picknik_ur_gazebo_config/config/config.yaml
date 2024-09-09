@@ -16,6 +16,8 @@ ros_global_params:
   use_sim_time: True
 
 hardware:
+  # This is the only option for this site_config
+  simulated: True
 
   # Gazebo starts its own controller manager through the ros2_control plugin, so set this to False
   launch_control_node: False
@@ -37,9 +39,22 @@ hardware:
       package: "picknik_ur_gazebo_config"
       path: "config/moveit/picknik_ur_gazebo.srdf.xacro"
     urdf_params:
+      - name: "ur5e"
       - gripper_name: "robotiq_85"
       - use_pinch_links: "false"
       - simulation: "gazebo"
+      - kinematics_parameters_file:
+          # Load default_kinematics.yaml from ur_description/config/<ur_type>
+          package: "ur_description"
+          path: "config/ur5e/default_kinematics.yaml"
+      - physical_parameters_file:
+          # Load physical_parameters.yaml from ur_description/config/<ur_type>
+          package: "ur_description"
+          path: "config/ur5e/physical_parameters.yaml"
+      - visual_parameters_file:
+          # Load visual_parameters.yaml from ur_description/config/<ur_type>
+          package: "ur_description"
+          path: "config/ur5e/visual_parameters.yaml"
 
 # Override MoveIt parameters
 moveit_params:
@@ -50,16 +65,8 @@ moveit_params:
     package: "picknik_ur_gazebo_config"
     path: "config/moveit/ur_servo.yaml"
 
-# Configuration for launching ros2_control processes.
-# [Required, if using ros2_control]
+# This configures what controllers gets run at startup
 ros2_control:
-  config:
-    package: "picknik_ur_site_config"
-    path: "config/control/picknik_ur.ros2_control.yaml"
-  # MoveIt Pro will load and activate these controllers at start up to ensure they are available.
-  # If not specified, it is up to the user to ensure the appropriate controllers are active and available
-  # for running the application.
-  # [Optional, default=[]]
   controllers_active_at_startup:
     - "joint_state_broadcaster"
     - "streaming_controller"
@@ -67,12 +74,6 @@ ros2_control:
   controllers_inactive_at_startup:
     - "joint_trajectory_controller"
     - "servo_controller"
-  # Any controllers here will not be spawned by MoveIt Pro.
-  # [Optional, default=[]]
-  controllers_not_managed: []
-  # Optionally configure remapping rules to let multiple controllers receive commands on the same topic.
-  # [Optional, default=[]]
-  controller_shared_topics: []
 
 objectives:
   # Override with a new set of waypoints based on the Gazebo world.
