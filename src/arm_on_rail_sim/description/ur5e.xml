@@ -778,11 +778,11 @@
 
   <sensor>
     <force site="robotiq_ft_sensor" />
+    <!-- Only duplicate FTS will have correct force -->
+    <force site="duplicate_robotiq_ft_sensor" />
+    <torque site="duplicate_robotiq_ft_sensor" />
+    <!-- Only original FTS will have correct torque -->
     <torque site="robotiq_ft_sensor" />
   </sensor>
 
-  <sensor>
-    <force site="duplicate_robotiq_ft_sensor" />
-    <torque site="duplicate_robotiq_ft_sensor" />
-  </sensor>
 </mujoco>
