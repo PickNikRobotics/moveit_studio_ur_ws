@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <package format="3">
   <name>translate_pose</name>
-  <version>6.0.0</version>
+  <version>6.1.1</version>
   <description>Translates a PoseStamped, given x,y,z</description>
 
   <maintainer email="support@picknik.ai">MoveIt Pro Maintainer</maintainer>
