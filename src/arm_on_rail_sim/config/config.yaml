@@ -67,7 +67,7 @@ ros2_control:
   # [Optional, default=[]]
   controllers_active_at_startup:
     - "force_torque_sensor_broadcaster"
-    - "duplicate_force_torque_sensor_broadcaster"
+    # - "duplicate_force_torque_sensor_broadcaster"
     - "robotiq_gripper_controller"
     - "joint_state_broadcaster"
     - "servo_controller"
