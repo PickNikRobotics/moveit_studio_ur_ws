@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <package format="3">
   <name>call_my_service</name>
-  <version>6.0.0</version>
+  <version>6.1.1</version>
   <description>Example of a Behavior that calls a ROS 2 Service</description>
 
   <maintainer email="support@picknik.ai">MoveIt Pro Maintainer</maintainer>
