@@ -82,4 +82,4 @@ repos:
         additional_dependencies:
           - "prettier@3.1.0"
           - "@prettier/plugin-xml@3.3.1"
-        files: \.(xml|xacro)$
+        files: \.(xml)$
