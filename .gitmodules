@@ -22,3 +22,6 @@
 	path = src/external_dependencies/ridgeback
 	url = https://github.com/sjahr/ridgeback.git
 	branch = ros2
+[submodule "src/external_dependencies/picknik_registration"]
+	path = src/external_dependencies/picknik_registration
+	url = https://github.com/PickNikRobotics/picknik_registration.git
