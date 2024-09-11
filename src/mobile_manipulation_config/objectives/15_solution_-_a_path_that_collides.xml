@@ -13,7 +13,7 @@
       <Action
         ID="CreateStampedPose"
         orientation_xyzw="0;0;0;1"
-        position_xyz="0;0;5"
+        position_xyz="0;-1;0"
         reference_frame="grasp_link"
       />
       <Action ID="AddPoseStampedToVector" input="{stamped_pose}" />
