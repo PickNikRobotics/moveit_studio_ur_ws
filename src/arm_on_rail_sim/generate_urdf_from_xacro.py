@@ -14,7 +14,9 @@ params = hardware_config.robot_description
 mappings_params = process_mappings_dict(params.urdf_params)
 
 # IMPORTANT: You must update this path when using it to debug other configurations!
-robot_description_path = Path("~/user_ws/src/arm_on_rail_sim/xacro_generated_urdf_for_testing.urdf").expanduser()
+robot_description_path = Path(
+    "~/user_ws/src/arm_on_rail_sim/xacro_generated_urdf_for_testing.urdf"
+).expanduser()
 
 robot_description_config = xacro.process_file(
     robot_description_path,
