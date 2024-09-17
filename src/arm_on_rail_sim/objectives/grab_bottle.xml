@@ -1,0 +1,81 @@
+<root BTCPP_format="4" main_tree_to_execute="Grab Bottle">
+  <!--//////////-->
+  <BehaviorTree ID="Grab Bottle" _description="" _favorite="true">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <SubTree
+        ID="Move to Waypoint"
+        _collapsed="false"
+        waypoint_name="Look at Table"
+        joint_group_name="manipulator"
+        planner_interface="moveit_default"
+        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+      />
+      <SubTree
+        ID="Move to Waypoint"
+        _collapsed="false"
+        waypoint_name="Look at Bottle"
+        joint_group_name="manipulator"
+        planner_interface="moveit_default"
+        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+      />
+      <Action
+        ID="RetrieveWaypoint"
+        waypoint_joint_state="{target_joint_state}"
+        waypoint_name="Pick Bottle"
+        joint_group_name="manipulator"
+      />
+      <Action
+        ID="InitializeMTCTask"
+        task_id="move_to_named_pose"
+        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+        task="{move_to_waypoint_task}"
+      />
+      <Action ID="SetupMTCCurrentState" task="{move_to_waypoint_task}" />
+      <Action
+        ID="SetupMTCCartesianMoveToJointState"
+        task="{move_to_waypoint_task}"
+        joint_state="{target_joint_state}"
+      />
+      <Action
+        ID="PlanMTCTask"
+        solution="{move_to_waypoint_solution}"
+        task="{move_to_waypoint_task}"
+      />
+      <Action ID="ExecuteMTCTask" solution="{move_to_waypoint_solution}" />
+      <SubTree ID="Close Gripper" _collapsed="true" />
+      <SubTree
+        ID="Move to Waypoint"
+        _collapsed="false"
+        waypoint_name="Transport"
+        joint_group_name="manipulator"
+        planner_interface="moveit_default"
+        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+      />
+      <SubTree
+        ID="Move to Waypoint"
+        _collapsed="false"
+        waypoint_name="Pre-Place"
+        joint_group_name="manipulator"
+        planner_interface="moveit_default"
+        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+      />
+      <SubTree
+        ID="Move to Waypoint"
+        _collapsed="false"
+        waypoint_name="Place"
+        joint_group_name="manipulator"
+        planner_interface="moveit_default"
+        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+      />
+      <SubTree ID="Open Gripper" _collapsed="true" />
+      <SubTree
+        ID="Move to Waypoint"
+        _collapsed="false"
+        waypoint_name="Look at place"
+        joint_group_name="manipulator"
+        planner_interface="moveit_default"
+        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+      />
+    </Control>
+  </BehaviorTree>
+</root>
