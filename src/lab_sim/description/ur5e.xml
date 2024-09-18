@@ -113,12 +113,12 @@
     </default>
     <default class="robot">
       <material specular="0.5" shininess="0.25" />
-      <joint armature="1.0" damping="0.75" axis="0 0 1" range="-5.0 5.0" />
+      <joint armature="1.0" damping="0.75" axis="0 0 1" range="-3 3" />
       <general
         dyntype="none"
         biastype="affine"
-        ctrlrange="-5.0 5.0"
-        forcerange="-100000 100000"
+        ctrlrange="-3 3"
+        forcerange="-5000 5000"
       />
       <default class="limitedJoints">
         <joint limited="true" />
@@ -217,7 +217,7 @@
         name="linear_rail_joint"
         type="slide"
         axis="0 1 0"
-        range="-5.0 5.0"
+        range="-3.0 3.0"
       />
       <body name="adapter" pos="-0.06 -0.4 -0.2" euler="0 0 0">
         <geom type="box" size="0.08 0.1 0.2" rgba="1 1 1 1" />
@@ -654,7 +654,8 @@
       class="robot"
       name="linear_rail_joint"
       joint="linear_rail_joint"
-      kp="1500000"
+      kp="50000"
+      dampratio="1.0"
     />
   </actuator>
 
@@ -680,7 +681,7 @@
       forcerange="-5 5"
       ctrlrange="0 .8"
       gainprm="100 0 0"
-      biasprm="0 -100 -150"
+      biasprm="0 -100 -25"
     />
   </actuator>
 
