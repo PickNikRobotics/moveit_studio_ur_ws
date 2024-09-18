@@ -1,9 +1,11 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <package format="3">
   <name>picknik_ur_epick_config</name>
   <version>5.3.2</version>
 
-  <description>Base configuration package for UR robot arm with Robotiq E-Pick gripper</description>
+  <description>
+    Base configuration package for UR robot arm with Robotiq E-Pick gripper
+  </description>
 
   <maintainer email="support@picknik.ai">MoveIt Pro Maintainer</maintainer>
 
