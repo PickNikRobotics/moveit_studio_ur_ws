@@ -71,6 +71,15 @@
       <geom material="desk" mesh="desk" class="visual" contype="0" conaffinity="0" group="2"/>
       <geom class="collision" type="box" pos="0 0 0" size="2 0.6 0.986592" group="4"/>
     </body>
+    <!-- Define the block with AprilTags on each face -->
+    <body name="block1" pos="0.7 -0.4 0.984476">
+      <freejoint name="block1" />
+      <geom type="box" size="0.025 0.025 0.025" rgba="1 1 1 1" material="apriltag_material1" />
+    </body>
+    <body name="block2" pos="0.9 -0.4 0.984476">
+      <freejoint name="block2" />
+      <geom type="box" size="0.025 0.025 0.025" rgba="1 1 1 1" material="apriltag_material2" />
+    </body>
     <body name="shelf" pos="-2.78335 0.27681 0" euler="0 0 0">
       <geom material="shelf" mesh="shelf" class="visual" contype="0" conaffinity="0" group="2"/>
       <geom type="mesh" class="collision" mesh="shelf" group="4"/>
@@ -146,17 +155,13 @@
   </worldbody>
 
   <keyframe>
-    <!-- qpos -->
-    <!-- linear_rail, shoulder_pan, shoulder_lift, elbow, wrist_1, wrist_2, wrist_3 -->
-    <!-- right_knuckle, right_finger, right_inner_knuckle, right_finger_tip, left_knuckle, left_finger, left_inner_knuckle, left_finger_tip -->
-    <!-- block1 [x, y, z, qw, qx, qy, qz] -->
-    <!-- block2 [x, y, z, qw, qx, qy, qz] -->
-    <!-- block3 [x, y, z, qw, qx, qy, qz] -->
-    <!-- ctrl -->
-    <!-- linear_rail, shoulder_pan, shoulder_lift, elbow, wrist_1, wrist_2, wrist_3, robotiq_85_left_knuckle_joint -->
-    <key 
-    qpos='0.344036 -0.08 -1.04273 0.787707 -1.22726 -1.55001 -0.08 0.0208263 0.000536897 0.0221041 -0.0228695 0.0208401 0.000547098 0.0221446 -0.022942 -0.875356 -0.375531 0.984374 -0.848687 -4.83214e-05 0.000122149 -0.528896 -0.499785 -0.410141 0.982941 -0.751996 -3.49463e-05 3.58695e-05 -0.659167 -0.360536 -0.490348 0.982941 -0.755553 -3.11306e-05 3.85484e-05 -0.655088 -0.303515 -0.40155 0.98294 -0.77703 -3.0278e-05 1.941e-05 -0.629464 -0.000328698 -0.401628 0.985397 -0.839069 -0.000141026 1.57151e-05 0.544024 -0.0975289 -0.4485 0.985597 0.28502 7.33444e-05 -7.69081e-05 -0.958522 0.0463543 -0.448147 0.985581 -0.760373 -5.59382e-05 -8.81544e-05 -0.649487'
-    ctrl="
+    <key
+      qpos="
+      0.344036 -0.08 -1.04273 0.787707 -1.22726 -1.55001 -0.08 0.0208263 0.000536897 0.0221041 -0.0228695 0.0208401 0.000547098 0.0221446 -0.022942 
+      0.7 -0.4 1.01138 1 0 0 0 0.9 -0.4 1.01138 1 0 0 0
+      -0.875356 -0.375531 0.984374 -0.848687 -4.83214e-05 0.000122149 -0.528896 -0.499785 -0.410141 0.982941 -0.751996 -3.49463e-05 3.58695e-05 -0.659167 -0.360536 -0.490348 0.982941 -0.755553 -3.11306e-05 3.85484e-05 -0.655088 -0.303515 -0.40155 0.98294 -0.77703 -3.0278e-05 1.941e-05 -0.629464 -0.000328698 -0.401628 0.985397 -0.839069 -0.000141026 1.57151e-05 0.544024 -0.0975289 -0.4485 0.985597 0.28502 7.33444e-05 -7.69081e-05 -0.958522 0.0463543 -0.448147 0.985581 -0.760373 -5.59382e-05 -8.81544e-05 -0.649487
+      "
+      ctrl="
       0.345 -0.08 -1.06 0.78 -1.23 -1.55 -0.08 0
     "
     />
