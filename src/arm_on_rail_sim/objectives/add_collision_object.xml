@@ -17,9 +17,9 @@
         ID="CreateGraspableObject"
         cuboid_object="{object}"
         pose="{stamped_pose}"
-        dy="0.5"
+        dy="0.1"
         dx="0.5"
-        dz="0.5"
+        dz="1"
       />
       <Action ID="AddVirtualObjectToPlanningScene" />
       <Action ID="AlwaysSuccess" />
