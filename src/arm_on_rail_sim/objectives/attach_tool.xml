@@ -1,0 +1,21 @@
+<root BTCPP_format="4" main_tree_to_execute="Example: Attach Tool">
+  <!--//////////-->
+  <BehaviorTree ID="Example: Attach Tool" _description="" _favorite="true">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action
+        ID="CreateStampedPose"
+        reference_frame="wrist_mounted_camera_link"
+        orientation_xyzw="0;0;0;1"
+        position_xyz="0;0;0"
+      />
+      <Action
+        ID="AttachTool"
+        allowed_collision_links="wrist_mounted_camera_link"
+        relative_pose="{stamped_pose}"
+        parent_link_name="wrist_mounted_camera_link"
+        tool_urdf_file="~/user_ws/install/arm_on_rail_sim/share/arm_on_rail_sim/description/eoat.urdf"
+        tool_name="Nail Grip Tool"
+      />
+    </Control>
+  </BehaviorTree>
+</root>

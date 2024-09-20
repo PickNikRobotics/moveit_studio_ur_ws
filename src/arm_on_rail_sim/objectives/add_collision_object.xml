@@ -1,0 +1,28 @@
+<root BTCPP_format="4" main_tree_to_execute="Example: Add Collision Object">
+  <!--//////////-->
+  <BehaviorTree
+    ID="Example: Add Collision Object"
+    _description=""
+    _favorite="true"
+  >
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="GetCurrentPlanningScene" />
+      <Action
+        ID="CreateStampedPose"
+        reference_frame="wrist_mounted_camera_link"
+        position_xyz="0; 0; 0"
+        orientation_xyzw="0; 0; 0; 1"
+      />
+      <Action
+        ID="CreateGraspableObject"
+        cuboid_object="{object}"
+        pose="{stamped_pose}"
+        dy="0.5"
+        dx="0.5"
+        dz="0.5"
+      />
+      <Action ID="AddVirtualObjectToPlanningScene" />
+      <Action ID="AlwaysSuccess" />
+    </Control>
+  </BehaviorTree>
+</root>

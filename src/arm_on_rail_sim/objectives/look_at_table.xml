@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <root BTCPP_format="4" main_tree_to_execute="Look at table">
   <!--//////////-->
-  <BehaviorTree ID="Look at table" _description="" _favorite="true">
+  <BehaviorTree ID="Look at table" _description="" _favorite="false">
     <Control ID="Sequence" name="TopLevelSequence">
       <SubTree
         ID="Move to Waypoint"

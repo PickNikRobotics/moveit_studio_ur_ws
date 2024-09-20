@@ -3,7 +3,7 @@
   <BehaviorTree
     ID="Joint Diagnostic"
     _description="Example of cycling through the min and max limits of a single joint, for hardware testing"
-    _favorite="true"
+    _favorite="false"
   >
     <Control ID="Sequence" name="TopLevelSequence">
       <!--Setup by moving home-->
