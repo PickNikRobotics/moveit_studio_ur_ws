@@ -215,7 +215,7 @@
       pos="0.0 1.6 1.6"
       fovy="58"
       mode="fixed"
-      resolution="640 480"
+      resolution="1024 768"
       euler="-0.9 0 3.1415"
     />
 
@@ -383,7 +383,7 @@
                         pos="0.0 0.2 0.05"
                         fovy="58"
                         mode="fixed"
-                        resolution="640 480"
+                        resolution="1024 768"
                         euler="1.57 0.0 0.0"
                       />
                       <site

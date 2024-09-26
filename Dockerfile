@@ -54,8 +54,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # 1. Uncomment the ENV and RUN entries below
 # 2. Replace the 'nvidia-driver-555' apt package with the Nvidia driver version on your host, e.g. nvidia-driver-535, nvidia-driver-555. Use nvidia-smi on your host to determine the driver version.
 # After rebuilding via `moveit_pro build` verify the drivers are active in your container by running `nvidia_smi` inside of `moveit_pro shell`.
-# ENV DEBIAN_FRONTEND=noninteractive
-# RUN apt update && apt install -y software-properties-common
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt update && apt install -y linux-tools-common linux-tools-generic linux-tools-$(uname -r)
 # RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 #     --mount=type=cache,target=/var/lib/apt,sharing=locked \ 
 #    add-apt-repository ppa:graphics-drivers/ppa && \

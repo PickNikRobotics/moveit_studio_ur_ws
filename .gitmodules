@@ -17,3 +17,6 @@
 [submodule "src/external_dependencies/picknik_registration"]
 	path = src/external_dependencies/picknik_registration
 	url = https://github.com/PickNikRobotics/picknik_registration.git
+[submodule "src/external_dependencies/ros2_mujoco"]
+	path = src/external_dependencies/ros2_mujoco
+	url = git@github.com:PickNikRobotics/ros2_mujoco.git
