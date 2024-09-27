@@ -56,5 +56,14 @@ def generate_launch_description():
     )
     return LaunchDescription(
         rs_launch.declare_configurable_parameters(rs_launch.configurable_parameters)
-        + [OpaqueFunction(function=rs_launch.launch_setup, kwargs = {'params' : rs_launch.set_configurable_parameters(rs_launch.configurable_parameters)})]
+        + [
+            OpaqueFunction(
+                function=rs_launch.launch_setup,
+                kwargs={
+                    "params": rs_launch.set_configurable_parameters(
+                        rs_launch.configurable_parameters
+                    )
+                },
+            )
+        ]
     )
