@@ -10,9 +10,6 @@ objectives:
     custom_objectives:
       package_name: "picknik_ur_site_config"
       relative_path: "objectives"
-    base_objectives:
-      package_name: "picknik_ur_base_config"
-      relative_path: "objectives"
 
 # Configuration for launching ros2_control processes.
 # [Required, if using ros2_control]
