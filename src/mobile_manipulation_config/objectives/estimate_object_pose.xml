@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <root BTCPP_format="4" main_tree_to_execute="Estimate Object Pose">
   <!--//////////-->
   <BehaviorTree
@@ -18,6 +17,7 @@
         point_cloud="{model_point_cloud}"
         scale="1.0"
         color="255;150;0"
+        package_name="{package_name}"
       />
       <Action
         ID="GetSyncedImageAndPointCloud"
@@ -71,6 +71,8 @@
     </Control>
   </BehaviorTree>
   <TreeNodesModel>
-    <SubTree ID="Estimate Object Pose" />
+    <SubTree ID="Estimate Object Pose">
+      <input_port name="package_name" default="mobile_manipulation_config" />
+    </SubTree>
   </TreeNodesModel>
 </root>
