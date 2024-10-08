@@ -56,8 +56,6 @@ objectives:
   behavior_loader_plugins:
     # This plugin will load the core MoveIt Studio behaviors.
     # Add additional plugin loaders as needed.
-    core:
-      - "moveit_studio::behaviors::CoreBehaviorsLoader"
     epick:
       - "epick_moveit_studio::BehaviorLoader"
   # Specify source folder for objectives
