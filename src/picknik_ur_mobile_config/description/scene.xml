@@ -3,6 +3,7 @@
   <include file="ur5e/ur5e_globals.xml" />
   <include file="lab_desk/desk_globals.xml" />
   <include file="robotiq_2f85/robotiq2f85_globals.xml" />
+  <include file="ridgeback/ridgeback_globals.xml" />
 
   <compiler angle="radian" autolimits="true" />
 

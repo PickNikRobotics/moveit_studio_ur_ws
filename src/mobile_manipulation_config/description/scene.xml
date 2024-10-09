@@ -3,12 +3,15 @@
   <include file="ur5e/ur5e_globals.xml" />
   <include file="lab_desk/desk_globals.xml" />
   <include file="robotiq_2f85/robotiq2f85_globals.xml" />
+  <include file="ridgeback/ridgeback_globals.xml" />
 
   <compiler angle="radian" autolimits="true" />
 
   <option integrator="implicitfast" />
   <statistic center="0.3 0 0.4" extent="0.8" />
-
+  <asset>
+    <mesh name="airfoil" file="assets/airfoil.stl" />
+  </asset>
   <worldbody>
     <light pos="0 0 1.5" dir="0 0 -1" directional="true" />
     <geom
@@ -36,6 +39,4 @@
     </body>
     <include file="ridgeback/ridgeback.xml" />
   </worldbody>
-
-  <include file="ridgeback/ridgeback_globals.xml" />
 </mujoco>
