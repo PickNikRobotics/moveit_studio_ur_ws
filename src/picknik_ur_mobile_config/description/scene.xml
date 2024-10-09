@@ -1,15 +1,13 @@
 <!-- UR5e inspired from https://github.com/google-deepmind/mujoco_menagerie/tree/main/universal_robots_ur5e -->
 <mujoco model="ur5e scene">
-
   <include file="ur5e/ur5e_globals.xml" />
   <include file="lab_desk/desk_globals.xml" />
   <include file="robotiq_2f85/robotiq2f85_globals.xml" />
-  
+
   <compiler angle="radian" autolimits="true" />
 
   <option integrator="implicitfast" />
   <statistic center="0.3 0 0.4" extent="0.8" />
-
 
   <worldbody>
     <light pos="0 0 1.5" dir="0 0 -1" directional="true" />
