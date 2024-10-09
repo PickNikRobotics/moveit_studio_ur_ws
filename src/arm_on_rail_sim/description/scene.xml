@@ -1,65 +1,24 @@
 <!-- UR5e inspired from https://github.com/google-deepmind/mujoco_menagerie/tree/main/universal_robots_ur5e -->
 <mujoco model="ur5e scene">
-  <include file="ur5e.xml" />
 
-  <asset>
-    <!-- Define textures and materials -->
-    <texture name="wood" type="cube" file="assets/wood.png" />
-    <material name="wood" texture="wood" texrepeat="1 1" />
+  <include file="ur5e/ur5e_globals.xml" />
+  <include file="lab_desk/desk_globals.xml" />
+  <include file="robotiq_2f85/robotiq2f85_globals.xml" />
+  
+  <compiler angle="radian" autolimits="true" />
 
-    <!-- Define AprilTag textures -->
-    <texture name="apriltag1" type="2d" file="assets/tag36_11_00000.png" />
-    <texture name="apriltag2" type="2d" file="assets/tag36_11_00001.png" />
+  <option integrator="implicitfast" />
 
-    <!-- Define block materials with AprilTags -->
-    <material
-      name="apriltag_material1"
-      texture="apriltag1"
-      texuniform="false"
+  <actuator>
+    <position
+      class="robot"
+      name="linear_rail_joint"
+      joint="linear_rail_joint"
+      kp="75000"
+      dampratio="1.0"
     />
-    <material
-      name="apriltag_material2"
-      texture="apriltag2"
-      texuniform="false"
-    />
-  </asset>
+  </actuator>
 
-  <statistic center="0.3 0 0.4" extent="0.8" />
-
-  <visual>
-    <headlight diffuse="0.6 0.6 0.6" ambient="0.1 0.1 0.1" specular="0 0 0" />
-    <rgba haze="0.15 0.25 0.35 1" />
-    <global azimuth="120" elevation="-20" />
-  </visual>
-
-  <asset>
-    <texture
-      type="skybox"
-      builtin="gradient"
-      rgb1="0.3 0.5 0.7"
-      rgb2="0 0 0"
-      width="512"
-      height="3072"
-    />
-    <texture
-      type="2d"
-      name="groundplane"
-      builtin="checker"
-      mark="edge"
-      rgb1="0.2 0.3 0.4"
-      rgb2="0.1 0.2 0.3"
-      markrgb="0.8 0.8 0.8"
-      width="300"
-      height="300"
-    />
-    <material
-      name="groundplane"
-      texture="groundplane"
-      texuniform="true"
-      texrepeat="5 5"
-      reflectance="0.2"
-    />
-  </asset>
   <asset>
     <mesh name="cube" file="assets/Cube.stl" />
   </asset>
@@ -114,6 +73,13 @@
         rgba="1 1 1 1"
         material="apriltag_material2"
       />
+    </body>
+    <body name="base_platform" pos="0 0 .6" euler="0 0 1.5707">
+      <joint name="linear_rail_joint" type="slide" axis="0 1 0" range="-3 3" />
+      <body name="adapter" pos="-0.06 -0.4 -0.2" euler="0 0 0">
+        <geom type="box" size="0.08 0.1 0.2" rgba="1 1 1 1" />
+        <include file="ur5e/ur5e.xml" />
+      </body>
     </body>
   </worldbody>
 
