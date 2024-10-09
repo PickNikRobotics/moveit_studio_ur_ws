@@ -20,10 +20,7 @@ ament_target_dependencies(trigger_pstop_reset_service
         ${THIS_PACKAGE_INCLUDE_DEPENDS})
 
 if(BUILD_TESTING)
-  add_subdirectory(test)
-  # Add coverage flags behavior
-  target_compile_options(trigger_pstop_reset_service PRIVATE -fprofile-arcs -ftest-coverage)
-  target_link_options(trigger_pstop_reset_service PRIVATE -fprofile-arcs -ftest-coverage)
+  moveit_pro_behavior_test(trigger_pstop_reset_service)
 endif()
 
 # Install Libraries
