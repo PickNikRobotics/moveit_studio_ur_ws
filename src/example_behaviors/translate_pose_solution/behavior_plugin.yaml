@@ -1,0 +1,4 @@
+objectives:
+  behavior_loader_plugins:
+    translate_pose:
+      - "translate_pose::TranslatePoseBehaviorsLoader"

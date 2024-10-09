@@ -1,9 +1,11 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <package format="3">
   <name>mobile_manipulation_config</name>
-  <version>5.1.0</version>
+  <version>6.1.1</version>
 
-  <description>MuJoCo simulation configuration package for scan and spray application</description>
+  <description>
+    MuJoCo simulation configuration package for scan and spray application
+  </description>
 
   <maintainer email="support@picknik.ai">MoveIt Pro Maintainer</maintainer>
 

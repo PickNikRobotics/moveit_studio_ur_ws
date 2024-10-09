@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="26 Solution - Better Coverage">
+  <!--//////////-->
+  <BehaviorTree
+    ID="26 Solution - Better Coverage"
+    _description="Try to cover as much airfoil surface as possible"
+    _favorite="true"
+    _hardcoded="false"
+  >
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="ClearSnapshot" />
+      <SubTree
+        ID="Move to Waypoint"
+        waypoint_name="Look at Airfoil"
+        joint_group_name="manipulator"
+        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+        planner_interface="moveit_default"
+      />
+      <SubTree
+        ID="Estimate Object Pose"
+        object_model_file_path="~/user_ws/install/mobile_manipulation_config/share/mobile_manipulation_config/description/assets/airfoil.stl"
+        guess_position="4.5;0.0;0.5"
+        guess_orientation="0.0;0.0;0.7071068; 0.7071068"
+        icp_max_correspondence_distance="0.5"
+        model_to_real_pose="{model_to_real_pose}"
+        _collapsed="true"
+      />
+      <Action
+        ID="TransformPose"
+        quaternion_xyzw="0.5;-0.5;0.5;0.5"
+        translation_xyz="2.5;0.2;-0.2"
+        input_pose="{model_to_real_pose}"
+        output_pose="{model_to_real_pose}"
+      />
+      <Action
+        ID="GenerateCoveragePath"
+        stride_distance="0.4"
+        bottom_right_corner="{model_to_real_pose}"
+        vector_of_poses="{pose_stamped_vector}"
+        width="0.6"
+        height="5"
+      />
+      <Action ID="VisualizePath" path="{pose_stamped_vector}" />
+      <Action
+        ID="AddPoseStampedToVector"
+        input="{model_to_real_pose}"
+        vector="{path_to_first_waypoint}"
+      />
+      <Action
+        ID="PlanCartesianPath"
+        tip_offset="0;0;0;-0.5;0.0;1.5707"
+        planning_group_name="manipulator"
+        path="{pose_stamped_vector}"
+        position_only="false"
+        trajectory_sampling_rate="50"
+        ik_joint_space_density="0.05000"
+        ik_cartesian_space_density="0.02000"
+      />
+      <Action ID="WaitForUserTrajectoryApproval" solution="{debug_solution}" />
+      <Action ID="ExecuteFollowJointTrajectory" />
+    </Control>
+  </BehaviorTree>
+</root>

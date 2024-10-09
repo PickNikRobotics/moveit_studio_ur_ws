@@ -22,12 +22,7 @@ services:
   agent_bridge:
     extends: base
     privileged: true
-    # Allow the user to use the host's network video4linux and usb_device devices.
-    # "c 81:* rmw": This rule specifies that the container has read, write, and mknod access (rmw) to all character devices (c) with a major number of 81 (video4linux).
-    # "c 189:* rmw": This rule gives the container read, write, and mknod access (rmw) to all character devices (c) with a major number of 189 (usb_device).
-    device_cgroup_rules:
-      - "c 81:* rmw"
-      - "c 189:* rmw"
+    # This service relies on cgroup_rules defined in base which allow the user to use the host's network video4linux and usb_device devices.
     depends_on:
       rest_api:
         condition: service_healthy

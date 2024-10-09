@@ -1,42 +1,61 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
   <!-- parameters -->
-  <xacro:arg name="use_fake_hardware" default="false"/>
-  <xacro:arg name="external_camera" default="false"/>
-  <xacro:arg name="has_tool_changer" default="true"/>
-  <xacro:arg name="use_pinch_links" default="true"/>
-  <xacro:arg name="generate_ros2_control_tag" default="true"/>
-  <xacro:arg name="name" default=""/>
-  <xacro:arg name="joint_limits_parameters_file" default=""/>
-  <xacro:arg name="kinematics_parameters_file" default=""/>
-  <xacro:arg name="physical_parameters_file" default=""/>
-  <xacro:arg name="visual_parameters_file" default=""/>
-  <xacro:arg name="headless_mode" default="false"/>
-  <xacro:arg name="robot_ip" default="0.0.0.0"/>
-  <xacro:arg name="use_tool_communication" default="false"/>
-  <xacro:arg name="tool_voltage" default="0"/>
-  <xacro:arg name="tool_device_name" default="/dev/ttyUSB0"/>
-  <xacro:arg name="initial_positions_file" default="$(find picknik_ur_base_config)/config/initial_positions.yaml"/>
-  <xacro:arg name="environment_xacro" default="$(find picknik_ur_gazebo_config)/description/environment.xacro"/>
-  <xacro:arg name="simulation" default="gazebo"/>
-  <xacro:arg name="gazebo_renderer" default="ogre"/>
-  <xacro:arg name="use_extra_camera" default="false"/>
+  <xacro:arg name="use_fake_hardware" default="false" />
+  <xacro:arg name="external_camera" default="false" />
+  <xacro:arg name="has_tool_changer" default="true" />
+  <xacro:arg name="use_pinch_links" default="true" />
+  <xacro:arg name="generate_ros2_control_tag" default="true" />
+  <xacro:arg name="name" default="" />
+  <xacro:arg name="joint_limits_parameters_file" default="" />
+  <xacro:arg name="kinematics_parameters_file" default="" />
+  <xacro:arg name="physical_parameters_file" default="" />
+  <xacro:arg name="visual_parameters_file" default="" />
+  <xacro:arg name="headless_mode" default="false" />
+  <xacro:arg name="robot_ip" default="0.0.0.0" />
+  <xacro:arg name="use_tool_communication" default="false" />
+  <xacro:arg name="tool_voltage" default="0" />
+  <xacro:arg name="tool_device_name" default="/dev/ttyUSB0" />
+  <xacro:arg
+    name="initial_positions_file"
+    default="$(find picknik_ur_base_config)/config/initial_positions.yaml"
+  />
+  <xacro:arg
+    name="environment_xacro"
+    default="$(find picknik_ur_gazebo_config)/description/environment.xacro"
+  />
+  <xacro:arg name="simulation" default="gazebo" />
+  <xacro:arg name="gazebo_renderer" default="ogre" />
+  <xacro:arg name="use_extra_camera" default="false" />
 
   <!-- Import UR and environment macros -->
-  <xacro:include filename="$(find picknik_ur_base_config)/description/picknik_ur_macro.xacro"/>
-  <xacro:include filename="$(find picknik_ur_base_config)/description/picknik_ur_attachments_macro.xacro"/>
-  <xacro:include filename="$(arg environment_xacro)"/>
+  <xacro:include
+    filename="$(find picknik_ur_base_config)/description/picknik_ur_macro.xacro"
+  />
+  <xacro:include
+    filename="$(find picknik_ur_base_config)/description/picknik_ur_attachments_macro.xacro"
+  />
+  <xacro:include filename="$(arg environment_xacro)" />
 
   <!-- Robot: contains robot description from the world frame to the tool frame -->
-  <xacro:picknik_ur parent="world"  child="tool0" initial_positions_file="$(arg initial_positions_file)" generate_ros2_control_tag="$(arg generate_ros2_control_tag)">
+  <xacro:picknik_ur
+    parent="world"
+    child="tool0"
+    initial_positions_file="$(arg initial_positions_file)"
+    generate_ros2_control_tag="$(arg generate_ros2_control_tag)"
+  >
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:picknik_ur>
 
   <!-- Gripper and UR adapter and realsense camera -->
-  <xacro:picknik_ur_attachments parent="tool0" child="grasp_link" has_tool_changer="$(arg has_tool_changer)"/>
+  <xacro:picknik_ur_attachments
+    parent="tool0"
+    child="grasp_link"
+    has_tool_changer="$(arg has_tool_changer)"
+  />
 
   <!-- Environment: contains scene geometry and external sensors, e.g. cameras -->
-  <xacro:environment parent="world"/>
+  <xacro:environment parent="world" />
 
   <!-- Gazebo Force/Torque Sensor -->
   <link name="robot/wrist_3_joint/force_torque_sensor" />
@@ -101,20 +120,31 @@
 
   <!-- Gazebo Plugins -->
   <gazebo>
-    <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
-      <parameters>$(find picknik_ur_gazebo_config)/config/control/picknik_ur5e.ros2_control.yaml</parameters>
+    <plugin
+      filename="ign_ros2_control-system"
+      name="ign_ros2_control::IgnitionROS2ControlPlugin"
+    >
+      <parameters>
+        $(find picknik_ur_gazebo_config)/config/control/picknik_ur5e.ros2_control.yaml
+      </parameters>
       <ros>
-        <remapping>/servo_controller/commands:=/robot_controllers/commands</remapping>
-        <remapping>/servo_controller/joint_trajectory:=/robot_controllers/joint_trajectory</remapping>
+        <remapping>
+          /servo_controller/commands:=/robot_controllers/commands
+        </remapping>
+        <remapping>
+          /servo_controller/joint_trajectory:=/robot_controllers/joint_trajectory
+        </remapping>
       </ros>
     </plugin>
   </gazebo>
 
-  <xacro:property name="gazebo_renderer" default="$(arg gazebo_renderer)"/>
+  <xacro:property name="gazebo_renderer" default="$(arg gazebo_renderer)" />
   <gazebo>
-    <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
+    <plugin
+      filename="libignition-gazebo-sensors-system.so"
+      name="ignition::gazebo::systems::Sensors"
+    >
       <render_engine>${gazebo_renderer}</render_engine>
     </plugin>
   </gazebo>
-
 </robot>

@@ -10,15 +10,10 @@
 	path = src/external_dependencies/serial
 	url = https://github.com/tylerjw/serial.git
 	branch = ros2
-[submodule "src/external_dependencies/gz_ros2_control"]
-	path = src/external_dependencies/gz_ros2_control
-	url = https://github.com/PickNikRobotics/gz_ros2_control.git
-	branch = mimic-joint-feature-humble
-[submodule "src/external_dependencies/LMS1xx"]
-	path = src/external_dependencies/LMS1xx
-	url = https://github.com/clearpathrobotics/LMS1xx.git
-	branch = humble-devel
 [submodule "src/external_dependencies/ridgeback"]
 	path = src/external_dependencies/ridgeback
 	url = https://github.com/sjahr/ridgeback.git
 	branch = ros2
+[submodule "src/external_dependencies/picknik_registration"]
+	path = src/external_dependencies/picknik_registration
+	url = https://github.com/PickNikRobotics/picknik_registration.git
