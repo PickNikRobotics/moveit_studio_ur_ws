@@ -30,10 +30,6 @@
             <!--Joint sliders interpolate to joint state-->
             <Decorator ID="ForceSuccess" _while="teleop_mode == 5">
               <Control ID="Sequence">
-                <Action
-                  ID="SwitchUIPrimaryView"
-                  primary_view_name="Visualization"
-                />
                 <Control ID="Fallback" name="root">
                   <Control ID="Sequence">
                     <Action
@@ -153,10 +149,6 @@
               />
             </Control>
             <Control ID="Sequence" _while="teleop_mode == 1">
-              <Action
-                ID="SwitchUIPrimaryView"
-                primary_view_name="Visualization"
-              />
               <Action
                 ID="TeleoperateJointJog"
                 controller_name="servo_controller"
