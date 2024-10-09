@@ -153,10 +153,10 @@
               />
             </Control>
             <Control ID="Sequence" _while="teleop_mode == 1">
-              <Action
+              <!-- <Action
                 ID="SwitchUIPrimaryView"
                 primary_view_name="Visualization"
-              />
+              /> -->
               <Action
                 ID="TeleoperateJointJog"
                 controller_name="servo_controller"
