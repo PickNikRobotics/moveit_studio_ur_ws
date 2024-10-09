@@ -16,7 +16,7 @@
         waypoint_name="Hinge View"
         joint_group_name="manipulator"
         controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
-        use_all_planners="false"
+        planner_interface="moveit_default"
         _collapsed="true"
       />
       <Action
