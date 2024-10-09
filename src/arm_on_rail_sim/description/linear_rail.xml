@@ -25,7 +25,7 @@
       <joint name="linear_rail_joint" type="slide" axis="0 1 0" range="-3 3" />
       <body name="adapter" pos="-0.06 -0.4 -0.2" euler="0 0 0">
         <geom type="box" size="0.08 0.1 0.2" rgba="1 1 1 1" />
-        <include file="ur5e.xml" />
+        <include file="ur5e/ur5e.xml" />
       </body>
     </body>
   </body>

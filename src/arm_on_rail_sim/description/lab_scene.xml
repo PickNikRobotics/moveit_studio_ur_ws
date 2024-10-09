@@ -1,14 +1,14 @@
 <!-- UR5e inspired from https://github.com/google-deepmind/mujoco_menagerie/tree/main/universal_robots_ur5e -->
 
 <mujoco model="ur5e scene">
-  <include file="../../external_dependencies/picknik_accessories/mujoco_assets/ur5e/ur5e_globals.xml" />
-  <include file="../../external_dependencies/picknik_accessories/mujoco_assets/lab_desk/desk_globals.xml" />
-  <include file="../../external_dependencies/picknik_accessories/mujoco_assets/robotiq_2f85/robotiq2f85_globals.xml" />
+
+  <include file="ur5e/ur5e_globals.xml" />
+  <include file="lab_desk/desk_globals.xml" />
+  <include file="robotiq_2f85/robotiq2f85_globals.xml" />
   
   <compiler angle="radian" autolimits="true" />
 
   <option integrator="implicitfast" />
-
 
   <worldbody>
     <light pos="0 0 1.5" dir="0 0 -1" directional="true" />
@@ -41,7 +41,7 @@
       euler="0.872518150 9.97582907e-05 -4.21396792e-03"
     />
    <!-- lab desk -->
-  <include file="../../external_dependencies/picknik_accessories/mujoco_assets/lab_desk/desk.xml" />
+  <include file="lab_desk/desk.xml" />
   <!-- linear rail -->
   <body>
     <geom
@@ -69,7 +69,7 @@
       <joint name="linear_rail_joint" type="slide" axis="0 1 0" range="-3 3" />
       <body name="adapter" pos="-0.06 -0.4 -0.2" euler="0 0 0">
         <geom type="box" size="0.08 0.1 0.2" rgba="1 1 1 1" />
-        <include file="../../external_dependencies/picknik_accessories/mujoco_assets/ur5e/ur5e.xml" />
+        <include file="ur5e/ur5e.xml" />
       </body>
     </body>
   </body>
