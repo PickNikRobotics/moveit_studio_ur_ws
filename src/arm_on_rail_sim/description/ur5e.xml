@@ -11,8 +11,8 @@
         gaintype="fixed"
         biastype="affine"
         ctrlrange="-6.2831 6.2831"
-        gainprm="2000"
-        biasprm="0 -2000 -400"
+        gainprm="20000"
+        biasprm="0 -20000 -1000"
         forcerange="-150 150"
       />
       <default class="size3">
@@ -22,7 +22,11 @@
         </default>
       </default>
       <default class="size1">
-        <general gainprm="500" biasprm="0 -500 -100" forcerange="-28 28" />
+        <general
+          gainprm="20000"
+          biasprm="0 -20000 -1000"
+          forcerange="-150 150"
+        />
       </default>
       <default class="visual">
         <geom type="mesh" contype="0" conaffinity="0" group="2" />
