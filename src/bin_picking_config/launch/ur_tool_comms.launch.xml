@@ -1,0 +1,9 @@
+<launch>
+    <arg name="robot_ip" default="192.168.1.31" description="IP address of the UR robot controller."/>
+    <arg name="tool_tcp_port" default="50002" description="Port for tool communications."/>
+    <arg name="tool_device_name" description="Device name to use for tool communications."/>
+    <executable
+      cmd="socat pty,link=$(var tool_device_name),raw,ignoreeof,waitslave tcp:$(var robot_ip):$(var tool_tcp_port)"
+      output="both"
+      shell="true"/>
+</launch>

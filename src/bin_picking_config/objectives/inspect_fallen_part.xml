@@ -1,0 +1,14 @@
+<root BTCPP_format="4" main_tree_to_execute="Inspect Fallen Part">
+    <!--//////////-->
+    <BehaviorTree ID="Inspect Fallen Part" _description="" _favorite="true">
+        <Control ID="Sequence" name="TopLevelSequence">
+            <SubTree ID="Move to Waypoint" _collapsed="true" waypoint_name="Ground Approach" joint_group_name="manipulator" planner_interface="moveit_default" controller_names="/joint_trajectory_controller"/>
+            <SubTree ID="Activate sim magswitch" _collapsed="true"/>
+            <SubTree ID="Move to Waypoint" _collapsed="true" waypoint_name="Inspect" joint_group_name="manipulator" planner_interface="moveit_default" controller_names="/joint_trajectory_controller"/>
+            <SubTree ID="Bin snapshot" _collapsed="true"/>
+            <Decorator ID="Delay" delay_msec="3000">
+                <SubTree ID="Deactivate Magswitch" _collapsed="true"/>
+            </Decorator>
+        </Control>
+    </BehaviorTree>
+</root>

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Capture Calibration">
+  <!--//////////-->
+  <BehaviorTree ID="Capture Calibration" _description="" _favorite="false">
+    <Control ID="Parallel" success_count="2" failure_count="1">
+      <SubTree ID="Stream Camera" _collapsed="true"/>
+      <Control ID="Sequence">
+        <Action ID="CalibratePoseAction" calibration_frame_id="grasp_link"/>
+        <Action ID="WriteCalibratedPoseToYaml"/>
+      </Control>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Capture Calibration"/>
+  </TreeNodesModel>
+</root>

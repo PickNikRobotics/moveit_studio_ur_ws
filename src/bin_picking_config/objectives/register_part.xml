@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Register Part">
+  <!--//////////-->
+  <BehaviorTree ID="Register Part" _description="" _favorite="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <SubTree ID="Clear Snapshot" _collapsed="false"/>
+      <Action ID="GetPointCloud" timeout_sec="15.000000" topic_name="/wrist_camera/points" message_out="{output_cloud}"/>
+      <Action ID="TransformPointCloudFrame" input_cloud="{output_cloud}"/>
+      <Action ID="SendPointCloudToUI" point_cloud="{output_cloud}"/>
+      <Action ID="LoadPointCloudFromFile" color="255;0;0" file_path="~/user_ws/install/bin_picking_config/share/bin_picking_config/description/assets/part.stl"/>
+      <Action ID="CreateStampedPose" orientation_xyzw="0;0;0;1" position_xyz="0.25;0;0.08"/>
+      <Action ID="TransformPointCloud" input_cloud="{point_cloud}" transform_pose="{stamped_pose}" output_cloud="{point_cloud}"/>
+      <Action ID="RegisterPointClouds" target_point_cloud="{output_cloud}"/>
+      <Action ID="TransformPointCloud" input_cloud="{point_cloud}" output_cloud="{registered_cloud}" transform_pose="{target_pose}"/>
+      <Action ID="SendPointCloudToUI" point_cloud="{registered_cloud}"/>
+    </Control>
+  </BehaviorTree>
+</root>

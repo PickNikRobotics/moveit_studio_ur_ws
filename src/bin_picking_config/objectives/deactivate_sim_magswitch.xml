@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Deactivate sim magswitch">
+  <!--//////////-->
+  <BehaviorTree ID="Dectivate sim magswitch" _description="" _favorite="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="MoveGripperAction" position="0" gripper_command_action_name="/vacuum_gripper/gripper_cmd"/>
+    </Control>
+  </BehaviorTree>
+</root>

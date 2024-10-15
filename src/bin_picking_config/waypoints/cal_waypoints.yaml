@@ -1,0 +1,858 @@
+- description: ''
+  favorite: false
+  joint_group_names:
+  - gripper
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -1.3809188047992151
+    - -3.1419078312315882
+    - -1.7267132997512817
+    - 0.20291893064465327
+    - 1.5562587976455688
+    - -2.959564749394552
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: CAL_7
+- description: ''
+  favorite: false
+  joint_group_names:
+  - gripper
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -1.6345551649676722
+    - -3.13394894222402
+    - -1.675236701965332
+    - 0.14558689176525874
+    - 1.5684266090393066
+    - -3.2128966490374964
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: CAL_1
+- description: ''
+  favorite: false
+  joint_group_names:
+  - gripper
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -1.562052075062887
+    - -3.089835306207174
+    - -1.71260404586792
+    - 0.13442782937969966
+    - 1.1920875310897827
+    - -3.128820244465963
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: CAL_4
+- description: ''
+  favorite: false
+  joint_group_names:
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -0.14017278352846319
+    - -2.065925737420553
+    - -1.3808614015579224
+    - -1.1930744808963318
+    - 1.6471527814865112
+    - -1.2497900168048304
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Place
+- description: ''
+  favorite: false
+  joint_group_names:
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -0.13052112260927373
+    - -2.0738541088499964
+    - -1.386773705482483
+    - -1.2032757264426728
+    - 1.5722750425338745
+    - -1.2421711126910608
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Place Left
+- description: ''
+  favorite: true
+  joint_group_names:
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - 3.03
+    - -0.78
+    - -0.51
+    - -2.39
+    - 1.65
+    - 0
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Look at Table
+- description: ''
+  favorite: false
+  joint_group_names:
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -2.2335834056138996e-05
+    - -0.7800858658974525
+    - -0.5100288585397881
+    - -2.399985082258936
+    - -3.141592653589793
+    - 2.282092208042741e-05
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Wrist 2 Min
+- description: ''
+  favorite: false
+  joint_group_names:
+  - gripper
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -1.2633016745196741
+    - -3.238857408563131
+    - -1.581761360168457
+    - 0.34744946538891597
+    - 2.098337411880493
+    - -2.7802608648883265
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: CAL_3
+- description: ''
+  favorite: false
+  joint_group_names:
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -0.3130109945880335
+    - -2.275282999078268
+    - -0.994219183921814
+    - -1.4464575362256546
+    - 1.6087517738342285
+    - 0.3333250880241394
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Right Shelf
+- description: ''
+  favorite: false
+  joint_group_names:
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -0.13052112260927373
+    - -2.0738541088499964
+    - -1.386773705482483
+    - -1.2032757264426728
+    - 1.5722750425338745
+    - -1.2421711126910608
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Left Shelf
+- description: ''
+  favorite: false
+  joint_group_names:
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -0.09000093141664678
+    - -0.7163113516620179
+    - -0.2559567987918854
+    - -2.3102809391417445
+    - 2.102843999862671
+    - 0.03713255003094673
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Left Wall
+- description: ''
+  favorite: true
+  joint_group_names:
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - 3.03
+    - -0.78
+    - -0.51
+    - -2.39
+    - 1.65
+    - 0
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Look at Pick and Place Zone
+- description: ''
+  favorite: false
+  joint_group_names:
+  - gripper
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -1.260209862385885
+    - -3.0194760761656703
+    - -1.5692453384399414
+    - -0.5579047960093995
+    - 1.6956690549850464
+    - -2.852124039326803
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: CAL_6
+- description: ''
+  favorite: false
+  joint_group_names:
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - 0.139626
+    - -2.05949
+    - -1.48353
+    - -1.20428
+    - 1.69297
+    - 0.20944
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Place Block
+- description: ''
+  favorite: true
+  joint_group_names:
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - 0.58
+    - -0.78
+    - -0.45
+    - -2.33
+    - 1.64
+    - 0
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Left Corner
+- description: ''
+  favorite: false
+  joint_group_names:
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -2.2335834056138996e-05
+    - -0.7800858658974525
+    - -0.5100288585397881
+    - -2.399985082258936
+    - 3.141592653589793
+    - 2.282092208042741e-05
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Wrist 2 Max
+- description: ''
+  favorite: false
+  joint_group_names:
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -0.10607844987978154
+    - -0.6045438212207337
+    - -0.5382955074310303
+    - -2.144477983514303
+    - 1.3706846237182617
+    - -0.03349477449526006
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Right Wall
+- description: ''
+  favorite: true
+  joint_group_names:
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -0.61
+    - -0.78
+    - -0.45
+    - -2.49
+    - 1.64
+    - 0
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Right Corner
+- description: ''
+  favorite: true
+  joint_group_names:
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - 0
+    - -0.78
+    - -0.51
+    - -2.4
+    - 1.65
+    - 0
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Home
+- description: ''
+  favorite: false
+  joint_group_names:
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - 2.89725
+    - -2.0944
+    - -1.50098
+    - -1.0472
+    - 1.69297
+    - 0.20944
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Pick Block
+- description: ''
+  favorite: false
+  joint_group_names:
+  - gripper
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -1.0750024954425257
+    - -3.132989545861715
+    - -1.6639833450317383
+    - 0.1246761518665771
+    - 1.5428507328033447
+    - -2.653909746800558
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: CAL_2
+- description: ''
+  favorite: false
+  joint_group_names:
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: world
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -0.3130109945880335
+    - -2.275282999078268
+    - -0.994219183921814
+    - -1.4464575362256546
+    - 1.6087517738342285
+    - 0.3333250880241394
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: Place Right
+- description: ''
+  favorite: false
+  joint_group_names:
+  - gripper
+  - manipulator
+  joint_state:
+    effort: []
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    name:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    position:
+    - -1.6744502226458948
+    - -3.0203968487181605
+    - -1.5016225576400757
+    - -0.6378303927234192
+    - 1.5167412757873535
+    - -3.2264965216266077
+    velocity: []
+  multi_dof_joint_state:
+    header:
+      frame_id: ''
+      stamp:
+        nanosec: 0
+        sec: 0
+    joint_names: []
+    transforms: []
+    twist: []
+    wrench: []
+  name: CAL_5
