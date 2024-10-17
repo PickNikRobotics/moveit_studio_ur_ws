@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Zivid snapshot">
+  <!--//////////-->
+  <BehaviorTree ID="Zivid snapshot" _description="" _favorite="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="GetPointCloud" timeout_sec="15.000000" topic_name="/zivid_camera/points"/>
+      <Action ID="TransformPointCloudFrame" input_cloud="{point_cloud}"/>
+      <Action ID="SendPointCloudToUI" point_cloud="{output_cloud}"/>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Trigger Camera">
+      <input_port name="point_cloud" default="{point_cloud}"/>
+    </SubTree>
+  </TreeNodesModel>
+</root>

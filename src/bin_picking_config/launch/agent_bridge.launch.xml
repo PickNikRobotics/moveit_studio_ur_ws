@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <include file="$(find-pkg-share moveit_studio_agent)/launch/studio_agent_bridge.launch.xml"/>
+    <include file="$(find-pkg-share moveit_studio_rest_api)/launch/rest_api.launch.xml"/>
+    <!-- <include file="$(find-pkg-share bin_picking_config)/launch/rs_cameras.launch.xml" /> -->
+</launch>

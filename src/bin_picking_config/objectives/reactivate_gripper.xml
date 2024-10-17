@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<root BTCPP_format="4" main_tree_to_execute="Reactivate Gripper">
+    <!-- ////////// -->
+    <BehaviorTree ID="Reactivate Gripper" _description="Reactivate the gripper">
+        <Control ID="Sequence" name="root">
+            <Action ID="CallTriggerService" service_name="/robotiq_activation_controller/reactivate_gripper" />
+        </Control>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Action ID="CallTriggerService">
+            <inout_port name="service_name" />
+        </Action>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>

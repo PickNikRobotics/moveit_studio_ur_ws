@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:include filename="$(find picknik_accessories)/descriptions/brackets/mtc_ur_tool_changer/mtc_ur_tool_changer.urdf.xacro"/>
+
+    <xacro:macro name="picknik_ur_attachments" params="prefix:='' parent child has_tool_changer">
+        <!-- prefix property -->
+        <xacro:property name="prefix_" value='${prefix + "_" if prefix else ""}' />
+        <!-- parameters -->
+        <xacro:arg name="simulation" default=""/>
+
+    <!-- This frame aligns the gripper with the coordinate convention required for motion planning tasks. -->
+    <link name="grasp_link" >
+          <visual>
+        <geometry>
+          <sphere radius="0.007"/>
+        </geometry>
+        <material name="">
+          <color rgba="0 1.0 0 0.7"/>
+        </material>
+      </visual>
+    </link>
+    <joint name="grasp_link_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="grasp_link"/>
+      <origin xyz="0.0 0.0 .165" rpy="0.0 0.0 0.0"/>
+    </joint>
+
+
+
+        <!-- This link aligns the axes of the grasp frame to our required convention for motion planning tasks. -->
+    </xacro:macro>
+</robot>

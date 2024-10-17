@@ -1,0 +1,11 @@
+<root BTCPP_format="4" main_tree_to_execute="Activate sim magswitch">
+    <!--//////////-->
+    <BehaviorTree ID="Activate sim magswitch" _description="" _favorite="true">
+        <Control ID="Sequence" name="TopLevelSequence">
+            <Action ID="MoveGripperAction" gripper_command_action_name="/vacuum_gripper/gripper_cmd" position="1"/>
+        </Control>
+    </BehaviorTree>
+    <TreeNodesModel>
+        <SubTree ID="Activate sim magswitch"/>
+    </TreeNodesModel>
+</root>

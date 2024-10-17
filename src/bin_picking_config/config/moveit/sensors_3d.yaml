@@ -1,0 +1,25 @@
+sensors:
+  - scene_scan_camera
+scene_scan_camera:
+  # The name of the Octomap updater plugin that we are using.
+  sensor_plugin: "moveit_studio_plugins/PointCloudServiceOctomapUpdater"
+  # Specifies the topic to listen on for a point cloud.
+  # Set to an empty topic to disable.
+  point_cloud_service_name: "/point_cloud_service"
+  # Points further than this will not be used (in meters).
+  max_range: 1.5
+  # Choose one of every 'point_subsample' points (select all if set to 1).
+  point_subsample: 1
+  # Should always be >= 1.0. Scale up collision shapes in the scene before excluding them from the octomap.
+  padding_scale: 1.0
+  # Absolute padding around scaled collision shapes when excluding them from the octomap (in meters).
+  padding_offset: 0.01
+  # The octomap representation will be updated at rate less than or equal to this value.
+  max_update_rate: 0.1
+
+# Specifies the resolution at which the octomap is maintained (in meters).
+octomap_resolution: 0.01
+# Specifies the coordinate frame in which the Octomap representation will be stored.
+# Note! When an OccupancyMonitor instance is initialized by the PlanningSceneMonitor,
+# this frame parameter will not be used. Instead, the frame defaults to the planning frame.
+octomap_frame: "base_link"

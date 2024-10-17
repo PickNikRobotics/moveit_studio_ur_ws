@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Stream Camera">
+  <!--//////////-->
+  <BehaviorTree ID="Stream Camera" _description="" _favorite="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Decorator ID="KeepRunningUntilFailure">
+        <Action ID="TriggerEmptyService" service_name="/zivid/capture"/>
+      </Decorator>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Stream Camera"/>
+  </TreeNodesModel>
+</root>

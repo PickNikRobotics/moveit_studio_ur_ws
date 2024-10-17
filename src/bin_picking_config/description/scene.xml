@@ -1,0 +1,134 @@
+<!-- UR5e inspired from https://github.com/google-deepmind/mujoco_menagerie/tree/main/universal_robots_ur5e -->
+<!-- Kitchen inspired by https://github.com/Farama-Foundation/Gymnasium-Robotics/tree/main/gymnasium_robotics/envs/franka_kitchen -->
+
+<mujoco model="bmw bin picking scene">
+  <include file="ur10e.xml"/>
+
+  <option integrator="RK4" timestep="0.001" />
+  <statistic center="0.3 0 0.4" extent="0.8"/>
+
+  <visual>
+    <headlight diffuse="0.6 0.6 0.6" ambient="0.1 0.1 0.1" specular="0 0 0"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="120" elevation="-20"/>
+  </visual>
+  <!-- Ground and lighting -->
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3"
+      markrgb="0.8 0.8 0.8" width="300" height="300"/>
+    <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
+  </asset>\
+  <!-- Zivid camera -->
+  <asset>
+    <material name="purple" rgba="0.5 0 0.5 1"/>
+    <material name="shadow" rgba="0 0 0 0.3"/>
+    <material name="alum" rgba="0.5 0.5 0.5 1"/>
+    <mesh file="ZividTwo-convexhull.stl"/>
+    <mesh file="ZividTwo-simplified.stl"/>
+  </asset>
+  <!-- CAD part -->
+  <asset>
+    <mesh file="part.stl"/>
+  </asset>
+
+  <worldbody>
+    <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
+    <geom name="floor" pos="0 0 -0.1" size="0 0 0.05" type="plane" material="groundplane" contype="1" conaffinity="1"/> 
+    <site name="scene_camera_optical_frame" pos="0.0 -1.0 2.5" euler="3.64 0.0 0.0"/>
+    <camera name="scene_camera" pos="0.0 -1.0 2.5" fovy="58" mode="fixed" resolution="640 480" euler="0.5 0.0 0.0"/>
+     <!-- Aluminum Base -->
+      <body name="alum_base" pos="0 -0.9 0.75">
+          <geom type="box" size="0.10 0.40 0.125" material="alum"/>
+      </body>
+
+      <!-- Box Base -->
+      <body name="box_base" pos="0 0 -0.025">
+          <geom type="box" size="0.6 0.4 0.025" material="purple"/>
+      </body>
+
+      <!-- Front Wall -->
+      <body name="front_wall" pos="0 0.375 0.3">
+          <geom type="box" size="0.6 0.025 0.3" material="purple"/>
+      </body>
+
+      <!-- Back Wall -->
+      <body name="back_wall" pos="0 -0.375 0.3">
+          <geom type="box" size="0.6 0.025 0.3" material="purple"/>
+      </body>
+
+      <!-- Left Wall -->
+      <body name="left_wall" pos="0.575 0 0.3">
+          <geom type="box" size="0.025 0.35 0.3" material="purple"/>
+      </body>
+
+      <!-- Right Wall -->
+      <body name="right_wall" pos="-0.575 0 0.3">
+          <geom type="box" size="0.025 0.35 0.3" material="purple"/>
+      </body>
+
+      <!-- Zivid Camera -->
+      <body name="zivid_camera_link" pos="0.0 0.2 1.151" euler="3.02 0.0 0.0">
+          <geom type="mesh" mesh="ZividTwo-simplified" material="alum"/>
+          <site name="zivid_camera_optical_frame" pos="0.085 0.028 0.122" euler="3.14 -3.14 0.0"/>
+          <camera name="zivid_camera" pos="0.085 0.028 0.122" fovy="58" mode="fixed" resolution="640 480" euler="0.0 3.14 0.0"/>
+      </body>
+
+      <!-- CAD part 1-->
+      <body name="CAD_part_1" pos="0 0 0.2" euler="0 0 1.57">
+          <freejoint/>
+          <inertial pos="0 0 0" mass=".1" diaginertia="0.1 0.1 0.1"/>
+          <geom type="mesh" mesh="part" material="alum" contype="1" conaffinity="1"/>
+      </body>
+      <!-- CAD part 2-->
+      <body name="CAD_part_2" pos="-0.9 -0.5 0.05" euler="0 0 1.57">
+          <freejoint/>
+          <inertial pos="0 0 0" mass=".1" diaginertia="0.1 0.1 0.1"/>
+          <geom type="mesh" mesh="part" material="alum" contype="1" conaffinity="1"/>
+      </body>
+      <!-- CAD part 3-->
+      <body name="CAD_part_3" pos="0.1 0 0.1" euler="0 0 1.57">
+          <freejoint/>
+          <inertial pos="0 0 0" mass=".1" diaginertia="0.1 0.1 0.1"/>
+          <geom type="mesh" mesh="part" material="alum" contype="1" conaffinity="1"/>
+      </body>
+      <!-- CAD part 4-->
+      <body name="CAD_part_4" pos="0.4 0 0.2" euler="0 0 1.57">
+          <freejoint/>
+          <inertial pos="0 0 0" mass=".1" diaginertia="0.1 0.1 0.1"/>
+          <geom type="mesh" mesh="part" material="alum" contype="1" conaffinity="1"/>
+      </body>
+      <!-- CAD part 5-->
+      <body name="CAD_part_5" pos="0.3 0 0.3" euler="0 0 1.57">
+          <freejoint/>
+          <inertial pos="0 0 0" mass=".1" diaginertia="0.1 0.1 0.1"/>
+          <geom type="mesh" mesh="part" material="alum" contype="1" conaffinity="1"/>
+      </body>
+      <!-- CAD part 6-->
+      <body name="CAD_part_6" pos="-0.4 0 0.1" euler="0 0 1.57">
+          <freejoint/>
+          <inertial pos="0 0 0" mass=".1" diaginertia="0.1 0.1 0.1"/>
+          <geom type="mesh" mesh="part" material="alum" contype="1" conaffinity="1"/>
+      </body>
+      <!-- CAD part 7-->
+      <body name="CAD_part_7" pos="-0.3 0 0.2" euler="0 0 1.57">
+          <freejoint/>
+          <inertial pos="0 0 0" mass=".1" diaginertia="0.1 0.1 0.1"/>
+          <geom type="mesh" mesh="part" material="alum" contype="1" conaffinity="1"/>
+      </body>
+  </worldbody>
+
+  <equality>
+      <!-- Add all possible suctions here -->
+      <weld name="CAD_part_suction_1" body1="ee_suction_cup" body2="CAD_part_1" active="false" torquescale="100"/>
+      <weld name="CAD_part_suction_2" body1="ee_suction_cup" body2="CAD_part_2" active="false" torquescale="100"/>
+      <weld name="CAD_part_suction_3" body1="ee_suction_cup" body2="CAD_part_3" active="false" torquescale="100"/>
+      <weld name="CAD_part_suction_4" body1="ee_suction_cup" body2="CAD_part_4" active="false" torquescale="100"/>
+      <weld name="CAD_part_suction_5" body1="ee_suction_cup" body2="CAD_part_5" active="false" torquescale="100"/>
+      <weld name="CAD_part_suction_6" body1="ee_suction_cup" body2="CAD_part_6" active="false" torquescale="100"/>
+      <weld name="CAD_part_suction_7" body1="ee_suction_cup" body2="CAD_part_7" active="false" torquescale="100"/>
+  </equality>
+
+
+
+</mujoco>

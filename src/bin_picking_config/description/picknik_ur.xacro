@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
+  <!-- parameters -->
+  <xacro:arg name="use_fake_hardware" default="false"/>
+  <xacro:arg name="external_camera" default="false"/>
+  <xacro:arg name="has_tool_changer" default="true"/>
+  <xacro:arg name="use_pinch_links" default="true"/>
+  <xacro:arg name="generate_ros2_control_tag" default="true"/>
+  <xacro:arg name="name" default=""/>
+  <xacro:arg name="joint_limits_parameters_file" default=""/>
+  <xacro:arg name="kinematics_parameters_file" default=""/>
+  <xacro:arg name="physical_parameters_file" default=""/>
+  <xacro:arg name="visual_parameters_file" default=""/>
+  <xacro:arg name="headless_mode" default="false"/>
+  <xacro:arg name="robot_ip" default="0.0.0.0"/>
+  <xacro:arg name="use_tool_communication" default="false"/>
+  <xacro:arg name="tool_voltage" default="0"/>
+  <xacro:arg name="tool_device_name" default="/dev/ttyUSB0"/>
+  <xacro:arg name="initial_positions_file" default="$(find bin_picking_config)/config/initial_positions.yaml"/>
+  <xacro:arg name="environment_xacro" default="$(find bin_picking_config)/description/environment.xacro"/>
+
+  <!-- Import UR and environment macros -->
+  <xacro:include filename="$(find bin_picking_config)/description/picknik_ur_macro.xacro"/>
+  <xacro:include filename="$(find bin_picking_config)/description/picknik_ur_attachments_macro.xacro"/>
+  <xacro:include filename="$(arg environment_xacro)"/>
+
+  <!-- Robot: contains robot description from the world frame to the tool frame -->
+  <xacro:picknik_ur parent="world"  child="tool0" initial_positions_file="$(arg initial_positions_file)" generate_ros2_control_tag="$(arg generate_ros2_control_tag)" >
+    <origin xyz="0 -0.8 0.95" rpy="0 0 0" />
+  </xacro:picknik_ur>
+
+  <xacro:picknik_ur_attachments parent="magswitch" child="grasp_link" has_tool_changer="$(arg has_tool_changer)"/>
+
+  <xacro:arg name="camera_calibration_file" default="$(find bin_picking_config)/calibrate/scene_camera_calibration.yaml"/>
+  <xacro:environment parent="world" camera_calibration_file="$(arg camera_calibration_file)"/>
+<!-- 
+  <material name="checker">
+    <color rgba="0 0 0 1"/>
+  </material>
+  <link name="checkerboard">
+    <visual>
+      <geometry>
+        <box size="0.3 0.3 0.003"/>
+      </geometry>
+      <material name="checker"/>
+      <origin xyz="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.3 0.3 0.003"/>
+      </geometry>
+      <material name="checker"/>
+      <origin xyz="0 0 0"/>
+    </collision>
+  </link>
+  <joint name="tool_to_checkerboard" type="fixed">
+    <parent link="tool0"/>
+    <child link="checkerboard"/>
+    <origin xyz="0 0.11 0" rpy="0 0 3.14"/>
+  </joint> -->
+
+  <link name="magswitch">
+    <visual>
+        <origin xyz="0 0 0" rpy="-1.57 0 0"/>
+      <geometry>
+        <mesh filename="package://bin_picking_config/description/meshes/magswitch.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="1 1 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.04" length=".165"/>
+      </geometry>
+      <material name="checker"/>
+      <origin xyz="0 0 -0.0825" rpy="0 0 0"/>
+    </collision>
+  </link>
+  <joint name="tool_to_magswitch" type="fixed">
+    <parent link="tool0"/>
+    <child link="magswitch"/>
+    <origin xyz="0 0 0.161" rpy="0 0 0"/>
+  </joint>
+
+</robot>

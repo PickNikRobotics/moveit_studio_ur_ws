@@ -1,0 +1,13 @@
+<root BTCPP_format="4" main_tree_to_execute="Bin snapshot">
+    <!--//////////-->
+    <BehaviorTree ID="Bin snapshot" _description="" _favorite="true">
+        <Control ID="Sequence" name="TopLevelSequence">
+            <Action ID="GetPointCloud" timeout_sec="15.000000" topic_name="/zivid_camera/points"/>
+            <Action ID="TransformPointCloudFrame" input_cloud="{point_cloud}"/>
+            <Action ID="SendPointCloudToUI" point_cloud="{output_cloud}"/>
+        </Control>
+    </BehaviorTree>
+    <TreeNodesModel>
+        <SubTree ID="Bin snapshot"/>
+    </TreeNodesModel>
+</root>
