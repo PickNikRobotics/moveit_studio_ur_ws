@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Retreat To Initial Pose">
+  <BehaviorTree
+    ID="Retreat To Initial Pose"
+    _description=""
+    _subtreeOnly="true"
+  >
+    <Control ID="Sequence">
+      <Action
+        ID="InitializeMTCTask"
+        task_id="close_cabinet_door_retreat"
+        controller_names="/joint_trajectory_controller"
+        task="{retreat_task}"
+      />
+      <Action ID="SetupMTCCurrentState" task="{retreat_task}" />
+      <Action
+        ID="SetupMTCUpdateGroupCollisionRule"
+        name="AllowGripperCollisionWithOctomap"
+        group_name="gripper"
+        object_name="&lt;octomap&gt;"
+        allow_collision="true"
+        task="{retreat_task}"
+      />
+      <Action
+        ID="SetupMTCCartesianMoveToJointState"
+        joint_state="{pre_approach_robot_state}"
+        planning_group_name="manipulator"
+        task="{retreat_task}"
+      />
+      <Action
+        ID="SetupMTCUpdateGroupCollisionRule"
+        name="ForbidGripperCollisionWithOctomap"
+        group_name="gripper"
+        object_name="&lt;octomap&gt;"
+        allow_collision="false"
+        task="{retreat_task}"
+      />
+      <Action
+        ID="SetupMTCMoveToJointState"
+        joint_state="{initial_robot_state}"
+        planning_group_name="manipulator"
+        task="{retreat_task}"
+      />
+      <Action
+        ID="PlanMTCTask"
+        solution="{return_to_initial_waypoint_solution}"
+        task="{retreat_task}"
+      />
+      <Action
+        ID="ExecuteMTCTask"
+        solution="{return_to_initial_waypoint_solution}"
+      />
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Retreat To Initial Pose">
+      <input_port
+        name="pre_approach_robot_state"
+        default="{pre_approach_robot_state}"
+      />
+      <input_port name="initial_robot_state" default="{initial_robot_state}" />
+    </SubTree>
+  </TreeNodesModel>
+</root>
