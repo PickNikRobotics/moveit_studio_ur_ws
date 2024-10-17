@@ -94,7 +94,7 @@
         graspable_object="{button}"
         pose="{button_pose}"
       />
-      <SubTree ID="CloseGripper" _collapsed="true" />
+      <SubTree ID="Close Gripper" _collapsed="true" />
       <Action ID="SaveCurrentState" saved_robot_state="{initial_robot_state}" />
       <Control ID="Sequence">
         <Action
@@ -169,68 +169,10 @@
         </Control>
       </Control>
       <SubTree
-        ID="RetreatToInitialPose"
+        ID="Retreat To Initial Pose"
         pre_approach_robot_state="{pre_approach_robot_state}"
         initial_robot_state="{initial_robot_state}"
         _collapsed="true"
-      />
-    </Control>
-  </BehaviorTree>
-  <BehaviorTree ID="CloseGripper">
-    <Control ID="Sequence" name="close_gripper_main">
-      <Action
-        ID="MoveGripperAction"
-        gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd"
-        position="0.7929"
-      />
-    </Control>
-  </BehaviorTree>
-  <BehaviorTree ID="RetreatToInitialPose">
-    <Control ID="Sequence">
-      <Action
-        ID="InitializeMTCTask"
-        task_id="push_button_ml_retreat"
-        controller_names="/joint_trajectory_controller"
-        task="{retreat_task}"
-      />
-      <Action ID="SetupMTCCurrentState" task="{retreat_task}" />
-      <Action
-        ID="SetupMTCUpdateGroupCollisionRule"
-        name="AllowGripperCollisionWithOctomap"
-        group_name="gripper"
-        object_name="&lt;octomap&gt;"
-        allow_collision="true"
-        task="{retreat_task}"
-      />
-      <Action
-        ID="SetupMTCCartesianMoveToJointState"
-        joint_state="{pre_approach_robot_state}"
-        planning_group_name="manipulator"
-        task="{retreat_task}"
-      />
-      <Action
-        ID="SetupMTCUpdateGroupCollisionRule"
-        name="ForbidGripperCollisionWithOctomap"
-        group_name="gripper"
-        object_name="&lt;octomap&gt;"
-        allow_collision="false"
-        task="{retreat_task}"
-      />
-      <Action
-        ID="SetupMTCMoveToJointState"
-        joint_state="{initial_robot_state}"
-        planning_group_name="manipulator"
-        task="{retreat_task}"
-        planner_interface="moveit_default"
-      />
-      <Action
-        ID="PlanMTCTask"
-        solution="{return_to_initial_waypoint_solution}"
-        task="{retreat_task}"
-      />
-      <Action
-        ID="ExecuteMTCTask"
-        solution="{return_to_initial_waypoint_solution}"
       />
     </Control>
   </BehaviorTree>
