@@ -8,6 +8,7 @@
 
   <option integrator="implicitfast" />
 
+  <!-- TODO  GO TO GLOBALS -->
   <actuator>
     <position
       class="robot"
@@ -24,6 +25,13 @@
 
   <worldbody>
     <light pos="0 0 1.5" dir="0 0 -1" directional="true" />
+
+    <light
+      name="spotlight"
+      mode="targetbodycom"
+      target="wrist_2_link"
+      pos="0 -1 2"
+    />
     <geom
       name="floor"
       pos="0 0 0"
@@ -73,13 +81,7 @@
         material="apriltag_material2"
       />
     </body>
-    <body name="base_platform" pos="0 0 .6" euler="0 0 1.5707">
-      <joint name="linear_rail_joint" type="slide" axis="0 1 0" range="-3 3" />
-      <body name="adapter" pos="-0.06 -0.4 -0.2" euler="0 0 0">
-        <geom type="box" size="0.08 0.1 0.2" rgba="1 1 1 1" />
-        <include file="ur5e/ur5e.xml" />
-      </body>
-    </body>
+    <include file="ur5e/ur5e_linear_rail.xml" />
   </worldbody>
 
   <keyframe>

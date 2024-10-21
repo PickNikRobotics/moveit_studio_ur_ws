@@ -1,12 +1,16 @@
 <!-- UR5e inspired from https://github.com/google-deepmind/mujoco_menagerie/tree/main/universal_robots_ur5e -->
 <mujoco model="ur5e scene">
-  <include file="ur5e/ur5e_globals.xml" />
+  <include file="ur5e/ur5e_linear_rail_globals.xml" />
   <include file="lab_desk/desk_globals.xml" />
   <include file="robotiq_2f85/robotiq2f85_globals.xml" />
 
   <compiler angle="radian" autolimits="true" />
 
   <option integrator="implicitfast" />
+
+  <asset>
+    <mesh name="cube" file="assets/Cube.stl" />
+  </asset>
 
   <worldbody>
     <light pos="0 0 1.5" dir="0 0 -1" directional="true" />
@@ -19,7 +23,7 @@
     />
     <geom
       name="floor"
-      pos="0 0 0"
+      pos="0 0 -0.512"
       size="0 0 0.05"
       type="plane"
       material="groundplane"
@@ -27,66 +31,45 @@
     <!-- Scene Camera -->
     <site
       name="scene_camera_optical_frame"
-      pos="-0.931 -2.374 3"
-      euler="4.01411065 9.97582907e-05 -4.21396792e-03"
+      pos="-1.0 -2.0 2.966"
+      euler="3.99 0.000 0"
     />
     <camera
       name="scene_camera"
       fovy="58"
       mode="fixed"
       resolution="640 480"
-      pos="-0.931 -2.374 3"
-      euler="0.872518150 9.97582907e-05 -4.21396792e-03"
+      pos="-1.0 -2.0 2.966"
+      euler="0.849 0.000 0.0"
     />
     <!-- lab desk -->
     <include file="lab_desk/desk.xml" />
-    <!-- linear rail -->
-    <body>
+    <!-- Define the block with AprilTags on each face -->
+    <body name="block1" pos="0.2 0.75 0.575">
+      <freejoint name="block1" />
       <geom
-        rgba="0.4 0.4 0.4 1"
         type="box"
-        size="2.5 0.3 0.15"
-        pos="0 0 0"
-        euler="0 0 0"
+        size="0.025 0.025 0.025"
+        rgba="1 1 1 1"
+        material="apriltag_material1"
       />
-      <geom
-        rgba="0.4 0.4 0.4 1"
-        type="box"
-        size="2.5 0.1 0.25"
-        pos="0.0 0.14 0.125"
-        euler="0 0 0"
-      />
-      <geom
-        rgba="0.4 0.4 0.4 1"
-        type="box"
-        size="2.5 0.06 0.25"
-        pos="0.0 -0.22 0.125"
-        euler="0 0 0"
-      />
-      <body name="base_platform" pos="0 0 .6" euler="0 0 1.5707">
-        <joint
-          name="linear_rail_joint"
-          type="slide"
-          axis="0 1 0"
-          range="-3 3"
-        />
-        <body name="adapter" pos="-0.06 -0.4 -0.2" euler="0 0 0">
-          <geom type="box" size="0.08 0.1 0.2" rgba="1 1 1 1" />
-          <include file="ur5e/ur5e.xml" />
-        </body>
-      </body>
     </body>
+    <body name="block2" pos="0.0 0.75 0.575">
+      <freejoint name="block2" />
+      <geom class="visual" mesh="cube" pos="0 0 -0.03" />
+      <geom class="collision" type="box" size="0.025 0.025 0.025" pos="0 0 0" />
+    </body>
+    <body name="block3" pos="-0.2 0.75 0.575">
+      <freejoint name="block3" />
+      <geom
+        type="box"
+        size="0.025 0.025 0.025"
+        rgba="1 1 1 1"
+        material="apriltag_material2"
+      />
+    </body>
+    <include file="ur5e/ur5e_linear_rail.xml" />
   </worldbody>
-
-  <actuator>
-    <position
-      class="robot"
-      name="linear_rail_joint"
-      joint="linear_rail_joint"
-      kp="75000"
-      dampratio="1.0"
-    />
-  </actuator>
 
   <keyframe>
     <!-- qpos -->
@@ -97,11 +80,17 @@
     <!-- block3 [x, y, z, qw, qx, qy, qz] -->
     <!-- ctrl -->
     <!-- linear_rail, shoulder_pan, shoulder_lift, elbow, wrist_1, wrist_2, wrist_3, robotiq_85_left_knuckle_joint -->
-    <key
-      qpos="0.344036 -0.08 -1.04273 0.787707 -1.22726 -1.55001 -0.08 0.0208263 0.000536897 0.0221041 -0.0228695 0.0208401 0.000547098 0.0221446 -0.022942 -0.875356 -0.375531 0.984374 -0.848687 -4.83214e-05 0.000122149 -0.528896 -0.499785 -0.410141 0.982941 -0.751996 -3.49463e-05 3.58695e-05 -0.659167 -0.360536 -0.490348 0.982941 -0.755553 -3.11306e-05 3.85484e-05 -0.655088 -0.303515 -0.40155 0.98294 -0.77703 -3.0278e-05 1.941e-05 -0.629464 -0.000328698 -0.401628 0.985397 -0.839069 -0.000141026 1.57151e-05 0.544024 -0.0975289 -0.4485 0.985597 0.28502 7.33444e-05 -7.69081e-05 -0.958522 0.0463543 -0.448147 0.985581 -0.760373 -5.59382e-05 -8.81544e-05 -0.649487"
-      ctrl="
-      0.345 -0.08 -1.06 0.78 -1.23 -1.55 -0.08 0
+    <!-- <key
+      qpos="
+      0 0 -1.5707 1.5707 -1.8 -1.5707 0
+      0 0 0 0 0 0 0 0
+      0.2 0.75 0.51 1 0 0 0
+      0.0 0.75 0.51 1 0 0 0
+      -0.2 0.75 0.51 1 0 0 0 
     "
-    />
+      ctrl="
+      0 0 -1.0 1.0 -1.57 -1.57 0 0
+    "
+    /> -->
   </keyframe>
 </mujoco>
