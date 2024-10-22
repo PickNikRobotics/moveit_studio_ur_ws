@@ -119,10 +119,6 @@ ENV USER_WS=${USER_WS}
 
 # Compile the workspace
 WORKDIR $USER_WS
-# hadolint ignore=SC1091
-RUN --mount=type=cache,target=/home/${USERNAME}/.ccache \
-    . /opt/overlay_ws/install/setup.sh && \
-    colcon build
 
 # Set up the user's .bashrc file and shell.
 CMD ["/usr/bin/bash"]
