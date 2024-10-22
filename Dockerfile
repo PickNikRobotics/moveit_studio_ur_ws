@@ -6,8 +6,7 @@
 #
 
 # Specify the MoveIt Pro release to build on top of.
-ARG MOVEIT_STUDIO_BASE_IMAGE
-ENV MOVEIT_STUDIO_BASE_IMAGE=MOVEIT_STUDIO_BASE_IMAGE
+ARG MOVEIT_STUDIO_BASE_IMAGE=main
 
 ##################################################
 # Starting from the specified MoveIt Pro release #
