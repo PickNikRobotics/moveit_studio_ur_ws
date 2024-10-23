@@ -16,8 +16,8 @@ hardware:
       package: "arm_on_rail_sim"
       path: "config/moveit/picknik_ur.srdf"
     urdf_params:
-      # - mujoco_model: "description/scene.xml"
-      - mujoco_model: "description/lab_scene.xml"
+      - mujoco_model: "description/scene.xml"
+      # - mujoco_model: "description/lab_scene.xml"
 
 moveit_params:
   servo:
