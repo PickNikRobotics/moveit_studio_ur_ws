@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Extrinsic Calibration">
+  <!--//////////-->
+  <BehaviorTree ID="Extrinsic Calibration" _description="" _favorite="false">
+    <Decorator ID="KeepRunningUntilFailure">
+      <Control ID="Sequence" name="TopLevelSequence">
+        <SubTree ID="Move to Waypoint" _collapsed="true" waypoint_name="CAL_1" use_all_planners="false" joint_group_name="manipulator" controller_names="/joint_trajectory_controller"/>
+        <Action ID="TriggerEmptyService" service_name="/zivid/capture"/>
+        <SubTree ID="Move to Waypoint" _collapsed="true" waypoint_name="CAL_2" use_all_planners="false" joint_group_name="manipulator" controller_names="/joint_trajectory_controller"/>
+        <Action ID="TriggerEmptyService" service_name="/zivid/capture"/>
+        <SubTree ID="Move to Waypoint" _collapsed="true" waypoint_name="CAL_3" use_all_planners="false" joint_group_name="manipulator" controller_names="/joint_trajectory_controller"/>
+        <Action ID="TriggerEmptyService" service_name="/zivid/capture"/>
+        <SubTree ID="Move to Waypoint" _collapsed="true" waypoint_name="CAL_4" use_all_planners="false" joint_group_name="manipulator" controller_names="/joint_trajectory_controller"/>
+        <Action ID="TriggerEmptyService" service_name="/zivid/capture"/>
+        <SubTree ID="Move to Waypoint" _collapsed="true" waypoint_name="CAL_5" use_all_planners="false" joint_group_name="manipulator" controller_names="/joint_trajectory_controller"/>
+        <Action ID="TriggerEmptyService" service_name="/zivid/capture"/>
+        <SubTree ID="Move to Waypoint" _collapsed="true" waypoint_name="CAL_6" use_all_planners="false" joint_group_name="manipulator" controller_names="/joint_trajectory_controller"/>
+        <Action ID="TriggerEmptyService" service_name="/zivid/capture"/>
+      </Control>
+    </Decorator>
+  </BehaviorTree>
+</root>

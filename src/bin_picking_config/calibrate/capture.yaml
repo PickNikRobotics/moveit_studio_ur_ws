@@ -1,0 +1,29 @@
+robot_calibration:
+  ros__parameters:
+    chains:
+    - manipulator
+    manipulator:
+      topic: /servo_controller/follow_joint_trajectory
+      joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+      #planning_group: arm TODO: revert when moveit is setup
+    features:
+    - checkerboard_finder
+    checkerboard_finder:
+      type: robot_calibration::CheckerboardFinder
+      topic: /zivid/points/xyzrgba
+      camera_info_topic: /zivid/color/camera_info
+      camera_sensor_name: camera
+      camera_link: zivid_camera_link
+      chain_sensor_name: manipulator
+      frame_id: checkerboard # Name of checkerboard frame (if not specified it defaults to: checkerboard)
+      debug: true
+      # Number of inner corners per a chessboard row and column
+      points_x: 6
+      points_y: 7
+      size: 0.03

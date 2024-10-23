@@ -1,0 +1,112 @@
+- features:
+  - checkerboard_finder
+  joints:
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    - shoulder_pan_joint
+  positions:
+    - -3.407844682733053
+    - -1.2732188701629639
+    - -0.19711966932330327
+    - -1.5134838263141077
+    - -3.39201528230776
+    - -1.5481632391559046
+- features:
+  - checkerboard_finder
+  joints:
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    - shoulder_pan_joint
+  positions:
+    - -3.407741685906881
+    - -1.2731482982635498
+    - -0.19705362737689214
+    - -2.0302661100970667
+    - -3.3919721285449427
+    - -1.5481842199908655
+- features:
+  - checkerboard_finder
+  joints:
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    - shoulder_pan_joint
+  positions:
+    - -3.407799860040182
+    - -1.273197889328003
+    - -0.19711931169543462
+    - -2.030310932789938
+    - -3.392024342213766
+    - -1.1758831183062952
+- features:
+  - checkerboard_finder
+  joints:
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    - shoulder_pan_joint
+  positions:
+    - -3.407795568505758
+    - -1.2732024192810059
+    - -0.19703610361132817
+    - -1.47742206255068
+    - -3.383038345967428
+    - -1.1758917013751429
+- features:
+  - checkerboard_finder
+  joints:
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    - shoulder_pan_joint
+  positions:
+    - -3.4077869854369105
+    - -1.2732467651367188
+    - 0.2530054289051513
+    - -1.4434297720538538
+    - -3.3830588499652308
+    - -1.175887409840719
+- features:
+  - checkerboard_finder
+  joints:
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    - shoulder_pan_joint
+  positions:
+    - -3.4078036747374476
+    - -1.0751317739486694
+    - 0.0354965168186645
+    - -1.776360813771383
+    - -4.6230226198779505
+    - -1.1758831183062952
+- features:
+  - checkerboard_finder
+  joints:
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+    - shoulder_pan_joint
+  positions:
+    - -3.407823701898092
+    - -1.2104471921920776
+    - -0.5297407668880005
+    - -1.7763741652118128
+    - -4.623052302991049
+    - -1.3884571234332483

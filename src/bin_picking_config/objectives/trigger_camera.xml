@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Trigger Camera">
+  <!--//////////-->
+  <BehaviorTree ID="Trigger Camera" _description="" _favorite="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Control ID="Parallel" success_count="2" failure_count="1">
+        <Action ID="TriggerEmptyService" service_name="/zivid/capture"/>
+        <Action ID="GetPointCloud" timeout_sec="15.000000" topic_name="/zivid/points/xyzrgba"/>
+      </Control>
+      <Action ID="SendPointCloudToUI"/>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Trigger Camera">
+      <input_port name="point_cloud" default="{point_cloud}"/>
+    </SubTree>
+  </TreeNodesModel>
+</root>

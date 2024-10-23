@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Cycle Between Waypoints">
+  <BehaviorTree ID="Cycle Between Waypoints" _description="Cycles between two waypoints until failure">
+    <Decorator ID="KeepRunningUntilFailure">
+      <Control ID="Sequence">
+        <SubTree ID="Move to Waypoint" waypoint_name="Right Corner" joint_group_name="manipulator" controller_names="/joint_trajectory_controller" use_all_planners="false"/>
+        <SubTree ID="Move to Waypoint" waypoint_name="Place" joint_group_name="manipulator" controller_names="/joint_trajectory_controller" use_all_planners="false"/>
+      </Control>
+    </Decorator>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Cycle Between Waypoints"/>
+  </TreeNodesModel>
+</root>

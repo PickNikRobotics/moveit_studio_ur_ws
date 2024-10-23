@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Find AprilTag">
+  <!--//////////-->
+  <BehaviorTree ID="Find AprilTag" _description="" _favorite="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Control ID="Parallel" success_count="3" failure_count="1">
+        <Action ID="TriggerEmptyService" service_name="/zivid/capture"/>
+        <Action ID="GetImage" topic_name="/zivid/color/image_color" timeout_sec="15.000000"/>
+        <Action ID="GetCameraInfo" topic_name="/zivid/color/camera_info" timeout_sec="15.000000"/>
+      </Control>
+      <Action ID="LoadObjectiveParameters" config_file_name="apriltag_detection_config.yaml"/>
+      <Action ID="DetectAprilTags" image="{image}" parameters="{parameters}"/>
+      <Action ID="GetDetectionPose"/>
+      <Action ID="AddPoseStampedToVector" input="{detection_pose}"/>
+      <Action ID="AdjustPoseWithIMarker" initial_poses="{pose_stamped_vector}" prompts="Here is the apriltag"/>
+    </Control>
+  </BehaviorTree>
+</root>
