@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
-project(mobile_manipulation_config)
+project(lab_sim)
 
 find_package(ament_cmake REQUIRED)
 find_package(picknik_accessories REQUIRED)
-
 
 
 # Install all XML files in directory
@@ -20,10 +19,7 @@ install(DIRECTORY "${PICKNIK_ACCESSORIES_SHARE_DIR}"
 install(
   DIRECTORY
     config
-    description
     launch
-    objectives
-    waypoints
   DESTINATION
     share/${PROJECT_NAME}
 )
