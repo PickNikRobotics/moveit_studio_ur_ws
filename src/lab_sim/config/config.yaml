@@ -1,0 +1,10 @@
+#
+#  This contains information for a unique instance of a robot.
+#
+
+# Name of the package to specialize
+based_on_package: "arm_on_rail_sim"
+hardware:
+  robot_description:
+    urdf_params:
+      - mujoco_model: "description/lab_scene.xml"
