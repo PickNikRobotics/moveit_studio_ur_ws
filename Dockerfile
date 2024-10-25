@@ -6,10 +6,7 @@
 #
 
 # Specify the MoveIt Pro release to build on top of.
-ARG MOVEIT_STUDIO_BASE_IMAGE
-ARG USERNAME=studio-user
-ARG USER_UID=1000
-ARG USER_GID=1000
+ARG MOVEIT_STUDIO_BASE_IMAGE=main
 
 ##################################################
 # Starting from the specified MoveIt Pro release #
@@ -22,7 +19,6 @@ FROM ${MOVEIT_STUDIO_BASE_IMAGE} AS base
 ARG USERNAME
 ARG USER_UID
 ARG USER_GID
-
 # Copy source code from the workspace's ROS 2 packages to a workspace inside the container
 ARG USER_WS=/home/${USERNAME}/user_ws
 ENV USER_WS=${USER_WS}
