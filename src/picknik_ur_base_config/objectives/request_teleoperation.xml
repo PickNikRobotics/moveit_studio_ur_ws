@@ -30,10 +30,6 @@
             <!--Joint sliders interpolate to joint state-->
             <Decorator ID="ForceSuccess" _while="teleop_mode == 5">
               <Control ID="Sequence">
-                <Action
-                  ID="SwitchUIPrimaryView"
-                  primary_view_name="Visualization"
-                />
                 <Control ID="Fallback" name="root">
                   <Control ID="Sequence">
                     <Action
@@ -154,10 +150,6 @@
             </Control>
             <Control ID="Sequence" _while="teleop_mode == 1">
               <Action
-                ID="SwitchUIPrimaryView"
-                primary_view_name="Visualization"
-              />
-              <Action
                 ID="TeleoperateJointJog"
                 controller_name="servo_controller"
               />
@@ -167,4 +159,11 @@
       </Control>
     </Control>
   </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Request Teleoperation">
+      <input_port name="enable_user_interaction" default="false" />
+      <input_port name="user_interaction_prompt" default="" />
+      <input_port name="initial_teleop_mode" default="3" />
+    </SubTree>
+  </TreeNodesModel>
 </root>
