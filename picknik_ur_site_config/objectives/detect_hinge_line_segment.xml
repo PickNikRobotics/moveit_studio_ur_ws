@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Detect Hinge Line Segment">
+  <!-- ////////// -->
+  <BehaviorTree
+    ID="Detect Hinge Line Segment"
+    _description="Detects a Hinge from a depth image and fits a line segment to it, then returns the line end points."
+  >
+    <Control ID="Sequence" name="TopLevelSequence">
+      <!-- Get the point cloud from the wrist camera -->
+      <Action
+        ID="GetCameraInfo"
+        topic_name="/wrist_mounted_camera/color/camera_info"
+        message_out="{camera_info}"
+      />
+      <Action
+        ID="GetImage"
+        topic_name="/wrist_mounted_camera/color/image_raw"
+        message_out="{image}"
+      />
+      <Action
+        ID="GetPointCloud"
+        topic_name="/wrist_mounted_camera/depth/color/points"
+        message_out="{point_cloud}"
+      />
+      <Action
+        ID="UpdatePlanningSceneService"
+        point_cloud="{point_cloud}"
+        point_cloud_service="/point_cloud_service"
+      />
+      <!-- Segment out 2D masks and then convert to 3D masks -->
+      <Action
+        ID="GetMasks2DAction"
+        image="{image}"
+        action_name="get_masks_2d_maskrcnn"
+        min_confidence="0.8"
+        max_nms_iou="0.8"
+        min_relative_area="0"
+        max_relative_area="1"
+        timeout_sec="10.0"
+        masks2d="{hinge_masks2d}"
+        valid_classes="space booth cabinet hinge"
+      />
+      <Action
+        ID="GetMasks3DFromMasks2D"
+        point_cloud="{point_cloud}"
+        masks2d="{hinge_masks2d}"
+        camera_info="{camera_info}"
+        masks3d="{masks3d}"
+      />
+      <Decorator ID="ForceSuccess">
+        <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
+          <Action ID="AlwaysFailure" />
+        </Decorator>
+      </Decorator>
+      <!-- fit 3D mask to a line segment and return the two end poses. -->
+      <Action
+        ID="FitLineSegmentToMask3D"
+        point_cloud="{point_cloud}"
+        mask3d="{mask3d}"
+        base_frame="world"
+        max_distance_from_line_for_inlier="0.02"
+        line_segment_poses="{line_segment_poses}"
+      />
+      <Action
+        ID="LogMessage"
+        message="Fit a line segment to the detected hinge successfully."
+        log_level="info"
+      />
+    </Control>
+  </BehaviorTree>
+</root>

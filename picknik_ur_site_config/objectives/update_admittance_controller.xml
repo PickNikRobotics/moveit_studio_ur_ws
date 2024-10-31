@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Update Admittance Controller">
+  <!-- ////////// -->
+  <BehaviorTree
+    ID="Update Admittance Controller"
+    _description="Updates the admittance controller configurations according to a specified yaml."
+    _favorite="false"
+    _hardcoded="false"
+  >
+    <Control ID="Sequence" name="TopLevelSequence">
+      <!-- Wrap in a ForceSuccess until we have a mock admittance_controller loaded for sim. -->
+      <Decorator ID="ForceSuccess">
+        <Action
+          ID="UpdateAdmittanceController"
+          config_file_name="open_door_admittance_controller_config.yaml"
+        />
+      </Decorator>
+    </Control>
+  </BehaviorTree>
+</root>

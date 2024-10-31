@@ -1,0 +1,10 @@
+<root BTCPP_format="4" main_tree_to_execute="dzfgsedr">
+    <!--//////////-->
+    <BehaviorTree ID="dzfgsedr" _description="" _favorite="false">
+        <Control ID="Sequence" name="TopLevelSequence">
+            <Action ID="RetrieveJointStateParameter"/>
+            <Action ID="CreateJointState"/>
+            <SubTree ID="Move to Joint State" _collapsed="false" target_joint_state="{target_joint_state}"/>
+        </Control>
+    </BehaviorTree>
+</root>

@@ -1,0 +1,72 @@
+<?xml version="1.0" ?>
+<root BTCPP_format="4" main_tree_to_execute="Teach Grasp Offset From Apriltag">
+  <BehaviorTree
+    ID="Teach Grasp Offset From Apriltag"
+    _description="Saves a grasp offset to yaml file from Apriltag observation using an interactive marker"
+    _favorite="true"
+  >
+    <Control ID="Sequence" name="root">
+      <Action
+        ID="GetPointsFromUser"
+        view_name="/wrist_mounted_camera/color/image_raw"
+        point_names="grasp_pose"
+        point_prompts="Click on the Apriltag"
+        pixel_coords="{pixel_coords}"
+      />
+      <Action
+        ID="GetPointCloud"
+        topic_name="/wrist_mounted_camera/depth/color/points"
+        message_out="{point_cloud}"
+      />
+      <Action
+        ID="GetPoseFromPixelCoords"
+        point_cloud="{point_cloud}"
+        pixel_coords="{pixel_coords}"
+        downsample_fraction="0.1"
+        neighbor_radius="0.1"
+        output_poses="{output_poses}"
+      />
+      <Action
+        ID="AdjustPoseWithIMarker"
+        prompts="Adjust IMarker to desired pose"
+        initial_poses="{output_poses}"
+        adjusted_poses="{adjusted_poses}"
+      />
+      <SubTree
+        ID="Sample April Tag"
+        num_samples="5"
+        tag_id="1"
+        apriltag_config="51mm_apriltag_detection_config.yaml"
+        max_distance="0.02"
+        max_rotation="0.2"
+        avg_pose="{tag_pose}"
+      />
+      <Action
+        ID="TransformPoseFrame"
+        input_pose="{tag_pose}"
+        target_frame_id="world"
+        output_pose="{tag_pose_world}"
+      />
+      <Decorator
+        ID="ForEachPoseStamped"
+        vector_in="{adjusted_poses}"
+        out="{user_grasp_pose}"
+      >
+        <Control ID="Sequence">
+          <Action
+            ID="CalculatePoseOffset"
+            source_pose="{tag_pose_world}"
+            destination_pose="{user_grasp_pose}"
+            source_to_destination_pose="{tag_to_user_grasp_pose}"
+          />
+          <Action
+            ID="SavePoseToYaml"
+            yaml_filename="apriltag1_grasp_offset"
+            namespace="GraspOffset"
+            message="{tag_to_user_grasp_pose}"
+          />
+        </Control>
+      </Decorator>
+    </Control>
+  </BehaviorTree>
+</root>

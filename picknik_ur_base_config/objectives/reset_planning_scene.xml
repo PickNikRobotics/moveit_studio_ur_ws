@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Reset Planning Scene">
+  <!-- ////////// -->
+  <BehaviorTree
+    ID="Reset Planning Scene"
+    _description=""
+    _favorite="false"
+    _hardcoded="false"
+  >
+    <Action
+      ID="ResetPlanningSceneObjects"
+      apply_planning_scene_service="/apply_planning_scene"
+    />
+  </BehaviorTree>
+</root>

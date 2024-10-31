@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="3 Waypoints Pick and Place">
+  <!--//////////-->
+  <BehaviorTree
+    ID="3 Waypoints Pick and Place"
+    _description="Basic example of repeatedly grabbing a small (invisible) object, placing it at desired destination, and then moving back to a home position"
+    _favorite="true"
+  >
+    <Control ID="Sequence">
+      <!--Reset the planning scene to ensure no old collision objects are hanging around-->
+      <Action ID="ClearSnapshot" />
+      <!--Setup the environment to its "home" configuration - move to center and open gripper-->
+      <SubTree
+        ID="Move to Waypoint"
+        waypoint_name="Look at Machine"
+        joint_group_name="manipulator"
+        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+        planner_interface="moveit_default"
+      />
+      <Action
+        ID="MoveGripperAction"
+        gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd"
+        position="0"
+      />
+      <!--Run pick and place on loop-->
+      <Decorator ID="KeepRunningUntilFailure">
+        <Control ID="Sequence">
+          <!--Pick object from left, put it down at the CNC machine, and go back to center pose-->
+          <Control ID="Sequence">
+            <SubTree
+              ID="Move to Waypoint"
+              waypoint_name="Grasp Left"
+              joint_group_name="manipulator"
+              controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+              planner_interface="moveit_default"
+            />
+            <Action
+              ID="MoveGripperAction"
+              gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd"
+              position="0.7929"
+            />
+            <SubTree
+              ID="Move to Waypoint"
+              waypoint_name="Look at Machine"
+              joint_group_name="manipulator"
+              controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+              planner_interface="moveit_default"
+            />
+            <SubTree
+              ID="Move to Waypoint"
+              waypoint_name="Grasp Machine"
+              joint_group_name="manipulator"
+              controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+              planner_interface="moveit_default"
+            />
+            <Action
+              ID="MoveGripperAction"
+              gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd"
+              position="0"
+            />
+            <SubTree
+              ID="Move to Waypoint"
+              waypoint_name="Look at Machine"
+              joint_group_name="manipulator"
+              controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+              planner_interface="moveit_default"
+            />
+          </Control>
+          <!--Pick object from the CNC machine, put it down on the right, and go back to center pose-->
+          <Control ID="Sequence">
+            <SubTree
+              ID="Move to Waypoint"
+              waypoint_name="Grasp Machine"
+              joint_group_name="manipulator"
+              controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+              planner_interface="moveit_default"
+            />
+            <Action
+              ID="MoveGripperAction"
+              gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd"
+              position="0.7929"
+            />
+            <SubTree
+              ID="Move to Waypoint"
+              waypoint_name="Look at Machine"
+              joint_group_name="manipulator"
+              controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+              planner_interface="moveit_default"
+            />
+            <SubTree
+              ID="Move to Waypoint"
+              waypoint_name="Grasp Left"
+              joint_group_name="manipulator"
+              controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+              planner_interface="moveit_default"
+            />
+            <Action
+              ID="MoveGripperAction"
+              gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd"
+              position="0"
+            />
+            <SubTree
+              ID="Move to Waypoint"
+              waypoint_name="Look at Machine"
+              joint_group_name="manipulator"
+              controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+              planner_interface="moveit_default"
+            />
+          </Control>
+        </Control>
+      </Decorator>
+    </Control>
+  </BehaviorTree>
+</root>

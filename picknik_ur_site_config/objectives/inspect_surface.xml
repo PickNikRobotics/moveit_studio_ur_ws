@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Inspect Surface" _favorite="true">
+  <BehaviorTree
+    ID="Inspect Surface"
+    _description="Move the wrist camera to point towards a selected surface"
+    _favorite="true"
+  >
+    <Control ID="Sequence">
+      <Action
+        ID="InitializeMTCTask"
+        task_id="inspect_surface"
+        controller_names="/joint_trajectory_controller"
+        task="{move_to_pose_task}"
+      />
+      <Action ID="SetupMTCCurrentState" task="{move_to_pose_task}" />
+      <Action
+        ID="GetPointsFromUser"
+        view_name="/wrist_mounted_camera/color/image_raw"
+        point_names="target_pose"
+        point_prompts="Select surface to inspect"
+        pixel_coords="{pixel_coords}"
+      />
+      <Action
+        ID="GetPointCloud"
+        topic_name="/wrist_mounted_camera/depth/color/points"
+        message_out="{point_cloud}"
+      />
+      <Action
+        ID="GetPoseFromPixelCoords"
+        point_cloud="{point_cloud}"
+        pixel_coords="{pixel_coords}"
+        downsample_fraction="0.1"
+        neighbor_radius="0.1"
+        output_poses="{output_poses}"
+      />
+      <Decorator
+        ID="ForEachPoseStamped"
+        vector_in="{output_poses}"
+        out="{pose}"
+      >
+        <Control ID="Sequence">
+          <Action
+            ID="TransformPose"
+            output_pose="{target_pose}"
+            quaternion_xyzw="0.7071;0.7071;0;0"
+            translation_xyz="0;0;0.15"
+            input_pose="{pose}"
+          />
+          <Action
+            ID="SetupMTCMoveToPose"
+            ik_frame="grasp_link"
+            planning_group_name="manipulator"
+            target_pose="{target_pose}"
+            task="{move_to_pose_task}"
+            planner_interface="moveit_default"
+          />
+        </Control>
+      </Decorator>
+      <Action
+        ID="PlanMTCTask"
+        solution="{move_to_pose_solution}"
+        task="{move_to_pose_task}"
+      />
+      <SubTree
+        ID="Wait for Trajectory Approval if User Available"
+        solution="{move_to_pose_solution}"
+      />
+      <Action ID="ExecuteMTCTask" solution="{move_to_pose_solution}" />
+    </Control>
+  </BehaviorTree>
+</root>

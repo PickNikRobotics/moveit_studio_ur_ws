@@ -1,0 +1,207 @@
+<?xml version="1.0" ?>
+<root
+  BTCPP_format="4"
+  main_tree_to_execute="Looping Pick and Place Object"
+  _favorite="true"
+>
+  <!-- ////////// -->
+  <BehaviorTree
+    ID="Looping Pick and Place Object"
+    _description="Repeatedly attempt to detect and grasp a cuboid from a target bin, and drop it in the target area."
+    _favorite="true"
+  >
+    <Control ID="Sequence">
+      <Action
+        ID="LoadObjectiveParameters"
+        config_file_name="looping_pick_and_place_object_config.yaml"
+        parameters="{parameters}"
+      />
+
+      <!-- Remove any objects which might remain in the planning scene from previous pick attempts -->
+      <Action
+        ID="ResetPlanningSceneObjects"
+        apply_planning_scene_service="apply_planning_scene"
+      />
+
+      <!-- Open the gripper and move to a consistent state. -->
+      <Action
+        ID="MoveGripperAction"
+        gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd"
+        position="0.0"
+      />
+      <SubTree
+        ID="Move to Waypoint"
+        waypoint_name="Look at Pick and Place Zone"
+        joint_group_name="manipulator"
+        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+        planner_interface="moveit_default"
+      />
+
+      <!-- This loops forever because the behavior tree under this decorator never returns FAILURE. -->
+      <Decorator ID="KeepRunningUntilFailure">
+        <Control ID="Fallback" name="TryGraspOuter">
+          <Decorator ID="KeepRunningUntilFailure">
+            <Decorator
+              ID="ForEachString"
+              name="IterateThroughPlaceWaypoints"
+              vector_in="Place Right;Place Left"
+              out="{place_waypoint}"
+            >
+              <Control ID="Sequence">
+                <!-- This decorator contains the logic to detect an object and then execute motion to grasp it. If grasping is aborted because the object changed while the robot was moving towards it, we will retry up to 5 times before giving up. -->
+                <Decorator ID="RetryUntilSuccessful" num_attempts="5">
+                  <Control ID="Fallback" name="TryGraspInner">
+                    <Control ID="Sequence">
+                      <!-- Clear the collision octree. -->
+                      <Action ID="ClearSnapshot" />
+
+                      <!-- Remove any objects which might remain in the planning scene from previous pick attempts -->
+                      <Action
+                        ID="ResetPlanningSceneObjects"
+                        apply_planning_scene_service="apply_planning_scene"
+                      />
+
+                      <!-- Get the latest point cloud from the target topic-->
+                      <Action
+                        ID="GetPointCloud"
+                        topic_name="/wrist_mounted_camera/depth/color/points"
+                        message_out="{point_cloud}"
+                      />
+
+                      <!-- Detect all cuboids in that point cloud-->
+                      <Action
+                        ID="FindSingularCuboids"
+                        point_cloud="{point_cloud}"
+                        parameters="{parameters}"
+                        detected_shapes="{cuboids}"
+                      />
+
+                      <!-- Get the first detected cuboid. NOTE: this is a small hack to get ForEachGraspableObject to iterate just once, which returns the first object in the vector. -->
+                      <Control ID="Sequence">
+                        <Decorator ID="ForceSuccess">
+                          <Decorator
+                            ID="ForEachGraspableObject"
+                            vector_in="{cuboids}"
+                            out="{cuboid_object}"
+                          >
+                            <Control ID="Sequence">
+                              <Action ID="AlwaysFailure" />
+                            </Control>
+                          </Decorator>
+                        </Decorator>
+                      </Control>
+
+                      <!-- Add this cuboid to the planning scene. -->
+                      <Action
+                        ID="ModifyObjectInPlanningScene"
+                        object="{cuboid_object}"
+                        apply_planning_scene_service="/apply_planning_scene"
+                      />
+
+                      <!-- Use point cloud to update the collision octomap (happens after ModifyObjectInPlanningScene so the cuboid is excluded from the octomap)-->
+                      <Action
+                        ID="UpdatePlanningSceneService"
+                        point_cloud="{point_cloud}"
+                        point_cloud_service="/point_cloud_service"
+                      />
+
+                      <!-- Set up an MTC task to pick the cuboid and then plan the task. -->
+                      <Action
+                        ID="InitializeMTCTask"
+                        task_id="looping_pick_and_place_object"
+                        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+                        task="{task}"
+                      />
+                      <Action ID="SetupMTCCurrentState" task="{task}" />
+                      <Action
+                        ID="SetupMTCApproachGrasp"
+                        parameters="{parameters}"
+                        target_object="{cuboid_object}"
+                        monitored_stage="{monitored_stage}"
+                        task="{task}"
+                      />
+                      <Action
+                        ID="SetupMTCGenerateCuboidGrasps"
+                        parameters="{parameters}"
+                        target_object="{cuboid_object}"
+                        monitored_stage="{monitored_stage}"
+                        task="{task}"
+                      />
+                      <Action
+                        ID="SetupMTCRetractFromGrasp"
+                        parameters="{parameters}"
+                        target_object="{cuboid_object}"
+                        task="{task}"
+                      />
+                      <Action
+                        ID="PlanMTCTask"
+                        solution="{solution}"
+                        task="{task}"
+                      />
+
+                      <!-- Execute the planned motion. -->
+                      <Action ID="ExecuteMTCTask" solution="{solution}" />
+                    </Control>
+
+                    <!-- TryGraspInner fallback condition. Wait for a short time before triggering a retry. -->
+                    <Control ID="Sequence">
+                      <Action ID="WaitForDuration" delay_duration="1" />
+                      <Action ID="AlwaysFailure" />
+                    </Control>
+                  </Control>
+                </Decorator>
+                <!-- Move home. -->
+                <SubTree
+                  ID="Move to Waypoint"
+                  waypoint_name="Look at Pick and Place Zone"
+                  joint_group_name="manipulator"
+                  controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+                  planner_interface="moveit_default"
+                />
+
+                <!-- Move to the current place waypoint set by IterateThroughPlaceWaypoints, then open the gripper. -->
+                <SubTree
+                  ID="Move to Waypoint"
+                  waypoint_name="{place_waypoint}"
+                  joint_group_name="manipulator"
+                  controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+                  planner_interface="moveit_default"
+                />
+                <Action
+                  ID="MoveGripperAction"
+                  gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd"
+                  position="0.0"
+                />
+
+                <!-- Finally, return home. -->
+                <SubTree
+                  ID="Move to Waypoint"
+                  waypoint_name="Look at Pick and Place Zone"
+                  joint_group_name="manipulator"
+                  controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+                  planner_interface="moveit_default"
+                />
+              </Control>
+            </Decorator>
+          </Decorator>
+
+          <!-- TryGraspOuter fallback condition. Reset scene objects, move home, and then wait a short while before triggering a retry. -->
+          <Control ID="Sequence">
+            <Action
+              ID="ResetPlanningSceneObjects"
+              apply_planning_scene_service="/apply_planning_scene"
+            />
+            <SubTree
+              ID="Move to Waypoint"
+              waypoint_name="Look at Pick and Place Zone"
+              joint_group_name="manipulator"
+              controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+            />
+            <Action ID="WaitForDuration" delay_duration="5" />
+            <Action ID="AlwaysSuccess" />
+          </Control>
+        </Control>
+      </Decorator>
+    </Control>
+  </BehaviorTree>
+</root>
