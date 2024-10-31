@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Interpolate to Joint State">
+  <BehaviorTree
+    ID="Interpolate to Joint State"
+    _description="Move to a specified joint state using joint interpolation"
+    _subtreeOnly="true"
+  >
+    <Control ID="Sequence">
+      <Action
+        ID="InitializeMTCTask"
+        task_id="interpolate_to_joint_state"
+        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+        task="{interpolate_to_waypoint_task}"
+      />
+      <Action ID="SetupMTCCurrentState" task="{interpolate_to_waypoint_task}" />
+      <Action
+        ID="SetupMTCInterpolateToJointState"
+        joint_state="{target_joint_state}"
+        name="SetupMTCInterpolateToJointState_First"
+        planning_group_name="manipulator"
+        task="{interpolate_to_waypoint_task}"
+      />
+      <Action
+        ID="PlanMTCTask"
+        solution="{interpolate_to_waypoint_solution}"
+        task="{interpolate_to_waypoint_task}"
+      />
+      <Action
+        ID="ExecuteMTCTask"
+        solution="{interpolate_to_waypoint_solution}"
+      />
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Interpolate to Joint State">
+      <input_port name="target_joint_state" default="{target_joint_state}" />
+    </SubTree>
+  </TreeNodesModel>
+</root>

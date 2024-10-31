@@ -1,0 +1,8 @@
+<root BTCPP_format="4" main_tree_to_execute="dsfxghsedf">
+    <!--//////////-->
+    <BehaviorTree ID="dsfxghsedf" _description="" _favorite="false">
+        <Control ID="Sequence" name="TopLevelSequence">
+            <Action ID="AlwaysSuccess"/>
+        </Control>
+    </BehaviorTree>
+</root>

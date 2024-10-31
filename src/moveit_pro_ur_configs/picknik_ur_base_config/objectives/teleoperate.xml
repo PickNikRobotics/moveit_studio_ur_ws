@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Teleoperate">
+  <!-- ////////// -->
+  <BehaviorTree
+    ID="Teleoperate"
+    _description="Handles the different variations of teleoperation from the web UI. Can be used standalone."
+    _favorite="false"
+    _hardcoded="false"
+  >
+    <SubTree
+      ID="Request Teleoperation"
+      enable_user_interaction="false"
+      user_interaction_prompt=""
+      initial_teleop_mode="3"
+    />
+  </BehaviorTree>
+</root>

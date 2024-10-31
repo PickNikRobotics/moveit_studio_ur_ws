@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<root BTCPP_format="4" main_tree_to_execute="Move to Named Pose">
+  <BehaviorTree
+    ID="Move to Named Pose"
+    _description="This Objective is used when moving to one of the saved waypoints in your site configuration"
+  >
+    <Control ID="Sequence" name="root">
+      <Action
+        ID="RetrieveWaypoint"
+        waypoint_joint_state="{target_joint_state}"
+        waypoint_name="{waypoint_name}"
+        joint_group_name="{joint_group_name}"
+      />
+      <Action
+        ID="InitializeMTCTask"
+        task_id="move_to_named_pose"
+        controller_names="/multi_arm_joint_trajectory_controller"
+        task="{move_to_waypoint_task}"
+      />
+      <Action ID="SetupMTCCurrentState" task="{move_to_waypoint_task}" />
+      <Action
+        ID="SetupMTCMoveToJointState"
+        joint_state="{target_joint_state}"
+        name="SetupMTCMoveToJointState"
+        planning_group_name="multi_arm_manipulator"
+        planner_interface="{planner_interface}"
+        constraints="{constraints}"
+        task="{move_to_waypoint_task}"
+      />
+      <Action
+        ID="PlanMTCTask"
+        solution="{move_to_waypoint_solution}"
+        task="{move_to_waypoint_task}"
+      />
+      <Action ID="ExecuteMTCTask" solution="{move_to_waypoint_solution}" />
+    </Control>
+  </BehaviorTree>
+</root>

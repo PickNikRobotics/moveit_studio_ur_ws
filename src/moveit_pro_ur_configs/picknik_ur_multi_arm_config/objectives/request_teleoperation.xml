@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Request Teleoperation">
+  <!--The integer value used here for teleoperation mode comes from the moveit_studio_sdk_msgs/TeleoperationMode ROS message.-->
+  <BehaviorTree
+    ID="Request Teleoperation"
+    _description="Handles the different variations of teleoperation from the web UI, with the option of interactive user prompts and choosing the initial mode. Should be used as a subtree with port remapping as part of an another Objective."
+    _favorite="false"
+    _hardcoded="false"
+  >
+    <Control ID="Sequence">
+      <Action ID="Script" code="teleop_mode := 0" />
+      <Control ID="Parallel" success_count="1" failure_count="1">
+        <Action
+          ID="DoTeleoperateAction"
+          enable_user_interaction="{enable_user_interaction}"
+          user_interaction_prompt="{user_interaction_prompt}"
+          initial_teleop_mode="{initial_teleop_mode}"
+          current_teleop_mode="{teleop_mode}"
+        />
+        <Decorator ID="KeepRunningUntilFailure">
+          <Control ID="Sequence">
+            <!--Closing and opening the gripper-->
+            <Decorator ID="ForceSuccess" _skipIf="teleop_mode != 7">
+              <SubTree ID="Close Second Gripper" _collapsed="true" />
+            </Decorator>
+            <Decorator ID="ForceSuccess" _skipIf="teleop_mode != 6">
+              <SubTree ID="Open Second Gripper" _collapsed="true" />
+            </Decorator>
+            <!--Joint sliders interpolate to joint state-->
+            <Decorator ID="ForceSuccess" _while="teleop_mode == 5">
+              <Control ID="Sequence">
+                <Action
+                  ID="SwitchUIPrimaryView"
+                  primary_view_name="Visualization"
+                />
+                <Control ID="Fallback" name="root">
+                  <Control ID="Sequence">
+                    <Action
+                      ID="RetrieveJointStateParameter"
+                      timeout_sec="-1"
+                      joint_state="{target_joint_state}"
+                    />
+                    <SubTree
+                      ID="Interpolate to Joint State"
+                      _collapsed="false"
+                      target_joint_state="{target_joint_state}"
+                    />
+                    <Action
+                      ID="PublishEmpty"
+                      topic="/studio_ui/motion_ended"
+                      queue_size="1"
+                      use_best_effort="false"
+                    />
+                  </Control>
+                  <Control ID="Sequence">
+                    <Action
+                      ID="PublishEmpty"
+                      topic="/studio_ui/motion_ended"
+                      queue_size="1"
+                      use_best_effort="false"
+                    />
+                    <Action ID="AlwaysFailure" />
+                  </Control>
+                </Control>
+              </Control>
+            </Decorator>
+            <!--Interactive markers move to pose-->
+            <Decorator ID="ForceSuccess" _while="teleop_mode == 4">
+              <Control ID="Sequence">
+                <Action
+                  ID="SwitchUIPrimaryView"
+                  primary_view_name="Visualization"
+                />
+                <Control ID="Fallback" name="root">
+                  <Control ID="Sequence">
+                    <Action
+                      ID="RetrievePoseParameter"
+                      timeout_sec="-1"
+                      pose="{target_pose}"
+                    />
+                    <SubTree
+                      ID="Move to Pose"
+                      _collapsed="false"
+                      target_pose="{target_pose}"
+                    />
+                    <Action
+                      ID="PublishEmpty"
+                      topic="/studio_ui/motion_ended"
+                      queue_size="1"
+                      use_best_effort="false"
+                    />
+                  </Control>
+                  <Control ID="Sequence">
+                    <Action
+                      ID="PublishEmpty"
+                      topic="/studio_ui/motion_ended"
+                      queue_size="1"
+                      use_best_effort="false"
+                    />
+                    <Action ID="AlwaysFailure" />
+                  </Control>
+                </Control>
+              </Control>
+            </Decorator>
+            <!--Waypoint buttons move to joint state-->
+            <Decorator ID="ForceSuccess" _while="teleop_mode == 3">
+              <Control ID="Sequence">
+                <Action
+                  ID="SwitchUIPrimaryView"
+                  primary_view_name="Visualization"
+                />
+                <Control ID="Fallback" name="root">
+                  <Control ID="Sequence">
+                    <Action
+                      ID="RetrieveJointStateParameter"
+                      timeout_sec="-1"
+                      joint_state="{target_joint_state}"
+                    />
+                    <SubTree
+                      ID="Move to Joint State"
+                      _collapsed="false"
+                      target_joint_state="{target_joint_state}"
+                    />
+                    <Action
+                      ID="PublishEmpty"
+                      topic="/studio_ui/motion_ended"
+                      queue_size="1"
+                      use_best_effort="false"
+                    />
+                  </Control>
+                  <Control ID="Sequence">
+                    <Action
+                      ID="PublishEmpty"
+                      topic="/studio_ui/motion_ended"
+                      queue_size="1"
+                      use_best_effort="false"
+                    />
+                    <Action ID="AlwaysFailure" />
+                  </Control>
+                </Control>
+              </Control>
+            </Decorator>
+            <!--Pose Jog-->
+            <Control ID="Sequence" _while="teleop_mode == 2">
+              <Action
+                ID="SwitchUIPrimaryView"
+                primary_view_name="Visualization"
+              />
+              <Action
+                ID="TeleoperateTwist"
+                controller_name="servo_controller"
+              />
+            </Control>
+            <!--Joint Jog-->
+            <Control ID="Sequence" _while="teleop_mode == 1">
+              <Action
+                ID="SwitchUIPrimaryView"
+                primary_view_name="Visualization"
+              />
+              <Action
+                ID="TeleoperateJointJog"
+                controller_name="servo_controller"
+              />
+            </Control>
+          </Control>
+        </Decorator>
+      </Control>
+    </Control>
+  </BehaviorTree>
+</root>

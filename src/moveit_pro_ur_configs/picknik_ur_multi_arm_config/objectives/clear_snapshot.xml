@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<root BTCPP_format="4" main_tree_to_execute="Clear Snapshot">
+  <!-- ////////// -->
+  <BehaviorTree
+    ID="Clear Snapshot"
+    _description="Clear the point cloud snapshot"
+  >
+    <Action ID="ClearSnapshot" />
+  </BehaviorTree>
+</root>

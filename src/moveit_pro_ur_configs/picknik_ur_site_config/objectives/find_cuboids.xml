@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<root BTCPP_format="4" main_tree_to_execute="Find Cuboids">
+  <BehaviorTree
+    ID="Find Cuboids"
+    _description="Detect and move to cuboid object in current scene"
+  >
+    <Control ID="Sequence" name="root">
+      <Action
+        ID="LoadObjectiveParameters"
+        config_file_name="find_cuboids_config.yaml"
+        parameters="{parameters}"
+      />
+      <Action
+        ID="GetPointCloud"
+        topic_name="/wrist_mounted_camera/depth/color/points"
+        message_out="{point_cloud}"
+      />
+      <Action
+        ID="FindSingularCuboids"
+        point_cloud="{point_cloud}"
+        parameters="{parameters}"
+      />
+    </Control>
+  </BehaviorTree>
+</root>

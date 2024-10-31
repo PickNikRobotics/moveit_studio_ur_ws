@@ -1,0 +1,125 @@
+<?xml version="1.0" ?>
+<root BTCPP_format="4" main_tree_to_execute="Push Button">
+  <BehaviorTree
+    ID="Push Button"
+    _description="Push a button with the end effector"
+  >
+    <Control ID="Sequence">
+      <SubTree ID="Re-Zero Force-Torque Sensors" />
+      <SubTree ID="Close Gripper" />
+      <Action ID="SaveCurrentState" saved_robot_state="{initial_robot_state}" />
+      <Control ID="Sequence">
+        <Action
+          ID="InitializeMTCTask"
+          task_id="push_button"
+          controller_names="/joint_trajectory_controller"
+          task="{push_button_task}"
+        />
+        <Action ID="SetupMTCCurrentState" task="{push_button_task}" />
+        <Action
+          ID="GetPointsFromUser"
+          view_name="/wrist_mounted_camera/color/image_raw"
+          point_names="target_pose"
+          point_prompts="Click on the button you want to press"
+          pixel_coords="{pixel_coords}"
+        />
+        <Action
+          ID="GetPointCloud"
+          topic_name="/wrist_mounted_camera/depth/color/points"
+          message_out="{point_cloud}"
+        />
+        <Action
+          ID="GetPoseFromPixelCoords"
+          point_cloud="{point_cloud}"
+          pixel_coords="{pixel_coords}"
+          downsample_fraction="0.1"
+          neighbor_radius="0.1"
+          output_poses="{output_poses}"
+        />
+        <Decorator
+          ID="ForEachPoseStamped"
+          vector_in="{output_poses}"
+          out="{pose}"
+        >
+          <Control ID="Sequence">
+            <Action
+              ID="TransformPose"
+              output_pose="{target_pose}"
+              quaternion_xyzw="0.7071;0.7071;0;0"
+              translation_xyz="0;0;0.1"
+              input_pose="{pose}"
+            />
+            <Action
+              ID="SetupMTCMoveToPose"
+              ik_frame="grasp_link"
+              planning_group_name="manipulator"
+              target_pose="{target_pose}"
+              task="{push_button_task}"
+              planner_interface="moveit_default"
+            />
+          </Control>
+        </Decorator>
+        <Action
+          ID="SetupMTCUpdateGroupCollisionRule"
+          name="AllowGripperCollisionWithOctomap"
+          group_name="gripper"
+          object_name="&lt;octomap&gt;"
+          allow_collision="true"
+          task="{push_button_task}"
+        />
+        <Action
+          ID="SetupMTCMoveAlongFrameAxis"
+          task="{push_button_task}"
+          hand_frame="grasp_link"
+          axis_frame="grasp_link"
+          axis_x="0.0"
+          axis_y="0.0"
+          axis_z="1.0"
+          max_distance="0.2"
+          min_distance="0.05"
+          planning_group_name="manipulator"
+          velocity_scale="0.05"
+          acceleration_scale="0.05"
+        />
+        <Action
+          ID="SetupMTCUpdateGroupCollisionRule"
+          name="ForbidGripperCollisionWithOctomap"
+          group_name="gripper"
+          object_name="&lt;octomap&gt;"
+          allow_collision="false"
+          task="{push_button_task}"
+        />
+        <Action
+          ID="PlanMTCTask"
+          solution="{full_push_button_solution}"
+          task="{push_button_task}"
+        />
+        <Action
+          ID="SplitMTCSolution"
+          solution_in="{full_push_button_solution}"
+          index="3"
+          solution_out_1="{move_to_approach_solution}"
+          solution_out_2="{push_solution}"
+        />
+        <Action
+          ID="WaitForUserTrajectoryApproval"
+          solution="{full_push_button_solution}"
+        />
+        <Action ID="ExecuteMTCTask" solution="{move_to_approach_solution}" />
+        <Action
+          ID="SaveCurrentState"
+          saved_robot_state="{pre_approach_robot_state}"
+        />
+        <Control ID="Parallel" success_count="1" failure_count="1">
+          <SubTree ID="Force Exceeds Threshold" />
+          <Action ID="ExecuteMTCTask" solution="{push_solution}" />
+        </Control>
+      </Control>
+      <SubTree
+        ID="Retreat To Initial Pose"
+        pre_approach_robot_state="{pre_approach_robot_state}"
+        initial_robot_state="{initial_robot_state}"
+      />
+    </Control>
+  </BehaviorTree>
+</root>

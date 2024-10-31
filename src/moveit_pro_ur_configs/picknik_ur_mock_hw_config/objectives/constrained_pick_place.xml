@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Constrained Pick and Place">
+  <!-- ////////// -->
+  <BehaviorTree
+    ID="Constrained Pick and Place"
+    _description="More advanced example of picking and placing an (invisible) object with orientation constraints enforced on the gripper's motion"
+    _favorite="true"
+  >
+    <Decorator ID="KeepRunningUntilFailure">
+      <Control ID="Sequence">
+        <!--Create a special type of motion planning configuration that includes an upwards orientation requirement-->
+        <Action
+          ID="InitializeMotionConstraints"
+          constraints_name="gripper pointing down"
+          constraints="{constraints}"
+        />
+        <Action
+          ID="AppendOrientationConstraint"
+          config_file_name="my_constraints.yaml"
+          constraints="{constraints}"
+        />
+        <!--Move to pick location-->
+        <SubTree ID="Open Gripper" />
+        <!--Note: Sampling based planners can be non-deterministic. The retry decorator improves the likelihood of success-->
+        <Decorator ID="RetryUntilSuccessful" num_attempts="3">
+          <SubTree
+            ID="Move to Waypoint"
+            waypoint_name="Grasp Right"
+            joint_group_name="manipulator"
+            controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+            planner_interface="moveit_default"
+          />
+        </Decorator>
+        <!--Pick-->
+        <SubTree ID="Close Gripper" />
+        <!--Move to place (drop) location-->
+        <Decorator ID="RetryUntilSuccessful" num_attempts="3">
+          <SubTree
+            ID="Move to Waypoint"
+            controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+            joint_group_name="manipulator"
+            waypoint_name="Grasp Left"
+            planner_interface="moveit_default"
+            constraints="{constraints}"
+          />
+        </Decorator>
+      </Control>
+    </Decorator>
+  </BehaviorTree>
+</root>
