@@ -3,7 +3,7 @@
 #
 
 # Name of the package to specialize
-based_on_package: "arm_on_rail_sim"
+based_on_package: "picknik_ur_sim_config"
 hardware:
   robot_description:
     urdf_params:

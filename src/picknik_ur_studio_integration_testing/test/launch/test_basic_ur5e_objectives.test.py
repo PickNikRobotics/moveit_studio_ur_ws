@@ -43,7 +43,7 @@ def generate_test_description():
         gtest_name="test_basic_ur5e_objectives",
         env_vars={
             # Load site config for simulated UR-5e
-            "STUDIO_CONFIG_PACKAGE": "arm_on_rail_sim",
+            "STUDIO_CONFIG_PACKAGE": "picknik_ur_sim_config",
             "MOCK_HARDWARE": "true",
         },
     )
