@@ -1,0 +1,37 @@
+<!-- UR5e inspired from https://github.com/google-deepmind/mujoco_menagerie/tree/main/universal_robots_ur5e -->
+<mujoco model="ur5e scene">
+  <include file="ur5e/ur5e_globals.xml" />
+  <include file="lab_desk/desk_globals.xml" />
+  <include file="robotiq_2f85/robotiq2f85_globals.xml" />
+  <include file="ridgeback/ridgeback_globals.xml" />
+
+  <compiler angle="radian" autolimits="true" />
+
+  <option integrator="implicitfast" />
+  <statistic center="0.3 0 0.4" extent="0.8" />
+
+  <worldbody>
+    <light pos="0 0 1.5" dir="0 0 -1" directional="true" />
+    <geom
+      name="floor"
+      pos="0 0 -0.04"
+      size="0 0 0.05"
+      type="plane"
+      material="groundplane"
+    />
+    <site
+      name="scene_camera_optical_frame"
+      pos="0.0 -2.0 3.5"
+      euler="3.64 0.0 0.0"
+    />
+    <camera
+      name="scene_camera"
+      pos="0.5 -4.0 3.5"
+      fovy="58"
+      mode="fixed"
+      resolution="640 480"
+      euler="0.8 -0.4 -0.2"
+    />
+    <include file="ridgeback/ridgeback.xml" />
+  </worldbody>
+</mujoco>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root
+  BTCPP_format="4"
+  main_tree_to_execute="19 Solution - Execute coverage path"
+>
+  <!--//////////-->
+  <BehaviorTree
+    ID="19 Solution - Execute coverage path"
+    _description="Executes a coverage path"
+    _favorite="true"
+  >
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action
+        ID="CreateStampedPose"
+        orientation_xyzw="0;0;0;1"
+        position_xyz="0;-0.5;0.2"
+        reference_frame="grasp_link"
+      />
+      <Action ID="VisualizePose" />
+      <Action
+        ID="GenerateCoveragePath"
+        stride_distance="0.1"
+        width="0.6"
+        height="0.6"
+        bottom_right_corner="{stamped_pose}"
+        vector_of_poses="{pose_stamped_vector}"
+      />
+      <Action ID="VisualizePath" path="{pose_stamped_vector}" />
+      <Action
+        ID="PlanCartesianPath"
+        ik_joint_space_density="0.01000"
+        ik_cartesian_space_density="0.01000"
+        position_only="false"
+        path="{pose_stamped_vector}"
+      />
+      <Action ID="ExecuteFollowJointTrajectory" />
+    </Control>
+  </BehaviorTree>
+</root>

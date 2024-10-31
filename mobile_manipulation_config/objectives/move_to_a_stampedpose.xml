@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Move to a StampedPose">
+  <BehaviorTree
+    ID="Move to a StampedPose"
+    _description="Uses inverse kinematics to move the robot tip to a given pose"
+    _subtreeOnly="true"
+  >
+    <Control ID="Fallback" name="root">
+      <Control ID="Sequence">
+        <Action
+          ID="InitializeMTCTask"
+          task_id="move_to_pose"
+          controller_names="{controller_names}"
+          task="{move_to_pose_task}"
+        />
+        <Action ID="SetupMTCCurrentState" task="{move_to_pose_task}" />
+        <Action
+          ID="SetupMTCMoveToPose"
+          ik_frame="grasp_link"
+          planning_group_name="manipulator"
+          target_pose="{target_pose}"
+          task="{move_to_pose_task}"
+          planner_interface="moveit_default"
+        />
+        <Action
+          ID="PlanMTCTask"
+          solution="{move_to_pose_solution}"
+          task="{move_to_pose_task}"
+        />
+        <SubTree
+          ID="Wait for Trajectory Approval if User Available"
+          solution="{move_to_pose_solution}"
+        />
+        <Action ID="ExecuteMTCTask" solution="{move_to_pose_solution}" />
+        <Action
+          ID="PublishEmpty"
+          topic="/studio_ui/motion_ended"
+          queue_size="1"
+          use_best_effort="false"
+        />
+      </Control>
+      <Control ID="Sequence">
+        <Action
+          ID="PublishEmpty"
+          topic="/studio_ui/motion_ended"
+          queue_size="1"
+          use_best_effort="false"
+        />
+        <Action ID="AlwaysFailure" />
+      </Control>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Move to a StampedPose">
+      <input_port
+        name="controller_names"
+        default="/joint_trajectory_controller"
+      />
+      <input_port name="target_pose" default="{stamped_pose}" />
+    </SubTree>
+  </TreeNodesModel>
+</root>

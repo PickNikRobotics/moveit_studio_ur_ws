@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="11 Solution - Draw a square">
+  <!--//////////-->
+  <BehaviorTree
+    ID="11 Solution - Draw a square"
+    _description="Hands-on exercise: draw a square"
+    _favorite="true"
+  >
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action
+        ID="CreateStampedPose"
+        orientation_xyzw="0;0;0;1"
+        position_xyz="0.4;0;0"
+        reference_frame="grasp_link"
+      />
+      <Action ID="AddPoseStampedToVector" input="{stamped_pose}" />
+      <Action
+        ID="CreateStampedPose"
+        orientation_xyzw="0;0;0;1"
+        position_xyz="0.4;-0.4;0"
+        reference_frame="grasp_link"
+      />
+      <Action ID="AddPoseStampedToVector" input="{stamped_pose}" />
+      <Action
+        ID="CreateStampedPose"
+        orientation_xyzw="0;0;0;1"
+        position_xyz="0;-0.4;0"
+        reference_frame="grasp_link"
+      />
+      <Action ID="AddPoseStampedToVector" input="{stamped_pose}" />
+      <Action
+        ID="CreateStampedPose"
+        orientation_xyzw="0;0;0;1"
+        position_xyz="0;0;0"
+        reference_frame="grasp_link"
+      />
+      <Action ID="AddPoseStampedToVector" input="{stamped_pose}" />
+      <Action ID="VisualizePath" path="{pose_stamped_vector}" />
+      <Action
+        ID="PlanCartesianPath"
+        ik_joint_space_density="0.01000"
+        ik_cartesian_space_density="0.01000"
+      />
+      <Action ID="ExecuteFollowJointTrajectory" />
+    </Control>
+  </BehaviorTree>
+</root>

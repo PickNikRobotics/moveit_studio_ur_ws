@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="06 Solution - Visualize a path">
+  <!--//////////-->
+  <BehaviorTree
+    ID="06 Solution - Visualize a path"
+    _description="How to visualize a path"
+    _favorite="true"
+  >
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action
+        ID="CreateStampedPose"
+        orientation_xyzw="0;0;0;1"
+        position_xyz="0;0;0"
+        reference_frame="grasp_link"
+      />
+      <Action ID="AddPoseStampedToVector" input="{stamped_pose}" />
+      <Action
+        ID="CreateStampedPose"
+        orientation_xyzw="0;0;0;1"
+        position_xyz="0;0;0.2"
+        reference_frame="grasp_link"
+      />
+      <Action ID="AddPoseStampedToVector" input="{stamped_pose}" />
+      <Action ID="VisualizePath" path="{pose_stamped_vector}" />
+    </Control>
+  </BehaviorTree>
+</root>

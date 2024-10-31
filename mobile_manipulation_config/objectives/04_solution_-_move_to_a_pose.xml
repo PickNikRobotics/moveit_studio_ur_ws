@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="04 Solution - Move to a Pose">
+  <!--//////////-->
+  <BehaviorTree
+    ID="04 Solution - Move to a Pose"
+    _description="Creates a pose relative to the tool, and moves to it"
+    _favorite="true"
+  >
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action
+        ID="CreateStampedPose"
+        orientation_xyzw="0;0;0;1"
+        position_xyz="0;0;1"
+        reference_frame="grasp_link"
+      />
+      <Action ID="VisualizePose" marker_size="0.200000" />
+      <SubTree
+        ID="Move to a StampedPose"
+        _collapsed="true"
+        target_pose="{stamped_pose}"
+        controller_names="/joint_trajectory_controller"
+      />
+    </Control>
+  </BehaviorTree>
+</root>
