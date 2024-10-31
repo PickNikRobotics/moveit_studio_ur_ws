@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root
+  BTCPP_format="4"
+  main_tree_to_execute="07 Solution - Plan motion for a path"
+>
+  <!--//////////-->
+  <BehaviorTree
+    ID="07 Solution - Plan motion for a path"
+    _description="Given a path, plans the motion for the robot joints"
+    _favorite="true"
+  >
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action
+        ID="CreateStampedPose"
+        orientation_xyzw="0;0;0;1"
+        position_xyz="0;0;0.2"
+        reference_frame="grasp_link"
+      />
+      <Action ID="AddPoseStampedToVector" input="{stamped_pose}" />
+      <Action ID="VisualizePose" />
+      <Action ID="PlanCartesianPath" />
+    </Control>
+  </BehaviorTree>
+</root>
