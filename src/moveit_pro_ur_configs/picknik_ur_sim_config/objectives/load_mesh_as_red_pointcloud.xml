@@ -11,7 +11,7 @@
       <Action
         ID="LoadPointCloudFromFile"
         color="255;0;0"
-        file_path="~/user_ws/install/arm_on_rail_sim/share/arm_on_rail_sim/description/assets/Cube.stl"
+        file_path="~/user_ws/install/picknik_ur_sim_config/share/picknik_ur_sim_config/description/assets/Cube.stl"
         point_cloud="{point_cloud}"
       />
       <Action

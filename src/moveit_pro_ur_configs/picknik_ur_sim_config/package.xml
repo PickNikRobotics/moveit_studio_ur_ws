@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <package format="3">
-  <name>arm_on_rail_sim</name>
+  <name>picknik_ur_sim_config</name>
   <version>6.0.0</version>
 
   <description>

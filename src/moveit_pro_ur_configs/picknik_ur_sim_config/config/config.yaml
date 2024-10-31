@@ -10,23 +10,23 @@ hardware:
   # [Required]
   robot_description:
     urdf:
-      package: "arm_on_rail_sim"
+      package: "picknik_ur_sim_config"
       path: "description/picknik_ur.xacro"
     srdf:
-      package: "arm_on_rail_sim"
+      package: "picknik_ur_sim_config"
       path: "config/moveit/picknik_ur.srdf"
     urdf_params:
       - mujoco_model: "description/scene.xml"
 
 moveit_params:
   servo:
-    package: "arm_on_rail_sim"
+    package: "picknik_ur_sim_config"
     path: "config/moveit/ur_servo.yaml"
   joint_limits:
-    package: "arm_on_rail_sim"
+    package: "picknik_ur_sim_config"
     path: "config/moveit/joint_limits.yaml"
   servo_joint_limits:
-    package: "arm_on_rail_sim"
+    package: "picknik_ur_sim_config"
     path: "config/moveit/hard_joint_limits.yaml"
 
 # Configuration for loading behaviors and objectives.
@@ -47,12 +47,12 @@ objectives:
   # [Required]
   objective_library_paths:
     sim_objectives:
-      package_name: "arm_on_rail_sim"
+      package_name: "picknik_ur_sim_config"
       relative_path: "objectives"
   # Specify the location of the saved waypoints file.
   # [Required]
   waypoints_file:
-    package_name: "arm_on_rail_sim"
+    package_name: "picknik_ur_sim_config"
     relative_path: "waypoints/ur_waypoints.yaml"
 
 
@@ -60,7 +60,7 @@ objectives:
 # [Required, if using ros2_control]
 ros2_control:
   config:
-    package: "arm_on_rail_sim"
+    package: "picknik_ur_sim_config"
     path: "config/control/picknik_ur.ros2_control.yaml"
   # MoveIt Pro will load and activate these controllers at start up to ensure they are available.
   # If not specified, it is up to the user to ensure the appropriate controllers are active and available

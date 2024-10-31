@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(arm_on_rail_sim)
+project(picknik_ur_sim_config)
 
 find_package(ament_cmake REQUIRED)
 
