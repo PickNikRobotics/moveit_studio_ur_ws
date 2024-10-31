@@ -1,0 +1,18 @@
+<root BTCPP_format="4" main_tree_to_execute="Record Trajectory">
+    <!--//////////-->
+    <BehaviorTree ID="Record Trajectory" _description="" _favorite="true">
+        <Control ID="Sequence" name="TopLevelSequence">
+            <Action ID="InitializeMTCTask" controller_names="/joint_trajectory_controller"/>
+            <Action ID="SetupMTCCurrentState"/>
+            <Decorator ID="ForEachString" vector_in="Point A;Point B;Point c" out="{waypoint_name}">
+                <Control ID="Sequence" name="TopLevelSequence">
+                    <Action ID="LogMessage" message="{index}"/>
+                    <Action ID="RetrieveWaypoint" joint_group_name="manipulator"/>
+                    <Action ID="SetupMTCMoveToJointState" joint_state="{target_joint_state}" planner_interface="moveit_default"/>
+                </Control>
+            </Decorator>
+            <Action ID="PlanMTCTask"/>
+            <Action ID="WaitForUserTrajectoryApproval"/>
+        </Control>
+    </BehaviorTree>
+</root>

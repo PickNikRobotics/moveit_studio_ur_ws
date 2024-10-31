@@ -1,0 +1,81 @@
+<!-- UR5e inspired from https://github.com/google-deepmind/mujoco_menagerie/tree/main/universal_robots_ur5e -->
+<mujoco model="ur5e scene">
+  <include file="ur5e/ur5e_linear_rail_globals.xml" />
+  <include file="lab_desk/desk_globals.xml" />
+  <include file="robotiq_2f85/robotiq2f85_globals.xml" />
+
+  <compiler angle="radian" autolimits="true" />
+
+  <option integrator="implicitfast" />
+
+  <asset>
+    <mesh name="cube" file="assets/Cube.stl" />
+  </asset>
+
+  <worldbody>
+    <light pos="0 0 1.5" dir="0 0 -1" directional="true" />
+
+    <light
+      name="spotlight"
+      mode="targetbodycom"
+      target="wrist_2_link"
+      pos="0 -1 2"
+    />
+    <geom
+      name="floor"
+      pos="0 0 -0.512"
+      size="0 0 0.05"
+      type="plane"
+      material="groundplane"
+    />
+    <!-- Scene Camera -->
+    <site
+      name="scene_camera_optical_frame"
+      pos="-1.0 -2.0 2.966"
+      euler="3.99 0.000 0"
+    />
+    <camera
+      name="scene_camera"
+      pos="-1.0 -2.0 2.966"
+      fovy="58"
+      mode="fixed"
+      resolution="640 480"
+      euler="0.849 0.000 0.0"
+    />
+    <!-- lab desk -->
+    <include file="lab_desk/desk.xml" />
+    <!-- Define the block with AprilTags on each face -->
+    <body name="block1" pos="0.2 0.75 0.575">
+      <freejoint name="block1" />
+      <geom
+        type="box"
+        size="0.025 0.025 0.025"
+        rgba="1 1 1 1"
+        material="apriltag_material1"
+      />
+    </body>
+    <body name="block2" pos="0.0 0.75 0.575">
+      <freejoint name="block2" />
+      <geom class="visual" mesh="cube" pos="0 0 -0.03" />
+      <geom class="collision" type="box" size="0.025 0.025 0.025" pos="0 0 0" />
+    </body>
+    <body name="block3" pos="-0.2 0.75 0.575">
+      <freejoint name="block3" />
+      <geom
+        type="box"
+        size="0.025 0.025 0.025"
+        rgba="1 1 1 1"
+        material="apriltag_material2"
+      />
+    </body>
+    <include file="ur5e/ur5e_linear_rail.xml" />
+  </worldbody>
+
+  <keyframe>
+    <key
+      qpos="-0.886764 0.727551 0.472375 -0.834559 -6.95805e-05 -6.1375e-05 -0.550919 -0.499647 0.689928 0.470942 -0.749838 3.91843e-05 -5.08119e-05 -0.661622 -0.3609 0.609537 0.470941 -0.757741 2.96011e-05 4.00136e-05 -0.652556 -0.303591 0.696467 0.470989 -0.7788 -5.32927e-05 2.99347e-06 -0.627272 -0.000373058 0.88828 0.473534 -0.838137 -1.0566e-05 -3.07868e-06 0.54546 -0.0963647 0.840186 0.473528 0.281469 -1.36042e-05 6.60035e-06 -0.95957 0.0484372 0.842182 0.473688 -0.758342 6.07647e-06 2.73022e-05 -0.651856 0.2 0.75 0.499376 1 0 0 0 1.70629e-05 0.749992 0.499377 1 0.00016562 0.000360588 1.95345e-10 -0.2 0.75 0.499376 1 0 0 0 0 0 -1.88491 1.10028 -1.25653 -1.57075 -1.08677e-12 0.0208231 0.000536851 0.0221006 -0.022866 0.020837 0.000547055 0.0221413 -0.0229382"
+      qvel="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+      ctrl="0 -1.8849 1.0997 -1.2566 -1.57075 0 0 0"
+    />
+  </keyframe>
+</mujoco>
