@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- wrist_3_link/forearm_link have a radius 0f 0.0375m. Actual offset from surface is (radius - attached_link's radius). -->
+  <!-- UR Drivers check for a 2.5cm  distance between tool_flange/wrist_3 and forearm links. -->
+  <xacro:macro
+    name="forearm_pinch_link"
+    params="prefix:='' length:=0.28 offset:=0.015"
+  >
+    <xacro:property
+      name="prefix_"
+      value="${prefix + &quot;_&quot; if prefix else &quot;&quot;}"
+    />
+    <xacro:property name="radius" value="${0.0375 + offset}" />
+    <link name="${prefix_}forearm_pinch_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 ${pi/16}" />
+        <geometry>
+          <cylinder length="${length}" radius="${radius}" />
+        </geometry>
+        <material name="silver">
+          <color rgba="0.75 0.65 0.65 0" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 ${pi/16}" />
+        <geometry>
+          <cylinder length="${length}" radius="${radius}" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix_}forearm_pinch_joint" type="fixed">
+      <parent link="${prefix_}forearm_link" />
+      <child link="${prefix_}forearm_pinch_link" />
+      <origin xyz="${-0.08 - length/2} 0 0.0049" rpy="0 ${pi/2} 0" />
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro
+    name="wrist_3_pinch_link"
+    params="prefix:='' length:=0.11 offset:=0.012"
+  >
+    <xacro:property
+      name="prefix_"
+      value="${prefix + &quot;_&quot; if prefix else &quot;&quot;}"
+    />
+    <xacro:property name="radius" value="${0.0375 + offset}" />
+    <link name="${prefix_}wrist_3_pinch_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="${length}" radius="${radius}" />
+        </geometry>
+        <material name="silver">
+          <color rgba="0.75 0.65 0.65 0" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="${length}" radius="${radius}" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix_}wrist_3_pinch_joint" type="fixed">
+      <parent link="${prefix_}wrist_3_link" />
+      <child link="${prefix_}wrist_3_pinch_link" />
+      <origin xyz="0 0 0" rpy="0 0 ${pi/16}" />
+    </joint>
+  </xacro:macro>
+</robot>

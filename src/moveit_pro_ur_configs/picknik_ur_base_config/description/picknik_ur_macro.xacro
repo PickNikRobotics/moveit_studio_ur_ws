@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro
+    name="picknik_ur"
+    params="parent child initial_positions_file generate_ros2_control_tag *origin"
+  >
+    <!-- parameters -->
+    <xacro:arg name="use_fake_hardware" default="false" />
+    <xacro:arg name="external_camera" default="false" />
+    <xacro:arg name="has_tool_changer" default="true" />
+    <xacro:arg name="use_pinch_links" default="true" />
+    <xacro:arg name="generate_ros2_control_tag" default="true" />
+    <xacro:arg name="name" default="" />
+    <xacro:arg name="joint_limits_parameters_file" default="" />
+    <xacro:arg name="kinematics_parameters_file" default="" />
+    <xacro:arg name="physical_parameters_file" default="" />
+    <xacro:arg name="visual_parameters_file" default="" />
+    <xacro:arg name="headless_mode" default="false" />
+    <xacro:arg name="robot_ip" default="0.0.0.0" />
+    <xacro:arg name="use_tool_communication" default="false" />
+    <xacro:arg name="tool_voltage" default="0" />
+    <xacro:arg name="tool_device_name" default="/dev/ttyUSB0" />
+    <xacro:arg name="simulation" default="" />
+
+    <!-- Import macros for main hardware components -->
+    <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro" />
+    <xacro:include
+      filename="$(find robotiq_description)/urdf/ur_to_robotiq_adapter.urdf.xacro"
+    />
+    <xacro:include
+      filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro"
+    />
+    <xacro:include
+      filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro"
+    />
+    <xacro:include
+      filename="$(find picknik_ur_base_config)/description/pinch_links.xacro"
+    />
+
+    <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
+    <xacro:property
+      name="initial_positions_file"
+      default="$(arg initial_positions_file)"
+    />
+    <xacro:property name="simulation" default="$(arg simulation)" />
+    <xacro:property
+      name="visual_parameters_file"
+      default="$(arg visual_parameters_file)"
+    />
+    <xacro:if value="${simulation == 'gazebo'}">
+      <xacro:property name="use_fake_hardware" default="false" />
+    </xacro:if>
+    <xacro:if value="${not simulation == 'gazebo'}">
+      <xacro:property
+        name="use_fake_hardware"
+        default="$(arg use_fake_hardware)"
+      />
+    </xacro:if>
+
+    <link name="${parent}" />
+    <!-- arm -->
+    <xacro:ur_robot
+      name="$(arg name)"
+      tf_prefix=""
+      parent="${parent}"
+      joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
+      kinematics_parameters_file="$(arg kinematics_parameters_file)"
+      physical_parameters_file="$(arg physical_parameters_file)"
+      visual_parameters_file="$(arg visual_parameters_file)"
+      use_fake_hardware="${use_fake_hardware}"
+      initial_positions="${xacro.load_yaml(initial_positions_file)}"
+      sim_ignition="${simulation == 'gazebo'}"
+      headless_mode="$(arg headless_mode)"
+      robot_ip="$(arg robot_ip)"
+      use_tool_communication="$(arg use_tool_communication)"
+      generate_ros2_control_tag="$(arg generate_ros2_control_tag)"
+      tool_voltage="$(arg tool_voltage)"
+      tool_device_name="$(arg tool_device_name)"
+      script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
+      output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
+      input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
+    >
+      <xacro:insert_block name="origin" />
+    </xacro:ur_robot>
+
+    <xacro:unless value="$(arg has_tool_changer)">
+      <xacro:property name="child" default="$(arg child)" />
+      <xacro:if value="${not child == 'tool0'}">
+        <link name="${child}" />
+        <joint name="${child}_joint" type="fixed">
+          <parent link="tool0" />
+          <child link="${child}" />
+          <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        </joint>
+      </xacro:if>
+    </xacro:unless>
+
+    <!-- pinch geometry for moveit motion planning. see https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver/issues/611 -->
+    <xacro:if value="$(arg use_pinch_links)">
+      <xacro:forearm_pinch_link />
+      <xacro:wrist_3_pinch_link />
+    </xacro:if>
+  </xacro:macro>
+</robot>

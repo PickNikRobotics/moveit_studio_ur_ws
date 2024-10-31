@@ -1,0 +1,42 @@
+based_on_package: "picknik_ur_base_config"
+
+objectives:
+  behavior_loader_plugins:
+    trigger_pstop_reset_service:
+      - "trigger_pstop_reset_service::TriggerPStopResetServiceBehaviorsLoader"
+  objective_library_paths:
+    # You must use a unique key for each package.
+    # The picknik_ur_base_config uses "core"
+    custom_objectives:
+      package_name: "picknik_ur_site_config"
+      relative_path: "objectives"
+
+# Configuration for launching ros2_control processes.
+# [Required, if using ros2_control]
+ros2_control:
+  config:
+    package: "picknik_ur_site_config"
+    path: "config/control/picknik_ur.ros2_control.yaml"
+  # MoveIt Pro will load and activate these controllers at start up to ensure they are available.
+  # If not specified, it is up to the user to ensure the appropriate controllers are active and available
+  # for running the application.
+  # [Optional, default=[]]
+  controllers_active_at_startup:
+    - "force_torque_sensor_broadcaster"
+    - "robotiq_gripper_controller"
+    - "joint_state_broadcaster"
+    - "servo_controller"
+    - "io_and_status_controller"
+    - "robotiq_activation_controller"
+  # Load but do not start these controllers so they can be activated later if needed.
+  # [Optional, default=[]]
+  controllers_inactive_at_startup:
+    - "joint_trajectory_controller"
+    - "joint_trajectory_admittance_controller"
+    - "velocity_force_controller"
+  # Any controllers here will not be spawned by MoveIt Pro.
+  # [Optional, default=[]]
+  controllers_not_managed: []
+  # Optionally configure remapping rules to let multiple controllers receive commands on the same topic.
+  # [Optional, default=[]]
+  controller_shared_topics: []

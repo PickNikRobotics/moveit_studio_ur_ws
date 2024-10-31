@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<library path="trigger_pstop_reset_service">
+  <class
+    type="trigger_pstop_reset_service::TriggerPStopResetServiceBehaviorsLoader"
+    base_class_type="moveit_studio::behaviors::SharedResourcesNodeLoaderBase"
+  />
+</library>

@@ -1,0 +1,194 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 600  # Hz
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    io_and_status_controller:
+      type: ur_controllers/GPIOController
+    force_torque_sensor_broadcaster:
+      type: force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    robotiq_gripper_controller:
+      type: position_controllers/GripperActionController
+    robotiq_activation_controller:
+      type: robotiq_controllers/RobotiqActivationController
+    servo_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    joint_trajectory_admittance_controller:
+      type: joint_trajectory_admittance_controller/JointTrajectoryAdmittanceController
+    velocity_force_controller:
+      type: velocity_force_controller/VelocityForceController
+
+io_and_status_controller:
+  ros__parameters:
+    tf_prefix: ""
+
+force_torque_sensor_broadcaster:
+  ros__parameters:
+    sensor_name: tcp_fts_sensor
+    state_interface_names:
+      - force.x
+      - force.y
+      - force.z
+      - torque.x
+      - torque.y
+      - torque.z
+    frame_id: tool0
+    topic_name: ft_data
+
+joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    command_joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.0
+      goal_time: 0.0
+      shoulder_pan_joint:
+        goal: 0.05
+      shoulder_lift_joint:
+        goal: 0.05
+      elbow_joint:
+        goal: 0.05
+      wrist_1_joint:
+        goal: 0.05
+      wrist_2_joint:
+        goal: 0.05
+      wrist_3_joint:
+        goal: 0.05
+
+servo_controller:
+  ros__parameters:
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    command_joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.0
+      goal_time: 0.0
+      shoulder_pan_joint:
+        goal: 0.05
+      shoulder_lift_joint:
+        goal: 0.05
+      elbow_joint:
+        goal: 0.05
+      wrist_1_joint:
+        goal: 0.05
+      wrist_2_joint:
+        goal: 0.05
+      wrist_3_joint:
+        goal: 0.05
+
+robotiq_gripper_controller:
+  ros__parameters:
+    default: true
+    joint: robotiq_85_left_knuckle_joint
+    allow_stalling: true
+
+robotiq_activation_controller:
+  ros__parameters:
+    default: true
+
+joint_trajectory_admittance_controller:
+  ros__parameters:
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    base_frame: base_link
+    sensor_frame: tool0
+    ee_frame: grasp_link
+    ft_sensor_name: tcp_fts_sensor
+    # Joint accelerations chosen to match MoveIt configs.
+    stop_accelerations:
+      - 30.0
+      - 30.0
+      - 30.0
+      - 30.0
+      - 30.0
+      - 30.0
+
+velocity_force_controller:
+  ros__parameters:
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    base_frame: base_link
+    sensor_frame: tool0
+    ee_frame: grasp_link
+    ft_sensor_name: tcp_fts_sensor
+    ft_force_deadband: 2.0
+    ft_torque_deadband: 1.0
+    max_joint_velocity:
+      - 0.524
+      - 0.524
+      - 0.524
+      - 1.047
+      - 1.047
+      - 1.047
+    max_joint_acceleration:
+      - 52.4
+      - 52.4
+      - 52.4
+      - 52.4
+      - 52.4
+      - 52.4
+    max_cartesian_velocity:
+      - 0.25
+      - 0.25
+      - 0.25
+      - 1.5707
+      - 1.5707
+      - 1.5707
+    max_cartesian_acceleration:
+      - 20.0
+      - 20.0
+      - 20.0
+      - 40.0
+      - 40.0
+      - 40.0

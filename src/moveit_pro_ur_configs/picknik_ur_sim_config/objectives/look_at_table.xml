@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Look at table">
+  <!--//////////-->
+  <BehaviorTree ID="Look at table" _description="" _favorite="true">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <SubTree
+        ID="Move to Waypoint"
+        _collapsed="true"
+        waypoint_name="Look at Table"
+        joint_group_name="manipulator"
+        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+        use_all_planners="false"
+      />
+    </Control>
+  </BehaviorTree>
+</root>
