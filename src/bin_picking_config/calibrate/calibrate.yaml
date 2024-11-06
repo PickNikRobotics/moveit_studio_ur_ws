@@ -1,0 +1,57 @@
+robot_calibration:
+  ros__parameters:
+    verbose: true
+    base_link: world
+    calibration_steps:
+    - single_calibration_step
+    single_calibration_step:
+      models:
+      - manipulator
+      - camera
+      manipulator:
+        type: chain3d
+        frame: checkerboard # this can be 'checkerboard' but you need to remove it from the free_frames
+      camera:
+        type: camera3d
+        frame: zivid_camera_link
+        topic: /zivid/points/xyzrgba # is this used? See line 97-99 in params.cpp
+      free_frames:
+      - scene_camera_mount_link
+      - checkerboard
+      scene_camera_mount_link:
+        x: true
+        y: true
+        z: true
+        roll: true
+        pitch: true
+        yaw: true
+      checkerboard:
+        x: true
+        y: true
+        z: true
+        roll: true
+        pitch: true
+        yaw: true
+      free_frames_initial_values:
+      - scene_camera_mount_link_initial_values
+      - checkerboard_initial_values
+      scene_camera_mount_link_initial_values:
+        x: 0.0
+        y: 0.0
+        z: 0.0
+        roll: 0.0
+        pitch: 0.0
+        yaw: 0.0
+      checkerboard_initial_values:
+        x: 0.0
+        y: 0.0
+        z: 0.0
+        roll: 0.0
+        pitch: 0.0
+        yaw: 0.0
+      error_blocks:
+      - hand_eye
+      hand_eye:
+        type: chain3d_to_chain3d
+        model_a: camera
+        model_b: manipulator

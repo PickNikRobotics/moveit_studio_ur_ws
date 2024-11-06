@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Calibration">
+  <!--//////////-->
+  <BehaviorTree ID="Calibration" _description="" _favorite="false">
+    <Control ID="Parallel">
+      <SubTree ID="Stream Camera" _collapsed="true"/>
+      <SubTree ID="Extrinsic Calibration" _collapsed="false"/>
+    </Control>
+  </BehaviorTree>
+</root>

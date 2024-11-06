@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <include file="$(find-pkg-share zivid_camera)/launch/zivid_camera_standalone.launch.py" />
+</launch>

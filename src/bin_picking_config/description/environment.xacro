@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="environment" params="parent camera_calibration_file">
+    <!-- Import environment macros -->
+    <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro" />
+    <xacro:include filename="$(find picknik_accessories)/descriptions/geometry/visual/cube_visual.urdf.xacro" />
+
+    <!-- Environment -->
+  <!-- Define materials -->
+  <material name="purple">
+    <color rgba="0.5 0 0.5 1"/>
+  </material>
+  <material name="alum">
+    <color rgba="0.5 0.5 0.5 1"/>
+  </material>
+
+  <!-- 8020 Base -->
+  <link name="alum_base">
+    <visual>
+      <geometry>
+        <box size="0.20 0.8 0.25"/>
+      </geometry>
+      <material name="alum"/>
+      <origin xyz="0 -0.9 0.75"/>
+    </visual>
+  </link>
+
+  <!-- Base of the box -->
+  <link name="box_base">
+    <visual>
+      <geometry>
+        <box size="1.2 0.8 0.05"/>
+      </geometry>
+      <material name="purple"/>
+      <origin xyz="0 0 -0.025"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="1.2 0.8 0.05"/>
+      </geometry>
+      <material name="purple"/>
+      <origin xyz="0 0 -0.025"/>
+    </collision>
+  </link>
+
+  <!-- Front wall -->
+  <link name="front_wall">
+    <visual>
+      <geometry>
+        <box size="1.2 0.05 0.6"/>
+      </geometry>
+      <material name="purple"/>
+      <origin xyz="0 0.375 0.3"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="1.2 0.05 0.6"/>
+      </geometry>
+      <material name="purple"/>
+      <origin xyz="0 0.375 0.3"/>
+    </collision>
+  </link>
+
+  <!-- Back wall -->
+  <link name="back_wall">
+    <visual>
+      <geometry>
+        <box size="1.2 0.05 0.6"/>
+      </geometry>
+      <material name="purple"/>
+      <origin xyz="0 -0.375 0.3"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="1.2 0.05 0.6"/>
+      </geometry>
+      <material name="purple"/>
+      <origin xyz="0 -0.375 0.3"/>
+    </collision>
+  </link>
+
+  <!-- Left wall -->
+  <link name="left_wall">
+    <visual>
+      <geometry>
+        <box size="0.05 0.7 0.6"/>
+      </geometry>
+      <material name="purple"/>
+      <origin xyz="0.575 0 0.3"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.05 0.7 0.6"/>
+      </geometry>
+      <material name="purple"/>
+      <origin xyz="0.575 0 0.3"/>
+    </collision>
+  </link>
+
+  <!-- Right wall -->
+  <link name="right_wall">
+    <visual>
+      <geometry>
+        <box size="0.05 0.7 0.6"/>
+      </geometry>
+      <material name="purple"/>
+      <origin xyz="-0.575 0 0.3"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.05 0.7 0.6"/>
+      </geometry>
+      <material name="purple"/>
+      <origin xyz="-0.575 0 0.3"/>
+    </collision>
+  </link>
+
+  <!-- Joint definitions -->
+  <joint name="parent_to_alum" type="fixed">
+    <parent link="${parent}"/>
+    <child link="alum_base"/>
+  </joint>
+
+  <joint name="parent_to_box" type="fixed">
+    <parent link="${parent}"/>
+    <child link="box_base"/>
+  </joint>
+
+  <joint name="base_to_front_wall" type="fixed">
+    <parent link="box_base"/>
+    <child link="front_wall"/>
+  </joint>
+
+  <joint name="base_to_back_wall" type="fixed">
+    <parent link="box_base"/>
+    <child link="back_wall"/>
+  </joint>
+
+  <joint name="base_to_left_wall" type="fixed">
+    <parent link="box_base"/>
+    <child link="left_wall"/>
+  </joint>
+
+  <joint name="base_to_right_wall" type="fixed">
+    <parent link="box_base"/>
+    <child link="right_wall"/>
+  </joint>
+
+    <!-- External Camera -->
+    <!-- Load extrinsic calibration data from the provided .yaml file -->
+    <xacro:property name="extrinsic_parameters" value="${xacro.load_yaml(camera_calibration_file)}"/>
+    <xacro:property name="camera_pose" value="${extrinsic_parameters['camera_pose']}" />
+    <xacro:property name="camera_x" value="${camera_pose['x']}" scope="parent"/>
+    <xacro:property name="camera_y" value="${camera_pose['y']}" scope="parent"/>
+    <xacro:property name="camera_z" value="${camera_pose['z']}" scope="parent"/>
+    <xacro:property name="camera_roll" value="${camera_pose['roll']}" scope="parent"/>
+    <xacro:property name="camera_pitch" value="${camera_pose['pitch']}" scope="parent"/>
+    <xacro:property name="camera_yaw" value="${camera_pose['yaw']}" scope="parent"/>
+
+    <link name="scene_camera_mount_link" />
+    <joint name="world_to_scene_camera" type="fixed">
+      <parent link="world"/>
+      <child link="scene_camera_mount_link"/>
+      <origin xyz="${camera_x} ${camera_y} ${camera_z}" rpy="${camera_roll} ${camera_pitch} ${camera_yaw}"/>
+    </joint>
+    <link name="zivid_camera_link" >
+      <visual>
+          <geometry>
+              <mesh filename="package://bin_picking_config/description/meshes/ZividTwo-simplified.stl" scale="0.001 0.001 0.001"/>
+          </geometry>
+        <material name="alum"/>
+        <origin xyz="0 0 0"/>
+      </visual>
+      <collision>
+          <geometry>
+              <mesh filename="package://bin_picking_config/description/meshes/ZividTwo-convexhull.stl" scale="0.001 0.001 0.001"/>
+          </geometry>
+        <material name="alum"/>
+        <origin xyz="0 0 0"/>
+      </collision>
+    </link>
+    <joint name="world_to_zivid_camera" type="fixed">
+      <parent link="world"/>
+      <child link="zivid_camera_link"/>
+      <origin xyz="${camera_x} ${camera_y} ${camera_z}" rpy="${camera_roll} ${camera_pitch} ${camera_yaw}"/>
+    </joint>
+    <link name="zivid_camera_frame" />
+    <joint name="zivid_camera_link_to_frame" type="fixed">
+      <parent link="zivid_camera_link"/>
+      <child link="zivid_camera_frame"/>
+      <origin xyz="0 0 0" rpy="0 0 3.14159"/>
+    </joint>
+
+  </xacro:macro>
+</robot>

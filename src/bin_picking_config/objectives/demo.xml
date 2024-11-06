@@ -1,0 +1,11 @@
+<root BTCPP_format="4" main_tree_to_execute="Demo">
+    <!--//////////-->
+    <BehaviorTree ID="Demo" _description="" _favorite="true">
+        <Control ID="Sequence" name="TopLevelSequence">
+            <SubTree ID="Move to Waypoint" _collapsed="true" waypoint_name="Ground Approach" joint_group_name="manipulator" planner_interface="moveit_default" controller_names="/joint_trajectory_controller"/>
+            <SubTree ID="Activate sim magswitch" _collapsed="true"/>
+            <SubTree ID="Move to Waypoint" _collapsed="true" waypoint_name="Look in bin" joint_group_name="manipulator" planner_interface="moveit_default" controller_names="/joint_trajectory_controller"/>
+            <SubTree ID="Deactivate Magswitch" _collapsed="true"/>
+        </Control>
+    </BehaviorTree>
+</root>

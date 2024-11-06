@@ -1,0 +1,9 @@
+<root BTCPP_format="4" main_tree_to_execute="Pick Floor Part">
+    <!--//////////-->
+    <BehaviorTree ID="Pick Floor Part" _description="" _favorite="true">
+        <Control ID="Sequence" name="TopLevelSequence">
+            <SubTree ID="Move to Waypoint" _collapsed="true" joint_group_name="manipulator" planner_interface="moveit_default" controller_names="/joint_trajectory_controller" waypoint_name="Ground Approach"/>
+            <SubTree ID="Activate sim magswitch" _collapsed="true"/>
+        </Control>
+    </BehaviorTree>
+</root>

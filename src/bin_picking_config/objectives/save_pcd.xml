@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root BTCPP_format="4" main_tree_to_execute="Save PCD">
+  <!--//////////-->
+  <BehaviorTree ID="Save PCD" _description="" _favorite="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <SubTree ID="Trigger Camera" _collapsed="true" point_cloud="{point_cloud}"/>
+      <Action ID="SavePointCloudToFile" file_path="~/user_ws"/>
+    </Control>
+  </BehaviorTree>
+</root>
