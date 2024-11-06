@@ -13,17 +13,9 @@
         <chain base_link="base_link" tip_link="grasp_link"/>
     </group>
     <group name="gripper">
-        <link name="robotiq_85_base_link"/>
-        <link name="robotiq_85_left_inner_knuckle_link"/>
-        <link name="robotiq_85_left_finger_tip_link"/>
-        <link name="robotiq_85_left_knuckle_link"/>
-        <link name="robotiq_85_left_finger_link"/>
-        <link name="robotiq_85_right_inner_knuckle_link"/>
-        <link name="robotiq_85_right_finger_tip_link"/>
-        <link name="robotiq_85_right_knuckle_link"/>
-        <link name="robotiq_85_right_finger_link"/>
-        <link name="grasp_link"/>
-        <joint name="robotiq_85_left_knuckle_joint"/>
+        <chain base_link="robotiq_85_base_link" tip_link="robotiq_85_left_finger_link"/>
+        <chain base_link="robotiq_85_base_link" tip_link="robotiq_85_right_finger_link"/>
+        <chain base_link="robotiq_85_base_link" tip_link="grasp_link"/>
     </group>
     <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
     <group_state name="open" group="gripper">
