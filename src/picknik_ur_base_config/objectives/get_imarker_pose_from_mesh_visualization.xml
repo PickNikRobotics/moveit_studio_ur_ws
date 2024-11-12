@@ -27,6 +27,9 @@
       <input_port name="mesh_path" default="{mesh_path}" />
       <input_port name="mesh_pose" default="{mesh_pose}" />
       <input_port name="_collapsed" default="true" />
+      <MetadataFields>
+        <Metadata subcategory="Visualization" />
+      </MetadataFields>
     </SubTree>
   </TreeNodesModel>
 </root>

@@ -53,4 +53,11 @@
       <Action ID="SendPointCloudToUI" point_cloud="{output_cloud_aligned}" />
     </Control>
   </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Register CAD Part">
+      <MetadataFields>
+        <Metadata subcategory="Perception - Planning Scene" />
+      </MetadataFields>
+    </SubTree>
+  </TreeNodesModel>
 </root>

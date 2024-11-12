@@ -50,6 +50,9 @@
       <input_port name="wrench_gain" default="0.01" />
       <input_port name="relaxation_time_ms" default="500" />
       <input_port name="tip_link" default="grasp_link" />
+      <MetadataFields>
+        <Metadata subcategory="Motion - Controls" />
+      </MetadataFields>
     </SubTree>
   </TreeNodesModel>
 </root>

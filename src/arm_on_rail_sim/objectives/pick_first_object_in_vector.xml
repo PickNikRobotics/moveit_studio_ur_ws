@@ -43,6 +43,10 @@
     </Decorator>
   </BehaviorTree>
   <TreeNodesModel>
-    <SubTree ID="Pick first object in vector" />
+    <SubTree ID="Pick first object in vector">
+      <MetadataFields>
+        <Metadata subcategory="Motion - Execute" />
+      </MetadataFields>
+    </SubTree>
   </TreeNodesModel>
 </root>

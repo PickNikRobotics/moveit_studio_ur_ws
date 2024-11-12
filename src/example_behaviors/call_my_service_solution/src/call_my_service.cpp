@@ -23,7 +23,7 @@ BT::PortsList CallMyService::providedPorts()
 
 BT::KeyValueVector CallMyService::metadata()
 {
-  return { { "subcategory", "Example" },
+  return { { "subcategory", "ROS Messaging" },
            { "description", "Example of calling a ROS2 service." } };
 }
 

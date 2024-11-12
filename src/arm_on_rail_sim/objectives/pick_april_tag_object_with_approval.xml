@@ -10,7 +10,7 @@
     _favorite="false"
   >
     <Control ID="Sequence" name="TopLevelSequence">
-      <SubTree ID="Wrist camera snapshot" _collapsed="true" />
+      <SubTree ID="Take wrist camera snapshot" _collapsed="true" />
       <Control ID="Sequence" name="Setup">
         <SubTree ID="Open Gripper" />
       </Control>
@@ -50,4 +50,11 @@
       />
     </Control>
   </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Pick April Tag Object With Approval">
+      <MetadataFields>
+        <Metadata subcategory="Application - Advanced Examples" />
+      </MetadataFields>
+    </SubTree>
+  </TreeNodesModel>
 </root>

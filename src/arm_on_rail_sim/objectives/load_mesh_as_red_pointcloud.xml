@@ -31,6 +31,9 @@
       <output_port name="point_cloud" default="{red_cloud}" />
       <input_port name="_collapsed" default="false" />
       <input_port name="initial_pose" default="{stamped_pose}" />
+      <MetadataFields>
+        <Metadata subcategory="Perception - 3D Point Cloud" />
+      </MetadataFields>
     </SubTree>
   </TreeNodesModel>
 </root>

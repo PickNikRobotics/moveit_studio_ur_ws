@@ -14,4 +14,11 @@
       initial_teleop_mode="3"
     />
   </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Teleoperate">
+      <MetadataFields>
+        <Metadata subcategory="User Input" />
+      </MetadataFields>
+    </SubTree>
+  </TreeNodesModel>
 </root>
