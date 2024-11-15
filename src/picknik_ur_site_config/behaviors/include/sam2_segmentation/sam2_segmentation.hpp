@@ -1,7 +1,8 @@
 #pragma once
 
 #include <moveit_studio_behavior_interface/service_client_behavior_base.hpp>
-#include "moveit_pro_ml/onnx_sam2.hpp"
+#include <moveit_pro_ml/onnx_sam2.hpp>
+#include <sensor_msgs/msg/image.hpp>
 
 namespace sam2_segmentation
 {
@@ -42,7 +43,10 @@ public:
  BT::NodeStatus tick() override;
 
 private:
+ void convert_image_to_onnx(const sensor_msgs::msg::Image& image_msg);
+
  std::shared_ptr<moveit_pro_ml::SAM2> sam2_;
+ moveit_pro_ml::ONNXImage onnx_image_;
 
 };
 }  // namespace sam2_segmentation

@@ -5,7 +5,6 @@
 
 #include <geometry_msgs/msg/point_stamped.hpp>
 #include <moveit_studio_behavior_interface/get_required_ports.hpp>
-#include <sensor_msgs/msg/image.hpp>
 #include <ament_index_cpp/get_package_share_directory.hpp>
 
 namespace
@@ -38,10 +37,22 @@ namespace sam2_segmentation
         };
     }
 
+    void SAM2Segmentation::convert_image_to_onnx(const sensor_msgs::msg::Image& image_msg)
+    {
+        // onnx_image_
+        onnx_image_.shape = {image_msg.height, image_msg.width, 3};
+        onnx_image_.data.resize(image_msg.height*image_msg.width*3);
+        for (size_t i = 0; i < onnx_image_.data.size();++i)
+        {
+            onnx_image_.data[i] = static_cast<float>(image_msg.data[i])/255.0f;
+        }
+        onnx_image_ = moveit_pro_ml::permute_image_data(onnx_image_);
+    }
+
     BT::NodeStatus SAM2Segmentation::tick()
     {
         const auto ports = moveit_studio::behaviors::getRequiredInputs(getInput<sensor_msgs::msg::Image>(kPortImage),
-            getInput<std::string>(kPortPoint));
+            getInput<std::vector<geometry_msgs::msg::PointStamped>>(kPortPoint));
 
         // Check that all required input data ports were set.
         if (!ports.has_value())
@@ -49,24 +60,25 @@ namespace sam2_segmentation
             spdlog::error("Failed to get required values from input data ports:\n{}", ports.error());
             return BT::NodeStatus::FAILURE;
         }
-
         const auto& [image_msg, points_2d] = ports.value();
-        cv::Mat image(image_msg.height, image_msg.width, CV_8UC3, (void*) image_msg.data.data());
-        cv::Mat image_float;
-        image.convertTo(image_float, CV_32FC3, (1.0/255.0));
 
-        std::shared_ptr<moveit_pro_ml::ONNXImage> onnx_image;
+        if (image_msg.encoding!= "rgb8" && image_msg.encoding!= "rgba8")
+        {
+            spdlog::error("Invalid image message format. Expected (rgb8, rgba8) got :\n{}", image_msg.encoding);
+            return BT::NodeStatus::FAILURE;
+        }
 
-        onnx_image->data = std::vector<float>((float*)image_float.data,
-                                                      ((float*)image_float.data) + (image_float.rows * image_float.cols *
-                                                          image_float.
-                                                          channels()));
-        onnx_image->shape = {image_float.rows, image_float.cols, image_float.channels()};
-        onnx_image = permute_image_data(onnx_image);
-        //
-        //
-        // std::vector<std::array<float, 2>> points;
-        auto masks = sam2_->predict(onnx_image, points);
+        // create ONNX formatted image tensor from ROS image
+        convert_image_to_onnx(image_msg);
+
+        std::vector<moveit_pro_ml::PointPrompt> point_prompts;
+        for (auto const& point : points_2d)
+        {
+            // assume all point are the same label
+            point_prompts.push_back({{static_cast<float>(point.point.x), static_cast<float>(point.point.y)}, {1.0f}});
+        }
+
+        auto masks = sam2_->predict(onnx_image_, point_prompts);
 
         return BT::NodeStatus::SUCCESS;
     }
