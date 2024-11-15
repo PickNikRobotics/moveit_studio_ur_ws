@@ -10,6 +10,7 @@
         position_xyz="0.02;.75;0.58"
         orientation_xyzw="0;0;0;1"
         name="Initial Guess"
+        stamped_pose="{pose_stamped}"
       />
       <SubTree
         ID="Load Mesh as Red Pointcloud"
