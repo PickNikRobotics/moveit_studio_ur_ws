@@ -23,7 +23,7 @@ namespace custom_behaviors
 {
   SAM2Segmentation::SAM2Segmentation(const std::string& name, const BT::NodeConfiguration& config,
                                      const std::shared_ptr<moveit_studio::behaviors::BehaviorContext>& shared_resources)
-    : SharedResourcesNode<BT::SyncActionNode>(name, config, shared_resources)
+    : moveit_studio::behaviors::AsyncBehaviorBase(name, config, shared_resources)
   {
     std::filesystem::path package_path = ament_index_cpp::get_package_share_directory("picknik_ur_site_config");
     const std::filesystem::path encoder_onnx_file = package_path / "models" / "sam2_hiera_large_encoder.onnx";
@@ -79,7 +79,7 @@ namespace custom_behaviors
    }
 
 
-  BT::NodeStatus SAM2Segmentation::tick()
+  tl::expected<bool, std::string> SAM2Segmentation::doWork()
   {
     const auto ports = moveit_studio::behaviors::getRequiredInputs(getInput<sensor_msgs::msg::Image>(kPortImage),
                                                                    getInput<std::vector<
@@ -88,15 +88,15 @@ namespace custom_behaviors
     // Check that all required input data ports were set.
     if (!ports.has_value())
     {
-      spdlog::error("Failed to get required values from input data ports:\n{}", ports.error());
-      return BT::NodeStatus::FAILURE;
+      auto error_message = fmt::format("Failed to get required values from input data ports:\n{}", ports.error());
+      return tl::make_unexpected(error_message);
     }
     const auto& [image_msg, points_2d] = ports.value();
 
     if (image_msg.encoding != "rgb8" && image_msg.encoding != "rgba8")
     {
-      spdlog::error("Invalid image message format. Expected (rgb8, rgba8) got :\n{}", image_msg.encoding);
-      return BT::NodeStatus::FAILURE;
+      auto error_message = fmt::format("Invalid image message format. Expected (rgb8, rgba8) got :\n{}", image_msg.encoding);
+      return tl::make_unexpected(error_message);
     }
 
     // create ONNX formatted image tensor from ROS image
@@ -111,8 +111,8 @@ namespace custom_behaviors
 
     if (image_msg.encoding != "rgb8")
     {
-      spdlog::error("Invalid image message format. Expected `rgb8` got :\n{}", image_msg.encoding);
-      return BT::NodeStatus::FAILURE;
+      auto error_message = fmt::format("Invalid image message format. Expected `rgb8` got :\n{}", image_msg.encoding);
+      return tl::make_unexpected(error_message);
     }
     try
     {
@@ -129,11 +129,11 @@ namespace custom_behaviors
     }
     catch (std::invalid_argument& e)
     {
-      spdlog::error("Invalid argument: {}", e.what());
-      return BT::NodeStatus::FAILURE;
+      auto error_message = fmt::format("Invalid argument: {}", e.what());
+      return tl::make_unexpected(error_message);
     }
 
-    return BT::NodeStatus::SUCCESS;
+    return true;
   }
 
   BT::KeyValueVector SAM2Segmentation::metadata()
