@@ -32,6 +32,9 @@
   <TreeNodesModel>
     <SubTree ID="Move to Joint State">
       <input_port name="target_joint_state" default="{target_joint_state}" />
+      <MetadataFields>
+        <Metadata subcategory="Motion - Execute" />
+      </MetadataFields>
     </SubTree>
   </TreeNodesModel>
 </root>

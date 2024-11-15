@@ -36,6 +36,9 @@
   <TreeNodesModel>
     <SubTree ID="Move to Pose">
       <input_port name="target_pose" default="{target_pose}" />
+      <MetadataFields>
+        <Metadata subcategory="Motion - Execute" />
+      </MetadataFields>
     </SubTree>
   </TreeNodesModel>
 </root>

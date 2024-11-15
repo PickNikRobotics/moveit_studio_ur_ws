@@ -19,7 +19,7 @@ BT::PortsList TranslatePose::providedPorts()
 
 BT::KeyValueVector TranslatePose::metadata()
 {
-  return { { "description", "Translates a PoseStamped, given x,y,z" } };
+  return { {"subcategory", "Pose Handling"}, { "description", "Translates a PoseStamped, given x,y,z" } };
 }
 
 BT::NodeStatus TranslatePose::tick()

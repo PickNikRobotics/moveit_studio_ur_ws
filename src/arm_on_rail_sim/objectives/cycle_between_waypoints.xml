@@ -25,4 +25,11 @@
       </Control>
     </Decorator>
   </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Cycle Between Waypoints">
+      <MetadataFields>
+        <Metadata subcategory="Application - Basic Examples" />
+      </MetadataFields>
+    </SubTree>
+  </TreeNodesModel>
 </root>

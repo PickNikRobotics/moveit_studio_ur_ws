@@ -9,7 +9,7 @@
     <Control ID="Sequence" name="TopLevelSequence">
       <SubTree ID="Look at table" _collapsed="true" />
       <Action ID="ClearSnapshot" />
-      <SubTree ID="Wrist camera snapshot" _collapsed="true" />
+      <SubTree ID="Take wrist camera snapshot" _collapsed="true" />
       <Control ID="Sequence" name="Setup">
         <SubTree ID="Open Gripper" />
       </Control>
@@ -69,4 +69,11 @@
       <Action ID="ExecuteMTCTask" solution="{pick_object_solution}" />
     </Control>
   </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Pick April Tag Labeled Object">
+      <MetadataFields>
+        <Metadata subcategory="Application - Advanced Examples" />
+      </MetadataFields>
+    </SubTree>
+  </TreeNodesModel>
 </root>

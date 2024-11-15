@@ -15,4 +15,11 @@
       <Action ID="WaitForUserTrajectoryApproval" solution="{solution}" />
     </Control>
   </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Wait for Trajectory Approval if User Available">
+      <MetadataFields>
+        <Metadata subcategory="User Input" />
+      </MetadataFields>
+    </SubTree>
+  </TreeNodesModel>
 </root>

@@ -42,4 +42,11 @@
       </Control>
     </Decorator>
   </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Place first object in vector">
+      <MetadataFields>
+        <Metadata subcategory="Motion - Execute" />
+      </MetadataFields>
+    </SubTree>
+  </TreeNodesModel>
 </root>

@@ -25,6 +25,10 @@
     </Control>
   </BehaviorTree>
   <TreeNodesModel>
-    <SubTree ID="Place object" />
+    <SubTree ID="Place object">
+      <MetadataFields>
+        <Metadata subcategory="Application - Basic Examples" />
+      </MetadataFields>
+    </SubTree>
   </TreeNodesModel>
 </root>

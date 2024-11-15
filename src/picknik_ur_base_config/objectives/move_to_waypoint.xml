@@ -45,6 +45,9 @@
         name="controller_names"
         default="/joint_trajectory_controller"
       />
+      <MetadataFields>
+        <Metadata subcategory="Motion - Execute" />
+      </MetadataFields>
     </SubTree>
   </TreeNodesModel>
 </root>

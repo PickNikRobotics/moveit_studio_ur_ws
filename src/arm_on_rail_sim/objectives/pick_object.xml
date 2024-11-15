@@ -29,4 +29,7 @@
       />
     </Control>
   </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Pick object" />
+  </TreeNodesModel>
 </root>
