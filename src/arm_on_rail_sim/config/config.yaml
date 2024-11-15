@@ -3,7 +3,7 @@
 #
 
 # Name of the package to specialize
-based_on_package: "picknik_ur_base_config"
+based_on_package: "picknik_ur_site_config"
 hardware:
   # Parameters used to configure the robot description through XACRO.
   # A URDF and SRDF are both required.

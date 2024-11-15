@@ -2,7 +2,10 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   moveit_studio_behavior_interface
   pluginlib
   std_srvs
+  geometry_msgs
+  sensor_msgs
   )
+
 foreach(package IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
   find_package(${package} REQUIRED)
 endforeach()
@@ -11,6 +14,7 @@ add_library(
         trigger_pstop_reset_service
         SHARED
         src/trigger_pstop_reset_service.cpp
+        src/sam2_segmentation.cpp
         src/register_behaviors.cpp)
 target_include_directories(
         trigger_pstop_reset_service
@@ -18,6 +22,10 @@ target_include_directories(
         $<INSTALL_INTERFACE:include>)
 ament_target_dependencies(trigger_pstop_reset_service
         ${THIS_PACKAGE_INCLUDE_DEPENDS})
+
+find_package(moveit_pro_ml REQUIRED)
+target_link_libraries(trigger_pstop_reset_service onnx_sam2 )
+
 
 if(BUILD_TESTING)
   moveit_pro_behavior_test(trigger_pstop_reset_service)
