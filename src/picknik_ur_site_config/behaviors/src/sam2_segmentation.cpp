@@ -68,13 +68,11 @@ namespace custom_behaviors
     image_.step = image_.width;
     for (size_t i = 0; i < image_.data.size(); ++i)
     {
-      image_.data[i] = static_cast<uint8_t>((onnx_image.data[i]>0.5)*255);
+      image_.data[i] = onnx_image.data[i]>0.5 ? 255: 0;
     }
 
     cv::Mat masks_scaled(image_.height, image_.width, CV_8UC1, image_.data.data());
-    // transpose(masks_scaled, masks_scaled);
-    cv::imwrite("/tmp/mask.png", masks_scaled);
-
+    cv::imwrite("/tmp/mask.png", masks_scaled); // TODO delete this
 
    }
 
@@ -93,9 +91,9 @@ namespace custom_behaviors
     }
     const auto& [image_msg, points_2d] = ports.value();
 
-    if (image_msg.encoding != "rgb8" && image_msg.encoding != "rgba8")
+    if (image_msg.encoding != "rgb8")
     {
-      spdlog::error("Invalid image message format. Expected (rgb8, rgba8) got :\n{}", image_msg.encoding);
+      spdlog::error("Invalid image message format. Expected `rgb8` got :\n{}", image_msg.encoding);
       return BT::NodeStatus::FAILURE;
     }
 
