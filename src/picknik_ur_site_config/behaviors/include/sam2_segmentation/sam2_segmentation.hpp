@@ -35,5 +35,14 @@ public:
   */
  static BT::KeyValueVector metadata();
 
+ /**
+ * @brief Implementation of BT::SyncActionNode::tick() for StretchMtc.
+ * @details This function is where the Behavior performs its work when the behavior tree is being run. Since StretchMtc is derived from BT::SyncActionNode, it is very important that its tick() function always finishes very quickly. If tick() blocks before returning, it will block execution of the entire behavior tree, which may have undesirable consequences for other Behaviors that require a fast update rate to work correctly.
+ */
+ BT::NodeStatus tick() override;
+
+private:
+ std::shared_ptr<moveit_pro_ml::SAM2> sam2_;
+
 };
 }  // namespace sam2_segmentation

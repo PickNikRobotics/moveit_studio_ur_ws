@@ -4,6 +4,8 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   std_srvs
   geometry_msgs
   sensor_msgs
+  ament_index_cpp
+  OpenCV
   )
 
 foreach(package IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
@@ -40,6 +42,13 @@ install(
         RUNTIME DESTINATION bin
         INCLUDES
         DESTINATION include)
+
+# install ML models
+install(
+        DIRECTORY models
+        DESTINATION share/${PROJECT_NAME}
+)
+
 
 ament_export_targets(trigger_pstop_reset_serviceTargets HAS_LIBRARY_TARGET)
 ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})
