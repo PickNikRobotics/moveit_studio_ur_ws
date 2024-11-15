@@ -1,15 +1,17 @@
 #pragma once
 
-#include <moveit_studio_behavior_interface/service_client_behavior_base.hpp>
+
+#include <moveit_studio_behavior_interface/async_behavior_base.hpp>
 #include <moveit_pro_ml/onnx_sam2.hpp>
 #include <sensor_msgs/msg/image.hpp>
+#include <fmt/format.h>
 
 namespace custom_behaviors
 {
 /**
  * @brief Segment an image using the SAM 2 model
  */
-class SAM2Segmentation : public moveit_studio::behaviors::SharedResourcesNode<BT::SyncActionNode>
+class SAM2Segmentation : public moveit_studio::behaviors::AsyncBehaviorBase
 {
 public:
 /**
@@ -36,11 +38,9 @@ public:
   */
  static BT::KeyValueVector metadata();
 
- /**
- * @brief Implementation of BT::SyncActionNode::tick() for StretchMtc.
- * @details This function is where the Behavior performs its work when the behavior tree is being run. Since StretchMtc is derived from BT::SyncActionNode, it is very important that its tick() function always finishes very quickly. If tick() blocks before returning, it will block execution of the entire behavior tree, which may have undesirable consequences for other Behaviors that require a fast update rate to work correctly.
- */
- BT::NodeStatus tick() override;
+protected:
+  tl::expected<bool, std::string> doWork() override;
+
 
 private:
  void set_onnx_from_ros_image(const sensor_msgs::msg::Image& image_msg);
@@ -49,6 +49,15 @@ private:
  std::shared_ptr<moveit_pro_ml::SAM2> sam2_;
  moveit_pro_ml::ONNXImage onnx_image_;
  sensor_msgs::msg::Image image_;
+ 
+  /** @brief Classes derived from AsyncBehaviorBase must implement getFuture() so that it returns a shared_future class member */
+  std::shared_future<tl::expected<bool, std::string>>& getFuture() override
+  {
+    return future_;
+  }
+
+  /** @brief Classes derived from AsyncBehaviorBase must have this shared_future as a class member */
+  std::shared_future<tl::expected<bool, std::string>> future_;
 
 };
 }  // namespace sam2_segmentation
