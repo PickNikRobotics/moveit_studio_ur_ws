@@ -19,7 +19,7 @@ TEST(BehaviorTests, test_load_behavior_plugins)
 
   BT::BehaviorTreeFactory factory;
   {
-    auto plugin_instance = class_loader.createUniqueInstance("TriggerPStopResetServiceBehaviorsLoader");
+    auto plugin_instance = class_loader.createUniqueInstance("custom_behaviors::TriggerPStopResetServiceBehaviorsLoader");
     ASSERT_NO_THROW(plugin_instance->registerBehaviors(factory, shared_resources));
   }
 

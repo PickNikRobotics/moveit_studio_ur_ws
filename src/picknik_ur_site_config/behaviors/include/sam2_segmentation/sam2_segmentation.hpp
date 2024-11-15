@@ -4,7 +4,7 @@
 #include <moveit_pro_ml/onnx_sam2.hpp>
 #include <sensor_msgs/msg/image.hpp>
 
-namespace sam2_segmentation
+namespace custom_behaviors
 {
 /**
  * @brief Segment an image using the SAM 2 model
@@ -43,10 +43,12 @@ public:
  BT::NodeStatus tick() override;
 
 private:
- void convert_image_to_onnx(const sensor_msgs::msg::Image& image_msg);
+ void set_onnx_from_ros_image(const sensor_msgs::msg::Image& image_msg);
+ void set_ros_image_from_onnx(const moveit_pro_ml::ONNXImage& onnx_image);
 
  std::shared_ptr<moveit_pro_ml::SAM2> sam2_;
  moveit_pro_ml::ONNXImage onnx_image_;
+ sensor_msgs::msg::Image image_;
 
 };
 }  // namespace sam2_segmentation

@@ -3,7 +3,7 @@
 #include <moveit_studio_behavior_interface/service_client_behavior_base.hpp>
 #include <std_srvs/srv/trigger.hpp>
 
-namespace trigger_pstop_reset_service
+namespace custom_behaviors
 {
 /**
  * @brief Resets the UR P-stop status by calling the reset service named /recover_from_protective_stop.

@@ -7,7 +7,7 @@ namespace
     constexpr auto kPortServiceName = "service_name";
 }// namespace
 
-namespace trigger_pstop_reset_service
+namespace custom_behaviors
 {
     TriggerPStopResetService::TriggerPStopResetService(const std::string& name, const BT::NodeConfiguration& config,
                                                        const std::shared_ptr<moveit_studio::behaviors::BehaviorContext>&

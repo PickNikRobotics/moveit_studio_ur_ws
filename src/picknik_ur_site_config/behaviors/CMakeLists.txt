@@ -3,6 +3,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   pluginlib
   std_srvs
   geometry_msgs
+  moveit_studio_vision_msgs
   sensor_msgs
   ament_index_cpp
   OpenCV
@@ -26,7 +27,7 @@ ament_target_dependencies(trigger_pstop_reset_service
         ${THIS_PACKAGE_INCLUDE_DEPENDS})
 
 find_package(moveit_pro_ml REQUIRED)
-target_link_libraries(trigger_pstop_reset_service onnx_sam2 )
+target_link_libraries(trigger_pstop_reset_service onnx_sam2)
 
 
 if(BUILD_TESTING)

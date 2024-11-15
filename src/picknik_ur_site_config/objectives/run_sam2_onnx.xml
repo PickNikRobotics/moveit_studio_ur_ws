@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <root BTCPP_format="4" main_tree_to_execute="Run SAM 2 ONNX">
   <!--//////////-->
   <BehaviorTree
@@ -7,23 +7,32 @@
     _favorite="true"
   >
     <Control ID="Sequence">
-      <Action ID="SwitchUIPrimaryView" primary_view_name="Visualization" />
+      <Action ID="ClearSnapshot" />
+      <Action ID="GetImage" topic_name="/wrist_camera/color" />
       <Action
-        ID="GetPointCloud"
-        topic_name="/wrist_mounted_camera/depth/color/points"
-        message_out="{point_cloud}"
-        timeout_sec="15.000000"
+        ID="GetPointsFromUser"
+        point_prompts="Select a prompt point 1;Select a prompt point 2"
+        point_names="Point1;Point2"
+        view_name="/wrist_camera/color"
       />
+      <Action ID="SAM2Segmentation" />
+      <Action ID="GetPointCloud" topic_name="/wrist_camera/points" />
       <Action
-        ID="UpdatePlanningSceneService"
-        point_cloud="{point_cloud}"
-        point_cloud_service="/point_cloud_service"
+        ID="GetCameraInfo"
+        topic_name="/wrist_camera/camera_info"
+        message_out="{camera_info}"
+        timeout_sec="5.000000"
       />
-      <Action
-        ID="SendPointCloudToUI"
-        point_cloud="{point_cloud}"
-        pcd_topic="/pcd_pointcloud_captures"
-      />
+      <Action ID="GetMasks3DFromMasks2D" />
+      <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
+        <Action ID="GetPointCloudFromMask3D" point_cloud="{point_cloud}" />
+      </Decorator>
+      <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}" />
+      <Action ID="PublishPointCloud" point_cloud="{point_cloud_fragment}" />
+      <Action ID="SwitchUIPrimaryView" />
     </Control>
   </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Run SAM 2 ONNX" />
+  </TreeNodesModel>
 </root>
