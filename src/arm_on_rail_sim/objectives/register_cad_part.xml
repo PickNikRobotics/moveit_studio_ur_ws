@@ -4,18 +4,19 @@
   <BehaviorTree ID="Register CAD Part" _description="" _favorite="true">
     <Control ID="Sequence" name="TopLevelSequence">
       <Action ID="ClearSnapshot" />
-      <SubTree ID="Look at table" _collapsed="true" />
+      <SubTree ID="Look at table" _collapsed="false" />
       <Action
         ID="CreateStampedPose"
         position_xyz="0.02;.75;0.58"
         orientation_xyzw="0;0;0;1"
         name="Initial Guess"
+        stamped_pose="{pose_stamped}"
       />
       <SubTree
         ID="Load Mesh as Red Pointcloud"
         _collapsed="false"
         output_cloud="{red_cloud}"
-        initial_pose="{stamped_pose}"
+        initial_pose="{pose_stamped}"
         point_cloud="{red_cloud}"
       />
       <Action ID="SendPointCloudToUI" point_cloud="{red_cloud}" />
@@ -41,7 +42,7 @@
         ID="Load Mesh as Green Pointcloud"
         _collapsed="false"
         output_cloud="{green_cloud}"
-        initial_pose="{stamped_pose}"
+        initial_pose="{pose_stamped}"
         point_cloud="{green_cloud}"
       />
       <Action
