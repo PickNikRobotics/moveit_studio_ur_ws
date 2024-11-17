@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <root BTCPP_format="4" main_tree_to_execute="Register CAD Part">
   <!--//////////-->
-  <BehaviorTree ID="Register CAD Part" _description="" _favorite="true">
+  <BehaviorTree ID="Register CAD Part" _description="" _favorite="false">
     <Control ID="Sequence" name="TopLevelSequence">
       <Action ID="ClearSnapshot" />
       <SubTree ID="Look at table" _collapsed="true" />

@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <root BTCPP_format="4" main_tree_to_execute="Visual Servo To Reference">
   <!-- ////////// -->
   <BehaviorTree
     ID="Visual Servo To Reference"
     _description="Move in closed loop to a pose relative to an AprilTag"
-    _favorite="true"
+    _favorite="false"
     _hardcoded="false"
   >
     <Control ID="Sequence">

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4" main_tree_to_execute="Run ClipSeg ONNX">
+  <!--//////////-->
+  <BehaviorTree ID="Run ClipSeg ONNX" _description="Take a point cloud snapshot and add to collision scene" _favorite="true">
+    <Control ID="Sequence">
+      <Action ID="ClearSnapshot"/>
+      <Action ID="GetImage" topic_name="/wrist_camera/color"/>
+      <Action ID="ClipSegSegmentation" prompt="a 3d rendered object with texture"/>
+      <Action ID="GetPointCloud" topic_name="/wrist_camera/points"/>
+      <Action ID="GetCameraInfo" topic_name="/wrist_camera/camera_info" message_out="{camera_info}" timeout_sec="5.000000"/>
+      <Action ID="GetMasks3DFromMasks2D"/>
+      <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
+        <Action ID="GetPointCloudFromMask3D" point_cloud="{point_cloud}"/>
+      </Decorator>
+      <Action ID="SendPointCloudToUI" point_cloud="{point_cloud_fragment}"/>
+      <Action ID="PublishPointCloud" point_cloud="{point_cloud_fragment}"/>
+      <Action ID="SwitchUIPrimaryView"/>
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Run ClipSeg ONNX"/>
+  </TreeNodesModel>
+</root>

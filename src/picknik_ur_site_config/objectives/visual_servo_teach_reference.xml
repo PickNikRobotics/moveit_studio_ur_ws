@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <root BTCPP_format="4" main_tree_to_execute="Visual Servo Teach Reference">
   <BehaviorTree
     ID="Visual Servo Teach Reference"
     _description="Teach the pose reference used in `Visual Servo To Reference'"
-    _favorite="true"
+    _favorite="false"
   >
     <Control ID="Sequence" name="root">
       <SubTree

@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <root BTCPP_format="4" main_tree_to_execute="Take Snapshot">
   <!--//////////-->
   <BehaviorTree
     ID="Take Snapshot"
     _description="Take a point cloud snapshot and add to collision scene"
-    _favorite="true"
+    _favorite="false"
   >
     <Control ID="Sequence">
       <Action ID="SwitchUIPrimaryView" primary_view_name="Visualization" />

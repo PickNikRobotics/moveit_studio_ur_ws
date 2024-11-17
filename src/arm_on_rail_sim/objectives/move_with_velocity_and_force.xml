@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <root BTCPP_format="4" main_tree_to_execute="Move until Force Contact">
   <!--//////////-->
   <BehaviorTree
     ID="Move until Force Contact"
     _description="An example for how to use the VFC to move with a velocity / force reference until it collides"
-    _favorite="true"
+    _favorite="false"
   >
     <Control ID="Sequence" name="TopLevelSequence">
       <SubTree
