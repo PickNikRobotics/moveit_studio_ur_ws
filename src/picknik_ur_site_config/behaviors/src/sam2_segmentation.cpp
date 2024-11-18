@@ -48,14 +48,12 @@ namespace custom_behaviors
 
   void SAM2Segmentation::set_onnx_from_ros_image(const sensor_msgs::msg::Image& image_msg)
   {
-    onnx_image_.shape = {image_msg.height, image_msg.width, 3};
+    onnx_image_.shape = {1, image_msg.height, image_msg.width, 3};
     onnx_image_.data.resize(image_msg.height * image_msg.width * 3);
     for (size_t i = 0; i < onnx_image_.data.size(); ++i)
     {
       onnx_image_.data[i] = static_cast<float>(image_msg.data[i]) / 255.0f;
     }
-    onnx_image_ = moveit_pro_ml::resize_image(onnx_image_, {1024, 1024, 3});
-    onnx_image_ = moveit_pro_ml::permute_image_data(onnx_image_);
   }
 
 
@@ -115,7 +113,6 @@ namespace custom_behaviors
     try
     {
       auto masks = sam2_->predict(onnx_image_, point_prompts);
-      masks = moveit_pro_ml::resize_image(masks, {image_msg.height, image_msg.width});
 
       moveit_studio_vision_msgs::msg::Mask2D our_mask;
       image_.header = image_msg.header;
