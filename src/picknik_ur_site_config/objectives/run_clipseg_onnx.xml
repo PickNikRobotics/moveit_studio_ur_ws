@@ -5,7 +5,8 @@
     <Control ID="Sequence">
       <Action ID="ClearSnapshot"/>
       <Action ID="GetImage" topic_name="/wrist_camera/color"/>
-      <Action ID="ClipSegSegmentation" prompt="a 3d rendered object with texture"/>
+      <Action ID="GetTextFromUser" prompts="Enter a prompt for segmentation" default_values="a object"/>
+      <Action ID="ClipSegSegmentation" prompt="{text_output}"/>
       <Action ID="GetPointCloud" topic_name="/wrist_camera/points"/>
       <Action ID="GetCameraInfo" topic_name="/wrist_camera/camera_info" message_out="{camera_info}" timeout_sec="5.000000"/>
       <Action ID="GetMasks3DFromMasks2D"/>

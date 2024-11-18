@@ -37,7 +37,7 @@ namespace custom_behaviors
     return {
       BT::InputPort<sensor_msgs::msg::Image>(kPortImage, kPortImageDefault,
                                              "The Image to run segmentation on."),
-      BT::InputPort<std::string>(kPortPrompt, kPortPromptDefault,
+      BT::InputPort<std::vector<std::string>>(kPortPrompt, kPortPromptDefault,
                                                                    "The input prompt as a <code>std::string</code> to be used for segmentation."),
 
   BT::OutputPort<std::vector<moveit_studio_vision_msgs::msg::Mask2D>>(kPortMasks, kPortMasksDefault,
@@ -55,9 +55,7 @@ namespace custom_behaviors
     {
       onnx_image_.data[i] = static_cast<float>(image_msg.data[i]) / 255.0f;
     }
-    onnx_image_ = moveit_pro_ml::permute_image_data(onnx_image_);
   }
-
 
   void ClipSegSegmentation::set_ros_image_from_onnx(const moveit_pro_ml::ONNXImage& onnx_image)
   {
@@ -89,7 +87,7 @@ namespace custom_behaviors
       auto error_message = fmt::format("Failed to get required values from input data ports:\n{}", ports.error());
       return tl::make_unexpected(error_message);
     }
-    const auto& [image_msg, prompt] = ports.value();
+    const auto& [image_msg, prompts] = ports.value();
 
     if (image_msg.encoding != "rgb8")
     {
@@ -99,7 +97,6 @@ namespace custom_behaviors
 
     // create ONNX formatted image tensor from ROS image
     set_onnx_from_ros_image(image_msg);
-    std::vector<std::string> prompts = {prompt};
     try
     {
       onnx_image_.shape = {1, onnx_image_.shape[0], onnx_image_.shape[1], onnx_image_.shape[2]};
