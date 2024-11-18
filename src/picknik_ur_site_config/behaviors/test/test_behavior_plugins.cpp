@@ -29,6 +29,9 @@ TEST(BehaviorTests, test_load_behavior_plugins)
 
   EXPECT_NO_THROW(
   (void)factory.instantiateTreeNode("sam2_segmentation_name", "SAM2Segmentation", BT::NodeConfiguration()));
+
+  EXPECT_NO_THROW(
+      (void)factory.instantiateTreeNode("clipseg_segmentation_name", "ClipSegSegmentation", BT::NodeConfiguration()));
 }
 
 

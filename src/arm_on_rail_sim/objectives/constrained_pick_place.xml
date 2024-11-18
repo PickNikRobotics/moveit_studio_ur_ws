@@ -3,7 +3,7 @@
   <BehaviorTree
     ID="Constrained Pick and Place"
     _description="More advanced example of picking and placing an (invisible) object with orientation constraints enforced on the gripper's motion"
-    _favorite="true"
+    _favorite="false"
   >
     <Control ID="Sequence">
       <SubTree

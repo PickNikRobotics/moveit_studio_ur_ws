@@ -18,6 +18,7 @@ add_library(
         SHARED
         src/trigger_pstop_reset_service.cpp
         src/sam2_segmentation.cpp
+        src/clipseg_segmentation.cpp
         src/register_behaviors.cpp)
 target_include_directories(
         trigger_pstop_reset_service
@@ -27,7 +28,7 @@ ament_target_dependencies(trigger_pstop_reset_service
         ${THIS_PACKAGE_INCLUDE_DEPENDS})
 
 find_package(moveit_pro_ml REQUIRED)
-target_link_libraries(trigger_pstop_reset_service onnx_sam2)
+target_link_libraries(trigger_pstop_reset_service onnx_sam2 onnx_clipseg)
 
 
 if(BUILD_TESTING)

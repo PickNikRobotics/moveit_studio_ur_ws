@@ -1,9 +1,8 @@
-<?xml version="1.0" ?>
 <root BTCPP_format="4" main_tree_to_execute="Teach Grasp Offset From Apriltag">
   <BehaviorTree
     ID="Teach Grasp Offset From Apriltag"
     _description="Saves a grasp offset to yaml file from Apriltag observation using an interactive marker"
-    _favorite="true"
+    _favorite="false"
   >
     <Control ID="Sequence" name="root">
       <Action

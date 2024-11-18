@@ -4,6 +4,7 @@
 
 #include <trigger_pstop_reset_service/trigger_pstop_reset_service.hpp>
 #include <sam2_segmentation/sam2_segmentation.hpp>
+#include <clipseg_segmentation/clipseg_segmentation.hpp>
 
 #include <pluginlib/class_list_macros.hpp>
 
@@ -16,6 +17,7 @@ public:
   {
     moveit_studio::behaviors::registerBehavior<TriggerPStopResetService>(factory, "TriggerPStopResetService", shared_resources);
     moveit_studio::behaviors::registerBehavior<SAM2Segmentation>(factory, "SAM2Segmentation", shared_resources);
+    moveit_studio::behaviors::registerBehavior<ClipSegSegmentation>(factory, "ClipSegSegmentation", shared_resources);
 
   }
 };
