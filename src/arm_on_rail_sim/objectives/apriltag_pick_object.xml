@@ -28,19 +28,39 @@
         topic_name="/wrist_camera/color"
         message_out="{image}"
       />
-      <Action
-        ID="DetectAprilTags"
+      <SubTree
+        ID="Get AprilTag Pose from Image"
         image="{image}"
         camera_info="{camera_info}"
         parameters="{parameters}"
-        detections="{detections}"
+        _collapsed="true"
+        detection_pose="{detection_pose}"
       />
-      <Action ID="GetDetectionPose" />
-      <Action ID="TransformPoseFrame" input_pose="{detection_pose}" />
+      <Action
+        ID="TransformPose"
+        output_pose="{view_pose}"
+        input_pose="{detection_pose}"
+        quaternion_xyzw="0;0;0;1"
+        translation_xyz="0;-0.1;-0.15"
+      />
+      <SubTree
+        ID="Plan Move To Pose"
+        target_pose="{view_pose}"
+        move_to_pose_solution="{move_to_pose_solution}"
+      />
+      <Action ID="ExecuteMTCTask" solution="{move_to_pose_solution}" />
+      <SubTree
+        ID="Get AprilTag Pose from Image"
+        image="{image}"
+        camera_info="{camera_info}"
+        parameters="{parameters}"
+        _collapsed="true"
+        detection_pose="{detection_pose}"
+      />
       <Action
         ID="TransformPose"
         output_pose="{offset_pose}"
-        input_pose="{output_pose}"
+        input_pose="{detection_pose}"
         quaternion_xyzw="0;0;0;1"
         translation_xyz="0;0;-0.01"
       />
@@ -70,10 +90,6 @@
     </Control>
   </BehaviorTree>
   <TreeNodesModel>
-    <SubTree ID="Pick April Tag Labeled Object">
-      <MetadataFields>
-        <Metadata subcategory="Application - Advanced Examples" />
-      </MetadataFields>
-    </SubTree>
+    <SubTree ID="Pick April Tag Labeled Object" />
   </TreeNodesModel>
 </root>
