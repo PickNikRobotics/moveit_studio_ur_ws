@@ -6,26 +6,7 @@
     _subtreeOnly="true"
   >
     <Control ID="Sequence">
-      <Action
-        ID="InitializeMTCTask"
-        task_id="move_to_pose"
-        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
-        task="{move_to_pose_task}"
-      />
-      <Action ID="SetupMTCCurrentState" task="{move_to_pose_task}" />
-      <Action
-        ID="SetupMTCMoveToPose"
-        ik_frame="grasp_link"
-        planning_group_name="manipulator"
-        target_pose="{target_pose}"
-        task="{move_to_pose_task}"
-        planner_interface="moveit_default"
-      />
-      <Action
-        ID="PlanMTCTask"
-        solution="{move_to_pose_solution}"
-        task="{move_to_pose_task}"
-      />
+      <SubTree ID="Plan Move To Pose" target_pose="{target_pose}" />
       <SubTree
         ID="Wait for Trajectory Approval if User Available"
         solution="{move_to_pose_solution}"
@@ -36,9 +17,6 @@
   <TreeNodesModel>
     <SubTree ID="Move to Pose">
       <input_port name="target_pose" default="{target_pose}" />
-      <MetadataFields>
-        <Metadata subcategory="Motion - Execute" />
-      </MetadataFields>
     </SubTree>
   </TreeNodesModel>
 </root>

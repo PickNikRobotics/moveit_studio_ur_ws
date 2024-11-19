@@ -1,0 +1,41 @@
+<root BTCPP_format="4" main_tree_to_execute="Get AprilTag Pose from Image">
+  <!-- ////////// -->
+  <BehaviorTree ID="Get AprilTag Pose from Image">
+    <Control ID="Sequence">
+      <!--Get tag pose estimate in world frame-->
+      <Action
+        ID="DetectAprilTags"
+        image="{image}"
+        camera_info="{camera_info}"
+        parameters="{parameters}"
+        detections="{detections}"
+      />
+      <Action
+        ID="GetImage"
+        topic_name="/wrist_camera/color"
+        message_out="{image}"
+      />
+      <Action
+        ID="DetectAprilTags"
+        image="{image}"
+        camera_info="{camera_info}"
+        parameters="{parameters}"
+        detections="{detections}"
+      />
+      <Action ID="GetDetectionPose" />
+      <Action
+        ID="TransformPoseFrame"
+        input_pose="{detection_pose}"
+        output_pose="{detection_pose}"
+      />
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Get AprilTag Pose from Image">
+      <input_port name="image" default="{image}" />
+      <input_port name="camera_info" default="{camera_info}" />
+      <input_port name="parameters" default="{parameters}" />
+      <output_port name="detection_pose" default="{detection_pose}" />
+    </SubTree>
+  </TreeNodesModel>
+</root>
