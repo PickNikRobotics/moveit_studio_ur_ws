@@ -1,0 +1,34 @@
+  <?xml version="1.0"?>
+  <robot name="robotiq_2f_85">
+  <link name="robotiq_85_base_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://robotiq_description/meshes/visual/2f_85/robotiq_base.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://robotiq_description/meshes/collision/2f_85/robotiq_base.stl"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.0 2.274e-05 0.03232288"/>
+      <mass value="6.6320197e-01"/>
+      <inertia ixx="5.1617816e-04" ixy="2.936e-8" ixz="0.0" iyy="5.8802208e-04" iyz="-3.2296e-7" izz="3.9462776e-04"/>
+    </inertial>
+  </link>
+  <link name="tool_tip">
+    <collision>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tool_joint" type="prismatic">
+    <axis xyz="0 0 1"/>
+    <limit effort="1000.0" lower="-1.0" upper="1.0" velocity="0.5" acceleration="1.0"/>
+    <origin rpy="0 0 0" xyz="0.0 0.0 0.1"/>
+    <parent link="robotiq_85_base_link"/>
+    <child link="tool_tip"/>
+  </joint>
+</robot>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Test Add Tool">
+  <!--//////////-->
+  <BehaviorTree ID="Test Add Tool" _description="" _favorite="false">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action
+        ID="CreateStampedPose"
+        position_xyz="0.0;0.0;0.2"
+        reference_frame="gripper_mount_link"
+      />
+      <Action
+        ID="AddToolToScene"
+        tool_urdf_file_path="robotiq_base_link.urdf"
+        relative_pose="{pose_stamped}"
+        tool_name="robotiq_gripper"
+      />
+      <!--<Action ID="AttachTool" parent_link_name="gripper_mount_link" tool_name="robotiq_gripper"/>-->
+      <!--<Decorator ID="Delay" delay_msec="2000">-->
+      <!--<Action ID="DetachTool" tool_name="robotiq_gripper"/>-->
+      <!--</Decorator>-->
+      <!--<Action ID="RemoveToolFromScene" tool_name="robotiq_gripper"/>-->
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Test Add Tool" />
+  </TreeNodesModel>
+</root>
