@@ -1,5 +1,6 @@
 import rclpy
 from rclpy.node import Node
+from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 from PIL import Image as PilImage, ImageDraw, ImageFont
@@ -8,7 +9,11 @@ import numpy as np
 class DashboardPublisher(Node):
     def __init__(self):
         super().__init__('dashboard_publisher')
-        self.publisher_ = self.create_publisher(Image, 'dashboard_image', 10)
+
+        # Define the QoS profile with SERVICES_DEFAULT settings
+        qos_profile = QoSProfile(depth=10, reliability=QoSReliabilityPolicy.RELIABLE, history=QoSHistoryPolicy.KEEP_LAST)
+
+        self.publisher_ = self.create_publisher(Image, 'dashboard_image', qos_profile)
         self.battery_percent = 100
         timer_period = 3.0  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
@@ -36,7 +41,9 @@ class DashboardPublisher(Node):
         
         # Publish the message
         self.publisher_.publish(ros_image)
-        self.get_logger().info(f"Published an image with 'Battery {self.battery_percent}%'")
+        self.get_logger().info(f"Published 1x an image with 'Battery {self.battery_percent}%'")
+        # self.publisher_.publish(ros_image)
+        # self.get_logger().info(f"Published 2x an image with 'Battery {self.battery_percent}%'")
         
         # Decrement battery life or reset to 100%
         self.battery_percent = self.battery_percent - 3 if self.battery_percent > 2 else 100
