@@ -1,0 +1,23 @@
+SetupMTCGraspAndTwistThenMoveAlongArcPush:
+  arm_group_name: "manipulator"
+  end_effector_group_name: "gripper"
+  ik_frame_name: "grasp_link"
+
+  # List of controllers to use during the stages that interact with the door.
+  move_along_arc_controllers: "/joint_trajectory_controller_chained_open_door /admittance_controller_open_door /robotiq_gripper_controller"
+
+  # The hand should be placed 75% of the way down the handle length when
+  # manipulating the handle. Valid value range [0, 1.0].
+  handle_grasp_offset_percent: 0.75
+  # The distance above the handle the robot should approach with before
+  # manipulating it.
+  above_handle_approach_distance: 0.03 # meters
+  # The distance the hand should move past the end of the handle to release it.
+  release_handle_distance: 0.03 # meters
+  # How many degrees to rotate the lever handle (use positive value for
+  # counter-clockwise rotation and negative value for clockwise rotation).
+  handle_twist_angle: 45.0  # degrees
+  approach_max_distance: 0.05   # meters
+  approach_min_distance: 0.01   # meters
+  push_open_distance: 0.05  # meters
+  use_circular_arc: true

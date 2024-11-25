@@ -1,0 +1,29 @@
+based_on_package: "picknik_ur_base_config"
+
+hardware:
+  simulated: True
+
+  # Update robot description for machine tending world.
+  robot_description:
+    urdf:
+      package: "picknik_ur_mock_hw_config"
+      path: "description/picknik_ur_machine_tending.xacro"
+    srdf:
+      package: "picknik_ur_mock_hw_config"
+      path: "config/moveit/picknik_ur_machine_tending.srdf"
+
+moveit_params:
+  servo:
+    package: "picknik_ur_mock_hw_config"
+    path: "config/moveit/ur_servo.yaml"
+
+objectives:
+  waypoints_file:
+    package_name: "picknik_ur_mock_hw_config"
+    relative_path: "waypoints/machine_tending_waypoints.yaml"
+  objective_library_paths:
+    # You must use a unique key for each package.
+    # The picknik_ur_base_config uses "core"
+    mock_hardware_objectives:
+      package_name: "picknik_ur_mock_hw_config"
+      relative_path: "objectives"

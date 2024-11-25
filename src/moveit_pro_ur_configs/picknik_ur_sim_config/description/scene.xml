@@ -1,0 +1,83 @@
+<!-- UR5e inspired from https://github.com/google-deepmind/mujoco_menagerie/tree/main/universal_robots_ur5e -->
+<mujoco model="ur5e scene">
+  <include file="ur5e/ur5e_linear_rail_globals.xml" />
+  <include file="lab_desk/desk_globals.xml" />
+  <include file="robotiq_2f85/robotiq2f85_globals.xml" />
+
+  <compiler angle="radian" autolimits="true" />
+
+  <option integrator="implicitfast" />
+
+  <asset>
+    <mesh name="cube" file="assets/Cube.stl" />
+  </asset>
+
+  <worldbody>
+    <light pos="0 0 1.5" dir="0 0 -1" directional="true" />
+
+    <light
+      name="spotlight"
+      mode="targetbodycom"
+      target="wrist_2_link"
+      pos="0 -1 2"
+    />
+    <geom
+      name="floor"
+      pos="0 0 0"
+      size="0 0 0.05"
+      type="plane"
+      material="groundplane"
+    />
+    <!-- Scene Camera -->
+    <site
+      name="scene_camera_optical_frame"
+      pos="0.0 1.6 1.6"
+      euler="2.2415 0 3.1415"
+    />
+    <camera
+      name="scene_camera"
+      pos="0.0 1.6 1.6"
+      fovy="58"
+      mode="fixed"
+      resolution="640 480"
+      euler="-0.9 0 3.1415"
+    />
+    <!-- Define the table -->
+    <body name="table" pos="0 1 0.45">
+      <geom type="box" size="0.5 0.5 0.025" material="wood" />
+    </body>
+    <!-- Define the block with AprilTags on each face -->
+    <body name="block1" pos="0.2 0.75 0.575">
+      <freejoint name="block1" />
+      <geom
+        type="box"
+        size="0.025 0.025 0.025"
+        rgba="1 1 1 1"
+        material="apriltag_material1"
+      />
+    </body>
+    <body name="block2" pos="0.0 0.75 0.575">
+      <freejoint name="block2" />
+      <geom class="visual" mesh="cube" pos="0 0 -0.03" />
+      <geom class="collision" type="box" size="0.025 0.025 0.025" pos="0 0 0" />
+    </body>
+    <body name="block3" pos="-0.2 0.75 0.575">
+      <freejoint name="block3" />
+      <geom
+        type="box"
+        size="0.025 0.025 0.025"
+        rgba="1 1 1 1"
+        material="apriltag_material2"
+      />
+    </body>
+    <include file="ur5e/ur5e_linear_rail.xml" />
+  </worldbody>
+
+  <keyframe>
+    <key
+      qpos="0.2 0.75 0.499784 1 0 0 0 1.69383e-05 0.749992 0.499785 1 0.00016562 0.000360588 4.25222e-12 -0.2 0.75 0.499784 1 0 0 0 0 0 -1.00347 1.06907 -1.57068 -1.57 0 0.0208263 0.000536897 0.0221041 -0.0228697 0.0208402 0.000547099 0.0221447 -0.0229419"
+      qvel="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+      ctrl="0 -1.00528 1.06828 -1.57075 -1.57 0 0 0"
+    />
+  </keyframe>
+</mujoco>

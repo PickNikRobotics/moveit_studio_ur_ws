@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="environment" params="parent">
+    <!-- Import environment macros -->
+    <xacro:include
+      filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro"
+    />
+    <xacro:include
+      filename="$(find picknik_accessories)/descriptions/geometry/visual/cube_visual.urdf.xacro"
+    />
+
+    <!-- CNC machine -->
+    <link name="cnc_machine">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="file://$(find picknik_ur_mock_hw_config)/meshes/cnc.dae"
+            scale="1 1 1"
+          />
+        </geometry>
+      </visual>
+      <!-- CNC base collision -->
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="file://$(find picknik_ur_mock_hw_config)/meshes/cnc-collision.dae"
+            scale="1 1 1"
+          />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="cnc_machine_joint" type="fixed">
+      <parent link="${parent}" />
+      <child link="cnc_machine" />
+      <origin xyz="-0.1 -1.25 -0.8" rpy="0 0 3.14" />
+    </joint>
+
+    <!-- Robot base -->
+    <link name="robot_base">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="file://$(find picknik_ur_mock_hw_config)/meshes/base.dae"
+            scale="1 1 1"
+          />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="file://$(find picknik_ur_mock_hw_config)/meshes/base.dae"
+            scale="1 1 1"
+          />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="robot_base_joint" type="fixed">
+      <parent link="${parent}" />
+      <child link="robot_base" />
+      <origin xyz="0 0 -0.8" rpy="0 0 3.14" />
+    </joint>
+
+    <!-- Hexagonal tables -->
+    <link name="left_hexagonal_table">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="file://$(find picknik_ur_mock_hw_config)/meshes/table.dae"
+            scale="1 1 1"
+          />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="file://$(find picknik_ur_mock_hw_config)/meshes/table-collision.dae"
+            scale="1 1 1"
+          />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="left_hexagonal_table_joint" type="fixed">
+      <parent link="${parent}" />
+      <child link="left_hexagonal_table" />
+      <origin xyz="0.8 0 -0.8" rpy="0 0 3.14" />
+    </joint>
+
+    <link name="right_hexagonal_table">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="file://$(find picknik_ur_mock_hw_config)/meshes/table.dae"
+            scale="1 1 1"
+          />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="file://$(find picknik_ur_mock_hw_config)/meshes/table-collision.dae"
+            scale="1 1 1"
+          />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="right_hexagonal_table_joint" type="fixed">
+      <parent link="${parent}" />
+      <child link="right_hexagonal_table" />
+      <origin xyz="-0.8 0 -0.8" rpy="0 0 3.14" />
+    </joint>
+
+    <!-- Cylinder items -->
+    <link name="left_cylinder_item">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="file://$(find picknik_ur_mock_hw_config)/meshes/cylinder-item.dae"
+            scale="1 1 1"
+          />
+        </geometry>
+      </visual>
+      <!-- No collision geometry so the gripper can overlap with the object. -->
+    </link>
+
+    <joint name="left_cylinder_item_joint" type="fixed">
+      <parent link="${parent}" />
+      <child link="left_cylinder_item" />
+      <origin xyz="0.73 0.06 -0.30" rpy="0 0 3.14" />
+    </joint>
+
+    <link name="right_cylinder_item">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="file://$(find picknik_ur_mock_hw_config)/meshes/cylinder-item.dae"
+            scale="1 1 1"
+          />
+        </geometry>
+      </visual>
+      <!-- No collision geometry so the gripper can overlap with the object. -->
+    </link>
+
+    <joint name="right_cylinder_item_joint" type="fixed">
+      <parent link="${parent}" />
+      <child link="right_cylinder_item" />
+      <origin xyz="-0.73 0.06 -0.30" rpy="0 0 3.14" />
+    </joint>
+  </xacro:macro>
+</robot>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Sample April Tag">
+  <!-- ////////// -->
+  <BehaviorTree
+    ID="Sample April Tag"
+    _description="Samples the pose of an AprilTag and returns the average measurement."
+    _favorite="false"
+  >
+    <Decorator ID="Repeat" num_cycles="{num_samples}" name="SamplePose">
+      <Control ID="Sequence">
+        <Action
+          ID="LoadObjectiveParameters"
+          config_file_name="{apriltag_config}"
+          parameters="{parameters}"
+        />
+        <Action
+          ID="GetCameraInfo"
+          topic_name="/wrist_mounted_camera/color/camera_info"
+          message_out="{camera_info}"
+        />
+        <Decorator ID="RetryUntilSuccessful" num_attempts="5">
+          <Control ID="Sequence">
+            <Action
+              ID="GetImage"
+              topic_name="/wrist_mounted_camera/color/image_raw"
+              message_out="{image}"
+            />
+            <Action
+              ID="DetectAprilTags"
+              image="{image}"
+              camera_info="{camera_info}"
+              parameters="{parameters}"
+              detections="{detections}"
+            />
+            <Action
+              ID="GetDetectionPose"
+              detections="{detections}"
+              target_id="{tag_id}"
+              target_label=""
+              detection_pose="{detection_pose}"
+            />
+          </Control>
+        </Decorator>
+        <Action
+          ID="AveragePoseStamped"
+          pose_sample="{detection_pose}"
+          avg_pose="{avg_pose}"
+          max_distance="{max_distance}"
+          max_rotation="{max_rotation}"
+          num_samples="{num_samples}"
+          run_continuously="false"
+        />
+      </Control>
+    </Decorator>
+  </BehaviorTree>
+</root>

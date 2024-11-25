@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Cycle Between Waypoints">
+  <BehaviorTree
+    ID="Cycle Between Waypoints"
+    _description="Example of repeatedly moving between two saved poses."
+    _favorite="true"
+  >
+    <Decorator ID="KeepRunningUntilFailure">
+      <Control ID="Sequence">
+        <SubTree
+          ID="Move to Waypoint"
+          waypoint_name="Grasp Left"
+          joint_group_name="manipulator"
+          controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+          planner_interface="pro_rrt"
+        />
+        <SubTree
+          ID="Move to Waypoint"
+          waypoint_name="Grasp Right"
+          joint_group_name="manipulator"
+          controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+          planner_interface="pro_rrt"
+        />
+      </Control>
+    </Decorator>
+  </BehaviorTree>
+</root>

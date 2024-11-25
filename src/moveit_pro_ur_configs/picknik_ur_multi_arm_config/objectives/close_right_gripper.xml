@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<root BTCPP_format="4" main_tree_to_execute="Close First Gripper">
+  <BehaviorTree ID="Close First Gripper" _description="Close the first gripper">
+    <Control ID="Sequence" name="root">
+      <Action
+        ID="MoveGripperAction"
+        gripper_command_action_name="/first_robotiq_gripper_controller/gripper_cmd"
+        position="0.7929"
+      />
+    </Control>
+  </BehaviorTree>
+</root>

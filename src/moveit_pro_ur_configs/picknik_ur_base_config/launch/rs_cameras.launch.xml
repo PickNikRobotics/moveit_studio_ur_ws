@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<launch>
+  <arg name="scene_camera_serial_no" default="'0'" />
+  <arg name="wrist_mounted_camera_serial_no" default="'0'" />
+
+  <!-- Scene camera  -->
+  <include
+    file="$(find-pkg-share picknik_ur_base_config)/launch/pro_rs_launch.py"
+  >
+    <arg name="camera_name" value="scene_camera" />
+    <arg name="serial_no" value="$(var scene_camera_serial_no)" />
+    <arg name="device_type" value="D415" />
+    <arg name="depth_module.profile" value="640x480x6" />
+    <arg name="rgb_camera.profile" value="640x480x6" />
+    <arg name="pointcloud.enable" value="True" />
+    <arg name="pointcloud.ordered_pc" value="True" />
+    <arg name="decimation_filter.enable" value="False" />
+
+    <!--# information about the topics the camera publishes the raw image and info-->
+    <arg name="rgb_info" value="/scene_camera/color/camera_info" />
+    <arg name="rgb_image" value="/scene_camera/color/image_raw" />
+    <arg
+      name="registered_rgb_depth_pair.depth_info"
+      value="/scene_camera/color/camera_info"
+    />
+    <arg
+      name="registered_rgb_depth_pair.depth_image"
+      value="/scene_camera/depth/image_rect_raw"
+    />
+    <arg
+      name="registered_rgb_depth_pair.registered_info"
+      value="/scene_camera/color/camera_info"
+    />
+    <arg
+      name="registered_rgb_depth_pair.registered_image"
+      value="/scene_camera/depth/image_rect_raw"
+    />
+  </include>
+
+  <!-- Wrist camera  -->
+  <include
+    file="$(find-pkg-share picknik_ur_base_config)/launch/pro_rs_launch.py"
+  >
+    <arg name="camera_name" value="wrist_mounted_camera" />
+    <arg name="serial_no" value="$(var wrist_mounted_camera_serial_no)" />
+    <arg name="device_type" value="D415" />
+    <arg name="depth_module.profile" value="640x480x6" />
+    <arg name="pointcloud.enable" value="True" />
+    <arg name="pointcloud.ordered_pc" value="True" />
+    <arg name="decimation_filter.enable" value="False" />
+
+    <!-- information about the topics the camera publishes the raw image and info -->
+    <arg name="rgb_info" value="/wrist_mounted_camera/color/camera_info" />
+    <arg name="rgb_image" value="/wrist_mounted_camera/color/image_raw" />
+
+    <!-- By adding registered_rgb_depth_pair, This camera can be used for "Set Transform From Click" -->
+    <arg
+      name="registered_rgb_depth_pair.depth_info"
+      value="/wrist_mounted_camera/depth/camera_info"
+    />
+    <arg
+      name="registered_rgb_depth_pair.depth_image"
+      value="/wrist_mounted_camera/depth/image_rect_raw"
+    />
+    <arg
+      name="registered_rgb_depth_pair.registered_info"
+      value="/wrist_mounted_camera/depth_registered/camera_info"
+    />
+    <arg
+      name="registered_rgb_depth_pair.registered_image"
+      value="/wrist_mounted_camera/depth_registered/image_rect"
+    />
+  </include>
+</launch>

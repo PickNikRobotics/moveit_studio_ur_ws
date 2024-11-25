@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Register CAD Part">
+  <!--//////////-->
+  <BehaviorTree ID="Register CAD Part" _description="" _favorite="true">
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action ID="ClearSnapshot" />
+      <SubTree ID="Look at table" _collapsed="true" />
+      <Action
+        ID="CreateStampedPose"
+        position_xyz="0.02;.75;0.58"
+        orientation_xyzw="0;0;0;1"
+        name="Initial Guess"
+      />
+      <SubTree
+        ID="Load Mesh as Red Pointcloud"
+        _collapsed="false"
+        output_cloud="{red_cloud}"
+        initial_pose="{stamped_pose}"
+        point_cloud="{red_cloud}"
+      />
+      <Action ID="SendPointCloudToUI" point_cloud="{red_cloud}" />
+      <Action
+        ID="GetPointCloud"
+        topic_name="/wrist_camera/points"
+        message_out="{wrist_point_cloud}"
+      />
+      <Action
+        ID="TransformPointCloudFrame"
+        input_cloud="{wrist_point_cloud}"
+        output_cloud="{wrist_point_cloud}"
+      />
+      <Action ID="SendPointCloudToUI" point_cloud="{wrist_point_cloud}" />
+      <Action
+        ID="RegisterPointClouds"
+        target_point_cloud="{wrist_point_cloud}"
+        base_point_cloud="{red_cloud}"
+        max_correspondence_distance="0.5"
+        max_iterations="100"
+      />
+      <SubTree
+        ID="Load Mesh as Green Pointcloud"
+        _collapsed="false"
+        output_cloud="{green_cloud}"
+        initial_pose="{stamped_pose}"
+        point_cloud="{green_cloud}"
+      />
+      <Action
+        ID="TransformPointCloud"
+        input_cloud="{green_cloud}"
+        transform_pose="{target_pose}"
+        output_cloud="{output_cloud_aligned}"
+      />
+      <Action ID="SendPointCloudToUI" point_cloud="{output_cloud_aligned}" />
+    </Control>
+  </BehaviorTree>
+</root>

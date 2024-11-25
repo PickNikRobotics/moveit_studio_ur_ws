@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Move to Pose">
+  <BehaviorTree
+    ID="Move to Pose"
+    _description="Uses inverse kinematics to move the robot to a set gripper position"
+  >
+    <Control ID="Sequence">
+      <Action
+        ID="InitializeMTCTask"
+        task_id="move_to_pose"
+        controller_names="/multi_arm_joint_trajectory_controller"
+        task="{move_to_pose_task}"
+      />
+      <Action ID="SetupMTCCurrentState" task="{move_to_pose_task}" />
+      <Action
+        ID="SetupMTCMoveToPose"
+        ik_frame="first_grasp_link"
+        planning_group_name="first_manipulator"
+        target_pose="{target_pose}"
+        task="{move_to_pose_task}"
+        planner_interface="moveit_default"
+      />
+      <Action
+        ID="PlanMTCTask"
+        solution="{move_to_pose_solution}"
+        task="{move_to_pose_task}"
+      />
+      <SubTree
+        ID="Wait for Trajectory Approval if User Available"
+        solution="{move_to_pose_solution}"
+      />
+      <Action ID="ExecuteMTCTask" solution="{move_to_pose_solution}" />
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Move to Pose">
+      <input_port name="target_pose" default="{target_pose}" />
+    </SubTree>
+  </TreeNodesModel>
+</root>

@@ -1,0 +1,128 @@
+<!-- UR5e inspired from https://github.com/google-deepmind/mujoco_menagerie/tree/main/universal_robots_ur5e -->
+<mujoco model="ur5e scene">
+  <include file="ur5e.xml" />
+
+  <asset>
+    <!-- Define textures and materials -->
+    <texture name="wood" type="cube" file="assets/wood.png" />
+    <material name="wood" texture="wood" texrepeat="1 1" />
+
+    <!-- Define AprilTag textures -->
+    <texture name="apriltag1" type="2d" file="assets/tag36_11_00000.png" />
+    <texture name="apriltag2" type="2d" file="assets/tag36_11_00001.png" />
+
+    <!-- Define block materials with AprilTags -->
+    <material
+      name="apriltag_material1"
+      texture="apriltag1"
+      texuniform="false"
+    />
+    <material
+      name="apriltag_material2"
+      texture="apriltag2"
+      texuniform="false"
+    />
+  </asset>
+
+  <statistic center="0.3 0 0.4" extent="0.8" />
+
+  <visual>
+    <headlight diffuse="0.6 0.6 0.6" ambient="0.1 0.1 0.1" specular="0 0 0" />
+    <rgba haze="0.15 0.25 0.35 1" />
+    <global azimuth="120" elevation="-20" />
+  </visual>
+
+  <asset>
+    <texture
+      type="skybox"
+      builtin="gradient"
+      rgb1="0.3 0.5 0.7"
+      rgb2="0 0 0"
+      width="512"
+      height="3072"
+    />
+    <texture
+      type="2d"
+      name="groundplane"
+      builtin="checker"
+      mark="edge"
+      rgb1="0.2 0.3 0.4"
+      rgb2="0.1 0.2 0.3"
+      markrgb="0.8 0.8 0.8"
+      width="300"
+      height="300"
+    />
+    <material
+      name="groundplane"
+      texture="groundplane"
+      texuniform="true"
+      texrepeat="5 5"
+      reflectance="0.2"
+    />
+  </asset>
+  <asset>
+    <mesh name="cube" file="assets/Cube.stl" />
+  </asset>
+
+  <worldbody>
+    <light pos="0 0 1.5" dir="0 0 -1" directional="true" />
+    <geom
+      name="floor"
+      pos="0 0 0"
+      size="0 0 0.05"
+      type="plane"
+      material="groundplane"
+    />
+    <!-- Define the table -->
+    <body name="table" pos="0 1 0.45">
+      <geom type="box" size="0.5 0.5 0.025" material="wood" />
+    </body>
+    <!-- Define the block with AprilTags on each face -->
+    <body name="block1" pos="0.2 0.75 0.575">
+      <freejoint name="block1" />
+      <geom
+        type="box"
+        size="0.025 0.025 0.025"
+        rgba="1 1 1 1"
+        material="apriltag_material1"
+      />
+    </body>
+    <body name="block2" pos="0.0 0.75 0.575">
+      <freejoint name="block2" />
+      <geom class="visual" mesh="cube" pos="0 0 -0.03" />
+      <geom class="collision" type="box" size="0.025 0.025 0.025" pos="0 0 0" />
+    </body>
+    <body name="block3" pos="-0.2 0.75 0.575">
+      <freejoint name="block3" />
+      <geom
+        type="box"
+        size="0.025 0.025 0.025"
+        rgba="1 1 1 1"
+        material="apriltag_material2"
+      />
+    </body>
+  </worldbody>
+
+  <keyframe>
+    <!-- qpos -->
+    <!-- linear_rail, shoulder_pan, shoulder_lift, elbow, wrist_1, wrist_2, wrist_3 -->
+    <!-- right_knuckle, right_finger, right_inner_knuckle, right_finger_tip, left_knuckle, left_finger, left_inner_knuckle, left_finger_tip -->
+    <!-- block1 [x, y, z, qw, qx, qy, qz] -->
+    <!-- block2 [x, y, z, qw, qx, qy, qz] -->
+    <!-- block3 [x, y, z, qw, qx, qy, qz] -->
+    <!-- ctrl -->
+    <!-- linear_rail, shoulder_pan, shoulder_lift, elbow, wrist_1, wrist_2, wrist_3, robotiq_85_left_knuckle_joint -->
+    <key
+      qpos="
+      0 0 -1.5707 1.5707 -1.8 -1.5707 0
+      0 0 0 0 0 0 0 0
+      0.2 0.75 0.51 1 0 0 0
+      0.0 0.75 0.51 1 0 0 0
+      -0.2 0.75 0.51 1 0 0 0
+    "
+      ctrl="
+      0 0 -1.0 1.0 -1.57 -1.57 0 0
+    "
+    />
+  </keyframe>
+</mujoco>

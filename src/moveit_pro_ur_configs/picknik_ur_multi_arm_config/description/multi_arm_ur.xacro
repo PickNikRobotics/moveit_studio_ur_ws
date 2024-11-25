@@ -1,0 +1,265 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
+  <!-- parameters -->
+  <xacro:arg name="use_fake_hardware" default="false" />
+  <xacro:arg name="external_camera" default="false" />
+  <xacro:arg name="has_tool_changer" default="true" />
+  <xacro:arg name="use_pinch_links" default="true" />
+  <xacro:arg name="name" default="" />
+  <xacro:arg name="joint_limits_parameters_file" default="" />
+  <xacro:arg name="kinematics_parameters_file" default="" />
+  <xacro:arg name="physical_parameters_file" default="" />
+  <xacro:arg name="visual_parameters_file" default="" />
+  <xacro:arg name="headless_mode" default="false" />
+  <xacro:arg name="robot_ip" default="0.0.0.0" />
+  <xacro:arg name="use_tool_communication" default="false" />
+  <xacro:arg name="tool_voltage" default="0" />
+  <xacro:arg name="tool_device_name" default="/dev/ttyUSB0" />
+
+  <xacro:if value="$(arg has_tool_changer)">
+    <xacro:property name="camera_adapter_parent" value="tool_changer_tool0" />
+  </xacro:if>
+  <xacro:unless value="$(arg has_tool_changer)">
+    <xacro:property name="camera_adapter_parent" value="tool0" />
+  </xacro:unless>
+
+  <!-- ur3e -->
+  <xacro:arg
+    name="ur3e_kinematics_parameters_file"
+    default="$(find ur_description)/config/ur3e/default_kinematics.yaml"
+  />
+  <xacro:arg
+    name="ur3e_physical_parameters_file"
+    default="$(find ur_description)/config/ur3e/physical_parameters.yaml"
+  />
+  <xacro:arg
+    name="ur3e_visual_parameters_file"
+    default="$(find ur_description)/config/ur3e/visual_parameters.yaml"
+  />
+  <!-- ur5e -->
+  <xacro:arg
+    name="ur5e_kinematics_parameters_file"
+    default="$(find ur_description)/config/ur5e/default_kinematics.yaml"
+  />
+  <xacro:arg
+    name="ur5e_physical_parameters_file"
+    default="$(find ur_description)/config/ur5e/physical_parameters.yaml"
+  />
+  <xacro:arg
+    name="ur5e_visual_parameters_file"
+    default="$(find ur_description)/config/ur5e/visual_parameters.yaml"
+  />
+  <!-- ur10e -->
+  <xacro:arg
+    name="ur10e_kinematics_parameters_file"
+    default="$(find ur_description)/config/ur10e/default_kinematics.yaml"
+  />
+  <xacro:arg
+    name="ur10e_physical_parameters_file"
+    default="$(find ur_description)/config/ur10e/physical_parameters.yaml"
+  />
+  <xacro:arg
+    name="ur10e_visual_parameters_file"
+    default="$(find ur_description)/config/ur10e/visual_parameters.yaml"
+  />
+  <!-- ur16e -->
+  <xacro:arg
+    name="ur16e_kinematics_parameters_file"
+    default="$(find ur_description)/config/ur16e/default_kinematics.yaml"
+  />
+  <xacro:arg
+    name="ur16e_physical_parameters_file"
+    default="$(find ur_description)/config/ur16e/physical_parameters.yaml"
+  />
+  <xacro:arg
+    name="ur16e_visual_parameters_file"
+    default="$(find ur_description)/config/ur16e/visual_parameters.yaml"
+  />
+
+  <!-- Import macros for main hardware components -->
+  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro" />
+  <xacro:include
+    filename="$(find picknik_ur_base_config)/description/pinch_links.xacro"
+  />
+  <xacro:include
+    filename="$(find picknik_ur_base_config)/description/picknik_ur_attachments_macro.xacro"
+  />
+  <xacro:include
+    filename="$(find picknik_accessories)/descriptions/sensors/realsense_d435.urdf.xacro"
+  />
+
+  <!-- Initial positions for simulations (Mock Hardware and Gazebo) -->
+  <xacro:arg
+    name="initial_positions_file"
+    default="$(find picknik_ur_multi_arm_config)/config/initial_positions.yaml"
+  />
+  <xacro:property
+    name="initial_positions_file"
+    default="$(arg initial_positions_file)"
+  />
+
+  <!-- Import environment macros -->
+  <xacro:include
+    filename="$(find picknik_accessories)/descriptions/geometry/collision_and_visual/cube_collision_and_visual.urdf.xacro"
+  />
+  <xacro:include
+    filename="$(find picknik_accessories)/descriptions/geometry/visual/cube_visual.urdf.xacro"
+  />
+
+  <link name="world" />
+  <!-- FIRST ROBOT -->
+  <!-- arm -->
+  <xacro:ur_robot
+    name="ur3e"
+    tf_prefix="first_"
+    parent="world"
+    joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
+    kinematics_parameters_file="$(arg ur3e_kinematics_parameters_file)"
+    physical_parameters_file="$(arg ur3e_physical_parameters_file)"
+    visual_parameters_file="$(arg ur3e_visual_parameters_file)"
+    use_fake_hardware="$(arg use_fake_hardware)"
+    initial_positions="${xacro.load_yaml(initial_positions_file)}"
+    headless_mode="$(arg headless_mode)"
+    robot_ip="$(arg robot_ip)"
+    script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
+    output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
+    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
+  >
+    <origin xyz="0.0 -0.6 0" rpy="0 0 0" />
+  </xacro:ur_robot>
+
+  <xacro:picknik_ur_attachments
+    prefix="first"
+    parent="first_tool0"
+    child="first_grasp_link"
+    has_tool_changer="$(arg has_tool_changer)"
+  />
+
+  <!-- SECOND ROBOT -->
+  <!-- arm -->
+  <xacro:ur_robot
+    name="ur5e"
+    tf_prefix="second_"
+    parent="world"
+    joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
+    kinematics_parameters_file="$(arg ur5e_kinematics_parameters_file)"
+    physical_parameters_file="$(arg ur5e_physical_parameters_file)"
+    visual_parameters_file="$(arg ur5e_visual_parameters_file)"
+    use_fake_hardware="$(arg use_fake_hardware)"
+    initial_positions="${xacro.load_yaml(initial_positions_file)}"
+    headless_mode="$(arg headless_mode)"
+    robot_ip="$(arg robot_ip)"
+    script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
+    output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
+    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
+  >
+    <origin xyz="0 -0.2 0" rpy="0 0 0" />
+  </xacro:ur_robot>
+
+  <xacro:picknik_ur_attachments
+    prefix="second"
+    parent="second_tool0"
+    child="second_grasp_link"
+    has_tool_changer="$(arg has_tool_changer)"
+  />
+
+  <!-- THIRD ROBOT -->
+  <!-- arm -->
+  <xacro:ur_robot
+    name="ur10e"
+    tf_prefix="third_"
+    parent="world"
+    joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
+    kinematics_parameters_file="$(arg ur10e_kinematics_parameters_file)"
+    physical_parameters_file="$(arg ur10e_physical_parameters_file)"
+    visual_parameters_file="$(arg ur10e_visual_parameters_file)"
+    use_fake_hardware="$(arg use_fake_hardware)"
+    initial_positions="${xacro.load_yaml(initial_positions_file)}"
+    headless_mode="$(arg headless_mode)"
+    robot_ip="$(arg robot_ip)"
+    script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
+    output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
+    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
+  >
+    <origin xyz="0 0.2 0" rpy="0 0 0" />
+  </xacro:ur_robot>
+
+  <xacro:picknik_ur_attachments
+    prefix="third"
+    parent="third_tool0"
+    child="third_grasp_link"
+    has_tool_changer="$(arg has_tool_changer)"
+  />
+
+  <!-- FOURTH ROBOT -->
+  <!-- arm -->
+  <xacro:ur_robot
+    name="ur16e"
+    tf_prefix="fourth_"
+    parent="world"
+    joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
+    kinematics_parameters_file="$(arg ur16e_kinematics_parameters_file)"
+    physical_parameters_file="$(arg ur16e_physical_parameters_file)"
+    visual_parameters_file="$(arg ur16e_visual_parameters_file)"
+    use_fake_hardware="$(arg use_fake_hardware)"
+    initial_positions="${xacro.load_yaml(initial_positions_file)}"
+    headless_mode="$(arg headless_mode)"
+    robot_ip="$(arg robot_ip)"
+    script_filename="$(find ur_robot_driver)/resources/ros_control.urscript"
+    output_recipe_filename="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"
+    input_recipe_filename="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"
+  >
+    <origin xyz="0 0.6 0" rpy="0 0 0" />
+  </xacro:ur_robot>
+
+  <xacro:picknik_ur_attachments
+    prefix="fourth"
+    parent="fourth_tool0"
+    child="fourth_grasp_link"
+    has_tool_changer="$(arg has_tool_changer)"
+  />
+
+  <!-- ENVIRONMENT -->
+  <link name="environment">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://picknik_accessories/descriptions/furniture/generic_table/wood_block.dae"
+          scale="0.05 0.25 0.1"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://picknik_accessories/descriptions/furniture/generic_table/wood_block.dae"
+          scale="0.05 0.25 0.1"
+        />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="table_joint" type="fixed">
+    <parent link="world" />
+    <child link="environment" />
+    <origin rpy="0 0 0" xyz="0 0 -0.05" />
+  </joint>
+
+  <!-- External Camera -->
+  <link name="external_camera_link" />
+  <joint name="external_camera_joint" type="fixed">
+    <parent link="world" />
+    <child link="external_camera_link" />
+    <origin xyz="-0.3 0.3 1.0" rpy="0.0 0.4 0" />
+  </joint>
+
+  <xacro:realsense_d435
+    parent="external_camera_link"
+    name="scene_camera"
+    visible="false"
+  >
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:realsense_d435>
+</robot>

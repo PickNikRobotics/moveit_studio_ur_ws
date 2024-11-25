@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Open Lever Handle Door">
+  <BehaviorTree
+    ID="Open Lever Handle Door"
+    _description="Open a lever handle door by turning the handle and pushing the door"
+    _favorite="false"
+  >
+    <Control ID="Sequence" name="Setup">
+      <Action
+        ID="LoadObjectiveParameters"
+        config_file_name="open_door_lever_handle_MTC_config.yaml"
+        parameters="{parameters}"
+      />
+      <SubTree ID="Re-Zero Force-Torque Sensors" _collapsed="true" />
+      <SubTree ID="Update Admittance Controller" _collapsed="true" />
+      <Action
+        ID="GetPointCloud"
+        topic_name="/wrist_mounted_camera/depth/color/points"
+        message_out="{point_cloud}"
+        timeout_sec="5.000000"
+      />
+      <Action
+        ID="PublishPointCloud"
+        point_cloud="{point_cloud}"
+        point_cloud_topic="studio_vision_debug_snapshot"
+      />
+      <Action
+        ID="GetPointsFromUser"
+        view_name="/wrist_mounted_camera/color/image_raw"
+        point_names="handle_pivot; handle_tip"
+        point_prompts="Click on center of axis of handle;Click on end of handle"
+        pixel_coords="{pixel_coords}"
+      />
+      <Action
+        ID="GetPointCloud"
+        topic_name="/wrist_mounted_camera/depth/color/points"
+        message_out="{point_cloud}"
+        timeout_sec="5.000000"
+      />
+      <Action
+        ID="GetPoseFromPixelCoords"
+        point_cloud="{point_cloud}"
+        pixel_coords="{pixel_coords}"
+        downsample_fraction="0.1"
+        neighbor_radius="0.1"
+        output_poses="{handle_poses}"
+      />
+      <Action
+        ID="GetDoorHandle"
+        handle_poses="{handle_poses}"
+        point_cloud="{point_cloud}"
+        minimum_door_handle_depth="0.02"
+        target_output_frame_id="world"
+        target_handle_length="{handle_length}"
+        target_handle_pose="{handle_pose}"
+        target_handle_z_offset="{handle_z_offset}"
+      />
+      <!--Set up Subframes for MTC-->
+      <Action
+        ID="GetGraspAndTwistSubframes"
+        grasp_rotation_z_radians="1.5708"
+        target_grasp_pose="{handle_pose}"
+        grasp_and_twist_subframes="{grasp_and_twist_subframes}"
+      />
+      <Action
+        ID="CreateGraspableObject"
+        cuboid_object="{door_object}"
+        generate_side_faces="true"
+        generate_top_face="true"
+        generate_front_face="true"
+        object_id="lever_door"
+        dy="0.100000"
+        dx="0.100000"
+        dz="0.100000"
+        pose="{handle_pose}"
+      />
+      <!--Add the subframes to the Object-->
+      <Decorator
+        ID="ForEachObjectSubframe"
+        vector_in="{grasp_and_twist_subframes}"
+        out="{subframe}"
+      >
+        <Action
+          ID="AddSubframeToObject"
+          subframe="{subframe}"
+          graspable_object="{door_object}"
+        />
+      </Decorator>
+      <SubTree ID="Close Gripper" _collapsed="true" />
+      <Control ID="Sequence" name="OpenLeverHandleDoor">
+        <Action
+          ID="InitializeMTCTask"
+          task_id="open_lever_handle_door"
+          controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+          task="{open_lever_handle_door_task}"
+        />
+        <Action
+          ID="SetupMTCCurrentState"
+          task="{open_lever_handle_door_task}"
+        />
+        <Action
+          ID="SetupMTCGraspAndTwistThenMoveAlongArcPush"
+          graspable_object="{door_object}"
+          handle_length="{handle_length}"
+          handle_z_offset="{handle_z_offset}"
+          parameters="{parameters}"
+          task="{open_lever_handle_door_task}"
+        />
+        <Action
+          ID="PlanMTCTask"
+          solution="{open_lever_handle_door_solution}"
+          task="{open_lever_handle_door_task}"
+        />
+        <SubTree
+          ID="Wait for Trajectory Approval if User Available"
+          solution="{open_lever_handle_door_solution}"
+        />
+        <!--Whether task execution succeeds or fails, reset the controllers to disable admittance control.-->
+        <Control ID="IfThenElse" name="execute_and_reset_controllers">
+          <!--IF task execution succeeds-->
+          <Action
+            ID="ExecuteMTCTask"
+            solution="{open_lever_handle_door_solution}"
+          />
+          <!--THEN reset the controllers-->
+          <Action
+            ID="ActivateControllers"
+            controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+          />
+          <!--ELSE reset the controllers and return failure-->
+          <Control ID="Sequence">
+            <Action
+              ID="ActivateControllers"
+              controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+            />
+            <Action ID="AlwaysFailure" />
+          </Control>
+        </Control>
+      </Control>
+      <SubTree ID="Close Gripper" _collapsed="true" />
+    </Control>
+  </BehaviorTree>
+</root>

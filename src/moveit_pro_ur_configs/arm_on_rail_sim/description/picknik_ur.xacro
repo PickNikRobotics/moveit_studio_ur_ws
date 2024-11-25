@@ -1,0 +1,1246 @@
+<?xml version="1.0" ?>
+<robot name="ur5e" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="mujoco_model" default="description/scene.xml" />
+  <material name="aluminum">
+    <color rgba="0.5 0.5 0.5 1" />
+  </material>
+  <material name="plastic">
+    <color rgba="0.1 0.1 0.1 1" />
+  </material>
+  <link name="world" />
+  <joint name="tool_changer_joint" type="fixed">
+    <!-- The parent link must be read from the robot model it is attached to. -->
+    <parent link="tool0" />
+    <child link="tool_changer_link" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  <link name="tool_changer_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://picknik_accessories/descriptions/brackets/mtc_ur_tool_changer/mtc_ur3510_ur_toolchanger.dae"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://picknik_accessories/descriptions/brackets/mtc_ur_tool_changer/mtc_ur3510_ur_toolchanger_collision.stl"
+        />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tool_side_joint" type="fixed">
+    <parent link="tool_changer_link" />
+    <child link="tool_changer_tool0" />
+    <origin rpy="0 0 0" xyz="0 0 0.0331" />
+  </joint>
+  <link name="tool_changer_tool0" />
+  <joint name="realsense_camera_adapter_joint" type="fixed">
+    <!-- The parent link must be read from the robot model it is attached to. -->
+    <parent link="tool_changer_tool0" />
+    <child link="realsense_camera_adapter_link" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  <link name="realsense_camera_adapter_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://picknik_accessories/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur5_realsense_camera_adapter_rev2.dae"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://picknik_accessories/descriptions/brackets/ur_realsense_camera_adapter/picknik_ur5_realsense_camera_adapter_rev2_collision.stl"
+        />
+      </geometry>
+    </collision>
+  </link>
+  <link name="realsense_camera_adapter_tool0" />
+  <joint name="realsense_camera_adapter_tool0_joint" type="fixed">
+    <parent link="realsense_camera_adapter_link" />
+    <child link="realsense_camera_adapter_tool0" />
+    <origin rpy="0 0 0" xyz="0 0 0.007" />
+  </joint>
+  <link name="d415_mount_link" />
+  <joint name="d415_mount_joint" type="fixed">
+    <parent link="realsense_camera_adapter_link" />
+    <child link="d415_mount_link" />
+    <origin
+      rpy="0 -1.4660765716752369 1.5707963267948966"
+      xyz="0 -0.067 0.0171"
+    />
+  </joint>
+  <link name="l515_mount_link" />
+  <joint name="l515_mount_joint" type="fixed">
+    <parent link="realsense_camera_adapter_link" />
+    <child link="l515_mount_link" />
+    <origin
+      rpy="0 -1.4660765716752369 1.5707963267948966"
+      xyz="0 -0.0406 0.0173"
+    />
+  </joint>
+  <!-- camera body, with origin at bottom screw mount -->
+  <joint name="wrist_mounted_camera_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="d415_mount_link" />
+    <child link="wrist_mounted_camera_bottom_screw_frame" />
+  </joint>
+  <link name="wrist_mounted_camera_bottom_screw_frame" />
+  <joint name="wrist_mounted_camera_link_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0.02 0.0115" />
+    <parent link="wrist_mounted_camera_bottom_screw_frame" />
+    <child link="wrist_mounted_camera_link" />
+  </joint>
+  <link name="wrist_mounted_camera_link">
+    <visual>
+      <origin
+        rpy="1.5707963267948966 0 1.5707963267948966"
+        xyz="0.00987 -0.02 0"
+      />
+      <geometry>
+        <mesh filename="package://realsense2_description/meshes/d415.stl" />
+      </geometry>
+      <material name="rs_aluminum">
+        <color rgba="0.5 0.5 0.5 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 -0.02 0" />
+      <geometry>
+        <box size="0.02005 0.099 0.023" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.072" />
+      <!-- The following are not reliable values, and should not be used for modeling -->
+      <origin xyz="0 0 0" />
+      <inertia
+        ixx="0.003881243"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="0.000498940"
+        iyz="0.0"
+        izz="0.003879257"
+      />
+    </inertial>
+  </link>
+  <!-- camera depth joints and links -->
+  <joint name="wrist_mounted_camera_depth_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="wrist_mounted_camera_link" />
+    <child link="wrist_mounted_camera_depth_frame" />
+  </joint>
+  <link name="wrist_mounted_camera_depth_frame" />
+  <joint name="wrist_mounted_camera_depth_optical_joint" type="fixed">
+    <origin rpy="-1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0" />
+    <parent link="wrist_mounted_camera_depth_frame" />
+    <child link="wrist_mounted_camera_depth_optical_frame" />
+  </joint>
+  <link name="wrist_mounted_camera_depth_optical_frame" />
+  <!-- camera left IR joints and links -->
+  <joint name="wrist_mounted_camera_infra1_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0.0 0" />
+    <parent link="wrist_mounted_camera_link" />
+    <child link="wrist_mounted_camera_infra1_frame" />
+  </joint>
+  <link name="wrist_mounted_camera_infra1_frame" />
+  <joint name="wrist_mounted_camera_infra1_optical_joint" type="fixed">
+    <origin rpy="-1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0" />
+    <parent link="wrist_mounted_camera_infra1_frame" />
+    <child link="wrist_mounted_camera_infra1_optical_frame" />
+  </joint>
+  <link name="wrist_mounted_camera_infra1_optical_frame" />
+  <!-- camera right IR joints and links -->
+  <joint name="wrist_mounted_camera_infra2_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 -0.055 0" />
+    <parent link="wrist_mounted_camera_link" />
+    <child link="wrist_mounted_camera_infra2_frame" />
+  </joint>
+  <link name="wrist_mounted_camera_infra2_frame" />
+  <joint name="wrist_mounted_camera_infra2_optical_joint" type="fixed">
+    <origin rpy="-1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0" />
+    <parent link="wrist_mounted_camera_infra2_frame" />
+    <child link="wrist_mounted_camera_infra2_optical_frame" />
+  </joint>
+  <link name="wrist_mounted_camera_infra2_optical_frame" />
+  <!-- camera color joints and links -->
+  <joint name="wrist_mounted_camera_color_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0.015 0" />
+    <parent link="wrist_mounted_camera_link" />
+    <child link="wrist_mounted_camera_color_frame" />
+  </joint>
+  <link name="wrist_mounted_camera_color_frame" />
+  <joint name="wrist_mounted_camera_color_optical_joint" type="fixed">
+    <origin rpy="-1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0" />
+    <parent link="wrist_mounted_camera_color_frame" />
+    <child link="wrist_mounted_camera_color_optical_frame" />
+  </joint>
+  <link name="wrist_mounted_camera_color_optical_frame" />
+  <gazebo reference="wrist_mounted_camera_color_frame">
+    <sensor name="wrist_mounted_camera_rgbd_sensor" type="rgbd_camera">
+      <camera>
+        <horizontal_fov>1.047</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>RGB_INT8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>5</far>
+        </clip>
+        <distortion>
+          <k1>0.0</k1>
+          <k2>0.0</k2>
+          <k3>0.0</k3>
+          <p1>0.0</p1>
+          <p2>0.0</p2>
+          <center>0.5 0.5</center>
+        </distortion>
+        <lens>
+          <intrinsics>
+            <fx>554.25469</fx>
+            <fy>554.25469</fy>
+            <cx>320.5</cx>
+            <cy>240.5</cy>
+            <s>0</s>
+          </intrinsics>
+          <!-- These need to match the intrinsics above or
+            Ignition will default to different default values -->
+          <projection>
+            <p_fx>554.25469</p_fx>
+            <p_fy>554.25469</p_fy>
+            <p_cx>320.5</p_cx>
+            <p_cy>240.5</p_cy>
+            <tx>0</tx>
+            <ty>0</ty>
+          </projection>
+        </lens>
+        <noise>
+          <type>gaussian</type>
+          <mean>0</mean>
+          <stddev>0.00</stddev>
+        </noise>
+        <depth_camera>
+          <clip>
+            <near>0.25</near>
+            <far>5</far>
+          </clip>
+        </depth_camera>
+        <optical_frame_id>
+          wrist_mounted_camera_color_optical_frame
+        </optical_frame_id>
+      </camera>
+      <ignition_frame_id>wrist_mounted_camera_color_frame</ignition_frame_id>
+      <always_on>1</always_on>
+      <update_rate>6</update_rate>
+      <visualize>false</visualize>
+      <topic>wrist_mounted_camera</topic>
+      <enable_metrics>false</enable_metrics>
+    </sensor>
+  </gazebo>
+  <joint name="ur_to_robotiq_joint" type="fixed">
+    <!-- The parent link must be read from the robot model it is attached to. -->
+    <parent link="realsense_camera_adapter_tool0" />
+    <child link="ur_to_robotiq_link" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  <link name="ur_to_robotiq_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/visual/2f_85/ur_to_robotiq_adapter.dae"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/collision/2f_85/ur_to_robotiq_adapter.stl"
+        />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <origin xyz="0 0 0" />
+      <inertia
+        ixx="0.000044"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="0.000027"
+        iyz="0.0"
+        izz="0.000027"
+      />
+    </inertial>
+  </link>
+  <joint name="gripper_side_joint" type="fixed">
+    <parent link="ur_to_robotiq_link" />
+    <child link="gripper_mount_link" />
+    <!-- <origin xyz="0 0 0.011" rpy="0 ${-pi/2} ${pi/2}"/> -->
+    <origin rpy="0 0 0" xyz="0 0 0.011" />
+  </joint>
+  <link name="gripper_mount_link" />
+  <!-- Add robotiq 2f 85 gripper model -->
+  <link name="robotiq_85_base_link">
+    <visual>
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/visual/2f_85/robotiq_base.dae"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/collision/2f_85/robotiq_base.stl"
+        />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.0 2.274e-05 0.03232288" />
+      <mass value="6.6320197e-01" />
+      <inertia
+        ixx="5.1617816e-04"
+        ixy="2.936e-8"
+        ixz="0.0"
+        iyy="5.8802208e-04"
+        iyz="-3.2296e-7"
+        izz="3.9462776e-04"
+      />
+    </inertial>
+  </link>
+  <link name="robotiq_85_left_knuckle_link">
+    <visual>
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/visual/2f_85/left_knuckle.dae"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/collision/2f_85/left_knuckle.stl"
+        />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.01213197 0.0002 -0.00058647" />
+      <mass value="1.384773208e-02" />
+      <inertia
+        ixx="3.5232e-7"
+        ixy="0.0"
+        ixz="1.1744e-7"
+        iyy="2.31944e-6"
+        iyz="0"
+        izz="2.23136e-6"
+      />
+    </inertial>
+  </link>
+  <link name="robotiq_85_right_knuckle_link">
+    <visual>
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/visual/2f_85/right_knuckle.dae"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/collision/2f_85/right_knuckle.stl"
+        />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="-0.01213197 0.0002 -0.00058647" />
+      <mass value="1.384773208e-02" />
+      <inertia
+        ixx="3.5232e-7"
+        ixy="0.0"
+        ixz="-1.1744e-7"
+        iyy="2.31944e-6"
+        iyz="0.0"
+        izz="2.23136e-6"
+      />
+    </inertial>
+  </link>
+  <link name="robotiq_85_left_finger_link">
+    <visual>
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/visual/2f_85/left_finger.dae"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/collision/2f_85/left_finger.stl"
+        />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.00346899 -0.00079447 0.01867121" />
+      <mass value="4.260376752e-02" />
+      <inertia
+        ixx="1.385792000000000e-05"
+        ixy="0.0"
+        ixz="-2.17264e-06"
+        iyy="1.183208e-05"
+        iyz="0.0"
+        izz="5.19672e-06"
+      />
+    </inertial>
+  </link>
+  <link name="robotiq_85_right_finger_link">
+    <visual>
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/visual/2f_85/right_finger.dae"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/collision/2f_85/right_finger.stl"
+        />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="-0.00346899 -5.53e-06 0.01867121" />
+      <mass value="4.260376752000000e-02" />
+      <inertia
+        ixx="1.385792e-05"
+        ixy="0.0"
+        ixz="2.17264e-06"
+        iyy="1.183208e-05"
+        iyz="0.0"
+        izz="5.19672e-06"
+      />
+    </inertial>
+  </link>
+  <link name="robotiq_85_left_inner_knuckle_link">
+    <visual>
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/visual/2f_85/left_inner_knuckle.dae"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/collision/2f_85/left_inner_knuckle.stl"
+        />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.01897699 0.00015001 0.02247101" />
+      <mass value="2.969376448e-02" />
+      <inertia
+        ixx="9.57136e-06"
+        ixy="0.0"
+        ixz="-3.93424e-06"
+        iyy="8.69056e-06"
+        iyz="0.0"
+        izz="8.19144e-06"
+      />
+    </inertial>
+  </link>
+  <link name="robotiq_85_right_inner_knuckle_link">
+    <visual>
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/visual/2f_85/right_inner_knuckle.dae"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/collision/2f_85/right_inner_knuckle.stl"
+        />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="-0.01926824 5.001e-05 0.02222178" />
+      <mass value="2.969376448e-02" />
+      <inertia
+        ixx="9.42456e-06"
+        ixy="0.0"
+        ixz="3.9636e-06"
+        iyy="8.69056e-06"
+        iyz="0.0"
+        izz="8.33824e-06"
+      />
+    </inertial>
+  </link>
+  <link name="robotiq_85_left_finger_tip_link">
+    <visual>
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/visual/2f_85/left_finger_tip.dae"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/collision/2f_85/left_finger_tip.stl"
+        />
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu1>100000.0</mu1>
+            <mu2>100000.0</mu2>
+          </ode>
+        </friction>
+        <contact>
+          <ode>
+            <kp>1e+5</kp>
+            <kd>1</kd>
+            <soft_cfm>0</soft_cfm>
+            <soft_erp>0.2</soft_erp>
+            <minDepth>0.002</minDepth>
+            <maxVel>0</maxVel>
+          </ode>
+        </contact>
+      </surface>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="-0.01456706 -0.0008 0.01649701" />
+      <mass value="4.268588744e-02" />
+      <inertia
+        ixx="1.048152e-05"
+        ixy="0.0"
+        ixz="3.5232e-6"
+        iyy="1.197888e-05"
+        iyz="0.0"
+        izz="4.22784e-06"
+      />
+    </inertial>
+  </link>
+  <link name="robotiq_85_right_finger_tip_link">
+    <visual>
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/visual/2f_85/right_finger_tip.dae"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh
+          filename="package://robotiq_description/meshes/collision/2f_85/right_finger_tip.stl"
+        />
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu1>100000.0</mu1>
+            <mu2>100000.0</mu2>
+          </ode>
+        </friction>
+        <contact>
+          <ode>
+            <kp>1e+5</kp>
+            <kd>1</kd>
+            <soft_cfm>0</soft_cfm>
+            <soft_erp>0.2</soft_erp>
+            <minDepth>0.002</minDepth>
+            <maxVel>0</maxVel>
+          </ode>
+        </contact>
+      </surface>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.01456706 5e-05 0.01649701" />
+      <mass value="4.268588744e-02" />
+      <inertia
+        ixx="1.048152e-05"
+        ixy="0.0"
+        ixz="-3.5232e-06"
+        iyy="1.197888e-05"
+        iyz="0.0"
+        izz="4.22784e-06"
+      />
+    </inertial>
+  </link>
+  <joint name="robotiq_85_base_joint" type="fixed">
+    <parent link="gripper_mount_link" />
+    <child link="robotiq_85_base_link" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  <joint name="robotiq_85_left_knuckle_joint" type="revolute">
+    <parent link="robotiq_85_base_link" />
+    <child link="robotiq_85_left_knuckle_link" />
+    <axis xyz="0 -1 0" />
+    <origin rpy="0 0 0" xyz="0.03060114 0.0 0.05490452" />
+    <limit effort="50" lower="0.0" upper="0.8" velocity="0.5" />
+  </joint>
+  <joint name="robotiq_85_right_knuckle_joint" type="revolute">
+    <parent link="robotiq_85_base_link" />
+    <child link="robotiq_85_right_knuckle_link" />
+    <axis xyz="0 1 0" />
+    <origin rpy="0 0 0" xyz="-0.03060114 0.0 0.05490452" />
+    <limit effort="50" lower="0.0" upper="0.8" velocity="0.5" />
+    <mimic joint="robotiq_85_left_knuckle_joint" multiplier="1" />
+  </joint>
+  <joint name="robotiq_85_left_finger_joint" type="fixed">
+    <parent link="robotiq_85_left_knuckle_link" />
+    <child link="robotiq_85_left_finger_link" />
+    <axis xyz="0 -1 0" />
+    <origin rpy="0 0 0" xyz="0.03152616 0.0 -0.00376347" />
+  </joint>
+  <joint name="robotiq_85_right_finger_joint" type="fixed">
+    <parent link="robotiq_85_right_knuckle_link" />
+    <child link="robotiq_85_right_finger_link" />
+    <axis xyz="0 1 0" />
+    <origin rpy="0 0 0" xyz="-0.03152616 0.0 -0.00376347" />
+  </joint>
+  <joint name="robotiq_85_left_inner_knuckle_joint" type="continuous">
+    <parent link="robotiq_85_base_link" />
+    <child link="robotiq_85_left_inner_knuckle_link" />
+    <axis xyz="0 -1 0" />
+    <origin rpy="0 0 0" xyz="0.0127 0.0 0.06142" />
+    <mimic joint="robotiq_85_left_knuckle_joint" multiplier="1" />
+  </joint>
+  <joint name="robotiq_85_right_inner_knuckle_joint" type="continuous">
+    <parent link="robotiq_85_base_link" />
+    <child link="robotiq_85_right_inner_knuckle_link" />
+    <axis xyz="0 1 0" />
+    <origin rpy="0 0 0" xyz="-0.0127 0.0 0.06142" />
+    <mimic joint="robotiq_85_left_knuckle_joint" multiplier="1" />
+  </joint>
+  <joint name="robotiq_85_left_finger_tip_joint" type="continuous">
+    <parent link="robotiq_85_left_finger_link" />
+    <child link="robotiq_85_left_finger_tip_link" />
+    <axis xyz="0 -1 0" />
+    <origin rpy="0 0 0" xyz="0.00563134 0.0 0.04718515" />
+    <mimic joint="robotiq_85_left_knuckle_joint" multiplier="-1" />
+  </joint>
+  <joint name="robotiq_85_right_finger_tip_joint" type="continuous">
+    <parent link="robotiq_85_right_finger_link" />
+    <child link="robotiq_85_right_finger_tip_link" />
+    <axis xyz="0 1 0" />
+    <origin rpy="0 0 0" xyz="-0.00563134 0.0 0.04718515" />
+    <mimic joint="robotiq_85_left_knuckle_joint" multiplier="-1" />
+  </joint>
+  <!-- This link aligns the axes of the grasp frame to our required convention for motion planning tasks. -->
+  <link name="grasp_link" />
+  <joint name="grasp_link_joint" type="fixed">
+    <parent link="robotiq_85_base_link" />
+    <child link="grasp_link" />
+    <origin rpy="0.0 0.0 3.141592653589793" xyz="0.0 0.0 0.134" />
+  </joint>
+  <!-- Linear rail -->
+  <link name="linear_rail">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <box size="5.0 0.6 0.30" />
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 0.1 1.0" />
+      </material>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0.14 0.125" />
+      <geometry>
+        <box size="5.0 0.2 0.5" />
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 0.1 1.0" />
+      </material>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 -0.22 0.125" />
+      <geometry>
+        <box size="5.0 0.12 0.5" />
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 0.1 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <box size="5.0 0.6 0.3" />
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 0.1 1.0" />
+      </material>
+    </collision>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0.14 0.125" />
+      <geometry>
+        <box size="5.0 0.2 0.5" />
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 0.1 1.0" />
+      </material>
+    </collision>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 -0.22 0.125" />
+      <geometry>
+        <box size="5.0 0.12 0.5" />
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 0.1 1.0" />
+      </material>
+    </collision>
+  </link>
+  <joint name="world-rail" type="fixed">
+    <parent link="world" />
+    <child link="linear_rail" />
+    <origin rpy="0 0 0" xyz="0.0 0 0.0" />
+  </joint>
+  <!--
+    Base UR robot series xacro macro.
+
+    NOTE this is NOT a URDF. It cannot directly be loaded by consumers
+    expecting a flattened '.urdf' file. See the top-level '.xacro' for that
+    (but note that .xacro must still be processed by the xacro command).
+
+    This file models the base kinematic chain of a UR robot, which then gets
+    parameterised by various configuration files to convert it into a UR3(e),
+    UR5(e), UR10(e) or UR16e.
+
+    NOTE the default kinematic parameters (i.e., link lengths, frame locations,
+    offsets, etc) do not correspond to any particular robot. They are defaults
+    only. There WILL be non-zero offsets between the Forward Kinematics results
+    in TF (i.e., robot_state_publisher) and the values reported by the Teach
+    Pendant.
+
+    For accurate (and robot-specific) transforms, the 'kinematics_parameters_file'
+    parameter MUST point to a .yaml file containing the appropriate values for
+    the targeted robot.
+
+    If using the UniversalRobots/Universal_Robots_ROS_Driver, follow the steps
+    described in the readme of that repository to extract the kinematic
+    calibration from the controller and generate the required .yaml file.
+
+    Main author of the migration to yaml configs Ludovic Delval.
+
+    Contributors to previous versions (in no particular order)
+
+     - Denis Stogl
+     - Lovro Ivanov
+     - Felix Messmer
+     - Kelsey Hawkins
+     - Wim Meeussen
+     - Shaun Edwards
+     - Nadia Hammoudeh Garcia
+     - Dave Hershberger
+     - G. vd. Hoorn
+     - Philip Long
+     - Dave Coleman
+     - Miguel Prada
+     - Mathias Luedtke
+     - Marcel Schnirring
+     - Felix von Drigalski
+     - Felix Exner
+     - Jimmy Da Silva
+     - Ajit Krisshna N L
+     - Muhammad Asif Rana
+  -->
+  <!--
+    NOTE the macro defined in this file is NOT part of the public API of this
+          package. Users CANNOT rely on this file being available, or stored in
+          this location. Nor can they rely on the existence of the macro.
+  -->
+  <link name="ur_linear_rail_base" />
+  <!-- Add URDF transmission elements (for ros_control) -->
+  <!--<xacro:ur_arm_transmission prefix="${prefix}" hw_interface="${transmission_hw_interface}" />-->
+  <!-- Placeholder for ros2_control transmission which don't yet exist -->
+  <!-- links -  main serial chain -->
+  <link name="base_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0.0 0.0 -0.2" />
+      <geometry>
+        <box size="0.16 0.2 0.4" />
+      </geometry>
+    </visual>
+  </link>
+  <link name="base_link_inertia">
+    <visual>
+      <origin rpy="0 0 3.141592653589793" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://ur_description/meshes/ur5e/visual/base.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 3.141592653589793" xyz="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ur_description/meshes/ur5e/collision/base.stl"
+        />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="4.0" />
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <inertia
+        ixx="0.00443333156"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="0.00443333156"
+        iyz="0.0"
+        izz="0.0072"
+      />
+    </inertial>
+  </link>
+  <link name="shoulder_link">
+    <visual>
+      <origin rpy="0 0 3.141592653589793" xyz="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ur_description/meshes/ur5e/visual/shoulder.dae"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 3.141592653589793" xyz="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ur_description/meshes/ur5e/collision/shoulder.stl"
+        />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="3.7" />
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <inertia
+        ixx="0.010267495893"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="0.010267495893"
+        iyz="0.0"
+        izz="0.00666"
+      />
+    </inertial>
+  </link>
+  <link name="upper_arm_link">
+    <visual>
+      <origin rpy="1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0.138" />
+      <geometry>
+        <mesh
+          filename="package://ur_description/meshes/ur5e/visual/upperarm.dae"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0.138" />
+      <geometry>
+        <mesh
+          filename="package://ur_description/meshes/ur5e/collision/upperarm.stl"
+        />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="8.393" />
+      <origin rpy="0 1.5707963267948966 0" xyz="-0.2125 0.0 0.138" />
+      <inertia
+        ixx="0.1338857818623325"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="0.1338857818623325"
+        iyz="0.0"
+        izz="0.0151074"
+      />
+    </inertial>
+  </link>
+  <link name="forearm_link">
+    <visual>
+      <origin rpy="1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0.007" />
+      <geometry>
+        <mesh
+          filename="package://ur_description/meshes/ur5e/visual/forearm.dae"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0.007" />
+      <geometry>
+        <mesh
+          filename="package://ur_description/meshes/ur5e/collision/forearm.stl"
+        />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2.275" />
+      <origin rpy="0 1.5707963267948966 0" xyz="-0.1961 0.0 0.007" />
+      <inertia
+        ixx="0.031209355099586295"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="0.031209355099586295"
+        iyz="0.0"
+        izz="0.004095"
+      />
+    </inertial>
+  </link>
+  <link name="wrist_1_link">
+    <visual>
+      <origin rpy="1.5707963267948966 0 0" xyz="0 0 -0.127" />
+      <geometry>
+        <mesh
+          filename="package://ur_description/meshes/ur5e/visual/wrist1.dae"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.5707963267948966 0 0" xyz="0 0 -0.127" />
+      <geometry>
+        <mesh
+          filename="package://ur_description/meshes/ur5e/collision/wrist1.stl"
+        />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.219" />
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <inertia
+        ixx="0.0025598989760400002"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="0.0025598989760400002"
+        iyz="0.0"
+        izz="0.0021942"
+      />
+    </inertial>
+  </link>
+  <link name="wrist_2_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 -0.0997" />
+      <geometry>
+        <mesh
+          filename="package://ur_description/meshes/ur5e/visual/wrist2.dae"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 -0.0997" />
+      <geometry>
+        <mesh
+          filename="package://ur_description/meshes/ur5e/collision/wrist2.stl"
+        />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.219" />
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <inertia
+        ixx="0.0025598989760400002"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="0.0025598989760400002"
+        iyz="0.0"
+        izz="0.0021942"
+      />
+    </inertial>
+  </link>
+  <link name="wrist_3_link">
+    <visual>
+      <origin rpy="1.5707963267948966 0 0" xyz="0 0 -0.0989" />
+      <geometry>
+        <mesh
+          filename="package://ur_description/meshes/ur5e/visual/wrist3.dae"
+        />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.5707963267948966 0 0" xyz="0 0 -0.0989" />
+      <geometry>
+        <mesh
+          filename="package://ur_description/meshes/ur5e/collision/wrist3.stl"
+        />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1879" />
+      <origin rpy="0 0 0" xyz="0.0 0.0 -0.0229" />
+      <inertia
+        ixx="9.890410052167731e-05"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="9.890410052167731e-05"
+        iyz="0.0"
+        izz="0.0001321171875"
+      />
+    </inertial>
+  </link>
+  <!-- base_joint fixes base_link to the environment -->
+  <joint name="base_joint" type="fixed">
+    <origin rpy="0 0 1.5707" xyz="0.4 -0.06 0.6" />
+    <parent link="ur_linear_rail_base" />
+    <child link="base_link" />
+  </joint>
+  <!-- joints - main serial chain -->
+  <joint name="base_link-base_link_inertia" type="fixed">
+    <parent link="base_link" />
+    <child link="base_link_inertia" />
+    <!-- 'base_link' is REP-103 aligned (so X+ forward), while the internal
+           frames of the robot/controller have X+ pointing backwards.
+           Use the joint between 'base_link' and 'base_link_inertia' (a dummy
+           link/frame) to introduce the necessary rotation over Z (of pi rad).
+      -->
+    <origin rpy="0 0 3.141592653589793" xyz="0 0 0" />
+  </joint>
+  <joint name="shoulder_pan_joint" type="revolute">
+    <parent link="base_link_inertia" />
+    <child link="shoulder_link" />
+    <origin rpy="0 0 0" xyz="0 0 0.1625" />
+    <axis xyz="0 0 1" />
+    <limit
+      effort="150.0"
+      lower="-3.141592653589793"
+      upper="3.141592653589793"
+      velocity="0.5235987755982988"
+    />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <joint name="shoulder_lift_joint" type="revolute">
+    <parent link="shoulder_link" />
+    <child link="upper_arm_link" />
+    <origin rpy="1.570796327 0 0" xyz="0 0 0" />
+    <axis xyz="0 0 1" />
+    <limit
+      effort="150.0"
+      lower="-4.71238898038469"
+      upper="1.5707963267948966"
+      velocity="0.5235987755982988"
+    />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <joint name="elbow_joint" type="revolute">
+    <parent link="upper_arm_link" />
+    <child link="forearm_link" />
+    <origin rpy="0 0 0" xyz="-0.425 0 0" />
+    <axis xyz="0 0 1" />
+    <limit
+      effort="150.0"
+      lower="-3.141592653589793"
+      upper="3.141592653589793"
+      velocity="0.5235987755982988"
+    />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <joint name="wrist_1_joint" type="revolute">
+    <parent link="forearm_link" />
+    <child link="wrist_1_link" />
+    <origin rpy="0 0 0" xyz="-0.3922 0 0.1333" />
+    <axis xyz="0 0 1" />
+    <limit
+      effort="28.0"
+      lower="-3.141592653589793"
+      upper="3.141592653589793"
+      velocity="1.0471975511965976"
+    />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <joint name="wrist_2_joint" type="revolute">
+    <parent link="wrist_1_link" />
+    <child link="wrist_2_link" />
+    <origin rpy="1.570796327 0 0" xyz="0 -0.0997 -2.044881182297852e-11" />
+    <axis xyz="0 0 1" />
+    <limit
+      effort="28.0"
+      lower="-3.141592653589793"
+      upper="3.141592653589793"
+      velocity="1.0471975511965976"
+    />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <joint name="wrist_3_joint" type="revolute">
+    <parent link="wrist_2_link" />
+    <child link="wrist_3_link" />
+    <origin
+      rpy="1.570796326589793 3.141592653589793 3.141592653589793"
+      xyz="0 0.0996 -2.042830148012698e-11"
+    />
+    <axis xyz="0 0 1" />
+    <limit
+      effort="28.0"
+      lower="-6.283185307179586"
+      upper="6.283185307179586"
+      velocity="1.0471975511965976"
+    />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <link name="ft_frame" />
+  <joint name="wrist_3_link-ft_frame" type="fixed">
+    <parent link="wrist_3_link" />
+    <child link="ft_frame" />
+    <origin rpy="3.141592653589793 0 0" xyz="0 0 0" />
+  </joint>
+  <!-- ROS-Industrial 'base' frame - base_link to UR 'Base' Coordinates transform -->
+  <link name="base" />
+  <joint name="base_link-base_fixed_joint" type="fixed">
+    <!-- Note the rotation over Z of pi radians - as base_link is REP-103
+           aligned (i.e., has X+ forward, Y+ left and Z+ up), this is needed
+           to correctly align 'base' with the 'Base' coordinate system of
+           the UR controller.
+      -->
+    <origin rpy="0 0 3.141592653589793" xyz="0 0 0" />
+    <parent link="base_link" />
+    <child link="base" />
+  </joint>
+  <!-- ROS-Industrial 'flange' frame - attachment point for EEF models -->
+  <link name="flange" />
+  <joint name="wrist_3-flange" type="fixed">
+    <parent link="wrist_3_link" />
+    <child link="flange" />
+    <origin rpy="0 -1.5707963267948966 -1.5707963267948966" xyz="0 0 0" />
+  </joint>
+  <!-- ROS-Industrial 'tool0' frame - all-zeros tool frame -->
+  <link name="tool0" />
+  <joint name="flange-tool0" type="fixed">
+    <!-- default toolframe - X+ left, Y+ up, Z+ front -->
+    <origin rpy="1.5707963267948966 0 1.5707963267948966" xyz="0 0 0" />
+    <parent link="flange" />
+    <child link="tool0" />
+  </joint>
+  <link name="forearm_pinch_link">
+    <visual>
+      <origin rpy="0 0 0.19634954084936207" xyz="0 0 0" />
+      <geometry>
+        <cylinder length="0.28" radius="0.0525" />
+      </geometry>
+      <material name="silver">
+        <color rgba="0.75 0.65 0.65 0" />
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0.19634954084936207" xyz="0 0 0" />
+      <geometry>
+        <cylinder length="0.28" radius="0.0525" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="forearm_pinch_joint" type="fixed">
+    <parent link="forearm_link" />
+    <child link="forearm_pinch_link" />
+    <origin rpy="0 1.5707963267948966 0" xyz="-0.22000000000000003 0 0.0049" />
+  </joint>
+  <link name="wrist_3_pinch_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <cylinder length="0.11" radius="0.0495" />
+      </geometry>
+      <material name="silver">
+        <color rgba="0.75 0.65 0.65 0" />
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <cylinder length="0.11" radius="0.0495" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="wrist_3_pinch_joint" type="fixed">
+    <parent link="wrist_3_link" />
+    <child link="wrist_3_pinch_link" />
+    <origin rpy="0 0 0.19634954084936207" xyz="0 0 0" />
+  </joint>
+  <joint name="linear_rail_joint" type="prismatic">
+    <axis xyz="-1 0 0" />
+    <parent link="linear_rail" />
+    <child link="ur_linear_rail_base" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <limit
+      acceleration="10.0"
+      effort="1000.0"
+      lower="-2.1"
+      upper="2.9"
+      velocity="0.175"
+    />
+    <dynamics damping="20.0" friction="500.0" />
+  </joint>
+  <!-- Table -->
+  <link name="table">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0.025" />
+      <geometry>
+        <mesh
+          filename="package://picknik_accessories/descriptions/furniture/generic_table/wood_block.dae"
+          scale="0.125 0.125 0.00625"
+        />
+      </geometry>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="0.4 0.4 -0.2" />
+      <geometry>
+        <box size="0.04 0.04 0.45" />
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 0.1 1.0" />
+      </material>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="0.4 -0.4 -0.2" />
+      <geometry>
+        <box size="0.04 0.04 0.45" />
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 0.1 1.0" />
+      </material>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.4 -0.4 -0.2" />
+      <geometry>
+        <box size="0.04 0.04 0.45" />
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 0.1 1.0" />
+      </material>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.4 0.4 -0.2" />
+      <geometry>
+        <box size="0.04 0.04 0.45" />
+      </geometry>
+      <material name="grey">
+        <color rgba="0.1 0.1 0.1 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://picknik_accessories/descriptions/furniture/generic_table/wood_block.dae"
+          scale="0.125 0.125 0.00625"
+        />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="table_joint" type="fixed">
+    <parent link="world" />
+    <child link="table" />
+    <origin rpy="0 0 0" xyz="0 1 0.45" />
+  </joint>
+  <ros2_control name="ur_mujoco_control" type="system">
+    <hardware>
+      <plugin>picknik_mujoco_ros/MujocoSystem</plugin>
+      <param name="mujoco_model">$(arg mujoco_model)</param>
+      <param name="mujoco_model_package">arm_on_rail_sim</param>
+      <param name="render_publish_rate">10</param>
+      <param name="tf_publish_rate">60</param>
+      <param name="lidar_publish_rate">10</param>
+    </hardware>
+  </ros2_control>
+</robot>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root
+  BTCPP_format="4"
+  main_tree_to_execute="Detect Fixed Handle Graspable Object"
+>
+  <!-- ////////// -->
+  <BehaviorTree
+    ID="Detect Fixed Handle Graspable Object"
+    _description="Detects a fixed-handle graspable object from a depth image and returns a PoseStamped for the handle centroid."
+  >
+    <!-- TODO: need to be directly in front of handle for this objective to work until GetGraspableObjectsFromMasks3D calculates the collision more robustly for non cuboid objects or shape completion is available. -->
+    <Control ID="Sequence" name="TopLevelSequence">
+      <!-- Get the point cloud from the wrist camera -->
+      <Control ID="Sequence" name="GetDepthImage">
+        <Action
+          ID="GetCameraInfo"
+          topic_name="/wrist_mounted_camera/color/camera_info"
+          message_out="{camera_info}"
+        />
+        <Action
+          ID="GetImage"
+          topic_name="/wrist_mounted_camera/color/image_raw"
+          message_out="{image}"
+        />
+        <Action
+          ID="GetPointCloud"
+          topic_name="/wrist_mounted_camera/depth/color/points"
+          message_out="{point_cloud}"
+        />
+        <Action
+          ID="UpdatePlanningSceneService"
+          point_cloud="{point_cloud}"
+          point_cloud_service="/point_cloud_service"
+        />
+      </Control>
+      <!-- Segment out 2D masks and then convert to 3D masks and visualize in UI -->
+      <Action
+        ID="GetMasks2DAction"
+        image="{image}"
+        action_name="get_masks_2d_maskrcnn"
+        min_confidence="0.8"
+        max_nms_iou="0.8"
+        min_relative_area="0"
+        max_relative_area="1"
+        timeout_sec="15.0"
+        masks2d="{handle_masks2d}"
+        valid_classes="pull handle"
+      />
+      <Action
+        ID="GetMasks3DFromMasks2D"
+        point_cloud="{point_cloud}"
+        masks2d="{handle_masks2d}"
+        camera_info="{camera_info}"
+        masks3d="{masks3d}"
+      />
+      <Decorator ID="ForEachMask3D" vector_in="{masks3d}" out="{mask3d}">
+        <Control ID="Sequence">
+          <Action
+            ID="GetPointCloudFromMask3D"
+            point_cloud="{point_cloud}"
+            mask3d="{mask3d}"
+            point_cloud_fragment="{point_cloud_fragment}"
+          />
+          <Action
+            ID="SendPointCloudToUI"
+            point_cloud="{point_cloud_fragment}"
+            pcd_topic="/pcd_pointcloud_captures"
+          />
+        </Control>
+      </Decorator>
+      <!-- Convert 3D mask into graspable object -->
+      <Action
+        ID="GetGraspableObjectsFromMasks3D"
+        point_cloud="{point_cloud}"
+        masks3d="{masks3d}"
+        base_frame="world"
+        plane_inlier_threshold="0.01"
+        minimum_face_area="0.000625"
+        face_separation_threshold="0.02"
+        graspable_objects="{handle_objects}"
+      />
+      <Decorator ID="ForceSuccess">
+        <Decorator
+          ID="ForEachGraspableObject"
+          vector_in="{handle_objects}"
+          out="{handle_object}"
+        >
+          <Action ID="AlwaysFailure" />
+        </Decorator>
+      </Decorator>
+      <Action
+        ID="ExtractGraspableObjectPose"
+        graspable_object="{handle_object}"
+        pose="{grasp_pose}"
+      />
+      <Action
+        ID="LogMessage"
+        message="Successfully extracted necessary subframes for the detected pull handle."
+        log_level="info"
+      />
+      <Action
+        ID="ModifyObjectInPlanningScene"
+        object="{handle_object}"
+        apply_planning_scene_service="/apply_planning_scene"
+      />
+    </Control>
+  </BehaviorTree>
+</root>

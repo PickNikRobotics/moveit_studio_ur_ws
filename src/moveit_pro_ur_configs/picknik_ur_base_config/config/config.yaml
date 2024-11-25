@@ -1,0 +1,190 @@
+###############################################################
+#
+#  This configures the robot to work with MoveIt Pro
+#
+###############################################################
+
+# Baseline hardware configuration parameters for MoveIt Pro.
+# [Required]
+hardware:
+  # Set simulated to false if you are using this as a configuration for real hardware.
+  # This allows users to switch between mock and real hardware by changing a single parameter with config inheritance.
+  # [Required]
+  simulated: true
+
+  # If the MoveIt Pro Agent should launch the ros2 controller node.
+  # [Optional, default=True]
+  launch_control_node: True
+
+  # If the MoveIt Pro Agent should launch the robot state publisher.
+  # This should be false if you are launching the robot state publisher as part of drivers.
+  # [Optional, default=True]
+  launch_robot_state_publisher: True
+
+  # Specify additional launch files for running the robot with real hardware.
+  # [Optional, defaults to a blank launch file if not specified]
+  robot_driver_persist_launch_file:
+    package: "picknik_ur_base_config"
+    path: "launch/robot_drivers_to_persist.launch.py"
+
+  # Specify any additional launch files for running the robot in simulation mode.
+  # Used when hardware.simulated is True.
+  # [Optional, defaults to a blank launch file if not specified]
+  simulated_robot_driver_persist_launch_file:
+    package: "picknik_ur_base_config"
+    path: "launch/sim/robot_drivers_to_persist_sim.launch.py"
+  simulated_hardware_launch_file:
+    package: "moveit_studio_agent"
+    path: "launch/blank.launch.py"
+
+  # Parameters used to configure the robot description through XACRO.
+  # A URDF and SRDF are both required.
+  # [Required]
+  robot_description:
+    urdf:
+      package: "picknik_ur_base_config"
+      path: "description/picknik_ur.xacro"
+    srdf:
+      package: "picknik_ur_base_config"
+      path: "config/moveit/picknik_ur.srdf"
+    # Specify any additional parameters required for the URDF.
+    # Many of these are specific to the UR descriptions packages, and can be customized as needed.
+    # [Optional]
+    urdf_params:
+      - name: "ur5e"
+      - prefix: ""
+      - use_fake_hardware: "true"
+      - use_pinch_links: "true"
+      - mock_sensor_commands: "false"
+      - headless_mode: "true"
+      - robot_ip: "0.0.0.0"
+      - joint_limits_parameters_file:
+          package: "picknik_ur_base_config"
+          path: "config/moveit/joint_limits.yaml"
+      # The following files are loaded based on the ur_description package layout.
+      # To use parameters from a different package, place them in a config/ROBOT_NAME/ directory,
+      # replace ROBOT_NAME with the value used for hardware.type in this file.
+      - kinematics_parameters_file:
+      # Load default_kinematics.yaml from ur_description/config/<ur_type>
+          package: "ur_description"
+          path: "config/ur5e/default_kinematics.yaml"
+      - physical_parameters_file:
+      # Load physical_parameters.yaml from ur_description/config/<ur_type>
+          package: "ur_description"
+          path: "config/ur5e/physical_parameters.yaml"
+      - visual_parameters_file:
+      # Load visual_parameters.yaml from ur_description/config/<ur_type>
+          package: "ur_description"
+          path: "config/ur5e/visual_parameters.yaml"
+
+# Sets ROS global params for launch.
+# [Optional]
+ros_global_params:
+  # Whether or not to use simulated time.
+  # [Optional, default=False]
+  use_sim_time: False
+
+# Configuration files for MoveIt.
+# For more information, refer to https://moveit.picknik.ai/main/doc/how_to_guides/moveit_configuration/moveit_configuration_tutorial.html
+# [Required]
+moveit_params:
+  # Used by the Waypoint Manager to save joint states from this joint group.
+  joint_group_name: "manipulator"
+
+  ompl_planning:
+    package: "picknik_ur_base_config"
+    path: "config/moveit/ompl_planning.yaml"
+  stomp_planning:
+    package: "picknik_ur_base_config"
+    path: "config/moveit/stomp_planning.yaml"
+  pilz_planning:
+    package: "picknik_ur_base_config"
+    path: "config/moveit/pilz_industrial_motion_planner_planning.yaml"
+  kinematics:
+    package: "picknik_ur_base_config"
+    path: "config/moveit/trac_ik_kinematics_distance.yaml"
+  servo:
+    package: "picknik_ur_base_config"
+    path: "config/moveit/ur_servo.yaml"
+  sensors_3d:
+    package: "picknik_ur_base_config"
+    path: "config/moveit/sensors_3d.yaml"
+  servo_kinematics:
+    package: "picknik_ur_base_config"
+    path: "config/moveit/trac_ik_kinematics_speed.yaml"
+  joint_limits:
+    package: "picknik_ur_base_config"
+    path: "config/moveit/joint_limits.yaml"
+  servo_joint_limits:
+    package: "picknik_ur_base_config"
+    path: "config/moveit/hard_joint_limits.yaml"
+  pilz_cartesian_limits:
+    package: "picknik_ur_base_config"
+    path: "config/moveit/pilz_cartesian_limits.yaml"
+
+  publish:
+    planning_scene: True
+    geometry_updates: True
+    state_updates: True
+    transforms_updates: True
+
+  trajectory_execution:
+    manage_controllers: True
+    allowed_execution_duration_scaling: 2.0
+    allowed_goal_duration_margin: 5.0
+    allowed_start_tolerance: 0.01
+
+# Configuration for launching ros2_control processes.
+# [Required, if using ros2_control]
+ros2_control:
+  config:
+    package: "picknik_ur_base_config"
+    path: "config/control/picknik_ur.ros2_control.yaml"
+  # MoveIt Pro will load and activate these controllers at start up to ensure they are available.
+  # If not specified, it is up to the user to ensure the appropriate controllers are active and available
+  # for running the application.
+  # [Optional, default=[]]
+  controllers_active_at_startup:
+    - "force_torque_sensor_broadcaster"
+    - "robotiq_gripper_controller"
+    - "joint_state_broadcaster"
+    - "servo_controller"
+    - "io_and_status_controller"
+    - "robotiq_activation_controller"
+  # Load but do not start these controllers so they can be activated later if needed.
+  # [Optional, default=[]]
+  controllers_inactive_at_startup:
+    - "joint_trajectory_controller"
+    - "joint_trajectory_admittance_controller"
+    - "velocity_force_controller"
+  # Any controllers here will not be spawned by MoveIt Pro.
+  # [Optional, default=[]]
+  controllers_not_managed: []
+  # Optionally configure remapping rules to let multiple controllers receive commands on the same topic.
+  # [Optional, default=[]]
+  controller_shared_topics: []
+
+# Configuration for loading behaviors and objectives.
+# [Required]
+objectives:
+  # List of plugins for loading custom behaviors.
+  # [Required]
+  behavior_loader_plugins:
+    # This plugin will load the core MoveIt Pro Behaviors.
+    # Add additional plugin loaders as needed.
+    core:
+      - "moveit_studio::behaviors::CoreBehaviorsLoader"
+      - "moveit_studio::behaviors::MTCCoreBehaviorsLoader"
+      - "moveit_studio::behaviors::ServoBehaviorsLoader"
+      - "moveit_studio::behaviors::VisionBehaviorsLoader"
+  # Specify source folder for objectives
+  # [Required]
+  objective_library_paths:
+    core:
+      package_name: "picknik_ur_base_config"
+      relative_path: "objectives"
+  # Specify the location of the saved waypoints file.
+  # [Required]
+  waypoints_file:
+    package_name: "picknik_ur_base_config"
+    relative_path: "waypoints/ur_waypoints.yaml"

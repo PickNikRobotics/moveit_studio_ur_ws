@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="RRTConnect Test">
+  <!--//////////-->
+  <BehaviorTree
+    ID="RRTConnect Test"
+    _description="A test to move between waypoints using RRTConnect"
+    _favorite="true"
+    _hardcoded="false"
+  >
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action
+        ID="ActivateControllers"
+        controller_names="joint_trajectory_controller"
+      />
+      <Decorator ID="Repeat" num_cycles="10">
+        <Control ID="Sequence">
+          <Action
+            ID="RetrieveWaypoint"
+            waypoint_name="Grasp Left"
+            waypoint_joint_state="{grasp_left}"
+            joint_group_name="manipulator"
+          />
+          <Action ID="PlanToJointGoal" joint_goal="{grasp_left}" />
+          <Action ID="ExecuteFollowJointTrajectory" />
+          <Action
+            ID="RetrieveWaypoint"
+            waypoint_joint_state="{grasp_right}"
+            joint_group_name="manipulator"
+            waypoint_name="Grasp Right"
+          />
+          <Action ID="PlanToJointGoal" joint_goal="{grasp_right}" />
+          <Action ID="ExecuteFollowJointTrajectory" />
+        </Control>
+      </Decorator>
+    </Control>
+  </BehaviorTree>
+</root>
