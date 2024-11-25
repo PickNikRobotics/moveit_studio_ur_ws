@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root
+  BTCPP_format="4"
+  main_tree_to_execute="00 Solution - Move to Initial Pose"
+>
+  <!--//////////-->
+  <BehaviorTree
+    ID="00 Solution - Move to Initial Pose"
+    _description="Move to a pre-defined waypoint"
+    _favorite="true"
+    _hardcoded="false"
+  >
+    <Control ID="Sequence" name="TopLevelSequence">
+      <SubTree
+        ID="Move to Waypoint"
+        waypoint_name="Look at Airfoil"
+        joint_group_name="manipulator"
+        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+        planner_interface="moveit_default"
+      />
+    </Control>
+  </BehaviorTree>
+</root>

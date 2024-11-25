@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
+  <!-- parameters -->
+  <xacro:arg name="use_fake_hardware" default="false"/>
+  <xacro:arg name="external_camera" default="false"/>
+  <xacro:arg name="has_tool_changer" default="true"/>
+  <xacro:arg name="use_pinch_links" default="true"/>
+  <xacro:arg name="generate_ros2_control_tag" default="false"/>
+  <xacro:arg name="name" default=""/>
+  <xacro:arg name="joint_limits_parameters_file" default=""/>
+  <xacro:arg name="kinematics_parameters_file" default=""/>
+  <xacro:arg name="physical_parameters_file" default=""/>
+  <xacro:arg name="visual_parameters_file" default=""/>
+  <xacro:arg name="headless_mode" default="false"/>
+  <xacro:arg name="robot_ip" default="0.0.0.0"/>
+  <xacro:arg name="use_tool_communication" default="false"/>
+  <xacro:arg name="tool_voltage" default="0"/>
+  <xacro:arg name="tool_device_name" default="/dev/ttyUSB0"/>
+  <xacro:arg name="initial_positions_file" default="$(find picknik_ur_base_config)/config/initial_positions.yaml"/>
+
+  <!-- Import UR and environment macros -->
+  <xacro:include filename="$(find picknik_ur_base_config)/description/picknik_ur_macro.xacro"/>
+  <xacro:include filename="$(find mobile_manipulation_config)/description/picknik_ur_attachments_macro.xacro"/>
+  <xacro:include filename="$(find mobile_manipulation_config)/description/picknik_ur_mujoco_ros2_control.xacro"/>
+  <xacro:include filename="$(find ridgeback_description)/urdf/ridgeback.urdf.xacro"/>
+
+
+  <link name="world"/>
+
+  <!-- Gripper and UR adapter and realsense camera -->
+  <xacro:picknik_ur_attachments parent="tool0" child="grasp_link" has_tool_changer="$(arg has_tool_changer)"/>
+
+  <!-- Ridgeback -->
+  <xacro:ridgeback parent="ridgeback_base_link"/>
+
+  <joint name="airfoil_joint" type="fixed">
+    <parent link="world"/>
+    <child link="airfoil"/>
+    <origin xyz="4.5 0 0.5" rpy="0.0 0.0 1.5707"/>
+  </joint>
+
+  <link name="airfoil">
+    <visual>
+      <geometry>
+        <mesh filename="package://mobile_manipulation_config/description/assets/airfoil.stl"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.4 0.4 0.4 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://mobile_manipulation_config/description/assets/airfoil.stl"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="rotational_yaw_joint" type="revolute">
+    <axis xyz="0 0 1"/>
+    <parent link="world"/>
+    <child link="virual_rail_link_1"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <limit effort="150.0" lower="-3.141592653589793" upper="3.141592653589793" velocity="0.5235987755982988"/>
+    <dynamics damping="0" friction="0"/>
+  </joint>
+
+  <link name="virual_rail_link_1"/>
+
+  <joint name="linear_x_joint" type="prismatic">
+    <axis xyz="1 0 0"/>
+    <parent link="virual_rail_link_1" />
+    <child link="virual_rail_link_2" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <limit effort="1000.0" lower="-5.0" upper="5.0" velocity="0.175" acceleration="10.0"/>
+    <dynamics damping="20.0" friction="500.0" />
+  </joint>
+
+  <link name="virual_rail_link_2"/>
+
+  <joint name="linear_y_joint" type="prismatic">
+    <axis xyz="0 1 0"/>
+    <parent link="virual_rail_link_2" />
+    <child link="ridgeback_base_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <limit effort="1000.0" lower="-5.0" upper="5.0" velocity="0.175" acceleration="10.0"/>
+    <dynamics damping="20.0" friction="500.0" />
+  </joint>
+
+  <!-- Robot: contains robot description from the world frame to the tool frame -->
+  <xacro:picknik_ur parent="ur_linear_rail_base"  child="tool0" initial_positions_file="$(arg initial_positions_file)" generate_ros2_control_tag="$(arg generate_ros2_control_tag)" >
+    <!-- Guesstimates below -->
+    <origin xyz="0 0.0 0.0" rpy="0 0 0" />
+  </xacro:picknik_ur>
+
+  <joint name="ur_ridgeback_mount" type="fixed">
+    <axis xyz="0 1 0"/>
+    <parent link="mid_mount" />
+    <child link="ur_linear_rail_base" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+  <!-- MuJoCo Hardware interface -->
+  <xacro:picknik_ur_mujoco_ros2_control />
+</robot>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root
+  BTCPP_format="4"
+  main_tree_to_execute="14 Solution - Load from file, execute"
+>
+  <!--//////////-->
+  <BehaviorTree
+    ID="14 Solution - Load from file, execute"
+    _description="Loads a path from a file, plans motion and executes it"
+    _favorite="true"
+  >
+    <Control ID="Sequence" name="TopLevelSequence">
+      <SubTree ID="Close Gripper" _collapsed="true" />
+      <Action ID="LoadPoseStampedVectorFromYaml" file_path="path.yaml" />
+      <Action
+        ID="CreateStampedPose"
+        orientation_xyzw="0;0;1;0"
+        position_xyz="0;0;0"
+        reference_frame="grasp_link"
+      />
+      <Action ID="VisualizePose" />
+      <Control ID="Parallel" success_count="1" failure_count="1">
+        <Action ID="PublishStaticFrame" child_frame_id="local" />
+        <Control ID="Sequence">
+          <Action ID="WaitForDuration" delay_duration="0.5" />
+          <Action ID="VisualizePath" path="{pose_stamped_msgs}" />
+          <Action
+            ID="PlanCartesianPath"
+            path="{pose_stamped_msgs}"
+            ik_joint_space_density="0.1000"
+            ik_cartesian_space_density="0.01000"
+            blending_radius="0.001"
+            position_only="false"
+            tip_offset="0;0;0.04;0;0;0"
+          />
+          <Action ID="ExecuteFollowJointTrajectory" />
+        </Control>
+      </Control>
+    </Control>
+  </BehaviorTree>
+</root>
