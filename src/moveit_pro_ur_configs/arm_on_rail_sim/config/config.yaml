@@ -42,7 +42,6 @@ objectives:
       - "moveit_studio::behaviors::MTCCoreBehaviorsLoader"
       - "moveit_studio::behaviors::ServoBehaviorsLoader"
       - "moveit_studio::behaviors::VisionBehaviorsLoader"
-      - "picknik_registration::PicknikRegistrationBehaviorsLoader"
   # Specify source folder for objectives
   # [Required]
   objective_library_paths:
