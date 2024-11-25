@@ -1,3 +1,23 @@
+# WARNING This package is deprecated an no longer maintined
+
+A more complete reference workspace is provided here:
+
+[moveit_pro_example_ws](https://github.com/PickNikRobotics/moveit_pro_example_ws)
+
+An empty workspace can be found here:
+
+[moveit_pro_empty_ws](https://github.com/PickNikRobotics/moveit_pro_empty_ws)
+
+The [moveit_pro_ur_configs](https://github.com/PickNikRobotics/moveit_pro_ur_configs) folder had been synced with the upstream repository using subtrees.
+To pull the latest changes, use:
+```bash
+git subtree pull --prefix src/moveit_pro_ur_configs https://github.com/PickNikRobotics/moveit_pro_ur_configs main --squash
+```
+Similarly, the [moveit_pro_mobile_manipulation](https://github.com/PickNikRobotics/moveit_pro_mobile_manipulation) folder can be synced using:
+```bash
+git subtree pull --prefix src/moveit_pro_mobile_manipulation https://github.com/PickNikRobotics/moveit_pro_mobile_manipulation main --squash
+```
+
 # MoveIt Pro Workspace for Universal Robots Arms
 
 This is a sample user workspace for running MoveIt Pro with a generic Universal Robots (UR) arm.
@@ -13,24 +33,19 @@ For more information refer to the [online documentation](https://docs.picknik.ai
 
 ## Universal Robots Configuration Packages
 
-This workspace contains several MoveIt Pro configuration packages for UR arms that inherit from each other for different applications.
+This workspace contains several MoveIt Pro configuration packages for UR arms. 
+
+Some of the packages inherit from a base configuration:
 
 ```mermaid
 graph TB
-Base[picknik_ur_base_config] --> Site[picknik_ur_site_config]
+Base[picknik_ur_base_config] --> Rail[arm_on_rail_sim]
 Base --> Mock[picknik_ur_mock_hw_config]
-Base --> Simulation[picknik_ur_mujoco_config]
-Site --> Gazebo[picknik_ur_gazebo_config]
-Site --> Picknik[Other PickNik configs]
-Gazebo --> ScanAndPlan[picknik_ur_gazebo_scan_and_plan_config]
+Base --> Site[picknik_ur_site_config (hardware-ready)]
 ```
-
-Specifically:
 
 * `picknik_ur_base_config` contains common configuration for all UR arms, real or simulated.
 * `picknik_ur_mock_hw_config` provides overrides for a machine tending application simulated using mock components (no physics).
 * `picknik_ur_site_config` extends the base configuration with capabilities for robots with physics and perception.
-* `picknik_ur_gazebo_config` extends the site configuration with support for the Gazebo simulator.
-* `picknik_ur_gazebo_scan_and_plan_config` extends the Gazebo configuration with an alternate environment for 3D object scanning.
 * `picknik_ur_multi_arm_config` is an example configuration for using multiple arms.
-* Other hardware-specific configurations, such as the ones used on PickNik's UR arms, inherit from `picknik_ur_site_config`.
+* `arm_on_rail_sim` is an example configuration of a UR5e on a linear rail.

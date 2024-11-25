@@ -64,10 +64,6 @@
             <!--Interactive markers move to pose-->
             <Decorator ID="ForceSuccess" _while="teleop_mode == 4">
               <Control ID="Sequence">
-                <Action
-                  ID="SwitchUIPrimaryView"
-                  primary_view_name="Visualization"
-                />
                 <Control ID="Fallback" name="root">
                   <Control ID="Sequence">
                     <Action
@@ -102,10 +98,6 @@
             <!--Waypoint buttons move to joint state-->
             <Decorator ID="ForceSuccess" _while="teleop_mode == 3">
               <Control ID="Sequence">
-                <Action
-                  ID="SwitchUIPrimaryView"
-                  primary_view_name="Visualization"
-                />
                 <Control ID="Fallback" name="root">
                   <Control ID="Sequence">
                     <Action
@@ -139,10 +131,6 @@
             </Decorator>
             <!--Cartesian and joint jogging-->
             <Control ID="Sequence" _while="teleop_mode == 2">
-              <Action
-                ID="SwitchUIPrimaryView"
-                primary_view_name="Visualization"
-              />
               <Action
                 ID="TeleoperateTwist"
                 controller_name="servo_controller"

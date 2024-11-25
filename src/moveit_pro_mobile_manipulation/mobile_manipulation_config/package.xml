@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <package format="3">
   <name>mobile_manipulation_config</name>
-  <version>6.1.1</version>
+  <version>6.5.0</version>
 
   <description>
     MuJoCo simulation configuration package for scan and spray application
@@ -19,7 +19,7 @@
   <exec_depend>moveit_studio_agent</exec_depend>
   <exec_depend>moveit_studio_behavior</exec_depend>
   <exec_depend>moveit_studio_ur_pstop_manager</exec_depend>
-  <exec_depend>picknik_accessories</exec_depend>
+  <depend>picknik_accessories</depend>
   <exec_depend>realsense2_camera</exec_depend>
   <exec_depend>realsense2_description</exec_depend>
   <exec_depend>trac_ik_kinematics_plugin</exec_depend>
