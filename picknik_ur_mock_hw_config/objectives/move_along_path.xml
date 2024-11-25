@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Move Along Path">
+  <!--//////////-->
+  <BehaviorTree
+    ID="Move Along Path"
+    _description="Example of using Cartesian control to draw a rectangle in the air."
+    _favorite="true"
+    _hardcoded="false"
+  >
+    <Control ID="Sequence" name="TopLevelSequence">
+      <!--First manually create an example Cartesian reference trajectory to then feed into the planner-->
+      <Control ID="Sequence">
+        <Action
+          ID="CreateStampedPose"
+          reference_frame="base_link"
+          position_xyz="-0.4;0.4;-0.0"
+          orientation_xyzw="0.0;1.0;0.0;0.0"
+          stamped_pose="{stamped_pose}"
+        />
+        <Action
+          ID="AddPoseStampedToVector"
+          input="{stamped_pose}"
+          vector="{pose_stamped_vector}"
+        />
+        <Action
+          ID="CreateStampedPose"
+          reference_frame="base_link"
+          position_xyz="0.4;0.4;-0.0"
+          orientation_xyzw="0.0;1.0;0.0;0.0"
+          stamped_pose="{stamped_pose}"
+        />
+        <Action
+          ID="AddPoseStampedToVector"
+          input="{stamped_pose}"
+          vector="{pose_stamped_vector}"
+        />
+        <Action
+          ID="CreateStampedPose"
+          reference_frame="base_link"
+          position_xyz="0.4;0.8;0.0"
+          orientation_xyzw="0.0;1.0;0.0;0.0"
+          stamped_pose="{stamped_pose}"
+        />
+        <Action
+          ID="AddPoseStampedToVector"
+          input="{stamped_pose}"
+          vector="{pose_stamped_vector}"
+        />
+        <Action
+          ID="CreateStampedPose"
+          reference_frame="base_link"
+          position_xyz="-0.4;0.8;0.0"
+          orientation_xyzw="0.0;1.0;0.0;0.0"
+          stamped_pose="{stamped_pose}"
+        />
+        <Action
+          ID="AddPoseStampedToVector"
+          input="{stamped_pose}"
+          vector="{pose_stamped_vector}"
+        />
+        <Action
+          ID="CreateStampedPose"
+          reference_frame="base_link"
+          position_xyz="-0.4;0.4;-0.0"
+          orientation_xyzw="0.0;1.0;0.0;0.0"
+          stamped_pose="{stamped_pose}"
+        />
+        <Action
+          ID="AddPoseStampedToVector"
+          input="{stamped_pose}"
+          vector="{pose_stamped_vector}"
+        />
+      </Control>
+      <Decorator ID="KeepRunningUntilFailure">
+        <Control ID="Sequence">
+          <!--Move to starting position, before planning and executing Cartesian path-->
+          <SubTree
+            ID="Move to Waypoint"
+            waypoint_name="Look at Right Table"
+            joint_group_name="manipulator"
+            controller_names="/joint_trajectory_controller"
+            planner_interface="moveit_default"
+          />
+          <!--Plan and validate the trajectory-->
+          <Action
+            ID="PlanCartesianPath"
+            path="{pose_stamped_vector}"
+            planning_group_name="manipulator"
+            tip_link="grasp_link"
+            tip_offset="0.0;0.0;0.0;0.0;0.0;0.0"
+            position_only="false"
+            blending_radius="0.02"
+            velocity_scale_factor="1.0"
+            acceleration_scale_factor="1.0"
+            trajectory_sampling_rate="100"
+            joint_trajectory_msg="{joint_trajectory_msg}"
+            ik_joint_space_density="0.05000"
+            ik_cartesian_space_density="0.01000"
+          />
+          <Action
+            ID="GetCurrentPlanningScene"
+            planning_scene_msg="{planning_scene_msg}"
+          />
+          <Action
+            ID="ValidateTrajectory"
+            planning_scene_msg="{planning_scene_msg}"
+            planning_group_name="manipulator"
+            joint_trajectory_msg="{joint_trajectory_msg}"
+            joint_space_step="0.05"
+            cartesian_space_step="0.02"
+          />
+          <!--Finally, execute the trajectory on the actual robot-->
+          <Action
+            ID="ExecuteFollowJointTrajectory"
+            execute_follow_joint_trajectory_action_name="/joint_trajectory_controller/follow_joint_trajectory"
+            joint_trajectory_msg="{joint_trajectory_msg}"
+          />
+        </Control>
+      </Decorator>
+    </Control>
+  </BehaviorTree>
+</root>

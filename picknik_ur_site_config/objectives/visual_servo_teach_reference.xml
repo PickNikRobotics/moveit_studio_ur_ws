@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Visual Servo Teach Reference">
+  <BehaviorTree
+    ID="Visual Servo Teach Reference"
+    _description="Teach the pose reference used in `Visual Servo To Reference'"
+    _favorite="true"
+  >
+    <Control ID="Sequence" name="root">
+      <SubTree
+        ID="Sample April Tag"
+        _collapsed="true"
+        num_samples="5"
+        tag_id="2"
+        apriltag_config="51mm_apriltag_detection_config.yaml"
+        max_distance="0.02"
+        max_rotation="0.2"
+        avg_pose="{tag_pose}"
+      />
+      <Action
+        ID="CreateStampedPose"
+        reference_frame="grasp_link"
+        position_xyz="0.0;0.0;0.0"
+        orientation_xyzw="0.0;0.0;0.0;1.0"
+        stamped_pose="{grasp_link_pose}"
+      />
+      <Action
+        ID="TransformPoseFrame"
+        input_pose="{tag_pose}"
+        target_frame_id="world"
+        output_pose="{tag_pose_world}"
+      />
+      <Action
+        ID="TransformPoseFrame"
+        input_pose="{grasp_link_pose}"
+        target_frame_id="world"
+        output_pose="{grasp_link_pose_world}"
+      />
+      <Action
+        ID="CalculatePoseOffset"
+        source_pose="{tag_pose_world}"
+        destination_pose="{grasp_link_pose_world}"
+        source_to_destination_pose="{tag_to_user_grasp_pose}"
+      />
+      <Action
+        ID="SavePoseToYaml"
+        yaml_filename="visual_servo_reference"
+        namespace="ServoReference"
+        message="{tag_to_user_grasp_pose}"
+      />
+    </Control>
+  </BehaviorTree>
+</root>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Load Mesh as Red Pointcloud">
+  <!--//////////-->
+  <BehaviorTree
+    ID="Load Mesh as Red Pointcloud"
+    _description=""
+    _favorite="false"
+    _subtreeOnly="true"
+  >
+    <Control ID="Sequence" name="TopLevelSequence">
+      <Action
+        ID="LoadPointCloudFromFile"
+        color="255;0;0"
+        file_path="~/user_ws/install/arm_on_rail_sim/share/arm_on_rail_sim/description/assets/Cube.stl"
+        point_cloud="{point_cloud}"
+      />
+      <Action
+        ID="TransformPointCloudFrame"
+        input_cloud="{point_cloud}"
+        output_cloud="{point_cloud}"
+      />
+      <Action
+        ID="TransformPointCloud"
+        input_cloud="{point_cloud}"
+        transform_pose="{initial_pose}"
+      />
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Load Mesh as Red Pointcloud">
+      <output_port name="point_cloud" default="{red_cloud}" />
+      <input_port name="initial_pose" default="{stamped_pose}" />
+      <MetadataFields>
+        <Metadata subcategory="Perception - 3D Point Cloud" />
+      </MetadataFields>
+    </SubTree>
+  </TreeNodesModel>
+</root>

@@ -1,0 +1,11 @@
+<launch>
+  <include
+    file="$(find-pkg-share moveit_studio_agent)/launch/robot_drivers.launch.py"
+  />
+  <include
+    file="$(find-pkg-share moveit_studio_agent)/launch/studio_agent_bridge.launch.xml"
+  />
+  <include
+    file="$(find-pkg-share moveit_studio_rest_api)/launch/rest_api.launch.xml"
+  />
+</launch>

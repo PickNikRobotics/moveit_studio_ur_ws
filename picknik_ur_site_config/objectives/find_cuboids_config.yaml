@@ -1,0 +1,23 @@
+FindSingularCuboids:
+  base_frame: "world"
+
+  # Distance threshold used when fitting a plane to the supporting surface.
+  #   Increasing this value lets us fit to an uneven or noisy surface at the cost of preventing segmentation of short objects.
+  #   Reducing this value allows detecting small objects on a very flat surface, but this will produce bad results for uneven or noisy surfaces.
+  plane_model_threshold: 0.01
+
+  # Distance threshold used when identifying clusters of points corresponding to distinct objects.
+  #   Increasing this value makes the algorithm combine nearby discontinuous points into the same object, which lets the algorithm tolerate noisy data without introducing false positives at the cost of reduced accuracy.
+  #   Reducing this value allows recognizing objects that are close to each other as distinct objects, but could increase the false positive rate.
+  cluster_distance_threshold: 0.01
+
+  # These define a rectangular region of interest relative to base_frame.
+  #   The settings here define a 2m x 2m x 1m box just below the XY plane of the world frame.
+  # Origin of the region:
+  crop_box_origin_x: -1.0
+  crop_box_origin_y: -1.0
+  crop_box_origin_z: -0.03
+  # Extent of the region:
+  crop_box_size_x: 2.0
+  crop_box_size_y: 2.0
+  crop_box_size_z: 1.0

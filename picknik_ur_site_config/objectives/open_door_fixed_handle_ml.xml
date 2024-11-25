@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Open Door Fixed Handle ML">
+  <!-- ////////// -->
+  <BehaviorTree
+    ID="Open Door Fixed Handle ML"
+    _description="Attempts to open a door with a fixed handle (such as cabinet doors) using machine learning."
+    _favorite="false"
+    _hardcoded="true"
+  >
+    <Control ID="Sequence" name="TopLevelSequence">
+      <!-- Load the parameters needed for this Objective -->
+      <Action
+        ID="LoadObjectiveParameters"
+        config_file_name="open_door_fixed_handle_MTC_config.yaml"
+        parameters="{parameters}"
+      />
+      <!-- Update the admittance controller and reset the FTS -->
+      <SubTree ID="Re-Zero Force-Torque Sensors" _collapsed="true" />
+      <SubTree ID="Update Admittance Controller" _collapsed="true" />
+      <!-- Look at the desired location where objects (door) will be present -->
+      <SubTree
+        ID="Move to Waypoint"
+        waypoint_name="Extended Right"
+        joint_group_name="manipulator"
+        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+        planner_interface="moveit_default"
+      />
+      <SubTree ID="Clear Snapshot" _collapsed="true" />
+      <SubTree ID="Reset Planning Scene" _collapsed="true" />
+      <SubTree
+        ID="Detect Door Graspable Object"
+        _collapsed="true"
+        door_object="{door_object}"
+        detection_classes="space booth cabinet door"
+      />
+      <!-- Get the masks for the handle subframe of the door GraspableObject -->
+      <!-- May require multiple view-points due to incomplete point clouds due to angle. -->
+      <Control ID="Fallback">
+        <SubTree
+          ID="Detect Fixed Handle Graspable Object"
+          _collapsed="true"
+          grasp_pose="{grasp_pose}"
+        />
+        <Control ID="Sequence">
+          <SubTree
+            ID="Move to Waypoint"
+            waypoint_name="Extended Right 2"
+            joint_group_name="manipulator"
+            controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+            planner_interface="moveit_default"
+          />
+          <SubTree
+            ID="Detect Fixed Handle Graspable Object"
+            _collapsed="true"
+            grasp_pose="{grasp_pose}"
+          />
+        </Control>
+        <Control ID="Sequence">
+          <SubTree
+            ID="Move to Waypoint"
+            waypoint_name="Extended Right"
+            joint_group_name="manipulator"
+            controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+            planner_interface="moveit_default"
+          />
+          <SubTree
+            ID="Detect Fixed Handle Graspable Object"
+            _collapsed="true"
+            grasp_pose="{grasp_pose}"
+          />
+        </Control>
+      </Control>
+      <!-- Get the masks for the hinge subframes of the door GraspableObject -->
+      <SubTree
+        ID="Move to Waypoint"
+        waypoint_name="Hinge View"
+        joint_group_name="manipulator"
+        controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+        planner_interface="moveit_default"
+      />
+      <SubTree
+        ID="Detect Hinge Line Segment"
+        _collapsed="true"
+        line_segment_poses="{line_segment_poses}"
+      />
+      <!-- Helper behavior to convert poses into subframes that adhere to the expected axis convention -->
+      <Action
+        ID="GetMoveAlongArcSubframes"
+        target_grasp_pose="{grasp_pose}"
+        hinge_axis_poses="{line_segment_poses}"
+        move_along_arc_subframes="{move_along_arc_subframes}"
+      />
+      <!-- Add the subframes to the Object-->
+      <Decorator
+        ID="ForEachObjectSubframe"
+        vector_in="{move_along_arc_subframes}"
+        out="{subframe}"
+      >
+        <Action
+          ID="AddSubframeToObject"
+          subframe="{subframe}"
+          graspable_object="{door_object}"
+        />
+      </Decorator>
+      <!-- Open Gripper -->
+      <Action
+        ID="MoveGripperAction"
+        gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd"
+        position="0.0"
+      />
+      <!-- Plan and optionally Execute MTC task -->
+      <Control ID="Sequence" name="OpenDoorFixedHandleMTC">
+        <Action
+          ID="InitializeMTCTask"
+          task_id="open_door_fixed_handle_ml"
+          controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+          task="{open_door_fixed_handle_task}"
+        />
+        <Action
+          ID="SetupMTCCurrentState"
+          task="{open_door_fixed_handle_task}"
+        />
+        <!--Open Gripper-->
+        <Action
+          ID="SetupMTCMoveToNamedState"
+          task="{open_door_fixed_handle_task}"
+          planning_group_name="gripper"
+          goal_state_name="open"
+          planner_interface="moveit_default"
+        />
+        <!--Approach Grasp Point-->
+        <Action
+          ID="SetupMTCApproachGrasp"
+          task="{open_door_fixed_handle_task}"
+          monitored_stage="{monitored_stage}"
+          target_object="{handle_object}"
+          parameters="{parameters}"
+        />
+        <!--Generate Cuboid Grasps at Handle-->
+        <Action
+          ID="SetupMTCGenerateCuboidGrasps"
+          parameters="{parameters}"
+          target_object="{handle_object}"
+          monitored_stage="{monitored_stage}"
+          task="{open_door_fixed_handle_task}"
+        />
+        <!--Close Gripper around handle? todo: break out of MoveAlongArcPull and handle collisions.-->
+        <!--<Action ID="SetupMTCMoveToNamedState" task="{open_door_fixed_handle_task}" planning_group_name="gripper" goal_state_name="close" planner_interface="moveit_default"/>-->
+        <!--Close gripper (here for now due to collisions) and Move Along Arc-->
+        <Action
+          ID="SetupMTCGraspThenMoveAlongArcPull"
+          graspable_object="{handle_object}"
+          parameters="{parameters}"
+          task="{open_door_fixed_handle_task}"
+        />
+        <!--End of MTC task setup, now plan-->
+        <Action
+          ID="PlanMTCTask"
+          task="{open_door_fixed_handle_task}"
+          solution="{open_door_fixed_handle_solution}"
+        />
+        <SubTree
+          ID="Wait for Trajectory Approval if User Available"
+          solution="{open_door_fixed_handle_solution}"
+        />
+        <Action
+          ID="ExecuteMTCTask"
+          solution="{open_door_fixed_handle_solution}"
+        />
+      </Control>
+    </Control>
+  </BehaviorTree>
+</root>

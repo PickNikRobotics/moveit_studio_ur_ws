@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Open Cabinet Door">
+  <BehaviorTree
+    ID="Open Cabinet Door"
+    _description="Open a cabinet door by grasping and pulling its handle"
+    _favorite="true"
+  >
+    <Control ID="Sequence" name="Setup">
+      <!--Load the parameters needed for this Objective-->
+      <Action
+        ID="LoadObjectiveParameters"
+        config_file_name="open_door_fixed_handle_MTC_config.yaml"
+        parameters="{parameters}"
+      />
+      <!--Update the admittance controller and reset the FTS-->
+      <SubTree ID="Re-Zero Force-Torque Sensors" _collapsed="true" />
+      <SubTree ID="Update Admittance Controller" _collapsed="true" />
+      <!--Always take a snapshot when starting this behavior-->
+      <SubTree
+        ID="Take Snapshot"
+        _collapsed="true"
+        point_cloud="{point_cloud}"
+      />
+      <!--Get Poses from User-->
+      <Action
+        ID="GetPointsFromUser"
+        view_name="/wrist_mounted_camera/color/image_raw"
+        point_names="grasp_pose"
+        point_prompts="Select Door Handle"
+        pixel_coords="{grasp_pixel_coords}"
+      />
+      <Decorator ID="Delay" delay_msec="2000">
+        <Action
+          ID="GetPointsFromUser"
+          view_name="/wrist_mounted_camera/color/image_raw"
+          point_names="hinge_axis_start;hinge_axis_end"
+          point_prompts="Select Start Point of Door Hinge;Select End Point of Door Hinge"
+          pixel_coords="{hinge_pixel_coords}"
+        />
+      </Decorator>
+      <Action
+        ID="GetPointCloud"
+        topic_name="/wrist_mounted_camera/depth/color/points"
+        message_out="{point_cloud}"
+        timeout_sec="5.000000"
+      />
+      <Action
+        ID="GetPoseFromPixelCoords"
+        point_cloud="{point_cloud}"
+        pixel_coords="{grasp_pixel_coords}"
+        downsample_fraction="0.1"
+        neighbor_radius="0.1"
+        output_poses="{grasp_poses}"
+      />
+      <Action
+        ID="GetPoseFromPixelCoords"
+        point_cloud="{point_cloud}"
+        pixel_coords="{hinge_pixel_coords}"
+        downsample_fraction="0.1"
+        neighbor_radius="0.1"
+        output_poses="{hinge_poses}"
+      />
+      <!--Set up Subframes for MTC-->
+      <Decorator
+        ID="ForEachPoseStamped"
+        vector_in="{grasp_poses}"
+        out="{grasp_pose}"
+      >
+        <Action
+          ID="GetMoveAlongArcSubframes"
+          target_grasp_pose="{grasp_pose}"
+          hinge_axis_poses="{hinge_poses}"
+          move_along_arc_subframes="{move_along_arc_subframes}"
+        />
+      </Decorator>
+      <Action
+        ID="CreateGraspableObject"
+        object_id="cabinet_door"
+        generate_top_face="true"
+        generate_front_face="true"
+        generate_side_faces="true"
+        cuboid_object="{handle_object}"
+        pose="{grasp_pose}"
+        dy="0.100000"
+        dx="0.100000"
+        dz="0.100000"
+      />
+      <!--Add the subframes to the Object-->
+      <Decorator
+        ID="ForEachObjectSubframe"
+        vector_in="{move_along_arc_subframes}"
+        out="{subframe}"
+      >
+        <Action
+          ID="AddSubframeToObject"
+          subframe="{subframe}"
+          graspable_object="{handle_object}"
+        />
+      </Decorator>
+      <!--Open Gripper and begin MTC-->
+      <Action
+        ID="MoveGripperAction"
+        gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd"
+        position="0.0"
+      />
+      <Control ID="Sequence" name="OpenDoorFixedHandleMTC">
+        <Action
+          ID="InitializeMTCTask"
+          task_id="open_door_fixed_handle_user"
+          controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+          task="{open_door_fixed_handle_task}"
+        />
+        <Action
+          ID="SetupMTCCurrentState"
+          task="{open_door_fixed_handle_task}"
+        />
+        <!--Open Gripper-->
+        <Action
+          ID="SetupMTCMoveToNamedState"
+          task="{open_door_fixed_handle_task}"
+          planning_group_name="gripper"
+          goal_state_name="open"
+          planner_interface="moveit_default"
+        />
+        <!--Approach Grasp Point-->
+        <Action
+          ID="SetupMTCApproachGrasp"
+          task="{open_door_fixed_handle_task}"
+          monitored_stage="{monitored_stage}"
+          target_object="{handle_object}"
+          parameters="{parameters}"
+        />
+        <!--Generate Cuboid Grasps at Handle-->
+        <Action
+          ID="SetupMTCGenerateCuboidGrasps"
+          parameters="{parameters}"
+          target_object="{handle_object}"
+          monitored_stage="{monitored_stage}"
+          task="{open_door_fixed_handle_task}"
+        />
+        <!--Close Gripper around handle? todo: break out of MoveAlongArcPull and handle collisions.-->
+        <!--<Action ID="SetupMTCMoveToNamedState" task="{open_door_fixed_handle_task}" planning_group_name="gripper" goal_state_name="close" planner_interface="moveit_default"/>-->
+        <!--Close gripper (here for now due to collisions) and Move Along Arc-->
+        <Action
+          ID="SetupMTCGraspThenMoveAlongArcPull"
+          graspable_object="{handle_object}"
+          parameters="{parameters}"
+          task="{open_door_fixed_handle_task}"
+        />
+        <!--End of MTC task setup, now plan-->
+        <Action
+          ID="PlanMTCTask"
+          solution="{open_door_fixed_handle_solution}"
+          task="{open_door_fixed_handle_task}"
+        />
+        <SubTree
+          ID="Wait for Trajectory Approval if User Available"
+          solution="{open_door_fixed_handle_solution}"
+          _collapsed="false"
+        />
+        <!--Whether task execution succeeds or fails, reset the controllers to disable admittance control.-->
+        <Control ID="IfThenElse" name="execute_and_reset_controllers">
+          <!--IF task execution succeeds-->
+          <Action
+            ID="ExecuteMTCTask"
+            solution="{open_door_fixed_handle_solution}"
+          />
+          <!--THEN reset the controllers-->
+          <Action
+            ID="ActivateControllers"
+            controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+          />
+          <!--ELSE reset the controllers and return failure-->
+          <Control ID="Sequence">
+            <Action
+              ID="ActivateControllers"
+              controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+            />
+            <Action ID="AlwaysFailure" />
+          </Control>
+        </Control>
+      </Control>
+    </Control>
+  </BehaviorTree>
+</root>

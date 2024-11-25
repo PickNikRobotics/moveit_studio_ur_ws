@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Cycle Between Poses">
+  <!--//////////-->
+  <BehaviorTree
+    ID="Cycle Between Poses"
+    _description="Simple example objective for multi arm motions. Two arms are moved to different waypoints."
+    _favorite="true"
+    _hardcoded="false"
+  >
+    <Decorator ID="KeepRunningUntilFailure">
+      <Control ID="Sequence">
+        <Decorator ID="RetryUntilSuccessful" num_attempts="-1">
+          <SubTree
+            ID="Move to Named Pose"
+            waypoint_name="Home"
+            joint_group_name="multi_arm_manipulator"
+            planner_interface="moveit_default"
+            _collapsed="false"
+          />
+        </Decorator>
+        <Decorator ID="RetryUntilSuccessful" num_attempts="-1">
+          <SubTree
+            ID="Move to Named Pose"
+            waypoint_name="Flip"
+            joint_group_name="multi_arm_manipulator"
+            planner_interface="moveit_default"
+            _collapsed="false"
+          />
+        </Decorator>
+      </Control>
+    </Decorator>
+  </BehaviorTree>
+</root>

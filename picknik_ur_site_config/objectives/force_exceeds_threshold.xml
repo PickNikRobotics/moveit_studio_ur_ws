@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Force Exceeds Threshold">
+  <BehaviorTree
+    ID="Force Exceeds Threshold"
+    _description="Uses a Force Torque Sensor topic to check if input End Effector force exceeds threshold. This subtree is used to overwrite these values for each package."
+    _favorite="false"
+  >
+    <Control ID="Sequence">
+      <Action
+        ID="ForceExceedsThreshold"
+        wrench_topic_name="/force_torque_sensor_broadcaster/wrench"
+        hand_frame_name="grasp_link"
+        wrench_frame_name="tool0"
+        minimum_consecutive_wrench_values="20"
+        force_threshold="30.0"
+      />
+    </Control>
+  </BehaviorTree>
+</root>

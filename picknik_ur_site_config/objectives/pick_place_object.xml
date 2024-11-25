@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Pick and Place Object">
+  <BehaviorTree
+    ID="Pick and Place Object"
+    _description="Pick up a small object and place it at a known location"
+    _favorite="true"
+  >
+    <Control ID="Sequence">
+      <Action
+        ID="LoadObjectiveParameters"
+        config_file_name="pick_place_object_config.yaml"
+        parameters="{parameters}"
+      />
+      <Script code="first_attempt:=true" />
+      <!-- Open the gripper before doing any planning. -->
+      <Action
+        ID="MoveGripperAction"
+        gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd"
+        position="0.0"
+      />
+      <Control ID="IfThenElse" name="TryGraspOuter">
+        <!-- This decorator contains the logic to detect an object and then execute motion to grasp it.
+                     If grasping is aborted because the object changed while the robot was moving towards it, we will retry up to 5 times before giving up. -->
+        <Decorator ID="RetryUntilSuccessful" num_attempts="5">
+          <Control ID="IfThenElse" name="TryGraspInner">
+            <Control ID="Sequence">
+              <!-- Clear the collision octree. -->
+              <Action ID="ClearSnapshot" />
+              <!-- Remove any objects which might remain in the planning scene from previous pick attempts -->
+              <Action
+                ID="ResetPlanningSceneObjects"
+                apply_planning_scene_service="apply_planning_scene"
+              />
+              <!-- Get the latest point cloud from the target topic-->
+              <Action
+                ID="GetPointCloud"
+                topic_name="/wrist_mounted_camera/depth/color/points"
+                message_out="{point_cloud}"
+              />
+              <!-- Publish point cloud for display by UI -->
+              <Action
+                ID="SendPointCloudToUI"
+                point_cloud="{point_cloud}"
+                pcd_topic="/pcd_pointcloud_captures"
+              />
+              <!-- Detect all cuboids in that point cloud-->
+              <Action
+                ID="FindSingularCuboids"
+                point_cloud="{point_cloud}"
+                parameters="{parameters}"
+                detected_shapes="{cuboids}"
+              />
+              <!-- Find the closest cuboid to the pose calculated from the user's original click -->
+              <Action
+                ID="GetPointsFromUser"
+                view_name="/wrist_mounted_camera/color/image_raw"
+                point_names="grasp_pose"
+                point_prompts="Click on the surface you wish to place the object on"
+                pixel_coords="{pixel_coords}"
+              />
+              <Action
+                ID="GetPointCloud"
+                topic_name="/wrist_mounted_camera/depth/color/points"
+                message_out="{point_cloud}"
+              />
+              <Action
+                ID="GetPoseFromPixelCoords"
+                point_cloud="{point_cloud}"
+                pixel_coords="{pixel_coords}"
+                downsample_fraction="0.1"
+                neighbor_radius="0.1"
+                output_poses="{output_poses}"
+              />
+              <Action
+                ID="AdjustPoseWithIMarker"
+                prompts="Adjust IMarker to desired pose"
+                initial_poses="{output_poses}"
+                adjusted_poses="{adjusted_poses}"
+              />
+              <Decorator
+                ID="ForEachPoseStamped"
+                vector_in="{adjusted_poses}"
+                out="{grasp_pose}"
+              >
+                <Control ID="Sequence">
+                  <Action
+                    ID="GetClosestObjectToPose"
+                    objects="{cuboids}"
+                    pose="{grasp_pose}"
+                    distance_threshold="0.3"
+                    closest_object="{cuboid_object}"
+                  />
+                  <!-- Add this cuboid to the planning scene. -->
+                  <Action
+                    ID="ModifyObjectInPlanningScene"
+                    object="{cuboid_object}"
+                    apply_planning_scene_service="/apply_planning_scene"
+                  />
+                  <!-- Use point cloud to update the collision octomap (happens after ModifyObjectInPlanningScene so the cuboid is excluded from the octomap)-->
+                  <Action
+                    ID="UpdatePlanningSceneService"
+                    point_cloud="{point_cloud}"
+                    point_cloud_service="/point_cloud_service"
+                  />
+                  <!-- Set up an MTC task to pick the cuboid and then plan the task. -->
+                  <Action
+                    ID="InitializeMTCTask"
+                    task_id="pick_place_object"
+                    controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+                    task="{task}"
+                  />
+                  <Action ID="SetupMTCCurrentState" task="{task}" />
+                  <Action
+                    ID="SetupMTCApproachGrasp"
+                    parameters="{parameters}"
+                    target_object="{cuboid_object}"
+                    monitored_stage="{monitored_stage}"
+                    task="{task}"
+                  />
+                  <Action
+                    ID="SetupMTCGenerateCuboidGrasps"
+                    parameters="{parameters}"
+                    target_object="{cuboid_object}"
+                    monitored_stage="{monitored_stage}"
+                    task="{task}"
+                  />
+                  <Action
+                    ID="SetupMTCRetractFromGrasp"
+                    parameters="{parameters}"
+                    target_object="{cuboid_object}"
+                    task="{task}"
+                  />
+                  <Action
+                    ID="PlanMTCTask"
+                    solution="{solution}"
+                    task="{task}"
+                  />
+                  <!-- Send trajectory preview to user only if this is the first time trying to pick the object. -->
+                  <Precondition if="first_attempt" else="SUCCESS">
+                    <SubTree
+                      ID="Wait for Trajectory Approval if User Available"
+                      solution="{solution}"
+                    />
+                  </Precondition>
+                  <!-- Set value to port to skip preview on following attempts. -->
+                  <Script code="first_attempt:=false" />
+                  <!-- Split the solution between the big freespace move to the pre-grasp pose and the short Cartesian move to grasp. -->
+                  <Action
+                    ID="SplitMTCSolution"
+                    solution_in="{solution}"
+                    index="3"
+                    solution_out_1="{solution_approach}"
+                    solution_out_2="{solution_grasp}"
+                  />
+                  <!-- Do the following in parallel: -->
+                  <Control ID="Parallel" success_count="1" failure_count="1">
+                    <!-- Parallel branch 1: Execute the part of the solution that moves to the pre-grasp pose. -->
+                    <Action
+                      ID="ExecuteMTCTask"
+                      solution="{solution_approach}"
+                    />
+                    <!-- Parallel branch 2: Continuously analyze point clouds to make sure we can still find an object that is similar to and located at nearly the same pose as the original object we planned to grasp. -->
+                    <Decorator ID="KeepRunningUntilFailure">
+                      <Control ID="IfThenElse" name="IfObjectVisible">
+                        <!-- IF -->
+                        <Action
+                          ID="IsConstraintSatisfied"
+                          object="{cuboid_object}"
+                          parameters="{parameters}"
+                        />
+                        <!-- THEN -->
+                        <Control ID="Sequence">
+                          <Action
+                            ID="GetPointCloud"
+                            topic_name="/wrist_mounted_camera/depth/color/points"
+                            message_out="{point_cloud}"
+                          />
+                          <Action
+                            ID="FindSingularCuboids"
+                            parameters="{parameters}"
+                            point_cloud="{point_cloud}"
+                            detected_shapes="{cuboids}"
+                          />
+                          <Action
+                            ID="GetPointsFromUser"
+                            view_name="/wrist_mounted_camera/color/image_raw"
+                            point_names="grasp_pose"
+                            point_prompts="Click on the object you would like to pick"
+                            pixel_coords="{pixel_coords}"
+                          />
+                          <Action
+                            ID="GetPointCloud"
+                            topic_name="/wrist_mounted_camera/depth/color/points"
+                            message_out="{point_cloud}"
+                          />
+                          <Action
+                            ID="GetPoseFromPixelCoords"
+                            point_cloud="{point_cloud}"
+                            pixel_coords="{pixel_coords}"
+                            downsample_fraction="0.1"
+                            neighbor_radius="0.1"
+                            output_poses="{output_poses}"
+                          />
+                          <Action
+                            ID="AdjustPoseWithIMarker"
+                            prompts="Adjust IMarker to desired pose"
+                            initial_poses="{output_poses}"
+                            adjusted_poses="{adjusted_poses}"
+                          />
+                          <Decorator
+                            ID="ForEachPoseStamped"
+                            vector_in="{adjusted_poses}"
+                            out="{grasp_pose}"
+                          >
+                            <Control ID="Sequence">
+                              <Action
+                                ID="GetClosestObjectToPose"
+                                objects="{cuboids}"
+                                pose="{grasp_pose}"
+                                distance_threshold="0.3"
+                                closest_object="{new_cuboid_object}"
+                              />
+                              <Action
+                                ID="CheckCuboidSimilarity"
+                                input_cuboid="{new_cuboid_object}"
+                                reference_cuboid="{cuboid_object}"
+                                base_frame="world"
+                                distance_threshold="0.04"
+                                orientation_threshold="3.14"
+                              />
+                            </Control>
+                          </Decorator>
+                        </Control>
+                        <!-- ELSE -->
+                        <Action ID="AlwaysSuccess" />
+                      </Control>
+                    </Decorator>
+                  </Control>
+                  <!-- We will reach this part of the Objective if the move to the pre-grasp pose succeeds without the system detecting a significant change in the target object. -->
+                  <Action ID="ExecuteMTCTask" solution="{solution_grasp}" />
+                </Control>
+              </Decorator>
+            </Control>
+            <!-- The "Then" condition of the TryGraspInner IfThenElse control. If motion execution succeeded, emit a success to exit the retry loop. -->
+            <Action ID="AlwaysSuccess" />
+            <!-- The "Else" condition of the TryGraspInner IfThenElse control.  We will reach this part of the Objective if the system detects a significant change in the target object. -->
+            <Control ID="Sequence">
+              <!-- Pause for a short duration, then emit a failure to trigger a retry. -->
+              <Action ID="WaitForDuration" delay_duration="1" />
+              <Action ID="AlwaysFailure" />
+            </Control>
+          </Control>
+        </Decorator>
+        <!-- The "Then" condition of the TryGraspOuter IfThenElse control. After successful grasp, move to dropoff pose and release object, then return to the Look at Pick and Place Zone pose. -->
+        <Control ID="Sequence">
+          <SubTree
+            ID="Move to Waypoint"
+            waypoint_name="Place"
+            joint_group_name="manipulator"
+            controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+            planner_interface="moveit_default"
+          />
+          <Action
+            ID="MoveGripperAction"
+            gripper_command_action_name="/robotiq_gripper_controller/gripper_cmd"
+            position="0.0"
+          />
+          <SubTree
+            ID="Move to Waypoint"
+            waypoint_name="Look at Pick and Place Zone"
+            joint_group_name="manipulator"
+            controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+            planner_interface="moveit_default"
+          />
+        </Control>
+        <!-- The "Else" condition of the TryGraspOuter IfThenElse control. Move to the Look at Pick and Place Zone pose if all retry attempts failed. -->
+        <Control ID="Sequence">
+          <Action
+            ID="ResetPlanningSceneObjects"
+            apply_planning_scene_service="/apply_planning_scene"
+          />
+          <SubTree
+            ID="Move to Waypoint"
+            waypoint_name="Look at Pick and Place Zone"
+            joint_group_name="manipulator"
+            controller_names="/joint_trajectory_controller /robotiq_gripper_controller"
+            planner_interface="moveit_default"
+          />
+          <Action ID="AlwaysFailure" />
+        </Control>
+      </Control>
+    </Control>
+  </BehaviorTree>
+</root>

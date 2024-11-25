@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root BTCPP_format="4" main_tree_to_execute="Place object">
+  <!--//////////-->
+  <BehaviorTree ID="Place object" _description="" _favorite="true">
+    <Control ID="Sequence" name="root">
+      <Control ID="Sequence">
+        <Action ID="SwitchUIPrimaryView" primary_view_name="Visualization" />
+        <Action
+          ID="CreateStampedPose"
+          orientation_xyzw="0;1;0;0"
+          position_xyz="0.01;.75;0.5.15"
+        />
+        <Action
+          ID="AddPoseStampedToVector"
+          input="{stamped_pose}"
+          vector="{corrected_poses}"
+        />
+      </Control>
+      <!--Use the ForEach decorator to get a pose from our vector of poses-->
+      <SubTree
+        ID="Place first object in vector"
+        pose_vector="{corrected_poses}"
+        _collapsed="false"
+      />
+    </Control>
+  </BehaviorTree>
+  <TreeNodesModel>
+    <SubTree ID="Place object">
+      <MetadataFields>
+        <Metadata subcategory="Application - Basic Examples" />
+      </MetadataFields>
+    </SubTree>
+  </TreeNodesModel>
+</root>
