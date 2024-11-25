@@ -6,8 +6,6 @@
   <include file="ridgeback/ridgeback_globals.xml" />
 
   <compiler angle="radian" autolimits="true" />
-
-  <option integrator="implicitfast" />
   <statistic center="0.3 0 0.4" extent="0.8" />
 
   <worldbody>
