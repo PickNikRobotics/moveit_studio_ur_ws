@@ -1,8 +1,7 @@
 <?xml version="1.0" ?>
 <package format="3">
   <name>arm_on_rail_sim</name>
-  <version>6.0.0</version>
-
+  <version>6.5.0</version>
   <description>
     MuJoCo simulation configuration package for Picknik's UR robot on a linear
     rail
