@@ -39,4 +39,22 @@
     </body>
     <include file="ridgeback/ridgeback.xml" />
   </worldbody>
+  <keyframe>
+    <!-- qpos -->
+    <!-- front_rocker, front_left_wheel, front_right_wheel, rear_left_wheel, rear_right_wheel -->
+    <!-- linear_x_joint, linear_y_joint, rotational_yaw_joint, shoulder_pan, shoulder_lift, elbow, wrist_1, wrist_2, wrist_3 -->
+    <!-- right_knuckle, right_finger, right_inner_knuckle, right_finger_tip, left_knuckle, left_finger, left_inner_knuckle, left_finger_tip -->
+    <!-- ctrl -->
+    <!-- linear_x_joint, linear_y_joint, rotational_yaw_joint, shoulder_pan, shoulder_lift, elbow, wrist_1, wrist_2, wrist_3, robotiq_85_left_knuckle_joint -->
+    <key
+      qpos="
+      0 0 0 0 0
+      0 0 0 0 -1.534 0.8197 -2.2686 -1.57076 0
+      0 0 0 0 0 0 0 0
+    "
+      ctrl="
+      0 0 0 0 -1.534 0.8197 -2.2686 -1.57076 0 0
+    "
+    />
+  </keyframe>
 </mujoco>
